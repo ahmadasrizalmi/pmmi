@@ -91,7 +91,7 @@ const GalaxyHero: React.FC = () => {
 
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center text-center overflow-hidden">
+    <section className="relative flex items-center justify-center text-center overflow-hidden py-32 md:min-h-screen md:py-0">
         {/* Animated Background */}
         <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full z-0"></canvas>
 
