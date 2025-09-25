@@ -1,9 +1,17 @@
-import React, { useRef, useEffect } from 'react';
-import AnimatedSection from './AnimatedSection';
+import React, { useRef, useEffect, useState } from 'react';
 import Button from './Button';
 
 const GalaxyHero: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    // A small delay can make the animation feel smoother on initial load
+    const timer = setTimeout(() => {
+      setIsLoaded(true);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -99,7 +107,7 @@ const GalaxyHero: React.FC = () => {
 
         {/* Foreground Content */}
         <div className="relative z-10 px-4">
-            <AnimatedSection>
+            <div className={`transition-all duration-1000 ease-out ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                 <h1 className="text-5xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-white to-purple-300 tracking-tight leading-tight">
                     Pondok Multimedia <br /> Munzalan Indonesia
                 </h1>
@@ -111,7 +119,7 @@ const GalaxyHero: React.FC = () => {
                         Daftar Sekarang
                     </Button>
                 </div>
-            </AnimatedSection>
+            </div>
         </div>
     </section>
   );

@@ -55,3 +55,9 @@ export const HubspotIcon: React.FC<{ className?: string }> = ({ className }) => 
         <path d="M12.31,2.05A1.33,1.33,0,0,0,10.27,3.7V9.33a0.47,0.47,0,0,1-.6.45L4.4,7.6A1.34,1.34,0,0,0,2.05,8.81L5.61,12,2.05,15.19A1.34,1.34,0,0,0,4.4,16.4l5.27-2.18a0.47,0.47,0,0,1,.6.45v5.63a1.33,1.33,0,0,0,2.04,1.65l8.79-6.32a1.34,1.34,0,0,0,0-2.31L12.31,2.05Z"></path>
     </svg>
 );
+
+export const ChevronDownIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className={className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+    </svg>
+);

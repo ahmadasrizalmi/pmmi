@@ -15,24 +15,6 @@ const LandingPage: React.FC = () => {
     <>
       <GalaxyHero />
       <main className="container mx-auto px-4 pb-20">
-        {/* Highlights Section */}
-        <AnimatedSection className="py-16">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <GlassCard className="p-8">
-              <p className="text-5xl font-bold text-purple-300">12+</p>
-              <p className="mt-2 text-lg text-gray-400">Tahun Pengabdian</p>
-            </GlassCard>
-            <GlassCard className="p-8">
-              <p className="text-5xl font-bold text-purple-300">6.889</p>
-              <p className="mt-2 text-lg text-gray-400">Pondok Mitra</p>
-            </GlassCard>
-            <GlassCard className="p-8">
-              <p className="text-5xl font-bold text-purple-300">531.609</p>
-              <p className="mt-2 text-lg text-gray-400">Santri Terbantu</p>
-            </GlassCard>
-          </div>
-        </AnimatedSection>
-        
         {/* About & Program Summary */}
         <AnimatedSection className="py-16">
         <div className="grid lg:grid-cols-2 gap-8">
