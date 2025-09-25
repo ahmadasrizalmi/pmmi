@@ -1,6 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { IconArrowLeft, IconArrowRight } from './Icons';
+import React from 'react';
+import { motion } from 'framer-motion';
 
 export type Testimonial = {
   quote: string;
@@ -9,115 +8,50 @@ export type Testimonial = {
   src: string;
 };
 
-const AnimatedTestimonials = ({
-  testimonials,
-  autoplay = false,
-  className,
-}: {
+interface AnimatedTestimonialsProps {
   testimonials: Testimonial[];
-  autoplay?: boolean;
+  duration?: number;
   className?: string;
+}
+
+const AnimatedTestimonials: React.FC<AnimatedTestimonialsProps> = ({
+  testimonials,
+  duration = 15,
+  className = '',
 }) => {
-  const [active, setActive] = useState(0);
-
-  const handleNext = useCallback(() => {
-    setActive((prev) => (prev + 1) % testimonials.length);
-  }, [testimonials.length]);
-
-  const handlePrev = () => {
-    setActive((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-  };
-
-  useEffect(() => {
-    if (autoplay) {
-      const interval = setInterval(handleNext, 5000);
-      return () => clearInterval(interval);
-    }
-  }, [autoplay, handleNext]);
-
   return (
-    <div className={`w-full ${className}`}>
-      <div className="relative grid grid-cols-1 md:grid-cols-2 gap-y-10 md:gap-x-20 items-center">
-        <div className="relative h-80 w-full flex items-center justify-center">
-          <AnimatePresence>
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={testimonial.src}
-                initial={{
-                  opacity: 0,
-                  scale: 0.9,
-                  rotate: (Math.random() - 0.5) * 15
-                }}
-                animate={{
-                  opacity: index === active ? 1 : 0.6,
-                  scale: index === active ? 1 : 0.9,
-                  rotate: index === active ? 0 : (index < active ? -10 : 10) + (Math.random() - 0.5) * 4,
-                  y: index === active ? [0, -20, 0] : 0,
-                  zIndex: testimonials.length - Math.abs(index - active),
-                }}
-                exit={{
-                  opacity: 0,
-                  scale: 0.9,
-                }}
-                transition={{
-                  duration: 0.4,
-                  ease: "easeInOut",
-                  y: { duration: 0.8, type: 'spring', stiffness: 150 }
-                }}
-                className="absolute h-full w-full"
-              >
+    <div className={`-my-3 ${className}`}>
+      <motion.div
+        animate={{
+          translateY: "-50%",
+        }}
+        transition={{
+          duration: duration,
+          repeat: Infinity,
+          ease: "linear",
+          repeatType: "loop",
+        }}
+        className="flex flex-col gap-6 pb-6"
+      >
+        {[...testimonials, ...testimonials].map((testimonial, i) => (
+            <div className="p-8 rounded-xl border border-white/10 bg-white/5 backdrop-blur-md shadow-lg w-full max-w-xs" key={i}>
+                <p className="text-gray-300 leading-relaxed">&ldquo;{testimonial.quote}&rdquo;</p>
+                <div className="flex items-center gap-4 mt-5">
                 <img
-                  src={testimonial.src}
-                  alt={testimonial.name}
-                  draggable={false}
-                  className="h-full w-full rounded-3xl object-cover object-center shadow-2xl shadow-purple-900/20"
+                    width={40}
+                    height={40}
+                    src={testimonial.src}
+                    alt={testimonial.name}
+                    className="h-10 w-10 rounded-full object-cover"
                 />
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </div>
-        <div className="flex justify-between flex-col py-4 h-full min-h-[250px] md:min-h-[320px]">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={active}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3, ease: 'easeOut' }}
-              className="flex-grow"
-            >
-              <p className="text-lg text-gray-300 relative">
-                <span className="absolute -left-4 -top-2 text-6xl text-purple-500/50 font-serif">&ldquo;</span>
-                {testimonials[active].quote}
-              </p>
-              <div className="mt-6">
-                <h3 className="text-xl font-bold text-white">
-                  {testimonials[active].name}
-                </h3>
-                <p className="text-sm text-purple-300">
-                  {testimonials[active].designation}
-                </p>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-          <div className="flex gap-4 pt-8 md:pt-0">
-            <button
-              onClick={handlePrev}
-              className="h-9 w-9 rounded-full bg-white/10 flex items-center justify-center group transition-all duration-300 hover:bg-white/20 hover:scale-110"
-              aria-label="Previous testimonial"
-            >
-              <IconArrowLeft className="h-5 w-5 text-white" />
-            </button>
-            <button
-              onClick={handleNext}
-              className="h-9 w-9 rounded-full bg-white/10 flex items-center justify-center group transition-all duration-300 hover:bg-white/20 hover:scale-110"
-              aria-label="Next testimonial"
-            >
-              <IconArrowRight className="h-5 w-5 text-white" />
-            </button>
-          </div>
-        </div>
-      </div>
+                <div className="flex flex-col">
+                    <div className="font-semibold tracking-tight leading-5 text-white">{testimonial.name}</div>
+                    <div className="leading-5 text-purple-300 tracking-tight text-sm">{testimonial.designation}</div>
+                </div>
+                </div>
+            </div>
+        ))}
+      </motion.div>
     </div>
   );
 };

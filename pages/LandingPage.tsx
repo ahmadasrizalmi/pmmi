@@ -31,9 +31,31 @@ const testimonials: Testimonial[] = [
     designation: "Santri Jalur Konten Kreator",
     src: "https://picsum.photos/seed/santri3/500/500",
   },
+   {
+    quote: "Kurikulumnya up-to-date dan mentornya sangat suportif. Saya merasa siap untuk terjun ke industri setelah lulus dari sini.",
+    name: "Fatimah Az-Zahra",
+    designation: "Santri Jalur Programmer",
+    src: "https://picsum.photos/seed/santri4/500/500"
+  },
+  {
+    quote: "Belajar di PMM Indonesia membuka wawasan saya tentang bagaimana teknologi bisa digunakan untuk dakwah. Sangat inspiratif!",
+    name: "Muhammad Iqbal",
+    designation: "Santri Jalur Konten Kreator",
+    src: "https://picsum.photos/seed/santri5/500/500"
+  },
+  {
+    quote: "Fasilitas lab komputernya sangat memadai. Proses belajar coding jadi lebih lancar dan menyenangkan.",
+    name: "Dewi Lestari",
+    designation: "Santri Jalur Programmer",
+    src: "https://picsum.photos/seed/santri6/500/500"
+  },
 ];
 
 const LandingPage: React.FC = () => {
+  const firstColumnTestimonials = testimonials.slice(0, 3);
+  const secondColumnTestimonials = testimonials.slice(3, 6);
+  const thirdColumnTestimonials = [testimonials[4], testimonials[1], testimonials[0]];
+
   return (
     <>
       <GalaxyHero />
@@ -84,7 +106,14 @@ const LandingPage: React.FC = () => {
         {/* Testimonials Section */}
         <AnimatedSection className="py-16">
           <h2 className="text-3xl font-bold mb-12 text-center">Apa Kata Mereka?</h2>
-          <AnimatedTestimonials testimonials={testimonials} autoplay={true} />
+          <div className="relative flex h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-lg bg-black/10">
+            <div className="flex w-full justify-center gap-6">
+                <AnimatedTestimonials testimonials={firstColumnTestimonials} duration={25} />
+                <AnimatedTestimonials testimonials={secondColumnTestimonials} duration={30} className="hidden md:flex" />
+                <AnimatedTestimonials testimonials={thirdColumnTestimonials} duration={22} className="hidden lg:flex" />
+            </div>
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-full h-full bg-gradient-to-b from-black via-black/10 via-80% to-black"></div>
+          </div>
         </AnimatedSection>
 
         {/* Contact Summary */}
