@@ -3,12 +3,35 @@ import AnimatedSection from '../components/AnimatedSection';
 import Button from '../components/Button';
 import { CameraIcon, CodeIcon } from '../components/Icons';
 import GalaxyHero from '../components/GalaxyHero';
+import AnimatedTestimonials, { Testimonial } from '../components/AnimatedTestimonials';
+
 
 const GlassCard = ({ children, className }: { children: React.ReactNode, className?: string }) => (
   <div className={`rounded-xl border border-white/10 bg-white/5 backdrop-blur-md shadow-lg ${className}`}>
     {children}
   </div>
 );
+
+const testimonials: Testimonial[] = [
+  {
+    quote: "Lingkungan belajarnya sangat mendukung. Saya tidak hanya belajar teknis, tapi juga adab dan kerja sama tim. PMM Indonesia benar-benar mengubah cara pandang saya.",
+    name: "Ahmad Fauzi",
+    designation: "Santri Jalur Konten Kreator",
+    src: "https://picsum.photos/seed/santri1/500/500",
+  },
+  {
+    quote: "Dari yang tidak tahu apa-apa tentang coding, sekarang saya bisa membangun website. Mentornya sabar dan kurikulumnya relevan dengan industri. Keren!",
+    name: "Siti Aisyah",
+    designation: "Santri Jalur Programmer",
+    src: "https://picsum.photos/seed/santri2/500/500",
+  },
+  {
+    quote: "Perpaduan antara ilmu agama dan skill digital di sini luar biasa. Fasilitasnya lengkap, terutama studio, sangat membantu kami untuk praktik langsung.",
+    name: "Yusuf Abdullah",
+    designation: "Santri Jalur Konten Kreator",
+    src: "https://picsum.photos/seed/santri3/500/500",
+  },
+];
 
 const LandingPage: React.FC = () => {
   return (
@@ -58,6 +81,12 @@ const LandingPage: React.FC = () => {
           </GlassCard>
         </AnimatedSection>
         
+        {/* Testimonials Section */}
+        <AnimatedSection className="py-16">
+          <h2 className="text-3xl font-bold mb-12 text-center">Apa Kata Mereka?</h2>
+          <AnimatedTestimonials testimonials={testimonials} autoplay={true} />
+        </AnimatedSection>
+
         {/* Contact Summary */}
         <AnimatedSection className="py-16">
           <GlassCard className="text-center p-10">
