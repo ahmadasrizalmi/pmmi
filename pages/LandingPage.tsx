@@ -4,6 +4,7 @@ import Button from '../components/Button';
 import { CameraIcon, CodeIcon } from '../components/Icons';
 import GalaxyHero from '../components/GalaxyHero';
 import AnimatedTestimonials, { Testimonial } from '../components/AnimatedTestimonials';
+import SectionWithMockup from '../components/SectionWithMockup';
 
 
 const GlassCard = ({ children, className }: { children: React.ReactNode, className?: string }) => (
@@ -60,36 +61,39 @@ const LandingPage: React.FC = () => {
     <>
       <GalaxyHero />
       <main className="container mx-auto px-4 pb-20">
-        {/* About & Program Summary */}
-        <AnimatedSection className="py-16">
-        <div className="grid lg:grid-cols-2 gap-8">
-          <GlassCard className="p-8 text-center">
-            <h2 className="text-3xl font-bold mb-4">Tentang Kami</h2>
-            <p className="text-lg text-gray-300">
-              Didirikan tahun 2023, kami hadir untuk mempersiapkan santri agar tidak hanya hafal Al-Quran, tetapi juga mahir di bidang multimedia dan siap menghadapi era digital.
-            </p>
-          </GlassCard>
-          <GlassCard className="p-8">
-              <h2 className="text-3xl font-bold mb-6 text-center">Program Utama</h2>
-              <div className="space-y-6">
-                  <div className="flex items-center gap-4">
-                      <CameraIcon className="w-10 h-10 text-fuchsia-400 flex-shrink-0"/>
-                      <div>
-                          <h3 className="text-xl font-semibold">Jalur Konten Kreator</h3>
-                          <p className="text-gray-400">Fotografi, videografi, desain, & branding.</p>
-                      </div>
+        
+        <SectionWithMockup
+          title="Sinergi Unik: Ilmu Agama & Keahlian Digital"
+          description={
+            <>
+              <p className="text-[#868f97] text-sm md:text-[15px] leading-6 mb-6">
+                Didirikan tahun 2023, kami hadir untuk mempersiapkan santri agar tidak hanya hafal Al-Quran, tetapi juga mahir di bidang multimedia dan siap menghadapi era digital. Kami memiliki dua jalur utama:
+              </p>
+              <div className="space-y-4">
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 pt-1">
+                    <CameraIcon className="w-6 h-6 text-fuchsia-400" />
                   </div>
-                  <div className="flex items-center gap-4">
-                      <CodeIcon className="w-10 h-10 text-purple-400 flex-shrink-0"/>
-                      <div>
-                          <h3 className="text-xl font-semibold">Jalur Programmer</h3>
-                          <p className="text-gray-400">Web & App Development dengan AI Tools.</p>
-                      </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">Jalur Konten Kreator</h3>
+                    <p className="text-[#868f97] text-sm leading-6">Mendalami fotografi, videografi, desain, & branding untuk menciptakan konten dakwah yang berdampak.</p>
                   </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 pt-1">
+                    <CodeIcon className="w-6 h-6 text-purple-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">Jalur Programmer</h3>
+                    <p className="text-[#868f97] text-sm leading-6">Menguasai Web & App Development dengan AI Tools untuk membangun solusi digital yang inovatif.</p>
+                  </div>
+                </div>
               </div>
-          </GlassCard>
-        </div>
-        </AnimatedSection>
+            </>
+          }
+          primaryImageSrc="https://picsum.photos/seed/programming-santri/600/900"
+          secondaryImageSrc="https://picsum.photos/seed/creative-santri/600/900"
+        />
         
         {/* Facilities Summary */}
         <AnimatedSection className="py-16 text-center">
