@@ -9,7 +9,7 @@ const Header: React.FC = () => {
   const navLinks = [
     { name: 'Home', path: '/' },
     { 
-      name: 'Tentang', 
+      name: 'Profil Pondok', 
       path: '/about',
       children: [
         { name: 'Program', path: '/program' },
@@ -30,8 +30,8 @@ const Header: React.FC = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
-            <NavLink to="/" className="text-white font-bold text-xl">
-              PMM Indonesia
+            <NavLink to="/">
+              <img src="https://res.cloudinary.com/dyuvttfa2/image/upload/v1758903775/Desain_Tanpa_Judul_-_2_jhgspq.png" alt="PMM Indonesia Logo" className="h-10 w-auto" />
             </NavLink>
           </div>
           <div className="hidden md:block">
@@ -112,13 +112,6 @@ const Header: React.FC = () => {
                   </button>
                   {isTentangOpen && (
                     <div className="pl-5 mt-1 space-y-1 border-l-2 border-white/20 ml-2">
-                      <NavLink
-                        to={link.path}
-                        onClick={() => setIsOpen(false)}
-                        className={({ isActive }) => `block px-3 py-2 rounded-md text-base font-medium ${linkClasses} ${isActive ? activeLinkClasses : ''}`}
-                      >
-                        Tentang Kami
-                      </NavLink>
                       {link.children.map((child) => (
                         <NavLink
                           key={child.name}

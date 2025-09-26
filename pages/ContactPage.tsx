@@ -1,8 +1,10 @@
+
 import React from 'react';
 import AnimatedSection from '../components/AnimatedSection';
 import Button from '../components/Button';
 
-const GlassCard = ({ children, className }: { children: React.ReactNode, className?: string }) => (
+// Fix: Made the 'children' prop optional to fix the "property 'children' is missing" error.
+const GlassCard = ({ children, className }: { children?: React.ReactNode, className?: string }) => (
   <div className={`rounded-xl border border-white/10 bg-white/5 backdrop-blur-md shadow-lg ${className}`}>
     {children}
   </div>

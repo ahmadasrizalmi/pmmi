@@ -1,14 +1,17 @@
+
 import React from 'react';
 import { LinkedInIcon, FacebookIcon, SalesforceIcon, GoogleIcon, HubspotIcon } from '../components/Icons';
 
 // Fix: Add style prop to component definition to allow inline styles for 3D transform.
-const GlassCard = ({ children, className, style }: { children: React.ReactNode, className?: string, style?: React.CSSProperties }) => (
+// Fix: Made the 'children' prop optional to fix the "property 'children' is missing" error.
+const GlassCard = ({ children, className, style }: { children?: React.ReactNode, className?: string, style?: React.CSSProperties }) => (
   <div className={`absolute rounded-xl border border-white/10 bg-white/5 backdrop-blur-md shadow-2xl ${className}`} style={style}>
     {children}
   </div>
 );
 
-const IconBubble = ({ children, className }: { children: React.ReactNode, className?: string }) => (
+// Fix: Made the 'children' prop optional to fix the "property 'children' is missing" error.
+const IconBubble = ({ children, className }: { children?: React.ReactNode, className?: string }) => (
   <div className={`absolute w-14 h-14 md:w-20 md:h-20 flex items-center justify-center rounded-full border border-white/10 bg-white/5 backdrop-blur-md shadow-2xl ${className}`}>
     {children}
   </div>
