@@ -1,5 +1,6 @@
 import React from "react";
-import { motion } from "framer-motion";
+// Fix: Import the 'Variants' type from framer-motion to correctly type animation variants.
+import { motion, Variants } from "framer-motion";
 
 interface SectionWithMockupProps {
     title: string | React.ReactNode;
@@ -26,7 +27,10 @@ const SectionWithMockup: React.FC<SectionWithMockupProps> = ({
         },
     };
 
-    const itemVariants = {
+    // Fix: Explicitly type 'itemVariants' with the 'Variants' type. This resolves an error
+    // where TypeScript incorrectly infers the 'ease' property as a generic 'string'
+    // instead of a valid Easing literal (e.g., "easeOut"), which is required by framer-motion.
+    const itemVariants: Variants = {
         hidden: { opacity: 0, y: 50 },
         visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } },
     };

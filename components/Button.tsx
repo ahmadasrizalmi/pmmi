@@ -65,7 +65,10 @@ const Button: React.FC<ButtonProps> = ({
       className={`${containerClasses} ${className}`}
       target="_blank"
       rel="noopener noreferrer"
-      {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+      // Fix: The 'props' object contains button-specific attributes that are incompatible with an anchor tag.
+      // Casting to 'unknown' first before casting to anchor attributes resolves the TypeScript error,
+      // acknowledging that we are intentionally changing the type context for this polymorphic component.
+      {...(props as unknown as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
     >
       {shimmerContent}
     </a>

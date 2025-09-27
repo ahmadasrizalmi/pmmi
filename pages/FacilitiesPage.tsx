@@ -14,24 +14,41 @@ const optimizeCloudinaryUrl = (url: string, transformations: string): string => 
 const FacilitiesPage: React.FC = () => {
   const facilities = [
     { 
-      name: "Ruang Kelas Modern",
+      name: "Studio Foto Profesional",
       imageUrl: "https://res.cloudinary.com/dyuvttfa2/image/upload/v1758900111/Generated_Image_September_26_2025_-_11_22AM_pv8ie5.png"
     },
     { 
-      name: "Studio Foto Profesional",
+      name: "Lab Komputer",
+      imageUrl: "https://res.cloudinary.com/dyuvttfa2/image/upload/v1758900108/Generated_Image_September_26_2025_-_8_55PM_ikubv3.png"
+    },
+    { 
+      name: "Ai Prompting Session",
       imageUrl: "https://res.cloudinary.com/dyuvttfa2/image/upload/v1758900106/Generated_Image_September_26_2025_-_11_21AM_cb034z.png"
     },
-     { 
-      name: "Asrama Nyaman",
+    { 
+      name: "Ruang Serbaguna",
+      imageUrl: "https://res.cloudinary.com/dyuvttfa2/image/upload/v1758900989/P1600904_tekrmm.png"
+    },
+    {
+      name: "Drone Mavic Pro",
       imageUrl: "https://res.cloudinary.com/dyuvttfa2/image/upload/v1758900114/Generated_Image_September_26_2025_-_9_14PM_lacwq6.png"
     },
-    { name: "Lab Komputer" },
-    { name: "Ruang Podcast" },
-    { name: "Mushola" },
-    { name: "Perpustakaan" },
-    { name: "Internet Cepat" },
-    { name: "Dapur Umum" },
-    { name: "Mesin Cuci" },
+    { 
+      name: "Mushola",
+      imageUrl: "https://res.cloudinary.com/dyuvttfa2/image/upload/v1758900109/Generated_Image_September_26_2025_-_8_57PM_lyulvq.png"
+    },
+    { 
+      name: "Coaching Mentor",
+      imageUrl: "https://res.cloudinary.com/dyuvttfa2/image/upload/v1758900109/Generated_Image_September_26_2025_-_9_04PM_vsfs4t.png"
+    },
+    {
+      name: "Futsal on Saturday",
+      imageUrl: "https://res.cloudinary.com/dyuvttfa2/image/upload/v1758900120/IMG_8521_foqfxv.jpg"
+    },
+    { 
+      name: "Internet Cepat",
+      imageUrl: "https://res.cloudinary.com/dyuvttfa2/image/upload/v1758900107/Generated_Image_September_26_2025_-_9_28PM_dxhhkd.png"
+    }
   ];
 
   return (
