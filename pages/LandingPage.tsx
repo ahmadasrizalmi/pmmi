@@ -1,3 +1,4 @@
+
 import React from 'react';
 import AnimatedSection from '../components/AnimatedSection';
 import Button from '../components/Button';
@@ -76,9 +77,23 @@ const LandingPage: React.FC = () => {
   ];
   
   const facilitiesWithImages = facilities.filter(f => f.imageUrl);
+  
+  const customCss = `
+    @property --angle {
+      syntax: '<angle>';
+      initial-value: 0deg;
+      inherits: false;
+    }
+    @keyframes shimmer-spin {
+      to {
+        --angle: 360deg;
+      }
+    }
+  `;
 
   return (
     <>
+      <style>{customCss}</style>
       <GalaxyHero />
       <main className="container mx-auto px-4 pb-20">
         
@@ -117,34 +132,47 @@ const LandingPage: React.FC = () => {
         
         {/* Facilities Summary */}
         <AnimatedSection className="py-16 text-center">
-          <GlassCard className="p-8">
-              <h2 className="text-3xl font-bold mb-8">Fasilitas Modern</h2>
-              
-              <div className="flex flex-col-reverse sm:flex-col gap-10">
-                {/* Image Gallery */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                  {facilitiesWithImages.map(item => (
-                    <div key={item.name} className="aspect-video rounded-lg overflow-hidden border border-white/10 shadow-md">
-                      <img 
-                        src={optimizeCloudinaryUrl(item.imageUrl!, 'w_600,c_fill,ar_16:9,f_auto,q_auto')} 
-                        alt={item.name}
-                        className="w-full h-full object-cover"
-                        loading="lazy"
-                      />
-                    </div>
-                  ))}
-                </div>
+            {/* Shimmer Container - provides the border */}
+            <div className="relative p-[2px] bg-black rounded-xl overflow-hidden">
+                {/* Animated Gradient */}
+                <div 
+                    className="absolute inset-0"
+                    style={{
+                        background: 'conic-gradient(from var(--angle), transparent 25%, #B33791, #8B5CF6, transparent 50%)',
+                        animation: 'shimmer-spin 4s linear infinite',
+                    }}
+                />
+                
+                {/* Content Container - with solid background to create a border effect */}
+                <div className="relative z-10 bg-gray-900 rounded-[10px] p-8">
+                    <h2 className="text-3xl font-bold mb-8">Fasilitas Modern</h2>
+                    
+                    <div className="flex flex-col-reverse sm:flex-col gap-10">
+                        {/* Image Gallery */}
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        {facilitiesWithImages.map(item => (
+                            <div key={item.name} className="aspect-video rounded-lg overflow-hidden border border-white/10 shadow-md">
+                            <img 
+                                src={optimizeCloudinaryUrl(item.imageUrl!, 'w_600,c_fill,ar_16:9,f_auto,q_auto')} 
+                                alt={item.name}
+                                className="w-full h-full object-cover"
+                                loading="lazy"
+                            />
+                            </div>
+                        ))}
+                        </div>
 
-                {/* Text List */}
-                <div className="flex flex-wrap justify-center gap-3">
-                  {facilities.map(item => (
-                     <span key={item.name} className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-sm text-gray-300">
-                       {item.name}
-                     </span>
-                  ))}
+                        {/* Text List */}
+                        <div className="flex flex-wrap justify-center gap-3">
+                        {facilities.map(item => (
+                            <span key={item.name} className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-sm text-gray-300">
+                            {item.name}
+                            </span>
+                        ))}
+                        </div>
+                    </div>
                 </div>
-              </div>
-          </GlassCard>
+            </div>
         </AnimatedSection>
         
         {/* Testimonials Section */}

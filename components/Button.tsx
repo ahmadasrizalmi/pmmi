@@ -9,44 +9,81 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'default' | 'outline';
 }
 
-const Button: React.FC<ButtonProps> = ({ children, onClick, as = 'button', href, className = '', variant = 'default', ...props }) => {
+const Button: React.FC<ButtonProps> = ({
+  children,
+  onClick,
+  as = 'button',
+  href,
+  className = '',
+  // The 'variant' prop is kept for API compatibility but is not used in this new style.
+  variant,
+  ...props
+}) => {
+
+  // This CSS defines the custom property and animation needed for the shimmer effect.
+  // By placing it inside the component, we keep it self-contained.
+  const customCss = `
+    @property --angle {
+      syntax: '<angle>';
+      initial-value: 0deg;
+      inherits: false;
+    }
+    @keyframes shimmer-spin {
+      to {
+        --angle: 360deg;
+      }
+    }
+  `;
+
+  // Base classes for the button/link wrapper.
+  const containerClasses = "relative inline-flex items-center justify-center p-[1.5px] bg-black rounded-full overflow-hidden group";
   
-  const defaultClasses = `
-    inline-block px-8 py-3 font-semibold text-lg text-white rounded-lg 
-    bg-gradient-to-r from-violet-600 to-purple-600
-    transition-all duration-300 ease-in-out
-    hover:scale-105 hover:shadow-lg hover:shadow-violet-600/40
-    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-violet-500
-  `;
-
-  const outlineClasses = `
-    inline-block px-8 py-3 font-semibold text-lg text-white rounded-lg 
-    bg-white/10 border border-white/20 backdrop-blur-md
-    transition-all duration-300 ease-in-out
-    hover:bg-white/20 hover:border-white/30 hover:shadow-lg hover:shadow-purple-500/10
-    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-purple-400
-  `;
-
-  const baseClasses = variant === 'default' ? defaultClasses : outlineClasses;
-
-  if (as === 'a') {
-    return (
-      <a
-        href={href}
-        onClick={onClick as unknown as React.MouseEventHandler<HTMLAnchorElement>}
-        className={`${baseClasses} ${className}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+  // Classes for the inner span that holds the content, preserving text styles.
+  const innerSpanClasses = "relative z-10 inline-flex items-center justify-center w-full h-full px-8 py-3 text-white bg-gray-900 rounded-full group-hover:bg-gray-800 transition-colors duration-300 font-semibold text-lg";
+  
+  // The JSX for the animated gradient border.
+  const shimmerContent = (
+    <>
+      <div
+        className="absolute inset-0"
+        style={{
+          background: 'conic-gradient(from var(--angle), transparent 25%, #B33791, #8B5CF6, transparent 50%)',
+          animation: 'shimmer-spin 2.5s linear infinite',
+        }}
+      />
+      <span className={innerSpanClasses}>
         {children}
-      </a>
-    );
-  }
+      </span>
+    </>
+  );
+
+  // Conditionally render an 'a' tag or a 'button' tag.
+  const componentToRender = as === 'a' ? (
+    <a
+      href={href}
+      onClick={onClick as any}
+      className={`${containerClasses} ${className}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+    >
+      {shimmerContent}
+    </a>
+  ) : (
+    <button
+      onClick={onClick}
+      className={`${containerClasses} ${className}`}
+      {...props}
+    >
+      {shimmerContent}
+    </button>
+  );
 
   return (
-    <button onClick={onClick} className={`${baseClasses} ${className}`} {...props}>
-      {children}
-    </button>
+    <>
+      <style>{customCss}</style>
+      {componentToRender}
+    </>
   );
 };
 
