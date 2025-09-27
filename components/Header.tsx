@@ -12,6 +12,7 @@ const Header: React.FC = () => {
       name: 'Profil Pondok', 
       path: '/about',
       children: [
+        { name: 'Tentang Kami', path: '/about' },
         { name: 'Program', path: '/program' },
         { name: 'Fasilitas', path: '/facilities' },
         { name: 'Pengajar', path: '/teachers' },
@@ -103,15 +104,26 @@ const Header: React.FC = () => {
               
               return (
                 <div key={link.name}>
-                  <button
-                    onClick={() => setIsTentangOpen(!isTentangOpen)}
-                    className={`w-full flex items-center justify-between px-3 py-2 rounded-md text-base font-medium text-left ${linkClasses}`}
-                  >
-                    <span>{link.name}</span>
-                    <ChevronDownIcon className={`w-5 h-5 transition-transform ${isTentangOpen ? 'rotate-180' : ''}`} />
-                  </button>
+                   <div className={`flex items-center justify-between rounded-md ${linkClasses} !p-0`}>
+                      <NavLink
+                          to={link.path}
+                          onClick={() => setIsOpen(false)}
+                          className={({ isActive }) => `flex-grow px-3 py-2 ${isActive && !isTentangOpen ? activeLinkClasses : ''}`}
+                      >
+                          {link.name}
+                      </NavLink>
+                      <button
+                          onClick={() => setIsTentangOpen(!isTentangOpen)}
+                          className="p-2 rounded-md text-gray-400 hover:text-white hover:bg-white/10"
+                          aria-expanded={isTentangOpen}
+                          aria-controls={`submenu-${link.name}`}
+                      >
+                          <span className="sr-only">Toggle submenu</span>
+                          <ChevronDownIcon className={`w-5 h-5 transition-transform ${isTentangOpen ? 'rotate-180' : ''}`} />
+                      </button>
+                  </div>
                   {isTentangOpen && (
-                    <div className="pl-5 mt-1 space-y-1 border-l-2 border-white/20 ml-2">
+                    <div className="pl-5 mt-1 space-y-1 border-l-2 border-white/20 ml-2" id={`submenu-${link.name}`}>
                       {link.children.map((child) => (
                         <NavLink
                           key={child.name}
