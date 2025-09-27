@@ -191,7 +191,12 @@ const LandingPage: React.FC = () => {
         {/* New Call to Action Section */}
         <AnimatedSection className="py-16">
           <div className="grid items-center gap-12 lg:grid-cols-2">
-            <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
+            <img
+              src="https://res.cloudinary.com/dyuvttfa2/image/upload/v1758900114/Generated_Image_September_26_2025_-_8_42PM_1_fdatei.png"
+              alt="Santri berdiskusi tentang proyek multimedia"
+              className="w-full h-auto max-h-96 rounded-2xl object-cover border border-white/10 shadow-lg lg:order-2"
+            />
+            <div className="flex flex-col items-center text-center lg:items-start lg:text-left lg:order-1">
               <h2 className="text-4xl lg:text-5xl font-bold mb-6">
                 Siap Bergabung?
               </h2>
@@ -207,11 +212,6 @@ const LandingPage: React.FC = () => {
                 </Button>
               </div>
             </div>
-            <img
-              src="https://res.cloudinary.com/dyuvttfa2/image/upload/v1758900114/Generated_Image_September_26_2025_-_8_42PM_1_fdatei.png"
-              alt="Santri berdiskusi tentang proyek multimedia"
-              className="w-full h-auto max-h-96 rounded-2xl object-cover border border-white/10 shadow-lg"
-            />
           </div>
         </AnimatedSection>
 

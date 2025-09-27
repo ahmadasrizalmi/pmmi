@@ -127,7 +127,6 @@ This section outlines the static text and data used on each page.
     *   { role: "Kabag Pendidikan", name: "Ahmad Asri Zalmi S.Sn" }
     *   { role: "Mentor Photo & Video", name: "Arif Roihan C.L.Q, S.H" }
     *   { role: "Staf Admin", name: "Faisal Nur Fajri" }
-    *   { role: "Staf Admin", name: "Ria Rianti" }
 
 ### 3.3. ProgramPage.tsx
 
