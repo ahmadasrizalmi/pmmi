@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fungsi dan Bagian Lengkap Kamera Digital</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* --- Reset & Pengaturan Dasar --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #00143c;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* --- Struktur Section --- */
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid rgba(160, 200, 255, 0.2);
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+        }
+        .highlight {
+            color: #a0c8ff;
+            font-weight: 600;
+        }
+
+        /* --- Section 1: Hero --- */
+        #hero {
+            background: linear-gradient(rgba(0, 20, 60, 0.8), rgba(0, 20, 60, 0.8)), 
+                        url('https://picsum.photos/seed/camerabody/1280/720');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            flex-direction: column;
+        }
+        #hero .icon-container {
+            margin-bottom: 30px;
+        }
+        #hero .icon-container .material-icons {
+            font-size: 64px;
+            color: #a0c8ff;
+        }
+        #hero .title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        #hero .subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: #a0c8ff;
+            max-width: 800px;
+        }
+
+        /* --- Header Section Umum --- */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-header .title {
+            font-size: 2.8rem;
+            font-weight: 700;
+        }
+
+        /* --- Tata Letak Konten --- */
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        .left-content, .right-content {
+            flex: 1;
+        }
+
+        .camera-image {
+            max-width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            display: block;
+        }
+
+        /* --- Styling Spesifik --- */
+        .point {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        .point-icon {
+            color: #a0c8ff;
+            margin-right: 15px;
+            font-size: 24px;
+        }
+        .point-text {
+            font-size: 1.2rem;
+        }
+        .quote {
+            background-color: rgba(160, 200, 255, 0.1);
+            border-left: 4px solid #a0c8ff;
+            padding: 20px;
+            border-radius: 4px;
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-top: 20px;
+        }
+
+        .parts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+        .part-item {
+            display: flex;
+            align-items: flex-start;
+        }
+        .part-icon {
+            color: #a0c8ff;
+            margin-right: 12px;
+            font-size: 24px;
+        }
+        .part-name {
+            font-weight: 600;
+            color: #a0c8ff;
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+        .part-function {
+            font-size: 1rem;
+        }
+
+        .process-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .step {
+            display: flex;
+            align-items: flex-start;
+        }
+        .step-number {
+            background-color: #a0c8ff;
+            color: #00143c;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .step-title {
+            font-weight: 600;
+            color: #a0c8ff;
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+        .step-description {
+            font-size: 1.1rem;
+        }
+        
+        /* --- ATURAN RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .section { padding: 60px 4%; }
+            #hero .title { font-size: 3.5rem; }
+            #hero .subtitle { font-size: 1.3rem; }
+            .section-header .title { font-size: 2.5rem; }
+        }
+
+        @media (max-width: 768px) {
+            .section { padding: 50px 20px; min-height: auto; }
+            #hero { min-height: 100vh; }
+            #hero .title { font-size: 2.5rem; }
+            #hero .subtitle { font-size: 1.1rem; }
+            .section-header .title { font-size: 2.2rem; }
+            
+            .content-wrapper { flex-direction: column; gap: 30px; }
+            .right-content { order: -1; } /* Pindahkan gambar ke atas */
+            .parts-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Judul Utama -->
+    <section class="section" id="hero">
+        <div class="container">
+            <div class="icon-container">
+                <i class="material-icons">camera_alt</i>
+            </div>
+            <h1 class="title">Fungsi dan Bagian Kamera</h1>
+            <p class="subtitle">Memahami Anatomi dan Cara Kerja Kamera Digital Modern</p>
+        </div>
+    </section>
+
+    <!-- Section 2: Pengenalan -->
+    <section class="section" id="pengenalan">
+        <div class="container">
+             <header class="section-header">
+                <h2 class="title">Melukis dengan Cahaya</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="left-content">
+                    <div class="point">
+                        <i class="material-icons point-icon">camera</i>
+                        <div class="point-text"><span class="highlight">Kamera</span> adalah sebuah alat presisi yang dirancang untuk menangkap cahaya dari suatu objek dan mengubahnya menjadi sebuah gambar.</div>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">photo_camera</i>
+                        <div class="point-text"><span class="highlight">Fotografi</span>, yang berasal dari kata Yunani "fos" (cahaya) dan "grafo" (melukis), secara harfiah berarti "melukis dengan cahaya".</div>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">settings</i>
+                        <div class="point-text"><span class="highlight">Memahami setiap komponen</span> dan fungsinya adalah kunci untuk menguasai kamera dan mengoptimalkan setiap hasil jepretan Anda.</div>
+                    </div>
+                     <div class="quote">
+                        "Fotografi adalah seni melukis dengan cahaya, dan kamera adalah kuasnya. Semakin Anda mengenal kuas Anda, semakin indah lukisan yang bisa Anda ciptakan."
+                    </div>
+                </div>
+                <div class="right-content">
+                    <img src="https://picsum.photos/seed/camera-parts/500/500" alt="Ilustrasi skema kamera" class="camera-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Bagian Luar -->
+    <section class="section" id="bagian-luar">
+        <div class="container">
+             <header class="section-header">
+                <h2 class="title">Anatomi Luar Kamera</h2>
+            </header>
+             <div class="content-wrapper">
+                <div class="left-content">
+                    <div class="parts-grid">
+                        <div class="part-item">
+                            <i class="material-icons part-icon">camera</i>
+                            <div><div class="part-name">Bodi Kamera</div><div class="part-function">Kerangka utama yang melindungi semua komponen internal.</div></div>
+                        </div>
+                        <div class="part-item">
+                            <i class="material-icons part-icon">camera_enhance</i>
+                            <div><div class="part-name">Lensa</div><div class="part-function">Elemen optik yang menangkap dan memfokuskan cahaya ke sensor.</div></div>
+                        </div>
+                         <div class="part-item">
+                            <i class="material-icons part-icon">radio_button_checked</i>
+                            <div><div class="part-name">Tombol Shutter</div><div class="part-function">Tombol untuk mengambil gambar dengan mengaktifkan rana.</div></div>
+                        </div>
+                         <div class="part-item">
+                            <i class="material-icons part-icon">visibility</i>
+                            <div><div class="part-name">Viewfinder</div><div class="part-function">Jendela kecil untuk melihat dan membingkai objek foto.</div></div>
+                        </div>
+                         <div class="part-item">
+                            <i class="material-icons part-icon">desktop_windows</i>
+                            <div><div class="part-name">Layar LCD</div><div class="part-function">Menampilkan pratinjau gambar, menu, dan pengaturan.</div></div>
+                        </div>
+                         <div class="part-item">
+                            <i class="material-icons part-icon">tune</i>
+                            <div><div class="part-name">Mode Dial</div><div class="part-function">Roda putar untuk memilih mode pemotretan (otomatis, manual, dll).</div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="right-content">
+                     <img src="https://picsum.photos/seed/camera-exterior/600/450" alt="Bagian-bagian luar kamera digital" class="camera-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Komponen Internal -->
+    <section class="section" id="bagian-internal">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Jantung Mekanis Kamera</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="left-content">
+                    <div class="parts-grid">
+                        <div class="part-item">
+                            <i class="material-icons part-icon">sensors</i>
+                            <div><div class="part-name">Sensor Gambar</div><div class="part-function">Komponen vital yang mengubah cahaya menjadi data gambar digital.</div></div>
+                        </div>
+                        <div class="part-item">
+                            <i class="material-icons part-icon">camera</i>
+                            <div><div class="part-name">Aperture (Bukaan)</div><div class="part-function">Celah pada lensa yang dapat diubah ukurannya untuk mengontrol jumlah cahaya.</div></div>
+                        </div>
+                        <div class="part-item">
+                            <i class="material-icons part-icon">shutter_speed</i>
+                            <div><div class="part-name">Shutter (Rana)</div><div class="part-function">Tirai yang membuka dan menutup untuk mengontrol durasi cahaya mengenai sensor.</div></div>
+                        </div>
+                        <div class="part-item">
+                            <i class="material-icons part-icon">memory</i>
+                            <div><div class="part-name">Prosesor Gambar</div><div class="part-function">Otak kamera yang memproses data dari sensor menjadi file gambar.</div></div>
+                        </div>
+                        <div class="part-item">
+                            <i class="material-icons part-icon">sd_card</i>
+                            <div><div class="part-name">Media Penyimpanan</div><div class="part-function">Slot untuk kartu memori (SD card, CF card) tempat foto disimpan.</div></div>
+                        </div>
+                        <div class="part-item">
+                            <i class="material-icons part-icon">battery_full</i>
+                            <div><div class="part-name">Baterai</div><div class="part-function">Sumber daya yang menghidupkan semua komponen elektronik.</div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="right-content">
+                    <img src="https://picsum.photos/seed/camera-interior/600/450" alt="Skema komponen internal kamera" class="camera-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Cara Kerja -->
+    <section class="section" id="cara-kerja">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Bagaimana Gambar Tercipta?</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="left-content">
+                    <div class="process-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div><div class="step-title">Cahaya Masuk</div><div class="step-description">Cahaya dari subjek yang Anda foto masuk melalui lensa.</div></div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div><div class="step-title">Fokus & Kontrol</div><div class="step-description">Lensa memfokuskan cahaya, sementara aperture dan shutter mengontrol intensitas dan durasinya.</div></div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div><div class="step-title">Sensor Menangkap</div><div class="step-description">Cahaya yang terkontrol kemudian jatuh ke sensor gambar, yang mengubahnya menjadi sinyal listrik.</div></div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div><div class="step-title">Prosesor Mengolah</div><div class="step-description">Prosesor gambar mengambil sinyal listrik ini dan mengolahnya menjadi data gambar digital (seperti file JPEG atau RAW).</div></div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div><div class="step-title">Gambar Disimpan</div><div class="step-description">File gambar akhir kemudian disimpan ke dalam kartu memori, siap untuk Anda lihat dan bagikan.</div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="right-content">
+                     <img src="https://picsum.photos/seed/camera-process/500/600" alt="Diagram alur kerja kamera" class="camera-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

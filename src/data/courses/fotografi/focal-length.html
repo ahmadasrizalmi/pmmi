@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Focal Length dan Aperture dalam Fotografi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* --- Reset & Pengaturan Dasar --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #141e30;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* --- Struktur Section --- */
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid rgba(74, 144, 226, 0.2);
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+        }
+        .highlight {
+            color: #4a90e2;
+            font-weight: 600;
+        }
+
+        /* --- Section 1: Hero --- */
+        #hero {
+            background: linear-gradient(rgba(20, 30, 48, 0.85), rgba(20, 30, 48, 0.85)), 
+                        url('https://picsum.photos/seed/focal-length/1280/720');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            flex-direction: column;
+        }
+        #hero .title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        #hero .subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: #a3c2e3;
+            margin-bottom: 40px;
+            max-width: 800px;
+        }
+        #hero .icon-container .material-icons {
+            font-size: 48px;
+            color: #4a90e2;
+        }
+
+        /* --- Header Section Umum --- */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-header .title {
+            font-size: 2.8rem;
+            font-weight: 700;
+        }
+
+        /* --- Tata Letak Konten --- */
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        .left-content, .right-content {
+            flex: 1;
+        }
+
+        .image-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* --- Styling Spesifik --- */
+        .definition-item {
+            display: flex;
+            align-items: center;
+            font-size: 1.2rem;
+            color: #e0e0e0;
+            margin-bottom: 20px;
+        }
+        .definition-item i {
+            font-size: 28px;
+            color: #4a90e2;
+            margin-right: 15px;
+        }
+
+        .point-container {
+            margin-bottom: 30px;
+        }
+        .point-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #4a90e2;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .point-title i {
+            font-size: 28px;
+            margin-right: 10px;
+        }
+        .point-content {
+            font-size: 1.1rem;
+            color: #e0e0e0;
+            padding-left: 38px;
+        }
+        
+        .lens-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .lens-card {
+            background-color: rgba(74, 144, 226, 0.1);
+            border-radius: 8px;
+            padding: 25px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .lens-card:hover {
+            transform: translateY(-5px);
+            background-color: rgba(74, 144, 226, 0.2);
+        }
+        .lens-header { display: flex; align-items: center; margin-bottom: 15px; }
+        .lens-icon { margin-right: 15px; }
+        .lens-icon i { font-size: 28px; color: #4a90e2; }
+        .lens-title { font-size: 1.4rem; font-weight: 600; color: #4a90e2; }
+        .lens-range { font-size: 1rem; color: #a3c2e3; margin-bottom: 10px; }
+        .lens-description { font-size: 1rem; color: #e0e0e0; }
+
+        /* --- ATURAN RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .section { padding: 60px 4%; }
+            #hero .title { font-size: 3.5rem; }
+            #hero .subtitle { font-size: 1.3rem; }
+            .section-header .title { font-size: 2.5rem; }
+        }
+
+        @media (max-width: 768px) {
+            .section { padding: 50px 20px; min-height: auto; }
+            #hero { min-height: 100vh; }
+            #hero .title { font-size: 2.5rem; }
+            .section-header .title { font-size: 2.2rem; }
+            .content-wrapper { flex-direction: column; gap: 30px; }
+            .right-content { order: -1; } /* Pindahkan gambar ke atas */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Judul Utama -->
+    <section class="section" id="hero">
+        <div class="container">
+            <h1 class="title">Menguasai Focal Length dan Aperture</h1>
+            <p class="subtitle">Dua Elemen Kunci yang Menentukan Komposisi dan Estetika Foto Anda</p>
+            <div class="icon-container">
+                <i class="material-icons">camera</i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Apa itu Focal Length -->
+    <section class="section" id="focal-length">
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="left-content">
+                    <h2 class="section-header title" style="text-align: left;">Apa Itu Focal Length?</h2>
+                    <div class="definition-item"><i class="material-icons">camera</i><span>Jarak (dalam milimeter) dari pusat optik lensa ke sensor kamera.</span></div>
+                    <div class="definition-item"><i class="material-icons">visibility</i><span>Menentukan <span class="highlight">seberapa luas</span> atau <span class="highlight">seberapa sempit</span> pandangan yang ditangkap kamera.</span></div>
+                    <div class="definition-item"><i class="material-icons">compare_arrows</i><span>Angka focal length <span class="highlight">kecil</span> = pandangan <span class="highlight">lebar</span> (wide). Angka <span class="highlight">besar</span> = pandangan <span class="highlight">sempit</span> (telephoto).</span></div>
+                </div>
+                <div class="right-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/focal-comparison/600/400" alt="Perbandingan bidang pandang pada focal length berbeda">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Pengaruh Focal Length -->
+    <section class="section" id="pengaruh-focal-length">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Efek Focal Length pada Foto</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="left-content">
+                    <div class="point-container">
+                        <div class="point-title"><i class="material-icons">photo_size_select_large</i>Bidang Pandang (Field of View)</div>
+                        <div class="point-content">
+                            Focal length pendek (misal, 18mm) menangkap pemandangan yang sangat luas, ideal untuk lanskap. Focal length panjang (misal, 200mm) memperbesar subjek yang jauh, cocok untuk fotografi satwa liar.
+                        </div>
+                    </div>
+                    <div class="point-container">
+                        <div class="point-title"><i class="material-icons">blur_on</i>Depth of Field (DOF)</div>
+                        <div class="point-content">
+                            Focal length panjang (telephoto) cenderung menghasilkan <span class="highlight">DOF yang lebih sempit</span>, membuat latar belakang menjadi lebih blur (bokeh). Sebaliknya, focal length pendek (wide) menghasilkan <span class="highlight">DOF yang lebih luas</span>, menjaga sebagian besar area foto tetap tajam.
+                        </div>
+                    </div>
+                </div>
+                <div class="right-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/focal-dof/600/400" alt="Contoh Depth of Field dengan focal length berbeda">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Jenis Lensa berdasarkan Focal Length -->
+    <section class="section" id="jenis-lensa">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Jenis Lensa Berdasarkan Focal Length</h2>
+            </header>
+            <div class="lens-grid">
+                <div class="lens-card">
+                    <div class="lens-header"><div class="lens-icon"><i class="material-icons">panorama</i></div><div class="lens-title">Ultra Wide</div></div>
+                    <div class="lens-range">8mm - 24mm</div>
+                    <div class="lens-description">Menghasilkan bidang pandang yang sangat dramatis dan luas, seringkali dengan efek distorsi yang unik (fisheye).</div>
+                </div>
+                <div class="lens-card">
+                    <div class="lens-header"><div class="lens-icon"><i class="material-icons">landscape</i></div><div class="lens-title">Wide Angle</div></div>
+                    <div class="lens-range">24mm - 35mm</div>
+                    <div class="lens-description">Pilihan populer untuk fotografi arsitektur dan lanskap dengan distorsi yang lebih terkontrol.</div>
+                </div>
+                <div class="lens-card">
+                    <div class="lens-header"><div class="lens-icon"><i class="material-icons">camera</i></div><div class="lens-title">Standar / Normal</div></div>
+                    <div class="lens-range">35mm - 70mm</div>
+                    <div class="lens-description">Meniru perspektif mata manusia, sangat serbaguna untuk berbagai jenis fotografi, termasuk street dan potret.</div>
+                </div>
+                <div class="lens-card">
+                    <div class="lens-header"><div class="lens-icon"><i class="material-icons">zoom_in</i></div><div class="lens-title">Telephoto</div></div>
+                    <div class="lens-range">70mm - 300mm+</div>
+                    <div class="lens-description">Ideal untuk memotret subjek dari jarak jauh, seperti olahraga, konser, dan satwa liar.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Apa itu Aperture -->
+    <section class="section" id="aperture">
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="left-content">
+                    <h2 class="section-header title" style="text-align: left;">Apa Itu Aperture?</h2>
+                    <div class="definition-item"><i class="material-icons">camera</i><span>Bukaan diafragma di dalam lensa yang mengatur <span class="highlight">seberapa banyak cahaya</span> yang masuk ke sensor.</span></div>
+                    <div class="definition-item"><i class="material-icons">visibility</i><span>Bekerja seperti <span class="highlight">pupil mata manusia</span>, yang melebar di tempat gelap dan menyempit di tempat terang.</span></div>
+                    <div class="definition-item"><i class="material-icons">exposure</i><span>Diukur dalam <span class="highlight">f-stop (misal, f/1.8, f/4, f/16)</span>. Angka f-stop kecil berarti bukaan lebar, dan sebaliknya.</span></div>
+                </div>
+                <div class="right-content">
+                    <div class="image-container">
+                         <img src="https://picsum.photos/seed/aperture-diagram/600/400" alt="Diagram bukaan aperture">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: Pengaruh Aperture -->
+    <section class="section" id="pengaruh-aperture">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Efek Aperture pada Foto</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="left-content">
+                    <div class="point-container">
+                        <div class="point-title"><i class="material-icons">wb_sunny</i>Kecerahan (Exposure)</div>
+                        <div class="point-content">
+                            Aperture <span class="highlight">lebar (f/1.8)</span> memasukkan banyak cahaya, menghasilkan foto yang lebih terang. Ini sangat berguna di kondisi minim cahaya. Aperture <span class="highlight">sempit (f/16)</span> membatasi cahaya, menghasilkan foto yang lebih gelap.
+                        </div>
+                    </div>
+                    <div class="point-container">
+                        <div class="point-title"><i class="material-icons">blur_circular</i>Depth of Field (DOF)</div>
+                        <div class="point-content">
+                            Ini adalah efek yang paling kreatif dari aperture. Bukaan <span class="highlight">lebar (f/1.8)</span> menciptakan DOF yang sempit, menghasilkan latar belakang yang sangat blur (bokeh), ideal untuk potret. Bukaan <span class="highlight">sempit (f/16)</span> menciptakan DOF yang luas, menjaga seluruh pemandangan dari depan ke belakang tetap tajam, cocok untuk lanskap.
+                        </div>
+                    </div>
+                </div>
+                <div class="right-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/aperture-dof/600/400" alt="Contoh Depth of Field dengan bukaan aperture berbeda">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

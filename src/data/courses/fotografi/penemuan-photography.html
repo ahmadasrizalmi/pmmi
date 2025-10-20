@@ -1,2 +1,473 @@
-<h3>Penemuan Photography</h3>
-<p>Konten HTML untuk penemuan photography ada di sini.</p>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sejarah Penemuan Fotografi: Niépce, Daguerre, & Talbot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* --- Reset & Pengaturan Dasar --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* --- Struktur Section (Slide) --- */
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+        }
+        
+        /* --- Section 1: Hero (Judul Utama) --- */
+        #hero {
+            color: #fff;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://picsum.photos/seed/history/1280/720');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            flex-direction: column;
+        }
+
+        #hero .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+        }
+
+        #hero .subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+            color: #e0e0e0;
+        }
+        
+        #hero .year {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: #bdbdbd;
+            letter-spacing: 1px;
+            border: 1px solid #bdbdbd;
+            padding: 10px 20px;
+            border-radius: 50px;
+        }
+
+        /* --- Header Section Umum --- */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-header .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            color: #4a4a4a;
+        }
+        
+        /* --- Konten Kolom --- */
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        .column {
+            flex: 1;
+        }
+        
+        /* --- Info Box & Styling Konten --- */
+        .info-box {
+            background-color: #e8e8e8;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .info-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #5a5a5a;
+            display: flex;
+            align-items: center;
+        }
+
+        .info-title i {
+            margin-right: 12px;
+            color: #6a5acd;
+        }
+
+        .info-content p, .info-content li {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        .info-content ul {
+            list-style: none;
+        }
+        .info-content ul li {
+            display: flex;
+            align-items: flex-start;
+        }
+        .info-content ul li::before {
+            content: '•';
+            color: #6a5acd;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .highlight {
+            color: #6a5acd;
+            font-weight: 600;
+        }
+
+        .image-container {
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .caption {
+            font-size: 0.9rem;
+            color: #666;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .key-points {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            gap: 10px;
+        }
+
+        .key-point {
+            background-color: #d8d8d8;
+            border-radius: 20px;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            color: #5a5a5a;
+        }
+
+        /* --- Section Perbandingan --- */
+        .comparison-table {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .process-column .feature-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+        
+        .process-column .feature-icon {
+            margin-right: 10px;
+            margin-top: 2px;
+            font-size: 1.2rem;
+        }
+        .process-column .feature-icon.check { color: #4caf50; }
+        .process-column .feature-icon.cancel { color: #f44336; }
+
+        .legacy-section {
+            margin-top: 40px;
+        }
+
+        .legacy-content {
+            display: flex;
+            gap: 30px;
+        }
+        .legacy-item { flex: 1; }
+
+        /* --- ATURAN RESPONSIVE --- */
+
+        /* Tablet (max-width: 1024px) */
+        @media (max-width: 1024px) {
+            .section { padding: 60px 4%; }
+            #hero .title { font-size: 3.5rem; }
+            #hero .subtitle { font-size: 1.3rem; }
+            .section-header .title { font-size: 2.5rem; }
+            
+            .content-wrapper { flex-direction: column; }
+            .comparison-table { flex-direction: column; }
+            .legacy-content { flex-direction: column; }
+        }
+
+        /* Mobile (max-width: 768px) */
+        @media (max-width: 768px) {
+            .section { padding: 50px 20px; min-height: auto; }
+            #hero { min-height: 100vh; }
+            #hero .title { font-size: 2.5rem; }
+            #hero .subtitle { font-size: 1.1rem; }
+            .section-header .title { font-size: 2.2rem; }
+            
+            .content-wrapper, .comparison-table, .legacy-content { gap: 25px; }
+            
+            .column { width: 100%; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Judul Utama -->
+    <section class="section" id="hero">
+        <div class="container">
+            <h1 class="title">Penemuan Fotografi</h1>
+            <p class="subtitle">Kisah Niépce, Daguerre, dan Talbot: Tiga Tokoh Pionir dalam Sejarah Fotografi</p>
+            <span class="year">1826-1839</span>
+        </div>
+    </section>
+
+    <!-- Section 2: Joseph Nicéphore Niépce -->
+    <section class="section" id="niepce">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Joseph Nicéphore Niépce: Perintis Fotografi</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="column">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/niepce/600/400" alt="View from the Window at Le Gras">
+                        <p class="caption">"View from the Window at Le Gras" (1826/1827) - Foto pertama yang berhasil diselamatkan.</p>
+                    </div>
+                    <div class="info-box">
+                        <h3 class="info-title"><i class="material-icons">lightbulb</i> Kontribusi Utama</h3>
+                        <div class="info-content">
+                            <ul>
+                                <li>Mengembangkan <span class="highlight">heliografi</span>, teknik fotografi pertama di dunia.</li>
+                                <li>Menciptakan foto permanen pertama menggunakan <span class="highlight">bitumen of Judea</span>.</li>
+                                <li>Proses eksposur yang sangat lama, membutuhkan <span class="highlight">8 jam atau lebih</span>.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="info-box">
+                        <h3 class="info-title"><i class="material-icons">person</i> Biografi Singkat</h3>
+                        <div class="info-content">
+                             <ul>
+                                <li>Lahir: <span class="highlight">7 Maret 1765</span> di Chalon-sur-Saône, Prancis.</li>
+                                <li>Wafat: <span class="highlight">5 Juli 1833</span>.</li>
+                                <li>Seorang penemu dan ilmuwan yang juga menemukan <span class="highlight">Pyréolophore</span>, salah satu mesin pembakaran internal pertama.</li>
+                            </ul>
+                        </div>
+                    </div>
+                     <div class="info-box">
+                        <h3 class="info-title"><i class="material-icons">history</i> Jejak Sejarah</h3>
+                        <div class="info-content">
+                           <ul>
+                                <li><strong>1826/1827:</strong> Berhasil menciptakan "View from the Window at Le Gras".</li>
+                                <li><strong>1829:</strong> Membentuk kemitraan strategis dengan Louis Daguerre untuk menyempurnakan penemuannya.</li>
+                           </ul>
+                        </div>
+                        <div class="key-points">
+                            <span class="key-point">Fotografi Pertama</span>
+                            <span class="key-point">Heliografi</span>
+                            <span class="key-point">Bitumen of Judea</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Louis Daguerre -->
+    <section class="section" id="daguerre">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Louis Daguerre: Penemu Daguerreotype</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="column">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/daguerre/600/400" alt="Louis Daguerre">
+                        <p class="caption">Louis Jacques Mandé Daguerre (1787-1851)</p>
+                    </div>
+                    <div class="info-box">
+                        <h3 class="info-title"><i class="material-icons">lightbulb</i> Kontribusi Utama</h3>
+                        <div class="info-content">
+                            <ul>
+                                <li>Mengembangkan proses <span class="highlight">daguerreotype</span>, metode fotografi praktis pertama.</li>
+                                <li>Secara drastis mengurangi waktu eksposur dari berjam-jam menjadi <span class="highlight">beberapa menit</span>.</li>
+                                <li>Menghasilkan gambar dengan detail yang <span class="highlight">sangat tajam</span> di atas pelat tembaga berlapis perak.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="info-box">
+                        <h3 class="info-title"><i class="material-icons">person</i> Biografi Singkat</h3>
+                        <div class="info-content">
+                            <ul>
+                                <li>Lahir: <span class="highlight">18 November 1787</span> di Cormeilles, Prancis.</li>
+                                <li>Wafat: <span class="highlight">10 Juli 1851</span>.</li>
+                                <li>Seorang seniman dan kimiawan yang awalnya dikenal karena menciptakan <span class="highlight">diorama</span>.</li>
+                            </ul>
+                        </div>
+                    </div>
+                     <div class="info-box">
+                        <h3 class="info-title"><i class="material-icons">history</i> Jejak Sejarah</h3>
+                        <div class="info-content">
+                            <ul>
+                                <li><strong>1829:</strong> Bermitra dengan Niépce, lalu melanjutkan penelitian setelah Niépce wafat.</li>
+                                <li><strong>1839:</strong> Mengumumkan penemuan daguerreotype kepada dunia, yang kemudian dibeli oleh pemerintah Prancis.</li>
+                           </ul>
+                        </div>
+                        <div class="key-points">
+                            <span class="key-point">Daguerreotype</span>
+                            <span class="key-point">Gambar Tajam</span>
+                            <span class="key-point">Eksposur Cepat</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: William Henry Fox Talbot -->
+    <section class="section" id="talbot">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">William Henry Fox Talbot: Penemu Calotype</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="column">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/talbot/600/400" alt="William Henry Fox Talbot">
+                        <p class="caption">William Henry Fox Talbot (1800-1877) dengan salah satu kamera awalnya.</p>
+                    </div>
+                    <div class="info-box">
+                        <h3 class="info-title"><i class="material-icons">lightbulb</i> Kontribusi Utama</h3>
+                        <div class="info-content">
+                            <ul>
+                                <li>Mengembangkan proses <span class="highlight">calotype</span>, yang menjadi dasar sistem <span class="highlight">negatif-positif</span>.</li>
+                                <li>Memungkinkan sebuah foto <span class="highlight">dapat direproduksi</span> berkali-kali dari satu negatif.</li>
+                                <li>Menerbitkan "The Pencil of Nature", buku pertama yang diilustrasikan dengan foto.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="info-box">
+                        <h3 class="info-title"><i class="material-icons">person</i> Biografi Singkat</h3>
+                        <div class="info-content">
+                            <ul>
+                                <li>Lahir: <span class="highlight">11 Februari 1800</span> di Inggris.</li>
+                                <li>Wafat: <span class="highlight">17 September 1877</span>.</li>
+                                <li>Seorang ilmuwan polimatik, politikus, dan ahli bahasa.</li>
+                            </ul>
+                        </div>
+                    </div>
+                     <div class="info-box">
+                        <h3 class="info-title"><i class="material-icons">history</i> Jejak Sejarah</h3>
+                        <div class="info-content">
+                           <ul>
+                                <li><strong>1835:</strong> Menciptakan foto negatif pertamanya menggunakan kertas sensitif cahaya.</li>
+                                <li><strong>1841:</strong> Mematenkan proses calotype, yang sayangnya membatasi adopsi awalnya.</li>
+                           </ul>
+                        </div>
+                        <div class="key-points">
+                            <span class="key-point">Calotype</span>
+                            <span class="key-point">Negatif-Positif</span>
+                            <span class="key-point">Reproduksi Foto</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Perbandingan & Warisan -->
+    <section class="section" id="comparison">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Perbandingan Kontribusi dan Warisan</h2>
+            </header>
+            <div class="comparison-table">
+                <!-- Kolom Heliografi -->
+                <div class="info-box process-column">
+                    <h3 class="info-title"><i class="material-icons">camera</i> Heliografi</h3>
+                    <div class="feature-item"><i class="material-icons feature-icon check"></i><div><span class="highlight">Proses pertama</span> dalam sejarah.</div></div>
+                    <div class="feature-item"><i class="material-icons feature-icon cancel"></i><div>Waktu eksposur <span class="highlight">sangat lama</span> (berjam-jam).</div></div>
+                    <div class="feature-item"><i class="material-icons feature-icon cancel"></i><div>Hasil gambar <span class="highlight">kurang detail</span> dan kabur.</div></div>
+                    <div class="feature-item"><i class="material-icons feature-icon cancel"></i><div><span class="highlight">Tidak praktis</span> untuk penggunaan umum.</div></div>
+                </div>
+                <!-- Kolom Daguerreotype -->
+                <div class="info-box process-column">
+                    <h3 class="info-title"><i class="material-icons">filter</i> Daguerreotype</h3>
+                    <div class="feature-item"><i class="material-icons feature-icon check"></i><div>Hasil gambar <span class="highlight">sangat tajam</span> dan detail.</div></div>
+                    <div class="feature-item"><i class="material-icons feature-icon check"></i><div>Waktu eksposur <span class="highlight">relatif cepat</span> (beberapa menit).</div></div>
+                    <div class="feature-item"><i class="material-icons feature-icon cancel"></i><div><span class="highlight">Tidak dapat direproduksi</span> (setiap gambar unik).</div></div>
+                     <div class="feature-item"><i class="material-icons feature-icon cancel"></i><div>Gambar <span class="highlight">rapuh</span> dan permukaannya reflektif.</div></div>
+                </div>
+                <!-- Kolom Calotype -->
+                <div class="info-box process-column">
+                    <h3 class="info-title"><i class="material-icons">photo</i> Calotype</h3>
+                    <div class="feature-item"><i class="material-icons feature-icon check"></i><div>Dasar fotografi modern: sistem <span class="highlight">negatif-positif</span>.</div></div>
+                    <div class="feature-item"><i class="material-icons feature-icon check"></i><div>Gambar <span class="highlight">dapat direproduksi</span> tanpa batas.</div></div>
+                    <div class="feature-item"><i class="material-icons feature-icon cancel"></i><div>Hasil gambar <span class="highlight">kurang tajam</span> dibanding daguerreotype karena tekstur kertas.</div></div>
+                    <div class="feature-item"><i class="material-icons feature-icon cancel"></i><div>Dihambat oleh <span class="highlight">masalah paten</span> yang ketat.</div></div>
+                </div>
+            </div>
+
+            <div class="info-box legacy-section">
+                <h3 class="info-title"><i class="material-icons">history</i> Warisan untuk Fotografi Modern</h3>
+                <div class="legacy-content">
+                    <div class="legacy-item">
+                        <h4><i class="material-icons">lightbulb</i>Konsep Dasar</h4>
+                        <p>Ketiga pionir ini membuktikan bahwa gambar dari kamera obscura dapat ditangkap secara permanen menggunakan bahan kimia yang peka terhadap cahaya.</p>
+                    </div>
+                    <div class="legacy-item">
+                        <h4><i class="material-icons">camera_alt</i>Teknologi</h4>
+                        <p>Eksperimen mereka menjadi fondasi bagi pengembangan proses kimia fotografi selanjutnya, dari pelat basah, film, hingga sensor digital.</p>
+                    </div>
+                     <div class="legacy-item">
+                        <h4><i class="material-icons">public</i>Dampak Sosial</h4>
+                        <p>Penemuan mereka adalah langkah pertama menuju demokratisasi gambar, yang mengubah cara kita mendokumentasikan sejarah, berkomunikasi, dan melihat dunia.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
