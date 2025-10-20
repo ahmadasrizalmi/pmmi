@@ -13,6 +13,10 @@ import segitigaExposureContent from './fotografi/segitiga-exposure.html?raw';
 import teknikKomposisiContent from './fotografi/teknik-komposisi.html?raw';
 import bentukFotoContent from './fotografi/bentuk-foto.html?raw';
 import sudutPengambilanContent from './fotografi/sudut-pengambilan.html?raw';
+import sumberCahayaContent from './fotografi/sumber-cahaya.html?raw';
+import goldenhourContent from './fotografi/golden-hour.html?raw';
+//
+import { s } from 'framer-motion/client';
 
 export const fotografiMaterials: Material[] = [
   {
@@ -79,5 +83,15 @@ export const fotografiMaterials: Material[] = [
     id: 'sudut-pengambilan',
     title: '13 Segitiga Exposure',
     content: sudutPengambilanContent,
+  },
+  {
+    id: 'sumber-cahaya',
+    title: '14 Sumber Cahaya',
+    content: sumberCahayaContent,
+  },
+  {
+    id: 'golden-hour',
+    title: '15. Golden Hour dan Blue Hour',
+    content: goldenhourContent,
   },
 ];
