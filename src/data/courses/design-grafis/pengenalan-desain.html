@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentasi Desain Grafis Gabungan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* gap: 20px; */ /* Adds space between slides */
+            /* padding: 20px 0; */
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    </style>
+
+    <!-- Slide 1 Styles -->
+    <style>
+        #slide-1 {
+            width: 1280px;
+            height: 720px;
+            position: relative;
+            overflow: hidden;
+            /* background: linear-gradient(rgba(0, 51, 102, 0.7), rgba(0, 51, 102, 0.7)), url('https://via.placeholder.com/1280x720/003366/FFFFFF?text=Image+Placeholder'); */
+            background: white; /* Perubahan untuk tes */
+            background-size: cover;
+            background-position: center;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        #slide-1 .content {
+            text-align: center;
+            max-width: 80%;
+        }
+        #slide-1 .title {
+            font-size: 64px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+        #slide-1 .subtitle {
+            font-size: 24px;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+        #slide-1 .decoration {
+            position: absolute;
+            bottom: 40px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        #slide-1 .decoration .line {
+            width: 120px;
+            height: 4px;
+            background-color: #4fc3f7;
+            border-radius: 2px;
+        }
+    </style>
+
+    <!-- Slide 2 Styles -->
+    <style>
+        #slide-2 {
+            width: 1280px;
+            min-height: 720px;
+            position: relative;
+            overflow: hidden;
+            background-color: #ffffff;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+        #slide-2 .header {
+            background-color: #003366;
+            color: white;
+            padding: 20px 70px;
+        }
+        #slide-2 .title {
+            font-size: 40px;
+            font-weight: 700;
+        }
+        #slide-2 .content {
+            display: flex;
+            flex-grow: 1;
+            padding: 40px 70px;
+        }
+        #slide-2 .left-content {
+            flex: 1;
+            padding-right: 40px;
+        }
+        #slide-2 .definition {
+            background-color: #e6f2ff;
+            border-left: 5px solid #003366;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+        #slide-2 .definition p {
+            font-size: 20px;
+            line-height: 1.5;
+        }
+        #slide-2 .importance {
+            margin-top: 30px;
+        }
+        #slide-2 .importance h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #003366;
+        }
+        #slide-2 .importance ul {
+            list-style-type: none;
+        }
+        #slide-2 .importance li {
+            font-size: 20px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+        #slide-2 .importance li i {
+            color: #4fc3f7;
+            margin-right: 10px;
+        }
+        #slide-2 .right-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #slide-2 .image-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #slide-2 .image-container img {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+    </style>
+
+    <!-- Slide 3 Styles -->
+    <style>
+        #slide-3 {
+            width: 1280px;
+            min-height: 720px;
+            position: relative;
+            overflow: hidden;
+            background-color: #ffffff;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+        #slide-3 .header {
+            background-color: #003366;
+            color: white;
+            padding: 20px 70px;
+        }
+        #slide-3 .title {
+            font-size: 40px;
+            font-weight: 700;
+        }
+        #slide-3 .content {
+            display: flex;
+            flex-grow: 1;
+            padding: 30px 70px;
+        }
+        #slide-3 .elements-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 25px;
+            width: 100%;
+        }
+        #slide-3 .element-card {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        #slide-3 .element-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        #slide-3 .element-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        #slide-3 .element-icon {
+            background-color: #e6f2ff;
+            color: #003366;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+        #slide-3 .element-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #003366;
+        }
+        #slide-3 .element-description {
+            font-size: 16px;
+            line-height: 1.4;
+            color: #555;
+            flex-grow: 1;
+        }
+        #slide-3 .element-keyword {
+            display: inline-block;
+            background-color: #e6f2ff;
+            color: #003366;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 10px;
+            margin-right: 5px;
+        }
+    </style>
+
+    <!-- Slide 4 Styles -->
+    <style>
+        #slide-4, #slide-5, #slide-6 {
+            width: 1280px;
+            min-height: 720px;
+            position: relative;
+            overflow: hidden;
+            background-color: #ffffff;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+        #slide-4 .header, #slide-5 .header, #slide-6 .header {
+            background-color: #003366;
+            color: white;
+            padding: 20px 70px;
+        }
+        #slide-4 .title, #slide-5 .title, #slide-6 .title {
+            font-size: 40px;
+            font-weight: 700;
+        }
+        #slide-4 .content, #slide-5 .content, #slide-6 .content {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            padding: 30px 70px;
+        }
+        #slide-4 .elements-container, #slide-5 .elements-container, #slide-6 .elements-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            flex-grow: 1;
+        }
+        #slide-4 .element-card, #slide-5 .element-card, #slide-6 .element-card {
+            flex: 1;
+            min-width: 250px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        #slide-4 .element-card::before, #slide-5 .element-card::before, #slide-6 .element-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 100%;
+            background-color: #4fc3f7;
+        }
+        #slide-4 .element-header, #slide-5 .element-header, #slide-6 .element-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        #slide-4 .element-icon, #slide-5 .element-icon, #slide-6 .element-icon {
+            background-color: #e6f2ff;
+            color: #003366;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        #slide-4 .element-icon i, #slide-5 .element-icon i, #slide-6 .element-icon i {
+            font-size: 28px;
+        }
+        #slide-4 .element-title, #slide-5 .element-title, #slide-6 .element-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #003366;
+        }
+        #slide-4 .element-description, #slide-5 .element-description, #slide-6 .element-description {
+            font-size: 18px;
+            line-height: 1.5;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        #slide-4 .key-points, #slide-5 .key-points, #slide-6 .key-points {
+            margin-top: auto;
+        }
+        #slide-4 .key-point, #slide-5 .key-point, #slide-6 .key-point {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        #slide-4 .key-point i, #slide-5 .key-point i, #slide-6 .key-point i {
+            color: #4fc3f7;
+            margin-right: 10px;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        #slide-4 .key-point-text, #slide-5 .key-point-text, #slide-6 .key-point-text {
+            font-size: 18px;
+            line-height: 1.4;
+        }
+        #slide-4 .example-tag, #slide-5 .example-tag, #slide-6 .example-tag {
+            display: inline-block;
+            background-color: #e6f2ff;
+            color: #003366;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 15px;
+            margin-right: 8px;
+        }
+    </style>
+
+    <!-- Slide 7 Styles -->
+    <style>
+        #slide-7 {
+            width: 1280px;
+            min-height: 720px;
+            position: relative;
+            overflow: hidden;
+            background-color: #ffffff;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+        #slide-7 .header {
+            background-color: #003366;
+            color: white;
+            padding: 20px 70px;
+        }
+        #slide-7 .title {
+            font-size: 40px;
+            font-weight: 700;
+        }
+        #slide-7 .content {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            padding: 30px 70px;
+        }
+        #slide-7 .principles-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 20px;
+            flex-grow: 1;
+        }
+        #slide-7 .principle-card {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        #slide-7 .principle-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        #slide-7 .principle-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background-color: #4fc3f7;
+        }
+        #slide-7 .principle-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        #slide-7 .principle-icon {
+            background-color: #e6f2ff;
+            color: #003366;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+        #slide-7 .principle-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #003366;
+        }
+        #slide-7 .principle-description {
+            font-size: 16px;
+            line-height: 1.4;
+            color: #555;
+            flex-grow: 1;
+        }
+        #slide-7 .principle-keyword {
+            display: inline-block;
+            background-color: #e6f2ff;
+            color: #003366;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 10px;
+            margin-right: 5px;
+        }
+    </style>
+    
+    <!-- Slide 8 & 9 Styles -->
+    <style>
+        #slide-8, #slide-9 {
+            width: 1280px;
+            min-height: 720px;
+            position: relative;
+            overflow: hidden;
+            background-color: #ffffff;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+        #slide-8 .header, #slide-9 .header {
+            background-color: #003366;
+            color: white;
+            padding: 20px 70px;
+        }
+        #slide-8 .title, #slide-9 .title {
+            font-size: 40px;
+            font-weight: 700;
+        }
+        #slide-8 .content, #slide-9 .content {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            padding: 30px 70px;
+        }
+        #slide-8 .principles-container, #slide-9 .principles-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            flex-grow: 1;
+        }
+        #slide-8 .principle-card, #slide-9 .principle-card {
+            flex: 1;
+            min-width: 220px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        #slide-8 .principle-card::before, #slide-9 .principle-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 100%;
+            background-color: #4fc3f7;
+        }
+        #slide-8 .principle-header, #slide-9 .principle-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        #slide-8 .principle-icon, #slide-9 .principle-icon {
+            background-color: #e6f2ff;
+            color: #003366;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        #slide-8 .principle-icon i, #slide-9 .principle-icon i {
+            font-size: 28px;
+        }
+        #slide-8 .principle-title, #slide-9 .principle-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #003366;
+        }
+        #slide-8 .principle-description, #slide-9 .principle-description {
+            font-size: 18px;
+            line-height: 1.5;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        #slide-8 .key-points, #slide-9 .key-points {
+            margin-top: auto;
+        }
+        #slide-8 .key-point, #slide-9 .key-point {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        #slide-8 .key-point i, #slide-9 .key-point i {
+            color: #4fc3f7;
+            margin-right: 10px;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        #slide-8 .key-point-text, #slide-9 .key-point-text {
+            font-size: 18px;
+            line-height: 1.4;
+        }
+        #slide-8 .example-tag, #slide-9 .example-tag {
+            display: inline-block;
+            background-color: #e6f2ff;
+            color: #003366;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 15px;
+            margin-right: 8px;
+        }
+    </style>
+    
+    <!-- Slide 10 Styles -->
+    <style>
+        #slide-10 {
+            width: 1280px;
+            min-height: 720px;
+            position: relative;
+            overflow: hidden;
+            background-color: #ffffff;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+        #slide-10 .header {
+            background-color: #003366;
+            color: white;
+            padding: 20px 70px;
+        }
+        #slide-10 .title {
+            font-size: 40px;
+            font-weight: 700;
+        }
+        #slide-10 .content {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            padding: 30px 70px;
+        }
+        #slide-10 .tips-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 25px;
+            flex-grow: 1;
+        }
+        #slide-10 .tip-card {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        #slide-10 .tip-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        #slide-10 .tip-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background-color: #4fc3f7;
+        }
+        #slide-10 .tip-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        #slide-10 .tip-icon {
+            background-color: #e6f2ff;
+            color: #003366;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        #slide-10 .tip-icon i {
+            font-size: 28px;
+        }
+        #slide-10 .tip-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #003366;
+        }
+        #slide-10 .tip-description {
+            font-size: 18px;
+            line-height: 1.4;
+            color: #555;
+            flex-grow: 1;
+        }
+        #slide-10 .tip-keyword {
+            display: inline-block;
+            background-color: #e6f2ff;
+            color: #003366;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+    </style>
+    
+    <!-- Slide 11 Styles -->
+    <style>
+        #slide-11 {
+            width: 1280px;
+            min-height: 720px;
+            position: relative;
+            overflow: hidden;
+            background-color: #ffffff;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+        #slide-11 .header {
+            background-color: #003366;
+            color: white;
+            padding: 20px 70px;
+        }
+        #slide-11 .title {
+            font-size: 40px;
+            font-weight: 700;
+        }
+        #slide-11 .content {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            padding: 30px 70px;
+        }
+        #slide-11 .summary-container {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 30px;
+            flex-grow: 1;
+        }
+        #slide-11 .summary-card {
+            flex: 1;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        #slide-11 .summary-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 100%;
+            background-color: #4fc3f7;
+        }
+        #slide-11 .summary-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        #slide-11 .summary-icon {
+            background-color: #e6f2ff;
+            color: #003366;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        #slide-11 .summary-icon i {
+            font-size: 28px;
+        }
+        #slide-11 .summary-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #003366;
+        }
+        #slide-11 .summary-content {
+            flex-grow: 1;
+        }
+        #slide-11 .key-point {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        #slide-11 .key-point i {
+            color: #4fc3f7;
+            margin-right: 10px;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        #slide-11 .key-point-text {
+            font-size: 20px;
+            line-height: 1.4;
+        }
+        #slide-11 .resources-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            flex-grow: 1;
+        }
+        #slide-11 .resource-card {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        #slide-11 .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        #slide-11 .resource-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background-color: #4fc3f7;
+        }
+        #slide-11 .resource-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        #slide-11 .resource-icon {
+            background-color: #e6f2ff;
+            color: #003366;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+        #slide-11 .resource-icon i {
+            font-size: 24px;
+        }
+        #slide-11 .resource-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #003366;
+        }
+        #slide-11 .resource-list {
+            list-style-type: none;
+        }
+        #slide-11 .resource-item {
+            font-size: 18px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        #slide-11 .resource-item i {
+            color: #4fc3f7;
+            margin-right: 8px;
+            font-size: 18px;
+        }
+    </style>
+
+    <!-- Responsive Styles -->
+    <style>
+        @media (max-width: 1280px) {
+            /* Make all slides full-width and auto-height */
+            #slide-1, #slide-2, #slide-3, #slide-4, #slide-5, #slide-6, #slide-7, #slide-8, #slide-9, #slide-10, #slide-11 {
+                width: 100%;
+                height: auto;
+                min-height: 0;
+                padding-top: 40px;
+                padding-bottom: 40px; /* Add some space at the bottom */
+            }
+
+            /* Adjust padding for content sections */
+            #slide-2 .header, #slide-3 .header, #slide-4 .header, #slide-5 .header, #slide-6 .header, #slide-7 .header, #slide-8 .header, #slide-9 .header, #slide-10 .header, #slide-11 .header {
+                padding: 20px;
+            }
+            #slide-2 .content, #slide-3 .content, #slide-4 .content, #slide-5 .content, #slide-6 .content, #slide-7 .content, #slide-8 .content, #slide-9 .content, #slide-10 .content, #slide-11 .content {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            /* Adjust grid for tablets */
+            #slide-3 .elements-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            #slide-7 .principles-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            #slide-10 .tips-container,
+            #slide-11 .resources-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            /* Adjust font sizes */
+            #slide-1 .title { font-size: 48px; }
+            .title { font-size: 32px !important; }
+        }
+
+        @media (max-width: 768px) {
+            /* Stack content vertically on smaller screens */
+            #slide-2 .content,
+            #slide-11 .summary-container {
+                flex-direction: column;
+            }
+            #slide-2 .left-content {
+                padding-right: 0;
+                margin-bottom: 30px;
+            }
+
+            /* Adjust flex containers */
+            #slide-4 .elements-container, #slide-5 .elements-container, #slide-6 .elements-container, #slide-8 .principles-container, #slide-9 .principles-container {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 576px) {
+            /* Adjust grid for mobile phones */
+            #slide-3 .elements-grid,
+            #slide-7 .principles-grid,
+            #slide-10 .tips-container,
+            #slide-11 .resources-container {
+                grid-template-columns: 1fr;
+            }
+
+            /* Further reduce font sizes */
+            #slide-1 .title { font-size: 36px; }
+            #slide-1 .subtitle { font-size: 20px; }
+            .title { font-size: 28px !important; }
+            .element-title, .principle-title, .tip-title, .summary-title, .resource-title {
+                font-size: 20px !important;
+            }
+            .element-description, .principle-description, .tip-description, .key-point-text, .resource-item {
+                font-size: 16px !important;
+            }
+        }
+    </style>
+
+</head>
+<body>
+
+    <!-- Slide 1 Content -->
+    <div id="slide-1">
+        <div class="content">
+            <h1 class="title">Pengenalan Desain Grafis dan Prinsip Dasar</h1>
+            <p class="subtitle">Tutorial Komprehensif untuk Pemula</p>
+        </div>
+        <div class="decoration">
+            <div class="line"></div>
+        </div>
+    </div>
+
+    <!-- Slide 2 Content -->
+    <div id="slide-2">
+        <div class="header">
+            <h1 class="title">Pengenalan Desain Grafis</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="definition">
+                    <p><strong>Desain grafis</strong> adalah bentuk komunikasi visual yang memanfaatkan elemen grafis, seperti gambar, teks, warna, dan sebagainya untuk menyampaikan informasi secara efektif.</p>
+                </div>
+                <div class="importance">
+                    <h3>Mengapa Desain Grafis Penting?</h3>
+                    <ul>
+                        <li><i class="material-icons">check_circle</i> Komunikasi visual yang efektif</li>
+                        <li><i class="material-icons">check_circle</i> Meningkatkan daya tarik produk</li>
+                        <li><i class="material-icons">check_circle</i> Membangun identitas merek</li>
+                        <li><i class="material-icons">check_circle</i> Meningkatkan pengalaman pengguna</li>
+                        <li><i class="material-icons">check_circle</i> Menyampaikan pesan dengan jelas</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="image-container">
+                    <img src="https://via.placeholder.com/500x400/CCCCCC/003366?text=Image+Placeholder" alt="Elements of Graphic Design">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3 Content -->
+    <div id="slide-3">
+        <div class="header">
+            <h1 class="title">Unsur-Unsur Desain Grafis</h1>
+        </div>
+        <div class="content">
+            <div class="elements-grid">
+                <div class="element-card"><div class="element-header"><div class="element-icon"><i class="material-icons">circle</i></div><h3 class="element-title">Titik (Point)</h3></div><p class="element-description">Elemen terkecil dalam desain, berbentuk bulatan sederhana tanpa dimensi, sudut, atau arah.</p><div><span class="element-keyword">Dasar</span><span class="element-keyword">Kelompok</span></div></div>
+                <div class="element-card"><div class="element-header"><div class="element-icon"><i class="material-icons">horizontal_rule</i></div><h3 class="element-title">Garis (Line)</h3></div><p class="element-description">Kombinasi titik-titik yang membentuk bentuk lebih tegas, digunakan untuk menyampaikan gerakan atau emosi.</p><div><span class="element-keyword">Gerakan</span><span class="element-keyword">Emosi</span></div></div>
+                <div class="element-card"><div class="element-header"><div class="element-icon"><i class="material-icons">crop_square</i></div><h3 class="element-title">Bidang (Shape)</h3></div><p class="element-description">Area tertutup yang dibentuk oleh garis, ada dua jenis: geometris (lingkaran, segitiga) dan organik.</p><div><span class="element-keyword">Geometris</span><span class="element-keyword">Organik</span></div></div>
+                <div class="element-card"><div class="element-header"><div class="element-icon"><i class="material-icons">palette</i></div><h3 class="element-title">Warna (Color)</h3></div><p class="element-description">Memberikan karakter dan kehidupan pada desain, terbagi menjadi primer, sekunder, dan tersier.</p><div><span class="element-keyword">Primer</span><span class="element-keyword">Sekunder</span></div></div>
+                <div class="element-card"><div class="element-header"><div class="element-icon"><i class="material-icons">texture</i></div><h3 class="element-title">Tekstur (Texture)</h3></div><p class="element-description">Memberikan dimensi dan kehidupan pada objek, menciptakan efek permukaan yang dapat dirasakan secara visual.</p><div><span class="element-keyword">Dimensi</span><span class="element-keyword">Permukaan</span></div></div>
+                <div class="element-card"><div class="element-header"><div class="element-icon"><i class="material-icons">space_bar</i></div><h3 class="element-title">Ruang (Space)</h3></div><p class="element-description">Area kosong tanpa objek, membantu menghindari kepadatan dan kejenuhan dalam desain.</p><div><span class="element-keyword">Negatif</span><span class="element-keyword">Bernapas</span></div></div>
+                <div class="element-card"><div class="element-header"><div class="element-icon"><i class="material-icons">brush</i></div><h3 class="element-title">Ilustrasi (Illustration)</h3></div><p class="element-description">Gambar yang meningkatkan kualitas desain, mampu menggambarkan kondisi atau suasana tertentu.</p><div><span class="element-keyword">Visual</span><span class="element-keyword">Kisah</span></div></div>
+                <div class="element-card"><div class="element-header"><div class="element-icon"><i class="material-icons">text_fields</i></div><h3 class="element-title">Tipografi (Typography)</h3></div><p class="element-description">Pemilihan dan pengaturan jenis huruf untuk mengkomunikasikan esensi dari kata-kata yang disampaikan.</p><div><span class="element-keyword">Huruf</span><span class="element-keyword">Gaya</span></div></div>
+                <div class="element-card"><div class="element-header"><div class="element-icon"><i class="material-icons">straighten</i></div><h3 class="element-title">Skala (Scale)</h3></div><p class="element-description">Perbandingan ukuran antara objek satu dengan lainnya, mempengaruhi cara audiens memahami informasi.</p><div><span class="element-keyword">Proporsi</span><span class="element-keyword">Ukuran</span></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4 Content -->
+    <div id="slide-4">
+        <div class="header"><h1 class="title">Unsur-Unsur Desain Grafis - Bagian 1</h1></div>
+        <div class="content">
+            <div class="elements-container">
+                <div class="element-card"><div class="element-header"><div class="element-icon"><i class="material-icons">circle</i></div><h3 class="element-title">Titik (Point)</h3></div><p class="element-description">Elemen terkecil dalam desain, tanpa dimensi, sudut, atau arah.</p><div class="key-points"><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Bentuk dasar semua elemen visual</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Dapat menciptakan kesan garis saat dikelompokkan</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Variasi jumlah dan susunan menciptakan pola</span></div></div><div><span class="example-tag">Pixel</span><span class="example-tag">Dot pattern</span></div></div>
+                <div class="element-card"><div class="element-header"><div class="element-icon"><i class="material-icons">horizontal_rule</i></div><h3 class="element-title">Garis (Line)</h3></div><p class="element-description">Kombinasi titik-titik yang membentuk bentuk lebih tegas.</p><div class="key-points"><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Menyampaikan gerakan dan emosi</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Jenis: lurus, melengkung, zigzag, putus-putus</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Menciptakan struktur dan pembatas</span></div></div><div><span class="example-tag">Outline</span><span class="example-tag">Grid</span></div></div>
+                <div class="element-card"><div class="element-header"><div class="element-icon"><i class="material-icons">crop_square</i></div><h3 class="element-title">Bidang (Shape)</h3></div><p class="element-description">Area tertutup yang dibentuk oleh garis, menempati ruang dua dimensi.</p><div class="key-points"><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Geometris: lingkaran, segitiga, persegi</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Organik: bentuk bebas dan alami</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Membantu mengorganisir informasi</span></div></div><div><span class="example-tag">Logo</span><span class="example-tag">Icon</span></div></div>
+                <div class="element-card"><div class="element-header"><div class="element-icon"><i class="material-icons">palette</i></div><h3 class="element-title">Warna (Color)</h3></div><p class="element-description">Memberikan karakter dan kehidupan pada desain.</p><div class="key-points"><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Primer: merah, biru, kuning</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Sekunder: hijau, ungu, oranye</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Menciptakan mood dan emosi</span></div></div><div><span class="example-tag">RGB</span><span class="example-tag">CMYK</span></div></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 5 & 6 Content (they are duplicates) -->
+    <div id="slide-5">
+        <div class="header"><h1 class="title">Unsur-Unsur Desain Grafis - Bagian 2</h1></div>
+        <div class="content">
+            <div class="elements-container">
+                <div class="element-card"><div class="element-header"><div class="element-icon"><i class="material-icons">texture</i></div><h3 class="element-title">Tekstur (Texture)</h3></div><p class="element-description">Visualisasi permukaan objek yang memberikan dimensi dan kehidupan.</p><div class="key-points"><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Menciptakan efek permukaan (halus, kasar)</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Menambah dimensi dan emosi pada desain</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Dapat divisualisasikan melalui garis/titik</span></div></div><div><span class="example-tag">Grain</span><span class="example-tag">Pattern</span></div></div>
+                <div class="element-card"><div class="element-header"><div class="element-icon"><i class="material-icons">space_bar</i></div><h3 class="element-title">Ruang (Space)</h3></div><p class="element-description">Area kosong tanpa objek yang membantu menghindari kepadatan.</p><div class="key-points"><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Memberikan "ruang bernapas" pada desain</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Meningkatkan fokus pada elemen penting</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Membantu mencerna informasi dengan mudah</span></div></div><div><span class="example-tag">White space</span><span class="example-tag">Negative space</span></div></div>
+                <div class="element-card"><div class="element-header"><div class="element-icon"><i class="material-icons">brush</i></div><h3 class="element-title">Ilustrasi (Illustration)</h3></div><p class="element-description">Gambar yang meningkatkan kualitas desain dan menyampaikan konsep.</p><div class="key-points"><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Menggambarkan kondisi atau suasana tertentu</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Menyampaikan kisah yang kompleks secara visual</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Memberikan nilai tambah dan keunikan</span></div></div><div><span class="example-tag">Vector art</span><span class="example-tag">Custom illustration</span></div></div>
+                <div class="element-card"><div class="element-header"><div class="element-icon"><i class="material-icons">text_fields</i></div><h3 class="element-title">Tipografi (Typography)</h3></div><p class="element-description">Pemilihan dan pengaturan jenis huruf untuk komunikasi visual.</p><div class="key-points"><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Mencerminkan gaya dan identitas merek</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Jenis: serif, sans-serif, script, display</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Meningkatkan keterbacanan dan hierarki</span></div></div><div><span class="example-tag">Font pairing</span><span class="example-tag">Hierarchy</span></div></div>
+                <div class="element-card"><div class="element-header"><div class="element-icon"><i class="material-icons">straighten</i></div><h3 class="element-title">Skala (Scale)</h3></div><p class="element-description">Perbandingan ukuran antara objek yang mempengaruhi persepsi.</p><div class="key-points"><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Menentukan tingkat kepentingan elemen</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Menciptakan kontras dan fokus visual</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Membantu audiens memahami informasi</span></div></div><div><span class="example-tag">Proportion</span><span class="example-tag">Size hierarchy</span></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 7 Content -->
+    <div id="slide-7">
+        <div class="header"><h1 class="title">Prinsip-Prinsip Desain Grafis</h1></div>
+        <div class="content">
+            <div class="principles-grid">
+                <div class="principle-card"><div class="principle-header"><div class="principle-icon"><i class="material-icons">format_list_numbered</i></div><h3 class="principle-title">Hierarki</h3></div><p class="principle-description">Mengatur elemen berdasarkan tingkat kepentingan untuk memandu mata audiens.</p><div><span class="principle-keyword">Ukuran</span><span class="principle-keyword">Warna</span></div></div>
+                <div class="principle-card"><div class="principle-header"><div class="principle-icon"><i class="material-icons">balance</i></div><h3 class="principle-title">Keseimbangan</h3></div><p class="principle-description">Distribusi visual elemen yang menciptakan stabilitas dan harmoni.</p><div><span class="principle-keyword">Simetris</span><span class="principle-keyword">Asimetris</span></div></div>
+                <div class="principle-card"><div class="principle-header"><div class="principle-icon"><i class="material-icons">align_horizontal_center</i></div><h3 class="principle-title">Keselarasan</h3></div><p class="principle-description">Penempatan elemen yang teratur untuk menciptakan koneksi visual.</p><div><span class="principle-keyword">Kiri</span><span class="principle-keyword">Tengah</span></div></div>
+                <div class="principle-card"><div class="principle-header"><div class="principle-icon"><i class="material-icons">center_focus_strong</i></div><h3 class="principle-title">Penekanan</h3></div><p class="principle-description">Menciptakan titik fokus untuk menarik perhatian pada elemen penting.</p><div><span class="principle-keyword">Fokus</span><span class="principle-keyword">Prioritas</span></div></div>
+                <div class="principle-card"><div class="principle-header"><div class="principle-icon"><i class="material-icons">aspect_ratio</i></div><h3 class="principle-title">Proporsi</h3></div><p class="principle-description">Perbandingan ukuran antar elemen untuk menciptakan harmoni visual.</p><div><span class="principle-keyword">Skala</span><span class="principle-keyword">Rasio</span></div></div>
+                <div class="principle-card"><div class="principle-header"><div class="principle-icon"><i class="material-icons">motion_photos_on</i></div><h3 class="principle-title">Gerakan</h3></div><p class="principle-description">Membimbing mata audiens melalui desain dengan menciptakan aliran visual.</p><div><span class="principle-keyword">Arah</span><span class="principle-keyword">Aliran</span></div></div>
+                <div class="principle-card"><div class="principle-header"><div class="principle-icon"><i class="material-icons">contrast</i></div><h3 class="principle-title">Kontras</h3></div><p class="principle-description">Perbedaan yang mencolok antar elemen untuk menciptakan ketertarikan visual.</p><div><span class="principle-keyword">Terang/gelap</span><span class="principle-keyword">Besar/kecil</span></div></div>
+                <div class="principle-card"><div class="principle-header"><div class="principle-icon"><i class="material-icons">repeat</i></div><h3 class="principle-title">Pengulangan</h3></div><p class="principle-description">Penggunaan elemen yang konsisten untuk menciptakan kesatuan dan ritme.</p><div><span class="principle-keyword">Pola</span><span class="principle-keyword">Konsistensi</span></div></div>
+                <div class="principle-card"><div class="principle-header"><div class="principle-icon"><i class="material-icons">shuffle</i></div><h3 class="principle-title">Variasi</h3></div><p class="principle-description">Perbedaan dalam elemen untuk mencegah kebosanan dan menambah ketertarikan.</p><div><span class="principle-keyword">Diversitas</span><span class="principle-keyword">Kejutan</span></div></div>
+                <div class="principle-card"><div class="principle-header"><div class="principle-icon"><i class="material-icons">all_inclusive</i></div><h3 class="principle-title">Kesatuan</h3></div><p class="principle-description">Kohesi antar elemen yang menciptakan kesan harmonis dan terintegrasi.</p><div><span class="principle-keyword">Kedekatan</span><span class="principle-keyword">Harmoni</span></div></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 8 Content -->
+    <div id="slide-8">
+        <div class="header"><h1 class="title">Prinsip-Prinsip Desain Grafis - Bagian 1</h1></div>
+        <div class="content">
+            <div class="principles-container">
+                <div class="principle-card"><div class="principle-header"><div class="principle-icon"><i class="material-icons">format_list_numbered</i></div><h3 class="principle-title">Hierarki</h3></div><p class="principle-description">Mengatur elemen berdasarkan tingkat kepentingan untuk memandu mata audiens.</p><div class="key-points"><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Ukuran elemen menunjukkan prioritas</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Warna kontras menarik perhatian</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Posisi strategis untuk elemen utama</span></div></div><div><span class="example-tag">Headline</span><span class="example-tag">Subheading</span></div></div>
+                <div class="principle-card"><div class="principle-header"><div class="principle-icon"><i class="material-icons">balance</i></div><h3 class="principle-title">Keseimbangan</h3></div><p class="principle-description">Distribusi visual elemen yang menciptakan stabilitas dan harmoni.</p><div class="key-points"><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Simetris: elemen sama di kedua sisi</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Asimetris: elemen berbeda dengan bobot sama</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Radial: elemen tersebar dari titik pusat</span></div></div><div><span class="example-tag">Formal</span><span class="example-tag">Modern</span></div></div>
+                <div class="principle-card"><div class="principle-header"><div class="principle-icon"><i class="material-icons">align_horizontal_center</i></div><h3 class="principle-title">Keselarasan</h3></div><p class="principle-description">Penempatan elemen yang teratur untuk menciptakan koneksi visual.</p><div class="key-points"><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Menghubungkan elemen secara tidak langsung</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Menciptakan tampilan yang rapi dan terorganisir</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Meningkatkan keterbacaan dan navigasi</span></div></div><div><span class="example-tag">Grid</span><span class="example-tag">Margins</span></div></div>
+                <div class="principle-card"><div class="principle-header"><div class="principle-icon"><i class="material-icons">center_focus_strong</i></div><h3 class="principle-title">Penekanan</h3></div><p class="principle-description">Menciptakan titik fokus untuk menarik perhatian pada elemen penting.</p><div class="key-points"><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Menonjolkan elemen yang paling penting</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Menggunakan kontras warna atau ukuran</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Membimbing mata ke area yang diinginkan</span></div></div><div><span class="example-tag">CTA</span><span class="example-tag">Highlight</span></div></div>
+                <div class="principle-card"><div class="principle-header"><div class="principle-icon"><i class="material-icons">aspect_ratio</i></div><h3 class="principle-title">Proporsi</h3></div><p class="principle-description">Perbandingan ukuran antar elemen untuk menciptakan harmoni visual.</p><div class="key-points"><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Ukuran relatif menunjukkan kepentingan</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Menciptakan keseimbangan visual yang menyenangkan</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Menggunakan rasio emas untuk harmoni optimal</span></div></div><div><span class="example-tag">Skala</span><span class="example-tag">Rasio</span></div></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 9 Content -->
+    <div id="slide-9">
+        <div class="header"><h1 class="title">Prinsip-Prinsip Desain Grafis - Bagian 2</h1></div>
+        <div class="content">
+            <div class="principles-container">
+                <div class="principle-card"><div class="principle-header"><div class="principle-icon"><i class="material-icons">motion_photos_on</i></div><h3 class="principle-title">Gerakan</h3></div><p class="principle-description">Membimbing mata audiens melalui desain dengan menciptakan aliran visual.</p><div class="key-points"><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Menciptakan jalur pandangan yang terarah</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Menggunakan garis atau bentuk untuk mengarahkan</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Meningkatkan dinamisme dan interaktivitas</span></div></div><div><span class="example-tag">Arah</span><span class="example-tag">Aliran</span></div></div>
+                <div class="principle-card"><div class="principle-header"><div class="principle-icon"><i class="material-icons">contrast</i></div><h3 class="principle-title">Kontras</h3></div><p class="principle-description">Perbedaan yang mencolok antar elemen untuk menciptakan ketertarikan visual.</p><div class="key-points"><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Menciptakan titik fokus yang menonjol</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Meningkatkan keterbacaan dan aksesibilitas</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Menggunakan warna, ukuran, atau bentuk berbeda</span></div></div><div><span class="example-tag">Terang/gelap</span><span class="example-tag">Besar/kecil</span></div></div>
+                <div class="principle-card"><div class="principle-header"><div class="principle-icon"><i class="material-icons">repeat</i></div><h3 class="principle-title">Pengulangan</h3></div><p class="principle-description">Penggunaan elemen yang konsisten untuk menciptakan kesatuan dan ritme.</p><div class="key-points"><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Menciptakan konsistensi visual</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Membangun identitas merek yang kuat</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Meningkatkan pengenalan dan ingatan</span></div></div><div><span class="example-tag">Pola</span><span class="example-tag">Konsistensi</span></div></div>
+                <div class="principle-card"><div class="principle-header"><div class="principle-icon"><i class="material-icons">shuffle</i></div><h3 class="principle-title">Variasi</h3></div><p class="principle-description">Perbedaan dalam elemen untuk mencegah kebosanan dan menambah ketertarikan.</p><div class="key-points"><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Menambah kejutan dan ketertarikan visual</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Mencegah monoton dan kebosanan</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Menciptakan elemen yang menonjol</span></div></div><div><span class="example-tag">Diversitas</span><span class="example-tag">Kejutan</span></div></div>
+                <div class="principle-card"><div class="principle-header"><div class="principle-icon"><i class="material-icons">all_inclusive</i></div><h3 class="principle-title">Kesatuan</h3></div><p class="principle-description">Kohesi antar elemen yang menciptakan kesan harmonis dan terintegrasi.</p><div class="key-points"><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Menciptakan kesan utuh dan terpadu</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Menghubungkan elemen melalui kedekatan</span></div><div class="key-point"><i class="material-icons">arrow_right</i><span class="key-point-text">Menciptakan harmoni visual yang menyenangkan</span></div></div><div><span class="example-tag">Kedekatan</span><span class="example-tag">Harmoni</span></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 10 Content -->
+    <div id="slide-10">
+        <div class="header"><h1 class="title">Tips Praktis untuk Pemula</h1></div>
+        <div class="content">
+            <div class="tips-container">
+                <div class="tip-card"><div class="tip-header"><div class="tip-icon"><i class="material-icons">lightbulb</i></div><h3 class="tip-title">Mulai Sederhana</h3></div><p class="tip-description">Mulai dengan proyek sederhana untuk memahami dasar-dasar sebelum melangkah ke desain yang lebih kompleks.</p><span class="tip-keyword">Progressif</span></div>
+                <div class="tip-card"><div class="tip-header"><div class="tip-icon"><i class="material-icons">visibility</i></div><h3 class="tip-title">Studi Desain</h3></div><p class="tip-description">Analisis desain yang Anda kagumi. Identifikasi elemen dan prinsip yang membuatnya efektif.</p><span class="tip-keyword">Inspirasi</span></div>
+                <div class="tip-card"><div class="tip-header"><div class="tip-icon"><i class="material-icons">palette</i></div><h3 class="tip-title">Teori Warna</h3></div><p class="tip-description">Pelajari dasar-dasar teori warna, termasuk roda warna, harmoni warna, dan psikologi warna.</p><span class="tip-keyword">Harmoni</span></div>
+                <div class="tip-card"><div class="tip-header"><div class="tip-icon"><i class="material-icons">text_fields</i></div><h3 class="tip-title">Tipografi</h3></div><p class="tip-description">Kuasai dasar tipografi: pemilihan font, pairing, hierarki, dan keterbacaan.</p><span class="tip-keyword">Font</span></div>
+                <div class="tip-card"><div class="tip-header"><div class="tip-icon"><i class="material-icons">repeat</i></div><h3 class="tip-title">Latihan Rutin</h3></div><p class="tip-description">Berlatih secara konsisten. Buat tantangan desain harian atau mingguan untuk meningkatkan kemampuan.</p><span class="tip-keyword">Konsistensi</span></div>
+                <div class="tip-card"><div class="tip-header"><div class="tip-icon"><i class="material-icons">forum</i></div><h3 class="tip-title">Terima Feedback</h3></div><p class="tip-description">Bagikan karya Anda dan terima kritik konstruktif dari desainer lain atau audiens target.</p><span class="tip-keyword">Evaluasi</span></div>
+                <div class="tip-card"><div class="tip-header"><div class="tip-icon"><i class="material-icons">trending_up</i></div><h3 class="tip-title">Ikuti Tren</h3></div><p class="tip-description">Tetap update dengan tren desain terkini, tetapi jangan lupakan prinsip desain yang fundamental.</p><span class="tip-keyword">Relevansi</span></div>
+                <div class="tip-card"><div class="tip-header"><div class="tip-icon"><i class="material-icons">build</i></div><h3 class="tip-title">Gunakan Tools</h3></div><p class="tip-description">Manfaatkan software desain dan sumber daya online untuk mempercepat proses belajar dan berkarya.</p><span class="tip-keyword">Efisiensi</span></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 11 Content -->
+    <div id="slide-11">
+        <div class="header"><h1 class="title">Kesimpulan dan Sumber Belajar</h1></div>
+        <div class="content">
+            <div class="summary-container">
+                <div class="summary-card">
+                    <div class="summary-header"><div class="summary-icon"><i class="material-icons">summarize</i></div><h3 class="summary-title">Kesimpulan</h3></div>
+                    <div class="summary-content">
+                        <div class="key-point"><i class="material-icons">check_circle</i><span class="key-point-text">Desain grafis adalah komunikasi visual yang efektif</span></div>
+                        <div class="key-point"><i class="material-icons">check_circle</i><span class="key-point-text">9 elemen dasar: titik, garis, bidang, warna, tekstur, ruang, ilustrasi, tipografi, skala</span></div>
+                        <div class="key-point"><i class="material-icons">check_circle</i><span class="key-point-text">10 prinsip fundamental: hierarki, keseimbangan, keselarasan, penekanan, proporsi, gerakan, kontras, pengulangan, variasi, kesatuan</span></div>
+                        <div class="key-point"><i class="material-icons">check_circle</i><span class="key-point-text">Praktik rutin dan studi desain adalah kunci kemajuan</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="resources-container">
+                <div class="resource-card"><div class="resource-header"><div class="resource-icon"><i class="material-icons">school</i></div><h3 class="resource-title">Kursus Online</h3></div><ul class="resource-list"><li class="resource-item"><i class="material-icons">arrow_right</i><span>Coursera</span></li><li class="resource-item"><i class="material-icons">arrow_right</i><span>Udemy</span></li><li class="resource-item"><i class="material-icons">arrow_right</i><span>Skillshare</span></li><li class="resource-item"><i class="material-icons">arrow_right</i><span>Domestika</span></li></ul></div>
+                <div class="resource-card"><div class="resource-header"><div class="resource-icon"><i class="material-icons">menu_book</i></div><h3 class="resource-title">Buku Rekomendasi</h3></div><ul class="resource-list"><li class="resource-item"><i class="material-icons">arrow_right</i><span>Design Elements</span></li><li class="resource-item"><i class="material-icons">arrow_right</i><span>Thinking with Type</span></li><li class="resource-item"><i class="material-icons">arrow_right</i><span>Grid Systems</span></li><li class="resource-item"><i class="material-icons">arrow_right</i><span>Universal Principles</span></li></ul></div>
+                <div class="resource-card"><div class="resource-header"><div class="resource-icon"><i class="material-icons">language</i></div><h3 class="resource-title">Website & Blog</h3></div><ul class="resource-list"><li class="resource-item"><i class="material-icons">arrow_right</i><span>Behance</span></li><li class="resource-item"><i class="material-icons">arrow_right</i><span>Dribbble</span></li><li class="resource-item"><i class="material-icons">arrow_right</i><span>99designs</span></li><li class="resource-item"><i class="material-icons">arrow_right</i><span>Canva Design School</span></li></ul></div>
+                <div class="resource-card"><div class="resource-header"><div class="resource-icon"><i class="material-icons">build</i></div><h3 class="resource-title">Tools Desain</h3></div><ul class="resource-list"><li class="resource-item"><i class="material-icons">arrow_right</i><span>Adobe Creative Suite</span></li><li class="resource-item"><i class="material-icons">arrow_right</i><span>Canva</span></li><li class="resource-item"><i class="material-icons">arrow_right</i><span>Figma</span></li><li class="resource-item"><i class="material-icons">arrow_right</i><span>GIMP & Inkscape</span></li></ul></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

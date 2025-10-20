@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { MenuIcon, XIcon, ChevronDownIcon } from './Icons';
+import { courseData } from '../src/data/courses';
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isTentangOpen, setIsTentangOpen] = useState(false); // For mobile submenu
+  const [isMateriOpen, setIsMateriOpen] = useState(false);
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -17,6 +19,14 @@ const Header: React.FC = () => {
         { name: 'Fasilitas', path: '/facilities' },
         { name: 'Pengajar', path: '/teachers' },
       ]
+    },
+    {
+      name: 'Materi',
+      path: '#',
+      children: courseData.map(category => ({
+        name: category.name,
+        path: `/materials/${category.id}`
+      }))
     },
     { name: 'Admisi', path: '/admissions' },
     { name: 'Galeri', path: '/gallery' },
@@ -47,7 +57,7 @@ const Header: React.FC = () => {
                       {link.name}
                       <ChevronDownIcon className="w-4 h-4" />
                     </NavLink>
-                    <div className="absolute top-full left-0 mt-2 w-48 rounded-md shadow-lg bg-black/80 backdrop-blur-lg border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none group-hover:pointer-events-auto">
+                    <div className="absolute top-full left-0 mt-2 w-48 rounded-md shadow-lg bg-black/80 backdrop-blur-lg border border-white/10 invisible group-hover:visible opacity-0 group-hover:opacity-100 transform transition-all duration-300 group-hover:translate-y-0 translate-y-2">
                       <div className="py-1">
                         {link.children.map((childLink) => (
                           <NavLink
@@ -102,27 +112,32 @@ const Header: React.FC = () => {
                 );
               }
               
+              const isSubmenuOpen = link.name === 'Profil Pondok' ? isTentangOpen : isMateriOpen;
+              const toggleSubmenu = link.name === 'Profil Pondok' ? setIsTentangOpen : setIsMateriOpen;
+
               return (
                 <div key={link.name}>
                    <div className={`flex items-center justify-between rounded-md ${linkClasses} !p-0`}>
                       <NavLink
-                          to={link.path}
-                          onClick={() => setIsOpen(false)}
-                          className={({ isActive }) => `flex-grow px-3 py-2 ${isActive && !isTentangOpen ? activeLinkClasses : ''}`}
+                          to={link.path === '#' ? '' : link.path}
+                          onClick={() => {
+                            if (link.path !== '#') setIsOpen(false);
+                          }}
+                          className={({ isActive }) => `flex-grow px-3 py-2 ${isActive && !isSubmenuOpen ? activeLinkClasses : ''}`}
                       >
                           {link.name}
                       </NavLink>
                       <button
-                          onClick={() => setIsTentangOpen(!isTentangOpen)}
+                          onClick={() => toggleSubmenu(!isSubmenuOpen)}
                           className="p-2 rounded-md text-gray-400 hover:text-white hover:bg-white/10"
-                          aria-expanded={isTentangOpen}
+                          aria-expanded={isSubmenuOpen}
                           aria-controls={`submenu-${link.name}`}
                       >
                           <span className="sr-only">Toggle submenu</span>
-                          <ChevronDownIcon className={`w-5 h-5 transition-transform ${isTentangOpen ? 'rotate-180' : ''}`} />
+                          <ChevronDownIcon className={`w-5 h-5 transition-transform ${isSubmenuOpen ? 'rotate-180' : ''}`} />
                       </button>
                   </div>
-                  {isTentangOpen && (
+                  {isSubmenuOpen && (
                     <div className="pl-5 mt-1 space-y-1 border-l-2 border-white/20 ml-2" id={`submenu-${link.name}`}>
                       {link.children.map((child) => (
                         <NavLink
