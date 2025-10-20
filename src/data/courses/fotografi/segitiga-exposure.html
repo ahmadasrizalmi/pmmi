@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Lengkap Segitiga Eksposur: ISO, Shutter Speed, Aperture</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* --- Reset & Pengaturan Dasar --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* --- Struktur Section --- */
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .highlight {
+            color: #1976d2;
+            font-weight: 600;
+        }
+
+        /* --- Section 1: Hero --- */
+        #hero {
+            color: white;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://picsum.photos/seed/exposure/1280/720');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            flex-direction: column;
+        }
+        #hero .title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        #hero .subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 40px;
+            max-width: 800px;
+        }
+        #hero .icon-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        #hero .icon-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0.9;
+        }
+        #hero .icon-item i {
+            font-size: 48px;
+            margin-bottom: 10px;
+            color: #90caf9;
+        }
+        #hero .icon-label {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* --- Header Section Umum --- */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-header .title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #263238;
+        }
+        
+        /* --- Tata Letak Konten --- */
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        .left-content, .right-content {
+            flex: 1;
+        }
+        
+        .image-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .image-caption {
+            font-size: 0.9rem;
+            color: #546e7a;
+            text-align: center;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        /* --- Styling Spesifik --- */
+        .concept-list {
+            list-style: none;
+        }
+        .concept-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+        }
+        .concept-item i {
+            font-size: 28px;
+            margin-right: 20px;
+            color: #546e7a;
+            margin-top: 5px;
+        }
+        .concept-title {
+            font-weight: 600;
+            color: #37474f;
+            margin-bottom: 5px;
+            font-size: 1.3rem;
+        }
+        .concept-desc {
+            color: #546e7a;
+        }
+        
+        .scenario-container {
+            background-color: #eceff1;
+            border-radius: 12px;
+            padding: 30px;
+        }
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .scenario-item {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+        .scenario-name {
+            font-weight: 600;
+            color: #37474f;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
+        .scenario-name i {
+            font-size: 22px;
+            margin-right: 10px;
+            color: #546e7a;
+        }
+        .setting-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+        .setting-item i {
+            font-size: 18px;
+            margin-right: 8px;
+            color: #546e7a;
+            width: 24px;
+        }
+        .setting-label {
+            font-weight: 600;
+            color: #455a64;
+            margin-right: 8px;
+        }
+        .setting-value {
+            color: #1976d2;
+            font-weight: 600;
+        }
+
+        /* --- ATURAN RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .section { padding: 60px 4%; }
+            #hero .title { font-size: 3.5rem; }
+            #hero .subtitle { font-size: 1.3rem; }
+            .section-header .title { font-size: 2.5rem; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 50px 20px; min-height: auto; }
+            #hero { min-height: 100vh; }
+            #hero .title { font-size: 2.5rem; }
+            .section-header .title { font-size: 2.2rem; }
+            .content-wrapper { flex-direction: column; gap: 30px; }
+            .right-content { order: -1; } /* Pindahkan gambar ke atas */
+            .scenario-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Judul Utama -->
+    <section class="section" id="hero">
+        <div class="container">
+            <h1 class="title">ISO, Shutter Speed, dan Aperture</h1>
+            <h2 class="subtitle">Tiga Pilar yang Menentukan Eksposur dalam Fotografi</h2>
+            <div class="icon-container">
+                <div class="icon-item"><i class="material-icons">iso</i><span class="icon-label">ISO</span></div>
+                <div class="icon-item"><i class="material-icons">shutter_speed</i><span class="icon-label">Shutter Speed</span></div>
+                <div class="icon-item"><i class="material-icons">camera</i><span class="icon-label">Aperture</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Segitiga Eksposur -->
+    <section class="section" id="segitiga-eksposur">
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="left-content">
+                     <h2 class="section-header title" style="text-align: left;">Segitiga Eksposur</h2>
+                    <p style="font-size: 1.1rem; margin-bottom: 30px;">Tiga elemen ini saling berhubungan untuk mengontrol jumlah cahaya yang ditangkap oleh kamera. Mengubah satu elemen akan memengaruhi elemen lainnya untuk mencapai eksposur yang seimbang.</p>
+                    <ul class="concept-list">
+                        <li class="concept-item"><i class="material-icons">iso</i><div><strong>ISO:</strong> Mengontrol <span class="highlight">sensitivitas sensor</span> terhadap cahaya.</div></li>
+                        <li class="concept-item"><i class="material-icons">shutter_speed</i><div><strong>Shutter Speed:</strong> Mengontrol <span class="highlight">durasi cahaya</span> yang masuk.</div></li>
+                        <li class="concept-item"><i class="material-icons">camera</i><div><strong>Aperture:</strong> Mengontrol <span class="highlight">jumlah atau volume cahaya</span> yang masuk.</div></li>
+                    </ul>
+                </div>
+                <div class="right-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/triangle/600/500" alt="Diagram Segitiga Eksposur">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: ISO -->
+    <section class="section" id="iso">
+        <div class="container">
+             <header class="section-header">
+                <h2 class="title">ISO: Sensitivitas Sensor</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="left-content">
+                    <ul class="concept-list">
+                        <li class="concept-item"><i class="material-icons">lightbulb</i><div><div class="concept-title">Fungsi Utama</div><div class="concept-desc">Meningkatkan kecerahan foto secara digital, sangat berguna di kondisi <span class="highlight">minim cahaya</span>.</div></div></li>
+                        <li class="concept-item"><i class="material-icons">grain</i><div><div class="concept-title">Efek Samping (Trade-off)</div><div class="concept-desc">ISO yang terlalu tinggi akan menghasilkan <span class="highlight">noise atau bintik</span> pada gambar, yang dapat mengurangi kualitas dan ketajaman foto.</div></div></li>
+                        <li class="concept-item"><i class="material-icons">settings</i><div><div class="concept-title">Penggunaan Umum</div><div class="concept-desc"><span class="highlight">ISO rendah (100-400)</span> untuk kondisi terang. <span class="highlight">ISO tinggi (800+)</span> untuk kondisi gelap atau saat membutuhkan shutter speed cepat.</div></div></li>
+                    </ul>
+                </div>
+                <div class="right-content">
+                    <div class="image-container">
+                         <img src="https://picsum.photos/seed/iso-noise/600/400" alt="Perbandingan noise pada ISO rendah dan tinggi">
+                    </div>
+                    <p class="image-caption">Kiri: ISO 100 (bersih). Kanan: ISO 6400 (penuh noise).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Shutter Speed -->
+    <section class="section" id="shutter-speed">
+        <div class="container">
+             <header class="section-header">
+                <h2 class="title">Shutter Speed: Mengontrol Gerakan</h2>
+            </header>
+             <div class="content-wrapper">
+                <div class="left-content">
+                    <ul class="concept-list">
+                        <li class="concept-item"><i class="material-icons">timer</i><div><div class="concept-title">Fungsi Utama</div><div class="concept-desc">Mengatur lamanya sensor kamera "melihat" subjek. Diukur dalam detik atau pecahan detik (misal, 1/1000s).</div></div></li>
+                        <li class="concept-item"><i class="material-icons">directions_run</i><div><div class="concept-title">Membekukan Gerakan</div><div class="concept-desc"><span class="highlight">Shutter speed cepat (misal, 1/1000s)</span> akan membekukan gerakan objek yang bergerak cepat, seperti pada fotografi olahraga.</div></div></li>
+                        <li class="concept-item"><i class="material-icons">waves</i><div><div class="concept-title">Menciptakan Motion Blur</div><div class="concept-desc"><span class="highlight">Shutter speed lambat (misal, 1s)</span> akan merekam jejak gerakan, menciptakan efek blur yang artistik pada air terjun atau lampu kendaraan.</div></div></li>
+                    </ul>
+                </div>
+                <div class="right-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/shutter-speed/600/400" alt="Perbandingan foto dengan shutter speed cepat dan lambat">
+                    </div>
+                     <p class="image-caption">Kiri: Shutter speed cepat membekukan air. Kanan: Shutter speed lambat menciptakan efek halus.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 5: Aperture -->
+    <section class="section" id="aperture">
+        <div class="container">
+             <header class="section-header">
+                <h2 class="title">Aperture: Mengontrol Fokus dan Cahaya</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="left-content">
+                    <ul class="concept-list">
+                        <li class="concept-item"><i class="material-icons">camera</i><div><div class="concept-title">Fungsi Utama</div><div class="concept-desc">Bukaan pada lensa yang mengontrol seberapa banyak cahaya yang masuk. Diukur dalam f-stop (misal, f/1.8, f/8).</div></div></li>
+                        <li class="concept-item"><i class="material-icons">blur_on</i><div><div class="concept-title">Depth of Field (DOF)</div><div class="concept-desc"><span class="highlight">Aperture lebar (angka f/ kecil, misal f/1.8)</span> menghasilkan DOF sempit, dengan latar belakang yang blur (bokeh). Ideal untuk potret.</div></div></li>
+                        <li class="concept-item"><i class="material-icons">landscape</i><div><div class="concept-title">Ketajaman Menyeluruh</div><div class="concept-desc"><span class="highlight">Aperture sempit (angka f/ besar, misal f/11)</span> menghasilkan DOF luas, menjaga seluruh pemandangan tetap tajam dari depan ke belakang. Sempurna untuk lanskap.</div></div></li>
+                    </ul>
+                </div>
+                <div class="right-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/aperture-dof/600/400" alt="Perbandingan depth of field dengan aperture berbeda">
+                    </div>
+                    <p class="image-caption">Kiri: Aperture f/1.8 (latar belakang blur). Kanan: Aperture f/11 (semua tajam).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 6: Menggabungkan Semuanya -->
+    <section class="section" id="kesimpulan">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Rekomendasi Pengaturan untuk Berbagai Skenario</h2>
+            </header>
+            <div class="scenario-container">
+                <div class="scenario-grid">
+                    <div class="scenario-item">
+                        <div class="scenario-name"><i class="material-icons">person</i><span>Foto Potret (Latar Belakang Blur)</span></div>
+                        <div class="setting-item"><i class="material-icons">camera</i><span class="setting-label">Aperture:</span><span class="setting-value">f/1.4 - f/2.8</span></div>
+                        <div class="setting-item"><i class="material-icons">shutter_speed</i><span class="setting-label">Shutter:</span><span class="setting-value">1/125s atau lebih cepat</span></div>
+                        <div class="setting-item"><i class="material-icons">iso</i><span class="setting-label">ISO:</span><span class="setting-value">100-400</span></div>
+                    </div>
+                    <div class="scenario-item">
+                        <div class="scenario-name"><i class="material-icons">landscape</i><span>Foto Lanskap (Semua Tajam)</span></div>
+                        <div class="setting-item"><i class="material-icons">camera</i><span class="setting-label">Aperture:</span><span class="setting-value">f/8 - f/16</span></div>
+                        <div class="setting-item"><i class="material-icons">shutter_speed</i><span class="setting-label">Shutter:</span><span class="setting-value">Sesuai kebutuhan (mungkin perlu tripod)</span></div>
+                        <div class="setting-item"><i class="material-icons">iso</i><span class="setting-label">ISO:</span><span class="setting-value">100</span></div>
+                    </div>
+                    <div class="scenario-item">
+                        <div class="scenario-name"><i class="material-icons">directions_run</i><span>Olahraga (Membekukan Gerakan)</span></div>
+                        <div class="setting-item"><i class="material-icons">camera</i><span class="setting-label">Aperture:</span><span class="setting-value">f/2.8 - f/5.6</span></div>
+                        <div class="setting-item"><i class="material-icons">shutter_speed</i><span class="setting-label">Shutter:</span><span class="setting-value">1/1000s atau lebih cepat</span></div>
+                        <div class="setting-item"><i class="material-icons">iso</i><span class="setting-label">ISO:</span><span class="setting-value">400-3200 (sesuai cahaya)</span></div>
+                    </div>
+                    <div class="scenario-item">
+                        <div class="scenario-name"><i class="material-icons">water</i><span>Air Terjun (Efek Halus)</span></div>
+                        <div class="setting-item"><i class="material-icons">camera</i><span class="setting-label">Aperture:</span><span class="setting-value">f/11 - f/22</span></div>
+                        <div class="setting-item"><i class="material-icons">shutter_speed</i><span class="setting-label">Shutter:</span><span class="setting-value">1-30 detik (perlu tripod)</span></div>
+                        <div class="setting-item"><i class="material-icons">iso</i><span class="setting-label">ISO:</span><span class="setting-value">100</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

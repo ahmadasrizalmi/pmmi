@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Lengkap Jenis Lensa Kamera</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* --- Reset & Pengaturan Dasar --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* --- Struktur Section --- */
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .highlight {
+            color: #3498db;
+            font-weight: 600;
+        }
+
+        /* --- Section 1: Hero --- */
+        #hero {
+            color: white;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://picsum.photos/seed/lenses/1280/720');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            flex-direction: column;
+        }
+        #hero .title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        #hero .subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 40px;
+            max-width: 800px;
+        }
+        #hero .lens-types {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        #hero .lens-type {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            width: 180px;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+        #hero .lens-type:hover {
+            transform: translateY(-5px);
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        #hero .lens-type i {
+            font-size: 36px;
+            margin-bottom: 10px;
+            color: #90caf9;
+        }
+        #hero .lens-type span {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* --- Section Umum --- */
+        .section-colored {
+             background-color: #2c3e50;
+             color: white;
+             padding-top: 50px;
+             padding-bottom: 50px;
+             min-height: auto;
+             border-bottom: 1px solid #465a70;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-header .title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        .section-colored .section-header .title {
+            color: white;
+        }
+        
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        .left-content, .right-content {
+            flex: 1;
+        }
+        
+        .info-list ul {
+            list-style: none;
+        }
+        .info-list li {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .info-list i {
+            margin-right: 15px;
+            color: #3498db;
+            margin-top: 4px;
+        }
+        
+        .image-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Tabel Perbandingan */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .comparison-table th, .comparison-table td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .comparison-table th {
+            background-color: #3498db;
+            color: white;
+            font-size: 1.1rem;
+        }
+        .comparison-table td { font-size: 1rem; }
+        .comparison-table tr:last-child td { border-bottom: none; }
+        .comparison-table tr:nth-child(even) { background-color: #f8f9fa; }
+        .comparison-table .lens-type-cell { font-weight: 600; color: #2c3e50; }
+
+        /* Tips Card */
+        .tips-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        .tip-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: flex-start;
+        }
+        .tip-icon { margin-right: 20px; }
+        .tip-icon i { font-size: 2.5rem; color: #3498db; }
+        .tip-title { font-size: 1.3rem; font-weight: 600; color: #2c3e50; margin-bottom: 10px; }
+        .tip-description { font-size: 1rem; color: #555; }
+
+        /* --- ATURAN RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .section { padding: 60px 4%; }
+            #hero .title { font-size: 3rem; }
+            #hero .subtitle { font-size: 1.3rem; }
+            .section-header .title { font-size: 2.5rem; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 50px 20px; min-height: auto; }
+            #hero { min-height: 100vh; }
+            #hero .title { font-size: 2.5rem; }
+            .section-header .title { font-size: 2.2rem; }
+            .content-wrapper { flex-direction: column; gap: 30px; }
+            .right-content { order: -1; }
+            .comparison-table { display: block; overflow-x: auto; }
+            .tips-container { grid-template-columns: 1fr; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Judul Utama -->
+    <section class="section" id="hero">
+        <div class="container">
+            <h1 class="title">Panduan Jenis Lensa Kamera</h1>
+            <h2 class="subtitle">Memahami Lensa Wide, Telephoto, Prime, dan Macro untuk Hasil Foto Maksimal</h2>
+            <div class="lens-types">
+                <div class="lens-type"><i class="material-icons">panorama</i><span>Wide Angle</span></div>
+                <div class="lens-type"><i class="material-icons">zoom_out_map</i><span>Telephoto</span></div>
+                <div class="lens-type"><i class="material-icons">center_focus_strong</i><span>Prime</span></div>
+                <div class="lens-type"><i class="material-icons">filter_center_focus</i><span>Macro</span></div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 2: Lensa Wide Angle -->
+    <section class="section" id="wide-angle">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Lensa Wide Angle: Menangkap Dunia yang Luas</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="left-content info-list">
+                    <ul>
+                        <li><i class="material-icons">info</i>Memiliki <span class="highlight">panjang fokus pendek (di bawah 35mm)</span> untuk menghasilkan sudut pandang yang sangat luas.</li>
+                        <li><i class="material-icons">landscape</i>Sangat ideal untuk fotografi <span class="highlight">lanskap, arsitektur,</span> dan interior, karena mampu menangkap area yang luas bahkan dari jarak dekat.</li>
+                        <li><i class="material-icons">warning</i>Kelemahannya adalah potensi <span class="highlight">distorsi</span> pada bagian tepi foto, terutama pada focal length yang sangat pendek (fisheye).</li>
+                    </ul>
+                </div>
+                <div class="right-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/wide-angle/600/400" alt="Contoh foto lanskap dengan lensa wide angle">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Lensa Telephoto -->
+    <section class="section section-colored" id="telephoto">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Lensa Telephoto: Mendekatkan yang Jauh</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="left-content info-list">
+                    <ul>
+                        <li><i class="material-icons">info</i>Dikenal dengan <span class="highlight">panjang fokus yang panjang (di atas 70mm)</span>, mampu memperbesar objek yang berada di kejauhan.</li>
+                        <li><i class="material-icons">sports_soccer</i>Pilihan utama untuk fotografi <span class="highlight">olahraga, satwa liar (wildlife),</span> dan konser, di mana fotografer tidak bisa mendekati subjek.</li>
+                        <li><i class="material-icons">blur_on</i>Menghasilkan <span class="highlight">latar belakang yang blur (bokeh)</span> dengan sangat baik, membuat subjek utama menjadi lebih menonjol.</li>
+                        <li><i class="material-icons">warning</i>Ukurannya yang besar dan berat seringkali <span class="highlight">memerlukan tripod</span> untuk menjaga stabilitas dan menghindari guncangan.</li>
+                    </ul>
+                </div>
+                <div class="right-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/telephoto/600/400" alt="Contoh foto satwa liar dengan lensa telephoto">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Lensa Prime -->
+    <section class="section" id="prime">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Lensa Prime: Kualitas Optik Terbaik</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="left-content info-list">
+                    <ul>
+                        <li><i class="material-icons">info</i>Memiliki <span class="highlight">panjang fokus tetap (fixed)</span>, artinya tidak bisa melakukan zoom. Contoh populer adalah 35mm, 50mm, dan 85mm.</li>
+                        <li><i class="material-icons">star</i>Karena konstruksinya lebih sederhana, lensa prime menghasilkan <span class="highlight">gambar yang sangat tajam</span> dan kualitas optik yang superior.</li>
+                        <li><i class="material-icons">wb_sunny</i>Memiliki <span class="highlight">bukaan (aperture) yang besar</span> (misal f/1.8), membuatnya sangat andal untuk memotret di kondisi cahaya minim dan menghasilkan bokeh yang indah.</li>
+                        <li><i class="material-icons">directions_walk</i>Kelemahannya adalah fotografer harus <span class="highlight">bergerak maju-mundur</span> untuk mengatur komposisi, yang melatih kreativitas.</li>
+                    </ul>
+                </div>
+                <div class="right-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/prime-lens/600/400" alt="Contoh foto potret dengan lensa prime">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 5: Lensa Macro -->
+    <section class="section section-colored" id="macro">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Lensa Macro: Melihat Dunia dari Dekat</h2>
+            </header>
+             <div class="content-wrapper">
+                <div class="left-content info-list">
+                    <ul>
+                        <li><i class="material-icons">info</i>Dirancang khusus untuk fotografi <span class="highlight">close-up ekstrem</span>, mampu memotret objek dari jarak yang sangat dekat.</li>
+                        <li><i class="material-icons">fullscreen</i>Memiliki rasio reproduksi <span class="highlight">1:1</span>, yang berarti ukuran subjek pada sensor sama dengan ukuran aslinya.</li>
+                        <li><i class="material-icons">bug_report</i>Sempurna untuk memotret detail kecil pada <span class="highlight">serangga, bunga, perhiasan,</span> atau produk makanan.</li>
+                         <li><i class="material-icons">warning</i>Memerlukan <span class="highlight">teknik dan kesabaran khusus</span> karena depth of field yang sangat tipis pada jarak dekat.</li>
+                    </ul>
+                </div>
+                <div class="right-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/macro-lens/600/400" alt="Contoh foto serangga dengan lensa macro">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 6: Perbandingan -->
+    <section class="section" id="perbandingan">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Perbandingan Cepat Jenis Lensa</h2>
+            </header>
+            <div style="overflow-x:auto;">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Jenis Lensa</th>
+                            <th>Panjang Fokus</th>
+                            <th>Sudut Pandang</th>
+                            <th>Kegunaan Utama</th>
+                            <th>Keunggulan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="lens-type-cell">Wide Angle</td>
+                            <td>&lt; 35mm</td>
+                            <td>Sangat Luas</td>
+                            <td>Lanskap, Arsitektur</td>
+                            <td class="highlight">Menangkap area luas</td>
+                        </tr>
+                        <tr>
+                            <td class="lens-type-cell">Telephoto</td>
+                            <td>&gt; 70mm</td>
+                            <td>Sempit</td>
+                            <td>Satwa Liar, Olahraga</td>
+                            <td class="highlight">Zoom jarak jauh</td>
+                        </tr>
+                        <tr>
+                            <td class="lens-type-cell">Prime</td>
+                            <td>Tetap (e.g., 50mm)</td>
+                            <td>Normal</td>
+                            <td>Potret, Street</td>
+                            <td class="highlight">Kualitas gambar tajam</td>
+                        </tr>
+                        <tr>
+                            <td class="lens-type-cell">Macro</td>
+                            <td>50-200mm</td>
+                            <td>Normal</td>
+                            <td>Close-up, Detail</td>
+                            <td class="highlight">Rasio 1:1, detail maksimal</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 7: Tips Memilih Lensa -->
+    <section class="section section-colored" id="tips">
+        <div class="container">
+             <header class="section-header">
+                <h2 class="title">Tips Memilih Lensa yang Tepat</h2>
+            </header>
+            <div class="tips-container">
+                <div class="tip-card">
+                    <div class="tip-icon"><i class="material-icons">photo_camera</i></div>
+                    <div>
+                        <h3 class="tip-title">Sesuaikan dengan Gaya Fotografi</h3>
+                        <p class="tip-description">Pilih lensa berdasarkan subjek yang paling sering Anda potret. Lanskap butuh Wide, potret butuh Prime.</p>
+                    </div>
+                </div>
+                 <div class="tip-card">
+                    <div class="tip-icon"><i class="material-icons">account_balance_wallet</i></div>
+                    <div>
+                        <h3 class="tip-title">Pertimbangkan Anggaran</h3>
+                        <p class="tip-description">Lensa Prime seringkali menawarkan kualitas terbaik dengan harga yang lebih terjangkau dibandingkan lensa zoom profesional.</p>
+                    </div>
+                </div>
+                 <div class="tip-card">
+                    <div class="tip-icon"><i class="material-icons">fitness_center</i></div>
+                    <div>
+                        <h3 class="tip-title">Pikirkan Ukuran & Bobot</h3>
+                        <p class="tip-description">Untuk traveling, lensa yang ringkas dan ringan seperti lensa prime atau zoom kit akan lebih nyaman dibawa.</p>
+                    </div>
+                </div>
+                 <div class="tip-card">
+                    <div class="tip-icon"><i class="material-icons">wb_sunny</i></div>
+                    <div>
+                        <h3 class="tip-title">Perhatikan Kondisi Cahaya</h3>
+                        <p class="tip-description">Jika sering memotret di kondisi minim cahaya, carilah lensa dengan bukaan besar (angka f/ kecil) seperti f/1.8.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

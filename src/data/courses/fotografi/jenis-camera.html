@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perbandingan Jenis Kamera: Analog, DSLR, Mirrorless, & Ponsel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* --- Reset & Pengaturan Dasar --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* --- Struktur Section --- */
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+        }
+        .highlight {
+            font-weight: 700;
+        }
+
+        /* --- Section 1: Hero --- */
+        #hero {
+            color: #ffffff;
+            background: linear-gradient(rgba(25, 25, 35, 0.75), rgba(25, 25, 35, 0.75)), url('https://picsum.photos/seed/cameratypes/1280/720');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            flex-direction: column;
+        }
+        #hero .title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+        #hero .subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            opacity: 0.9;
+            margin-bottom: 40px;
+            max-width: 800px;
+        }
+        #hero .camera-types {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        #hero .camera-type {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0.85;
+            color: #ffffff;
+        }
+        #hero .camera-type i {
+            font-size: 36px;
+            margin-bottom: 12px;
+            color: #a5d6ff;
+        }
+        #hero .camera-type span {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* --- Header Section Umum --- */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-header .title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #263238;
+        }
+
+        /* --- Styling Card & Konten --- */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+        .left-column, .right-column { flex: 1; }
+        .left-column { flex: 3; }
+        .right-column { flex: 2; }
+
+        .info-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .card-title i {
+            font-size: 24px;
+            margin-right: 12px;
+        }
+        .pros-cons { display: flex; gap: 20px; }
+        .pros, .cons { flex: 1; }
+        .pros-title, .cons-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; }
+        .pros-title { color: #2e7d32; }
+        .cons-title { color: #c62828; }
+        .pros-title i, .cons-title i { margin-right: 8px; }
+        .list-item { display: flex; align-items: flex-start; margin-bottom: 8px; font-size: 1rem; color: #455a64; }
+        .list-item i { font-size: 18px; margin-right: 8px; margin-top: 2px; }
+        .pros .list-item i { color: #2e7d32; }
+        .cons .list-item i { color: #c62828; }
+        
+        /* Coloring based on camera type */
+        #analog .card-title { color: #5d4037; } #analog .card-title i { color: #8d6e63; } #analog .highlight { color: #5d4037; }
+        #dslr .card-title { color: #1565c0; } #dslr .card-title i { color: #1976d2; } #dslr .highlight { color: #1565c0; }
+        #mirrorless .card-title { color: #7b1fa2; } #mirrorless .card-title i { color: #9c27b0; } #mirrorless .highlight { color: #7b1fa2; }
+        #ponsel .card-title { color: #00897b; } #ponsel .card-title i { color: #009688; } #ponsel .highlight { color: #00897b; }
+
+        /* --- Tabel Perbandingan --- */
+        .comparison-table { width: 100%; border-collapse: collapse; }
+        .comparison-table th, .comparison-table td { padding: 16px; text-align: left; border-bottom: 1px solid #eceff1; }
+        .comparison-table th { background-color: #eceff1; font-weight: 600; color: #455a64; text-align: center; }
+        .comparison-table th:first-child { text-align: left; }
+        .comparison-table .aspect-name { font-weight: 600; }
+        .comparison-table .rating { display: flex; justify-content: center; }
+        .comparison-table .rating i { font-size: 1.2rem; }
+        .rating-high i { color: #2e7d32; } .rating-medium i { color: #f57c00; } .rating-low i { color: #c62828; }
+        
+        /* --- ATURAN RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .section { padding: 60px 4%; }
+            #hero .title { font-size: 3rem; }
+            #hero .subtitle { font-size: 1.3rem; }
+            .section-header .title { font-size: 2.5rem; }
+            .grid-container { grid-template-columns: 1fr; }
+            .content-wrapper, .pros-cons { flex-direction: column; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 50px 20px; min-height: auto; }
+            #hero { min-height: 100vh; }
+            #hero .title { font-size: 2.5rem; }
+            .section-header .title { font-size: 2.2rem; }
+            .comparison-table { display: block; overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Judul Utama -->
+    <section class="section" id="hero">
+        <div class="container">
+            <h1 class="title">Panduan Lengkap Jenis Kamera</h1>
+            <h2 class="subtitle">Memahami Perbedaan Antara Kamera Analog, DSLR, Mirrorless, dan Ponsel</h2>
+            <div class="camera-types">
+                <div class="camera-type"><i class="material-icons">camera</i><span>Analog</span></div>
+                <div class="camera-type"><i class="material-icons">camera_alt</i><span>DSLR</span></div>
+                <div class="camera-type"><i class="material-icons">photo_camera</i><span>Mirrorless</span></div>
+                <div class="camera-type"><i class="material-icons">smartphone</i><span>Ponsel</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Pengenalan -->
+    <section class="section" id="pengenalan">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Mengenal Empat Jenis Kamera Utama</h2>
+            </header>
+            <div class="grid-container">
+                <div class="info-card" id="analog">
+                    <h3 class="card-title"><i class="material-icons">camera</i>Kamera Analog</h3>
+                    <p>Kamera tradisional yang menggunakan film untuk merekam gambar. Menawarkan pengalaman fotografi otentik dengan proses yang lebih manual dan hasil estetika yang unik.</p>
+                </div>
+                <div class="info-card" id="dslr">
+                    <h3 class="card-title"><i class="material-icons">camera_alt</i>Kamera DSLR</h3>
+                    <p>Digital Single-Lens Reflex (DSLR) memiliki sistem cermin internal dan viewfinder optik. Dikenal dengan kualitas gambar superior, daya tahan baterai, dan pilihan lensa yang sangat luas.</p>
+                </div>
+                <div class="info-card" id="mirrorless">
+                    <h3 class="card-title"><i class="material-icons">photo_camera</i>Kamera Mirrorless</h3>
+                    <p>Kamera digital modern tanpa cermin internal, membuatnya lebih ringkas dan ringan. Unggul dalam teknologi autofokus, perekaman video, dan pratinjau gambar secara real-time.</p>
+                </div>
+                <div class="info-card" id="ponsel">
+                    <h3 class="card-title"><i class="material-icons">smartphone</i>Kamera Ponsel</h3>
+                    <p>Terintegrasi dalam smartphone, kamera ini mengandalkan <span class="highlight">komputasi fotografi</span> dan AI untuk menghasilkan gambar berkualitas tinggi. Sangat praktis dan ideal untuk dokumentasi sehari-hari.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Detail Kamera Analog -->
+    <section class="section" id="analog-detail">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title" style="color: #5d4037;">Kamera Analog: Seni Fotografi Murni</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="left-column">
+                    <div class="info-card">
+                        <p>Kamera analog menangkap cahaya pada <span class="highlight">film kimia</span>. Proses manual dari pemilihan film, pengaturan eksposur, hingga pengembangan di kamar gelap menawarkan pengalaman yang mendalam dan hasil akhir dengan <span class="highlight">karakter grain</span> yang otentik.</p>
+                    </div>
+                    <div class="pros-cons">
+                        <div class="pros"><h3 class="pros-title"><i class="material-icons">thumb_up</i>Kelebihan</h3>
+                            <div class="list-item"><i class="material-icons">check_circle</i><span>Estetika unik & tak terduga</span></div>
+                            <div class="list-item"><i class="material-icons">check_circle</i><span>Proses yang meditatif & mendidik</span></div>
+                            <div class="list-item"><i class="material-icons">check_circle</i><span>Tahan lama dan tidak bergantung pada baterai</span></div>
+                        </div>
+                        <div class="cons"><h3 class="cons-title"><i class="material-icons">thumb_down</i>Kekurangan</h3>
+                            <div class="list-item"><i class="material-icons">cancel</i><span>Biaya operasional (film & cuci cetak)</span></div>
+                            <div class="list-item"><i class="material-icons">cancel</i><span>Tidak ada pratinjau hasil foto</span></div>
+                            <div class="list-item"><i class="material-icons">cancel</i><span>Proses yang lebih lambat dan rumit</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="right-column">
+                    <img src="https://picsum.photos/seed/camera-analog/600/400" alt="Kamera Analog" style="width:100%; border-radius:12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 4: Detail Kamera DSLR -->
+    <section class="section" id="dslr-detail">
+         <div class="container">
+            <header class="section-header">
+                <h2 class="title" style="color: #1565c0;">Kamera DSLR: Kualitas dan Fleksibilitas Profesional</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="left-column">
+                    <div class="info-card">
+                        <p>DSLR adalah pilihan utama para profesional selama bertahun-tahun karena <span class="highlight">kualitas gambar superior</span> dari sensor besarnya, <span class="highlight">viewfinder optik</span> yang bebas lag, dan ekosistem lensa yang sangat luas untuk berbagai kebutuhan fotografi.</p>
+                    </div>
+                    <div class="pros-cons">
+                        <div class="pros"><h3 class="pros-title"><i class="material-icons">thumb_up</i>Kelebihan</h3>
+                            <div class="list-item"><i class="material-icons">check_circle</i><span>Kualitas gambar luar biasa</span></div>
+                            <div class="list-item"><i class="material-icons">check_circle</i><span>Baterai sangat tahan lama</span></div>
+                            <div class="list-item"><i class="material-icons">check_circle</i><span>Pilihan lensa paling beragam</span></div>
+                        </div>
+                        <div class="cons"><h3 class="cons-title"><i class="material-icons">thumb_down</i>Kekurangan</h3>
+                            <div class="list-item"><i class="material-icons">cancel</i><span>Besar dan berat</span></div>
+                            <div class="list-item"><i class="material-icons">cancel</i><span>Kurang optimal untuk video</span></div>
+                            <div class="list-item"><i class="material-icons">cancel</i><span>Berisik saat memotret</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="right-column">
+                     <img src="https://picsum.photos/seed/camera-dslr/600/400" alt="Kamera DSLR" style="width:100%; border-radius:12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Detail Kamera Mirrorless -->
+    <section class="section" id="mirrorless-detail">
+         <div class="container">
+            <header class="section-header">
+                <h2 class="title" style="color: #7b1fa2;">Kamera Mirrorless: Inovasi dalam Genggaman</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="left-column">
+                    <div class="info-card">
+                        <p>Dengan menghilangkan cermin, kamera mirrorless menjadi lebih <span class="highlight">ringkas, ringan, dan senyap</span>. Keunggulannya terletak pada <span class="highlight">Electronic Viewfinder (EVF)</span> yang menampilkan pratinjau hasil akhir secara real-time, serta performa autofokus dan video yang superior.</p>
+                    </div>
+                    <div class="pros-cons">
+                        <div class="pros"><h3 class="pros-title"><i class="material-icons">thumb_up</i>Kelebihan</h3>
+                            <div class="list-item"><i class="material-icons">check_circle</i><span>Kompak dan ringan</span></div>
+                            <div class="list-item"><i class="material-icons">check_circle</i><span>Fitur video canggih</span></div>
+                            <div class="list-item"><i class="material-icons">check_circle</i><span>Autofokus pendeteksi mata/subjek</span></div>
+                        </div>
+                        <div class="cons"><h3 class="cons-title"><i class="material-icons">thumb_down</i>Kekurangan</h3>
+                            <div class="list-item"><i class="material-icons">cancel</i><span>Baterai lebih boros</span></div>
+                            <div class="list-item"><i class="material-icons">cancel</i><span>Pilihan lensa belum sebanyak DSLR</span></div>
+                            <div class="list-item"><i class="material-icons">cancel</i><span>EVF bisa mengalami lag</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="right-column">
+                    <img src="https://picsum.photos/seed/camera-mirrorless/600/400" alt="Kamera Mirrorless" style="width:100%; border-radius:12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: Detail Kamera Ponsel -->
+    <section class="section" id="ponsel-detail">
+         <div class="container">
+            <header class="section-header">
+                <h2 class="title" style="color: #00897b;">Kamera Ponsel: Fotografi Cerdas Setiap Saat</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="left-column">
+                    <div class="info-card">
+                        <p>Kamera terbaik adalah kamera yang Anda bawa. Kamera ponsel mengubah fotografi dengan <span class="highlight">kepraktisan</span> dan <span class="highlight">kecerdasan buatan (AI)</span>. Algoritma canggih seperti mode malam, HDR, dan potret secara otomatis mengoptimalkan gambar dari sensor yang kecil.</p>
+                    </div>
+                    <div class="pros-cons">
+                        <div class="pros"><h3 class="pros-title"><i class="material-icons">thumb_up</i>Kelebihan</h3>
+                            <div class="list-item"><i class="material-icons">check_circle</i><span>Sangat praktis dan selalu dibawa</span></div>
+                            <div class="list-item"><i class="material-icons">check_circle</i><span>Mudah untuk berbagi ke media sosial</span></div>
+                            <div class="list-item"><i class="material-icons">check_circle</i><span>Fitur AI yang terus berkembang</span></div>
+                        </div>
+                        <div class="cons"><h3 class="cons-title"><i class="material-icons">thumb_down</i>Kekurangan</h3>
+                            <div class="list-item"><i class="material-icons">cancel</i><span>Kualitas terbatas di sensor kecil</span></div>
+                            <div class="list-item"><i class="material-icons">cancel</i><span>Kontrol manual yang terbatas</span></div>
+                            <div class="list-item"><i class="material-icons">cancel</i><span>Tidak ada opsi ganti lensa (umumnya)</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="right-column">
+                     <img src="https://picsum.photos/seed/camera-phone/600/400" alt="Kamera Ponsel" style="width:100%; border-radius:12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 7: Perbandingan -->
+    <section class="section" id="perbandingan">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Perbandingan Head-to-Head</h2>
+            </header>
+            <div class="info-card" style="overflow-x: auto;">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Aspek</th>
+                            <th>Analog</th>
+                            <th>DSLR</th>
+                            <th>Mirrorless</th>
+                            <th>Ponsel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="aspect-name">Kualitas Gambar</td>
+                            <td><div class="rating rating-high"><i class="material-icons">star</i><i class="material-icons">star</i><i class="material-icons">star</i><i class="material-icons">star</i><i class="material-icons">star_border</i></div></td>
+                            <td><div class="rating rating-high"><i class="material-icons">star</i><i class="material-icons">star</i><i class="material-icons">star</i><i class="material-icons">star</i><i class="material-icons">star</i></div></td>
+                            <td><div class="rating rating-high"><i class="material-icons">star</i><i class="material-icons">star</i><i class="material-icons">star</i><i class="material-icons">star</i><i class="material-icons">star</i></div></td>
+                            <td><div class="rating rating-medium"><i class="material-icons">star</i><i class="material-icons">star</i><i class="material-icons">star</i><i class="material-icons">star_border</i><i class="material-icons">star_border</i></div></td>
+                        </tr>
+                        <tr><td class="aspect-name">Portabilitas</td>
+                            <td><div class="rating rating-medium"><i class="material-icons">star</i><i class="material-icons">star</i><i class="material-icons">star</i><i class="material-icons">star_border</i><i class="material-icons">star_border</i></div></td>
+                            <td><div class="rating rating-low"><i class="material-icons">star</i><i class="material-icons">star_border</i><i class="material-icons">star_border</i><i class="material-icons">star_border</i><i class="material-icons">star_border</i></div></td>
+                            <td><div class="rating rating-high"><i class="material-icons">star</i><i class="material-icons">star</i><i class="material-icons">star</i><i class="material-icons">star</i><i class="material-icons">star_border</i></div></td>
+                            <td><div class="rating rating-high"><i class="material-icons">star</i><i class="material-icons">star</i><i class="material-icons">star</i><i class="material-icons">star</i><i class="material-icons">star</i></div></td>
+                        </tr>
+                        <tr><td class="aspect-name">Kemudahan</td>
+                           <td><div class="rating rating-low"><i class="material-icons">star</i><i class="material-icons">star_border</i><i class="material-icons">star_border</i><i class="material-icons">star_border</i><i class="material-icons">star_border</i></div></td>
+                            <td><div class="rating rating-medium"><i class="material-icons">star</i><i class="material-icons">star</i><i class="material-icons">star</i><i class="material-icons">star_border</i><i class="material-icons">star_border</i></div></td>
+                            <td><div class="rating rating-medium"><i class="material-icons">star</i><i class="material-icons">star</i><i class="material-icons">star</i><i class="material-icons">star</i><i class="material-icons">star_border</i></div></td>
+                            <td><div class="rating rating-high"><i class="material-icons">star</i><i class="material-icons">star</i><i class="material-icons">star</i><i class="material-icons">star</i><i class="material-icons">star</i></div></td>
+                        </tr>
+                         <tr><td class="aspect-name">Penggunaan Terbaik</td>
+                            <td>Artistik & Hobi</td>
+                            <td>Profesional & Cahaya Rendah</td>
+                            <td>Travel, Vlogging, Video</td>
+                            <td>Sehari-hari & Media Sosial</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 8: Kesimpulan -->
+    <section class="section" id="kesimpulan">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Mana Kamera yang Tepat untuk Anda?</h2>
+            </header>
+            <div class="info-card">
+                 <p style="text-align:center; font-size: 1.2rem;">Tidak ada satu kamera yang "terbaik" untuk semua orang. Pilihan ideal bergantung pada tujuan, gaya, dan anggaran Anda.</p>
+            </div>
+            <div class="grid-container">
+                 <div class="info-card" id="analog">
+                    <h3 class="card-title"><i class="material-icons">palette</i>Untuk Seniman & Penjelajah</h3>
+                    <p>Jika Anda mencari proses yang kreatif dengan hasil yang unik dan otentik, <span class="highlight">kamera analog</span> adalah pilihan yang memuaskan.</p>
+                </div>
+                 <div class="info-card" id="dslr">
+                    <h3 class="card-title"><i class="material-icons">work</i>Untuk Profesional & Perfeksionis</h3>
+                    <p>Untuk kualitas gambar maksimal, kontrol penuh, dan pilihan lensa tak terbatas, <span class="highlight">DSLR</span> tetap menjadi pilihan yang sangat andal.</p>
+                </div>
+                 <div class="info-card" id="mirrorless">
+                    <h3 class="card-title"><i class="material-icons">flight</i>Untuk Kreator Konten & Traveler</h3>
+                    <p>Jika Anda membutuhkan keseimbangan antara kualitas, portabilitas, dan fitur video canggih, <span class="highlight">kamera mirrorless</span> adalah juaranya.</p>
+                </div>
+                 <div class="info-card" id="ponsel">
+                    <h3 class="card-title"><i class="material-icons">today</i>Untuk Momen Sehari-hari</h3>
+                    <p>Untuk kemudahan, kepraktisan, dan kemampuan berbagi instan, tidak ada yang bisa mengalahkan <span class="highlight">kamera ponsel</span> di saku Anda.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

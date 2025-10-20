@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Perspektif dan Sudut Pengambilan Gambar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* --- Reset & Pengaturan Dasar --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* --- Struktur Section --- */
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .highlight {
+            color: #122944;
+            font-weight: 600;
+        }
+
+        /* --- Section 1: Hero --- */
+        #hero {
+            color: white;
+            background: linear-gradient(rgba(18, 41, 68, 0.75), rgba(18, 41, 68, 0.85)), url('https://picsum.photos/seed/perspective/1280/720');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            flex-direction: column;
+        }
+        #hero .title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+        #hero .subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: #e0e0e0;
+            max-width: 800px;
+        }
+        #hero .accent-line {
+            width: 80px;
+            height: 4px;
+            background-color: #64B5F6;
+            margin: 30px auto;
+        }
+
+        /* --- Header Section Umum --- */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-header .title {
+            font-size: 2.8rem;
+            font-weight: 600;
+            color: #122944;
+        }
+        
+        /* --- Tata Letak Konten --- */
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        .left-content, .right-content {
+            flex: 1;
+        }
+        
+        .image-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* --- Styling Spesifik & Card --- */
+        .info-box {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .info-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #122944;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .info-title i {
+            margin-right: 15px;
+            color: #64B5F6;
+        }
+        .info-text {
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .card-header {
+            background-color: #64B5F6;
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .card-header i { margin-right: 15px; font-size: 28px; }
+        .card-title { font-size: 1.5rem; font-weight: 600; }
+        .card-image { height: 200px; overflow: hidden; }
+        .card-image img { width: 100%; height: 100%; object-fit: cover; }
+        .card-content { padding: 20px; flex-grow: 1; }
+        .card-description { font-size: 1.1rem; margin-bottom: 15px; }
+        .key-point { display: flex; align-items: flex-start; margin-bottom: 10px; font-size: 1rem; }
+        .key-point i { color: #64B5F6; margin-right: 10px; font-size: 20px; }
+
+        /* --- ATURAN RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .section { padding: 60px 4%; }
+            #hero .title { font-size: 3.5rem; }
+            #hero .subtitle { font-size: 1.3rem; }
+            .section-header .title { font-size: 2.5rem; }
+            .card-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 50px 20px; min-height: auto; }
+            #hero { min-height: 100vh; }
+            #hero .title { font-size: 2.5rem; }
+            .section-header .title { font-size: 2.2rem; }
+            .content-wrapper { flex-direction: column; gap: 30px; }
+            .right-content { order: -1; } /* Pindahkan gambar ke atas */
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Judul Utama -->
+    <section class="section" id="hero">
+        <div class="container">
+            <h1 class="title">Perspektif dan Sudut Pengambilan Gambar</h1>
+            <div class="accent-line"></div>
+            <p class="subtitle">Mengubah Foto Biasa Menjadi Luar Biasa dengan Memahami Posisi dan Sudut Kamera</p>
+        </div>
+    </section>
+
+    <!-- Section 2: Pengertian Perspektif -->
+    <section class="section" id="pengertian-perspektif">
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="left-content">
+                    <div class="info-box">
+                        <h2 class="info-title"><i class="material-icons">visibility</i>Definisi Perspektif</h2>
+                        <p class="info-text">
+                            <span class="highlight">Perspektif</span> adalah ilusi kedalaman dan hubungan spasial antar objek dalam foto, yang dipengaruhi oleh posisi kamera terhadap subjek.
+                        </p>
+                    </div>
+                    <div class="info-box">
+                        <h2 class="info-title"><i class="material-icons">stars</i>Pentingnya Perspektif</h2>
+                        <p class="info-text">
+                            Dengan bermain perspektif, Anda bisa menciptakan <span class="highlight">daya pikat visual</span>, memberikan kesan dramatis, dan memandu mata pemirsa melalui komposisi Anda.
+                        </p>
+                    </div>
+                </div>
+                <div class="right-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/perspective-example/600/500" alt="Contoh foto yang menunjukkan kedalaman perspektif">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Jenis Perspektif -->
+    <section class="section" id="jenis-perspektif">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Jenis-jenis Perspektif Utama</h2>
+            </header>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-header"><i class="material-icons">straighten</i><h3 class="card-title">Perspektif Linear</h3></div>
+                    <div class="card-image"><img src="https://picsum.photos/seed/linear/400/200" alt="Contoh Perspektif Linear"></div>
+                    <div class="card-content">
+                        <p class="card-description">Menggunakan garis-garis paralel (seperti jalan atau rel) yang tampak menyatu di satu titik untuk menciptakan ilusi kedalaman.</p>
+                        <div class="key-point"><i class="material-icons">check_circle</i><span>Memberikan kesan <span class="highlight">ruang yang dalam</span>.</span></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><i class="material-icons">layers</i><h3 class="card-title">Perspektif Tumpang Tindih</h3></div>
+                     <div class="card-image"><img src="https://picsum.photos/seed/overlap/400/200" alt="Contoh Perspektif Tumpang Tindih"></div>
+                    <div class="card-content">
+                        <p class="card-description">Ketika satu objek menutupi sebagian objek lain, objek yang di depan akan terasa lebih dekat.</p>
+                        <div class="key-point"><i class="material-icons">check_circle</i><span>Cara sederhana untuk <span class="highlight">menciptakan kedalaman</span>.</span></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><i class="material-icons">air</i><h3 class="card-title">Perspektif Atmosfer</h3></div>
+                     <div class="card-image"><img src="https://picsum.photos/seed/atmosphere/400/200" alt="Contoh Perspektif Atmosfer"></div>
+                    <div class="card-content">
+                        <p class="card-description">Objek yang lebih jauh tampak kurang kontras dan lebih pudar karena partikel di atmosfer (kabut, debu).</p>
+                        <div class="key-point"><i class="material-icons">check_circle</i><span>Sering terlihat pada foto <span class="highlight">pegunungan</span> atau lanskap.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 4: Pengertian Sudut Pengambilan Gambar -->
+    <section class="section" id="pengertian-sudut">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Mengapa Sudut Pengambilan Gambar itu Penting?</h2>
+            </header>
+            <div class="content-wrapper">
+                 <div class="left-content">
+                    <div class="info-box">
+                        <h2 class="info-title"><i class="material-icons">camera_alt</i>Definisi Sudut</h2>
+                        <p class="info-text">
+                            Sudut pengambilan gambar (camera angle) adalah <span class="highlight">posisi dan ketinggian kamera</span> relatif terhadap subjek.
+                        </p>
+                    </div>
+                    <div class="info-box">
+                        <h2 class="info-title"><i class="material-icons">psychology</i>Pengaruh Psikologis</h2>
+                        <p class="info-text">
+                           Sudut yang berbeda dapat mengubah cara pemirsa menginterpretasikan sebuah subjek, memberikan kesan <span class="highlight">kuat, lemah, netral, atau bahkan abstrak</span>.
+                        </p>
+                    </div>
+                </div>
+                <div class="right-content">
+                    <div class="image-container">
+                         <img src="https://picsum.photos/seed/camera-angle/600/500" alt="Ilustrasi berbagai sudut pengambilan gambar">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Jenis Sudut Pengambilan Gambar -->
+    <section class="section" id="jenis-sudut">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Jenis-jenis Sudut Pengambilan Gambar</h2>
+            </header>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-header"><i class="material-icons">visibility</i><h3 class="card-title">Eye Level</h3></div>
+                    <div class="card-image"><img src="https://picsum.photos/seed/eye-level/400/200" alt="Contoh Eye Level Angle"></div>
+                    <div class="card-content">
+                        <p class="card-description">Kamera sejajar dengan mata subjek, menciptakan kesan yang <span class="highlight">natural dan akrab</span>. Paling umum digunakan untuk potret.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><i class="material-icons">trending_up</i><h3 class="card-title">Low Angle</h3></div>
+                    <div class="card-image"><img src="https://picsum.photos/seed/low-angle/400/200" alt="Contoh Low Angle"></div>
+                    <div class="card-content">
+                        <p class="card-description">Kamera diposisikan lebih rendah dari subjek, membuatnya terlihat <span class="highlight">dominan, kuat, dan megah</span>.</p>
+                    </div>
+                </div>
+                 <div class="card">
+                    <div class="card-header"><i class="material-icons">trending_down</i><h3 class="card-title">High Angle</h3></div>
+                    <div class="card-image"><img src="https://picsum.photos/seed/high-angle/400/200" alt="Contoh High Angle"></div>
+                    <div class="card-content">
+                        <p class="card-description">Kamera lebih tinggi dari subjek, memberikan kesan subjek terlihat <span class="highlight">kecil, lemah, atau rentan</span>.</p>
+                    </div>
+                </div>
+                 <div class="card">
+                    <div class="card-header"><i class="material-icons">flight</i><h3 class="card-title">Bird's Eye View</h3></div>
+                    <div class="card-image"><img src="https://picsum.photos/seed/bird-eye/400/200" alt="Contoh Bird's Eye View"></div>
+                    <div class="card-content">
+                        <p class="card-description">Pengambilan gambar dari posisi sangat tinggi, lurus ke bawah. Menampilkan <span class="highlight">pola dan skala</span> yang luas.</p>
+                    </div>
+                </div>
+                 <div class="card">
+                    <div class="card-header"><i class="material-icons">pets</i><h3 class="card-title">Frog's Eye View</h3></div>
+                     <div class="card-image"><img src="https://picsum.photos/seed/frog-eye/400/200" alt="Contoh Frog's Eye View"></div>
+                    <div class="card-content">
+                        <p class="card-description">Kamera diletakkan sangat rendah di tanah, melihat ke atas. Menciptakan perspektif yang <span class="highlight">unik dan dramatis</span>.</p>
+                    </div>
+                </div>
+                 <div class="card">
+                    <div class="card-header"><i class="material-icons">rotate_90_degrees_ccw</i><h3 class="card-title">Dutch Angle</h3></div>
+                     <div class="card-image"><img src="https://picsum.photos/seed/dutch-angle/400/200" alt="Contoh Dutch Angle"></div>
+                    <div class="card-content">
+                        <p class="card-description">Kamera dimiringkan secara sengaja untuk menciptakan kesan <span class="highlight">ketidakstabilan, ketegangan, atau dinamisme</span>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: Tips & Trik -->
+    <section class="section" id="tips">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Tips untuk Eksplorasi Perspektif dan Sudut</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="left-content">
+                    <div class="info-box">
+                        <h2 class="info-title"><i class="material-icons">explore</i>Jangan Takut Bereksperimen</h2>
+                        <p class="info-text">Jangan hanya memotret dari ketinggian mata. Coba jongkok, naik ke tempat yang lebih tinggi, atau miringkan kamera Anda untuk menemukan sudut pandang yang paling menarik.</p>
+                    </div>
+                </div>
+                <div class="right-content">
+                    <div class="info-box">
+                        <h2 class="info-title"><i class="material-icons">lightbulb</i>Sesuaikan dengan Subjek</h2>
+                        <p class="info-text">Pilih sudut yang paling sesuai dengan <span class="highlight">pesan atau emosi</span> yang ingin Anda sampaikan. Low angle untuk kekuatan, high angle untuk kelemahan, dan eye level untuk keakraban.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

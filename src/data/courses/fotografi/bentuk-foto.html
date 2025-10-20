@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Warna, Tekstur, dan Bentuk dalam Fotografi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* --- Reset & Pengaturan Dasar --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f8f9fa;
+            color: #212529;
+            line-height: 1.6;
+        }
+
+        /* --- Struktur Section --- */
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .highlight {
+            font-weight: 700;
+        }
+
+        /* --- Section 1: Hero --- */
+        #hero {
+            color: white;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://picsum.photos/seed/visual-elements/1280/720');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            flex-direction: column;
+        }
+        #hero .title {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        #hero .subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            max-width: 800px;
+            margin-bottom: 40px;
+        }
+        #hero .elements {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        #hero .element {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+        #hero .element:hover {
+            transform: translateY(-5px);
+        }
+        #hero .element-icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        #hero .element-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        /* --- Header Section Umum --- */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-header .title {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: #2c3e50;
+        }
+        
+        /* --- Tata Letak Konten --- */
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        .left-content, .right-content {
+            flex: 1;
+        }
+        
+        .image-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* --- Styling Spesifik --- */
+        .point-section {
+            margin-bottom: 25px;
+        }
+        .point-section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #3498db;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .point-section-title .material-icons {
+            margin-right: 10px;
+            font-size: 28px;
+        }
+        .point {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        .point .material-icons {
+            color: #3498db;
+            font-size: 18px;
+            margin-right: 10px;
+            margin-top: 4px;
+        }
+        
+        #warna .highlight { color: #e74c3c; }
+        #tekstur .highlight { color: #3498db; }
+        #bentuk .highlight { color: #2ecc71; }
+        
+        /* --- ATURAN RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .section { padding: 60px 4%; }
+            #hero .title { font-size: 3.5rem; }
+            #hero .subtitle { font-size: 1.3rem; }
+            .section-header .title { font-size: 2.5rem; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 50px 20px; min-height: auto; }
+            #hero { min-height: 100vh; }
+            #hero .title { font-size: 2.5rem; }
+            .section-header .title { font-size: 2.2rem; }
+            .content-wrapper { flex-direction: column; gap: 30px; }
+            .right-content { order: -1; } /* Pindahkan gambar ke atas */
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Judul Utama -->
+    <section class="section" id="hero">
+        <div class="container">
+            <h1 class="title">Warna, Tekstur, dan Bentuk dalam Fotografi</h1>
+            <p class="subtitle">Tiga Elemen Visual Fundamental untuk Menciptakan Foto yang Memukau</p>
+            <div class="elements">
+                <div class="element"><i class="material-icons element-icon">palette</i><span class="element-text">Warna</span></div>
+                <div class="element"><i class="material-icons element-icon">texture</i><span class="element-text">Tekstur</span></div>
+                <div class="element"><i class="material-icons element-icon">category</i><span class="element-text">Bentuk</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Warna -->
+    <section class="section" id="warna">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Warna: Elemen Emosional Fotografi</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="left-content">
+                    <div class="point-section">
+                        <h3 class="point-section-title"><i class="material-icons">palette</i>Dampak Psikologis</h3>
+                        <div class="point"><i class="material-icons">arrow_right</i><span>Warna dapat membangkitkan <span class="highlight">emosi dan mood</span> yang kuat. Merah bisa berarti gairah atau bahaya, sementara biru memberikan rasa tenang.</span></div>
+                    </div>
+                    <div class="point-section">
+                        <h3 class="point-section-title"><i class="material-icons">tonality</i>Harmoni Warna</h3>
+                        <div class="point"><i class="material-icons">arrow_right</i><span>Gunakan <span class="highlight">warna komplementer</span> (berseberangan di roda warna) untuk menciptakan kontras yang kuat, atau <span class="highlight">warna analog</span> (berdampingan) untuk menciptakan harmoni.</span></div>
+                    </div>
+                     <div class="point-section">
+                        <h3 class="point-section-title"><i class="material-icons">visibility</i>Menarik Perhatian</h3>
+                        <div class="point"><i class="material-icons">arrow_right</i><span>Sebuah warna cerah di tengah latar belakang netral akan langsung <span class="highlight">menarik perhatian</span> mata ke subjek utama.</span></div>
+                    </div>
+                </div>
+                <div class="right-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/colors/600/450" alt="Contoh penggunaan warna kontras dalam fotografi">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Tekstur -->
+    <section class="section" id="tekstur">
+        <div class="container">
+             <header class="section-header">
+                <h2 class="title">Tekstur: Menambahkan Dimensi dan Kedalaman</h2>
+            </header>
+             <div class="content-wrapper">
+                <div class="left-content">
+                    <div class="point-section">
+                        <h3 class="point-section-title"><i class="material-icons">texture</i>Kualitas Taktil</h3>
+                        <div class="point"><i class="material-icons">arrow_right</i><span>Tekstur adalah kualitas permukaan suatu objek. Dalam fotografi, tekstur yang kuat dapat membuat gambar terasa <span class="highlight">lebih hidup dan nyata</span>, seolah-olah bisa disentuh.</span></div>
+                    </div>
+                    <div class="point-section">
+                        <h3 class="point-section-title"><i class="material-icons">wb_sunny</i>Peran Pencahayaan</h3>
+                        <div class="point"><i class="material-icons">arrow_right</i><span><span class="highlight">Cahaya dari samping (sidelighting)</span> adalah cara terbaik untuk menonjolkan tekstur, karena menciptakan bayangan kecil yang mendefinisikan detail permukaan.</span></div>
+                    </div>
+                     <div class="point-section">
+                        <h3 class="point-section-title"><i class="material-icons">search</i>Di Mana Menemukannya?</h3>
+                        <div class="point"><i class="material-icons">arrow_right</i><span>Tekstur ada di mana-mana: pada <span class="highlight">kulit kayu, permukaan batu, kain, logam berkarat,</span> hingga detail pada foto makro.</span></div>
+                    </div>
+                </div>
+                <div class="right-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/texture/600/450" alt="Contoh fotografi tekstur pada kulit kayu">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Bentuk dan Form -->
+    <section class="section" id="bentuk">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Bentuk & Form: Struktur Visual Foto</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="left-content">
+                    <div class="point-section">
+                        <h3 class="point-section-title"><i class="material-icons">category</i>Bentuk (Shape) vs Form</h3>
+                        <div class="point"><i class="material-icons">arrow_right</i><span><span class="highlight">Bentuk</span> adalah representasi dua dimensi (2D) dari sebuah objek, seperti siluet. <span class="highlight">Form</span> adalah versi tiga dimensinya (3D) yang memiliki kedalaman, yang diciptakan oleh cahaya dan bayangan.</span></div>
+                    </div>
+                    <div class="point-section">
+                        <h3 class="point-section-title"><i class="material-icons">lightbulb</i>Menciptakan Komposisi</h3>
+                        <div class="point"><i class="material-icons">arrow_right</i><span>Bentuk-bentuk yang kuat (lingkaran, segitiga, persegi) dapat digunakan untuk membangun <span class="highlight">struktur dan keseimbangan</span> dalam komposisi Anda.</span></div>
+                    </div>
+                     <div class="point-section">
+                        <h3 class="point-section-title"><i class="material-icons">linear_scale</i>Memandu Pandangan</h3>
+                        <div class="point"><i class="material-icons">arrow_right</i><span>Susunan bentuk dan garis dalam sebuah foto dapat berfungsi sebagai <span class="highlight">"leading lines"</span> yang secara alami memandu mata pemirsa melalui gambar.</span></div>
+                    </div>
+                </div>
+                <div class="right-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/shapes/600/450" alt="Contoh penggunaan bentuk geometris dalam arsitektur fotografi">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 5: Kesimpulan -->
+    <section class="section" id="kesimpulan">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Kesimpulan: Sinergi Elemen Visual</h2>
+            </header>
+            <div style="font-size: 1.2rem; text-align: center; max-width: 900px; margin: 0 auto 40px;">
+                Warna, tekstur, dan bentuk adalah tiga pilar visual yang saling terkait. Menguasai cara menggabungkan ketiganya akan memungkinkan Anda untuk bercerita secara visual dan menciptakan foto yang tidak hanya indah, tetapi juga penuh makna dan emosi.
+            </div>
+            <div class="content-wrapper" style="align-items: flex-start;">
+                <div class="left-content">
+                    <div class="point-section">
+                        <h3 class="point-section-title" style="color:#e74c3c"><i class="material-icons">palette</i>Warna</h3>
+                        <p>Menciptakan <span style="font-weight:700">emosi</span> dan menarik perhatian.</p>
+                    </div>
+                </div>
+                <div class="left-content">
+                     <div class="point-section">
+                        <h3 class="point-section-title" style="color:#3498db"><i class="material-icons">texture</i>Tekstur</h3>
+                        <p>Menambah <span style="font-weight:700">kedalaman</span> dan nuansa realisme.</p>
+                    </div>
+                </div>
+                <div class="left-content">
+                     <div class="point-section">
+                        <h3 class="point-section-title" style="color:#2ecc71"><i class="material-icons">category</i>Bentuk</h3>
+                        <p>Membangun <span style="font-weight:700">struktur</span> dan memandu pandangan.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

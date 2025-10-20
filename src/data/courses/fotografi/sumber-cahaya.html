@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Sumber Cahaya: Alami vs. Buatan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* --- Reset & Pengaturan Dasar --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* --- Struktur Section --- */
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* --- Section 1: Hero --- */
+        #hero {
+            color: white;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://picsum.photos/seed/lights/1280/720');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            flex-direction: column;
+        }
+        #hero .title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        #hero .subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            max-width: 800px;
+        }
+        #hero .divider {
+            width: 100px;
+            height: 4px;
+            background-color: #FFD54F;
+            margin: 30px auto;
+        }
+        #hero .light-icons {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        #hero .light-type {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #hero .light-type i {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        #hero .light-type span {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        #hero .natural { color: #FFD54F; }
+        #hero .artificial { color: #81D4FA; }
+
+        /* --- Header Section Umum --- */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-header .title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        
+        /* --- Tata Letak Konten & Card --- */
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        .column { flex: 1; }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+        }
+        .card-image { height: 200px; overflow: hidden; }
+        .card-image img { width: 100%; height: 100%; object-fit: cover; }
+        .card-content { padding: 25px; flex-grow: 1; }
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .card-title i { font-size: 28px; margin-right: 10px; }
+        .card-description { font-size: 1.1rem; line-height: 1.5; }
+        .natural-color { color: #FFA000; }
+        .artificial-color { color: #03A9F4; }
+        
+        /* Tabel Perbandingan */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .comparison-table th, .comparison-table td { padding: 20px; text-align: left; border-bottom: 1px solid #e0e0e0; }
+        .comparison-table th { background-color: #2c3e50; color: white; font-size: 1.2rem; }
+        .comparison-table th:nth-child(2) { background-color: #FFC107; color: #2c3e50; }
+        .comparison-table th:nth-child(3) { background-color: #4FC3F7; color: #2c3e50; }
+        .comparison-table td:first-child { font-weight: 600; }
+
+        /* --- ATURAN RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .section { padding: 60px 4%; }
+            #hero .title { font-size: 3.5rem; }
+            #hero .subtitle { font-size: 1.3rem; }
+            .section-header .title { font-size: 2.5rem; }
+            .comparison-table { display: block; overflow-x: auto; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 50px 20px; min-height: auto; }
+            #hero { min-height: 100vh; }
+            #hero .title { font-size: 2.5rem; }
+            .section-header .title { font-size: 2.2rem; }
+            .content-wrapper { flex-direction: column; }
+            .comparison-table th, .comparison-table td { padding: 15px; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Judul Utama -->
+    <section class="section" id="hero">
+        <div class="container">
+            <h1 class="title">Sumber Cahaya: Alami vs. Buatan</h1>
+            <div class="divider"></div>
+            <p class="subtitle">Memahami perbedaan, kelebihan, dan kekurangan dari dua jenis sumber penerangan utama.</p>
+            <div class="light-icons">
+                <div class="light-type"><i class="material-icons natural">wb_sunny</i><span class="natural">Cahaya Alami</span></div>
+                <div class="light-type"><i class="material-icons artificial">lightbulb</i><span class="artificial">Cahaya Buatan</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Definisi -->
+    <section class="section" id="definisi">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Apa Perbedaan Keduanya?</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="column">
+                    <div class="card">
+                        <div class="card-content">
+                            <h3 class="card-title natural-color"><i class="material-icons">wb_sunny</i>Cahaya Alami</h3>
+                            <p class="card-description">Cahaya yang berasal dari sumber-sumber di alam tanpa campur tangan manusia. Sumber utamanya adalah matahari, namun juga mencakup bintang, bulan (cahaya pantulan), petir, hingga organisme bioluminesen seperti kunang-kunang.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="card">
+                        <div class="card-content">
+                             <h3 class="card-title artificial-color"><i class="material-icons">lightbulb</i>Cahaya Buatan</h3>
+                            <p class="card-description">Cahaya yang diciptakan oleh manusia menggunakan teknologi. Contohnya sangat beragam, mulai dari api dan lilin, lampu pijar, lampu neon, LED, hingga layar pada perangkat elektronik Anda.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Contoh Cahaya Alami -->
+    <section class="section" id="contoh-alami">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Contoh Sumber Cahaya Alami</h2>
+            </header>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-image"><img src="https://picsum.photos/seed/sun/400/200" alt="Matahari"></div>
+                    <div class="card-content"><h3 class="card-title natural-color"><i class="material-icons">wb_sunny</i>Matahari</h3><p class="card-description">Sumber energi dan cahaya utama bagi kehidupan di Bumi.</p></div>
+                </div>
+                <div class="card">
+                    <div class="card-image"><img src="https://picsum.photos/seed/moon/400/200" alt="Bulan"></div>
+                    <div class="card-content"><h3 class="card-title natural-color"><i class="material-icons">nights_stay</i>Bulan</h3><p class="card-description">Memantulkan cahaya matahari untuk menerangi malam.</p></div>
+                </div>
+                <div class="card">
+                    <div class="card-image"><img src="https://picsum.photos/seed/lightning/400/200" alt="Petir"></div>
+                    <div class="card-content"><h3 class="card-title natural-color"><i class="material-icons">flash_on</i>Petir</h3><p class="card-description">Kilatan cahaya intens yang dihasilkan oleh pelepasan listrik di atmosfer.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 4: Contoh Cahaya Buatan -->
+    <section class="section" id="contoh-buatan">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Contoh Sumber Cahaya Buatan</h2>
+            </header>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-image"><img src="https://picsum.photos/seed/led/400/200" alt="Lampu LED"></div>
+                    <div class="card-content"><h3 class="card-title artificial-color"><i class="material-icons">highlight</i>Lampu LED</h3><p class="card-description">Teknologi pencahayaan modern yang sangat efisien dan tahan lama.</p></div>
+                </div>
+                <div class="card">
+                    <div class="card-image"><img src="https://picsum.photos/seed/candle/400/200" alt="Lilin"></div>
+                    <div class="card-content"><h3 class="card-title artificial-color"><i class="material-icons">local_fire_department</i>Api & Lilin</h3><p class="card-description">Sumber cahaya buatan tertua yang dihasilkan dari proses pembakaran.</p></div>
+                </div>
+                <div class="card">
+                    <div class="card-image"><img src="https://picsum.photos/seed/screen/400/200" alt="Layar Elektronik"></div>
+                    <div class="card-content"><h3 class="card-title artificial-color"><i class="material-icons">desktop_windows</i>Layar Elektronik</h3><p class="card-description">Ponsel, monitor, dan TV yang memancarkan cahayanya sendiri.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Perbandingan -->
+    <section class="section" id="perbandingan">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Perbandingan: Alami vs. Buatan</h2>
+            </header>
+            <div style="overflow-x: auto;">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Kriteria</th>
+                            <th>Cahaya Alami</th>
+                            <th>Cahaya Buatan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Ketersediaan</strong></td><td>Gratis, namun tergantung waktu dan cuaca.</td><td>Tersedia kapan saja, namun memerlukan biaya.</td></tr>
+                        <tr><td><strong>Kontrol</strong></td><td>Sulit dikontrol, intensitasnya selalu berubah.</td><td>Mudah dikontrol (intensitas, warna, arah).</td></tr>
+                        <tr><td><strong>Kesehatan</strong></td><td>Meningkatkan mood dan produksi vitamin D.</td><td>Dapat mengganggu ritme sirkadian jika berlebihan di malam hari.</td></tr>
+                        <tr><td><strong>Efisiensi</strong></td><td>Sangat efisien (gratis), hemat biaya energi.</td><td>Membutuhkan energi (listrik), namun LED semakin efisien.</td></tr>
+                        <tr><td><strong>Dampak Lingkungan</strong></td><td>Ramah lingkungan, tanpa emisi karbon.</td><td>Menyumbang emisi karbon (tergantung sumber energi).</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 6: Kesimpulan -->
+    <section class="section" id="kesimpulan">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Kesimpulan dan Rekomendasi</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="column">
+                    <div class="card">
+                        <div class="card-content">
+                            <h3 class="card-title natural-color">Manfaatkan Cahaya Alami</h3>
+                            <p class="card-description">Cahaya alami adalah pilihan terbaik untuk kesehatan, kesejahteraan, dan lingkungan. Maksimalkan penggunaannya di siang hari untuk mengurangi ketergantungan pada listrik.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                     <div class="card">
+                        <div class="card-content">
+                            <h3 class="card-title artificial-color">Gunakan Cahaya Buatan dengan Bijak</h3>
+                            <p class="card-description">Cahaya buatan sangat penting untuk produktivitas dan keamanan di malam hari. Pilihlah teknologi yang efisien seperti LED dan gunakan hanya saat diperlukan untuk menghemat energi.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Lengkap Fotografi Golden Hour dan Blue Hour</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* --- Reset & Pengaturan Dasar --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* --- Struktur Section --- */
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            z-index: 2;
+        }
+        
+        .highlight-gold { color: #FFB300; font-weight: 600; }
+        .highlight-blue { color: #1976D2; font-weight: 600; }
+
+        /* --- Section 1: Hero --- */
+        #hero {
+            color: white;
+            text-align: center;
+            flex-direction: column;
+        }
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://picsum.photos/seed/sunrise/1280/720');
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+        #hero .title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        #hero .subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 40px;
+            max-width: 800px;
+        }
+        #hero .time-indicator {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        #hero .time-block { display: flex; flex-direction: column; align-items: center; }
+        #hero .time-icon { font-size: 48px; margin-bottom: 10px; }
+        #hero .time-text { font-size: 1.2rem; font-weight: 600; }
+        #hero .golden { color: #FFD54F; }
+        #hero .blue { color: #64B5F6; }
+
+        /* --- Header Section Umum --- */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-header .title {
+            font-size: 2.8rem;
+            font-weight: 700;
+        }
+        #golden-hour .title, #golden-settings .title, #golden-tech .title { color: #FF8F00; }
+        #blue-hour .title, #blue-settings .title, #blue-tech .title { color: #1565C0; }
+
+        /* --- Tata Letak & Card --- */
+        .content-wrapper { display: flex; gap: 40px; align-items: center; }
+        .left-content, .right-content { flex: 1; }
+        .image-container { width: 100%; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .image-container img { width: 100%; height: auto; display: block; }
+        
+        .feature-list { list-style: none; }
+        .feature-item { display: flex; align-items: flex-start; margin-bottom: 25px; font-size: 1.1rem; }
+        .feature-icon { font-size: 28px; margin-right: 15px; margin-top: 2px; }
+        
+        #golden-hour { background-color: #FFF8E1; }
+        #blue-hour { background-color: #E3F2FD; }
+        
+        .settings-grid, .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        .setting-card, .tech-card {
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: flex-start;
+        }
+        #golden-settings, #golden-tech { background-color: #FFF8E1; }
+        #blue-settings, #blue-tech { background-color: #E3F2FD; }
+        
+        #golden-settings .setting-card, #golden-tech .tech-card { background-color: #FFECB3; }
+        #blue-settings .setting-card, #blue-tech .tech-card { background-color: #BBDEFB; }
+        
+        .setting-icon, .tech-icon { font-size: 36px; margin-right: 20px; }
+        .setting-title, .tech-title { font-size: 1.5rem; font-weight: 600; margin-bottom: 12px; }
+        .setting-description, .tech-description { font-size: 1.1rem; }
+
+        /* --- ATURAN RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .section { padding: 60px 4%; }
+            #hero .title { font-size: 3.5rem; }
+            #hero .subtitle { font-size: 1.3rem; }
+            .section-header .title { font-size: 2.5rem; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 50px 20px; min-height: auto; }
+            #hero { min-height: 100vh; }
+            #hero .title { font-size: 2.5rem; }
+            .section-header .title { font-size: 2.2rem; }
+            .content-wrapper { flex-direction: column; gap: 30px; }
+            .right-content { order: -1; }
+            .settings-grid, .tech-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Judul Utama -->
+    <section class="section" id="hero">
+        <div class="container">
+            <h1 class="title">Panduan Fotografi <span class="highlight-gold">Golden Hour</span> & <span class="highlight-blue">Blue Hour</span></h1>
+            <p class="subtitle">Pelajari cara menangkap momen magis saat matahari terbit dan terbenam untuk menciptakan foto yang memukau.</p>
+            <div class="time-indicator">
+                <div class="time-block"><i class="material-icons time-icon golden">wb_sunny</i><span class="time-text golden">Golden Hour</span></div>
+                <div class="time-block"><i class="material-icons time-icon blue">nights_stay</i><span class="time-text blue">Blue Hour</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Golden Hour -->
+    <section class="section" id="golden-hour">
+        <div class="container">
+            <header class="section-header"><h2 class="title">Golden Hour: Cahaya Emas Fotografi</h2></header>
+            <div class="content-wrapper">
+                <div class="left-content">
+                    <ul class="feature-list">
+                        <li class="feature-item"><i class="material-icons feature-icon highlight-gold">wb_twilight</i><div>Terjadi <span class="highlight-gold">satu jam setelah matahari terbit</span> dan <span class="highlight-gold">satu jam sebelum terbenam</span>.</div></li>
+                        <li class="feature-item"><i class="material-icons feature-icon highlight-gold">palette</i><div>Menghasilkan cahaya <span class="highlight-gold">hangat, lembut, dan keemasan</span> dengan bayangan yang panjang dan dramatis.</div></li>
+                        <li class="feature-item"><i class="material-icons feature-icon highlight-gold">mood</i><div>Menciptakan suasana <span class="highlight-gold">hangat, romantis, dan nostalgia</span>, sangat ideal untuk fotografi potret dan lanskap.</div></li>
+                    </ul>
+                </div>
+                <div class="right-content">
+                    <div class="image-container"><img src="https://picsum.photos/seed/golden-hour/600/400" alt="Pemandangan Golden Hour dengan cahaya hangat"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 3: Blue Hour -->
+    <section class="section" id="blue-hour">
+        <div class="container">
+            <header class="section-header"><h2 class="title">Blue Hour: Suasana Magis Senja</h2></header>
+            <div class="content-wrapper">
+                <div class="left-content">
+                     <ul class="feature-list">
+                        <li class="feature-item"><i class="material-icons feature-icon highlight-blue">nights_stay</i><div>Periode singkat <span class="highlight-blue">tepat sebelum matahari terbit</span> dan <span class="highlight-blue">tepat setelah matahari terbenam</span>.</div></li>
+                        <li class="feature-item"><i class="material-icons feature-icon highlight-blue">palette</i><div>Langit dipenuhi dengan warna <span class="highlight-blue">biru tua yang pekat</span>, seringkali dengan gradasi ungu dan merah muda.</div></li>
+                        <li class="feature-item"><i class="material-icons feature-icon highlight-blue">mood</i><div>Menciptakan suasana yang <span class="highlight-blue">tenang, misterius, dan melankolis</span>. Sempurna untuk cityscape dengan lampu kota yang mulai menyala.</div></li>
+                    </ul>
+                </div>
+                <div class="right-content">
+                    <div class="image-container"><img src="https://picsum.photos/seed/blue-hour/600/400" alt="Pemandangan kota saat Blue Hour dengan langit biru tua"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Pengaturan Kamera Golden Hour -->
+    <section class="section" id="golden-settings">
+        <div class="container">
+            <header class="section-header"><h2 class="title">Pengaturan Kamera untuk Golden Hour</h2></header>
+            <div class="settings-grid">
+                <div class="setting-card"><i class="material-icons setting-icon">wb_cloudy</i><div><h3 class="setting-title">White Balance</h3><p class="setting-description">Gunakan mode <span class="highlight-gold">"Cloudy" (Mendung)</span> atau atur Kelvin ke <span class="highlight-gold">5500K-6500K</span> untuk memperkuat warna hangat alami.</p></div></div>
+                <div class="setting-card"><i class="material-icons setting-icon">iso</i><div><h3 class="setting-title">ISO</h3><p class="setting-description">Jaga ISO serendah mungkin (<span class="highlight-gold">100-200</span>) untuk kualitas gambar maksimal dan bebas noise.</p></div></div>
+                <div class="setting-card"><i class="material-icons setting-icon">camera</i><div><h3 class="setting-title">Aperture</h3><p class="setting-description">Untuk potret, gunakan aperture lebar (<span class="highlight-gold">f/1.8-f/4</span>). Untuk lanskap, gunakan aperture sempit (<span class="highlight-gold">f/8-f/16</span>).</p></div></div>
+                <div class="setting-card"><i class="material-icons setting-icon">shutter_speed</i><div><h3 class="setting-title">Shutter Speed</h3><p class="setting-description">Sesuaikan shutter speed untuk mendapatkan eksposur yang tepat. Biasanya cukup cepat untuk memotret tanpa tripod.</p></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Pengaturan Kamera Blue Hour -->
+    <section class="section" id="blue-settings">
+        <div class="container">
+            <header class="section-header"><h2 class="title">Pengaturan Kamera untuk Blue Hour</h2></header>
+            <div class="settings-grid">
+                <div class="setting-card"><i class="material-icons setting-icon">tungsten</i><div><h3 class="setting-title">White Balance</h3><p class="setting-description">Gunakan mode <span class="highlight-blue">"Tungsten"</span> atau atur Kelvin ke <span class="highlight-blue">3000K-4000K</span> untuk menonjolkan warna biru langit.</p></div></div>
+                <div class="setting-card"><i class="material-icons setting-icon">tripod</i><div><h3 class="setting-title">Tripod</h3><p class="setting-description"><span class="highlight-blue">Wajib digunakan!</span> Blue hour memiliki cahaya yang sangat minim, sehingga memerlukan shutter speed lambat.</p></div></div>
+                <div class="setting-card"><i class="material-icons setting-icon">camera</i><div><h3 class="setting-title">Aperture</h3><p class="setting-description">Gunakan aperture sempit (<span class="highlight-blue">f/8-f/14</span>) untuk memastikan seluruh pemandangan kota atau lanskap tetap tajam.</p></div></div>
+                <div class="setting-card"><i class="material-icons setting-icon">timer</i><div><h3 class="setting-title">Long Exposure</h3><p class="setting-description">Gunakan shutter speed lambat (<span class="highlight-blue">1 hingga 30 detik</span>) untuk menangkap cukup cahaya dan menciptakan efek seperti jejak lampu (light trails).</p></div></div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 6: Teknik Fotografi -->
+    <section class="section" id="golden-tech">
+        <div class="container">
+            <header class="section-header"><h2 class="title">Teknik Fotografi Populer</h2></header>
+            <div class="tech-grid">
+                <div class="tech-card"><i class="material-icons tech-icon">person_outline</i><div><h3 class="tech-title">Siluet (Golden Hour)</h3><p class="tech-description">Posisikan subjek Anda membelakangi matahari terbenam untuk menciptakan siluet hitam yang dramatis dengan latar belakang langit berwarna-warni.</p></div></div>
+                <div class="tech-card"><i class="material-icons tech-icon">flare</i><div><h3 class="tech-title">Sun Flare (Golden Hour)</h3><p class="tech-description">Biarkan sedikit cahaya matahari masuk langsung ke lensa untuk menciptakan efek suar (flare) yang artistik dan hangat.</p></div></div>
+                <div class="tech-card"><i class="material-icons tech-icon">traffic</i><div><h3 class="tech-title">Light Trails (Blue Hour)</h3><p class="tech-description">Gunakan long exposure untuk mengubah lampu mobil yang bergerak menjadi jejak cahaya yang dinamis dan berwarna.</p></div></div>
+                <div class="tech-card"><i class="material-icons tech-icon">water</i><div><h3 class="tech-title">Refleksi (Blue Hour)</h3><p class="tech-description">Manfaatkan permukaan air yang tenang untuk menangkap pantulan indah dari lampu kota dan langit biru yang dalam.</p></div></div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
