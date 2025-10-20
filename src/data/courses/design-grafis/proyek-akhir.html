@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Desain Grafis: Persiapan Wawancara dan Presentasi Portofolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* --- Global Reset & Body Styling --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            color: #333;
+            line-height: 1.6;
+            background-color: #f5f7fa;
+        }
+        
+        /* --- General Section Styling --- */
+        .slide {
+            width: 100%;
+            min-height: 100vh;
+            padding: 50px 5%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .slide:last-child {
+            border-bottom: none;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        
+        .highlight {
+            color: #64B5F6;
+            font-weight: 700;
+        }
+
+        /* --- Section 1: Hero --- */
+        .slide-hero {
+            background-image: url('https://sfile.chatglm.cn/images-ppt/11e83436b1b1.jpg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(25, 55, 100, 0.75);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .hero-title {
+            font-size: 60px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            font-weight: 400;
+            max-width: 800px;
+            line-height: 1.5;
+            color: #e0e0e0;
+        }
+        
+        .icon-container {
+            margin-top: 40px;
+        }
+        
+        .icon-container .material-icons {
+            font-size: 48px;
+            color: #64B5F6;
+        }
+
+        /* --- Content Sections (2-6) Styling --- */
+        .slide-content {
+             background-color: #f5f7fa;
+        }
+        
+        .header {
+            width: 100%;
+            max-width: 1280px;
+            padding: 20px;
+            margin-bottom: 40px;
+            background-color: #193764;
+            color: #ffffff;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 40px;
+            font-weight: 700;
+        }
+
+        .content {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            width: 100%;
+            max-width: 1280px;
+        }
+        
+        .left-content, .right-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .portfolio-image, .interview-image, .success-image {
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            max-height: 500px;
+        }
+
+        /* --- Specific Content Elements --- */
+        .step, .tip, .question {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        
+        .step-number {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 36px;
+            height: 36px;
+            background-color: #193764;
+            color: white;
+            border-radius: 50%;
+            font-weight: 600;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .tip-icon, .question-icon {
+            color: #193764;
+            margin-right: 15px;
+            flex-shrink: 0;
+            font-size: 28px;
+        }
+        
+        .step-title, .tip-title, .question-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #193764;
+            margin-bottom: 5px;
+        }
+
+        .step-desc, .tip-desc, .question-answer {
+            font-size: 18px;
+            color: #555;
+        }
+        
+        .question-answer {
+            padding-left: 10px;
+            border-left: 3px solid #64B5F6;
+        }
+
+        /* --- Media Queries for Responsiveness --- */
+
+        /* Tablet Styles */
+        @media (max-width: 1024px) {
+            .hero-title {
+                font-size: 50px;
+            }
+            .section-title {
+                font-size: 36px;
+            }
+            .slide {
+                padding: 40px 4%;
+            }
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            /* Reverse column order for some sections on mobile for better flow */
+            .slide-interview-prep .content,
+            .slide-success-tips .content {
+                flex-direction: column-reverse;
+            }
+
+            .hero-title {
+                font-size: 36px;
+            }
+            .hero-subtitle {
+                font-size: 18px;
+            }
+            
+            .section-title {
+                font-size: 28px;
+            }
+
+            .header {
+                margin-bottom: 30px;
+            }
+            
+            .step-title, .tip-title, .question-title {
+                font-size: 20px;
+            }
+
+            .step-desc, .tip-desc, .question-answer {
+                font-size: 16px;
+            }
+
+            .slide {
+                padding: 40px 5%;
+                min-height: auto; /* Allow height to be determined by content on mobile */
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Judul Utama -->
+    <section class="slide slide-hero">
+        <div class="overlay">
+            <h1 class="hero-title">Tutorial Desain Grafis: <span class="highlight">Persiapan Wawancara dan Presentasi Portofolio</span></h1>
+            <p class="hero-subtitle">Pelajari cara membuat portofolio yang menarik dan persiapkan diri Anda untuk wawancara kerja sebagai desainer grafis profesional</p>
+            <div class="icon-container">
+                <i class="material-icons">brush</i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Cara Membuat Portofolio -->
+    <section class="slide slide-content">
+        <div class="header">
+            <h1 class="section-title">Cara Membuat Portofolio Desain Grafis yang <span class="highlight">Efektif</span> dan <span class="highlight">Menarik</span></h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">Pilih Platform Tepat</div>
+                            <div class="step-desc">Website, Behance, atau platform khusus portofolio</div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">Pilih Karya Terbaik</div>
+                            <div class="step-desc">Kualitas lebih penting dari kuantitas</div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">Ceritakan Proses Kerja</div>
+                            <div class="step-desc">Jelaskan konsep, riset, dan solusi desain</div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-title">Desain Konsisten</div>
+                            <div class="step-desc">Gunakan gaya visual yang merefleksikan kepribadian Anda</div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <div class="step-title">Organisasi yang Jelas</div>
+                            <div class="step-desc">Kategorisasi proyek berdasarkan jenis atau klien</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="image-container">
+                    <img src="https://sfile.chatglm.cn/images-ppt/c3bcefd6676a.jpg" alt="Contoh Portofolio Desain Grafis" class="portfolio-image">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 3: Tips Persiapan Wawancara -->
+    <section class="slide slide-content slide-interview-prep">
+        <div class="header">
+            <h1 class="section-title">Tips Persiapan Wawancara untuk <span class="highlight">Desainer Grafis</span></h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="image-container">
+                    <img src="https://sfile.chatglm.cn/images-ppt/56dacde63942.jpg" alt="Desainer Grafis Mempersiapkan Wawancara" class="interview-image">
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="tips-container">
+                    <div class="tip">
+                        <i class="material-icons tip-icon">folder</i>
+                        <div class="tip-content">
+                            <div class="tip-title">Perbarui Portofolio</div>
+                            <div class="tip-desc">Pilih karya terbaik yang relevan dengan posisi</div>
+                        </div>
+                    </div>
+                    <div class="tip">
+                        <i class="material-icons tip-icon">search</i>
+                        <div class="tip-content">
+                            <div class="tip-title">Riset Perusahaan</div>
+                            <div class="tip-desc">Pelajari nilai-nilai dan gaya desain perusahaan</div>
+                        </div>
+                    </div>
+                    <div class="tip">
+                        <i class="material-icons tip-icon">question_answer</i>
+                        <div class="tip-content">
+                            <div class="tip-title">Siapkan Jawaban</div>
+                            <div class="tip-desc">Latih menjawab pertanyaan umum desain grafis</div>
+                        </div>
+                    </div>
+                    <div class="tip">
+                        <i class="material-icons tip-icon">devices</i>
+                        <div class="tip-content">
+                            <div class="tip-title">Persiapkan Alat</div>
+                            <div class="tip-desc">Siapkan laptop/tablet untuk presentasi portofolio</div>
+                        </div>
+                    </div>
+                    <div class="tip">
+                        <i class="material-icons tip-icon">school</i>
+                        <div class="tip-content">
+                            <div class="tip-title">Tunjukkan Minat Belajar</div>
+                            <div class="tip-desc">Sertakan kursus atau sertifikasi terkini</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 4: Cara Presentasi Portofolio -->
+    <section class="slide slide-content">
+        <div class="header">
+            <h1 class="section-title">Cara Mempresentasikan Portofolio dengan <span class="highlight">Baik</span> Saat Wawancara</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="presentation-tips">
+                    <div class="tip">
+                        <i class="material-icons tip-icon">timer</i>
+                        <div class="tip-content">
+                            <div class="tip-title">Waktu Terbatas</div>
+                            <div class="tip-desc">Pilih 3-5 karya terbaik yang relevan dengan posisi</div>
+                        </div>
+                    </div>
+                    <div class="tip">
+                        <i class="material-icons tip-icon">psychology</i>
+                        <div class="tip-content">
+                            <div class="tip-title">Ceritakan Proses</div>
+                            <div class="tip-desc">Jelaskan konsep, tantangan, dan solusi desain</div>
+                        </div>
+                    </div>
+                    <div class="tip">
+                        <i class="material-icons tip-icon">analytics</i>
+                        <div class="tip-content">
+                            <div class="tip-title">Hasil Bisnis</div>
+                            <div class="tip-desc">Sertakan metrik atau dampak positif dari desain</div>
+                        </div>
+                    </div>
+                    <div class="tip">
+                        <i class="material-icons tip-icon">groups</i>
+                        <div class="tip-content">
+                            <div class="tip-title">Kolaborasi</div>
+                            <div class="tip-desc">Sebutkan peran Anda dalam proyek tim</div>
+                        </div>
+                    </div>
+                    <div class="tip">
+                        <i class="material-icons tip-icon">devices</i>
+                        <div class="tip-content">
+                            <div class="tip-title">Format Digital</div>
+                            <div class="tip-desc">Siapkan portofolio dalam berbagai format (PDF, website)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="image-container">
+                    <img src="https://sfile.chatglm.cn/images-ppt/baaf495f5198.png" alt="Presentasi Portofolio Desain Grafis" class="portfolio-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Contoh Pertanyaan Wawancara -->
+    <section class="slide slide-content">
+        <div class="header">
+            <h1 class="section-title">Contoh Pertanyaan Wawancara dan Cara <span class="highlight">Menjawabnya</span></h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="questions-container">
+                    <div class="question">
+                        <i class="material-icons question-icon">help_outline</i>
+                        <div class="question-content">
+                            <div class="question-title">Keterampilan wajib desainer grafis?</div>
+                            <div class="question-answer">Teknis + strategi + pemahaman nilai perusahaan</div>
+                        </div>
+                    </div>
+                    <div class="question">
+                        <i class="material-icons question-icon">help_outline</i>
+                        <div class="question-content">
+                            <div class="question-title">Proyek yang ingin dikerjakan?</div>
+                            <div class="question-answer">Padukan kreativitas dengan analisis kebutuhan klien</div>
+                        </div>
+                    </div>
+                    <div class="question">
+                        <i class="material-icons question-icon">help_outline</i>
+                        <div class="question-content">
+                            <div class="question-title">Software yang dikuasai?</div>
+                            <div class="question-answer">Adobe Photoshop, Illustrator, Corel Draw + adaptasi</div>
+                        </div>
+                    </div>
+                    <div class="question">
+                        <i class="material-icons question-icon">help_outline</i>
+                        <div class="question-content">
+                            <div class="question-title">Cara meningkatkan kemampuan?</div>
+                            <div class="question-answer">Kursus online, pelatihan, ikuti tren desain terbaru</div>
+                        </div>
+                    </div>
+                     <div class="question">
+                        <i class="material-icons question-icon">help_outline</i>
+                        <div class="question-content">
+                            <div class="question-title">Siapa yang menggunakan karya?</div>
+                            <div class="question-answer">Sebutkan klien, perusahaan, dan dampak karya</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="image-container">
+                    <img src="https://sfile.chatglm.cn/images-ppt/b0c0ffe3b35e.png" alt="Pertanyaan Wawancara Desain Grafis" class="interview-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: Tips Tambahan -->
+    <section class="slide slide-content slide-success-tips">
+        <div class="header">
+            <h1 class="section-title">Tips Tambahan untuk <span class="highlight">Sukses</span></h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="image-container">
+                    <img src="https://sfile.chatglm.cn/images-ppt/4bc352da974e.jpg" alt="Tips Sukses Wawancara Desainer Grafis" class="success-image">
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="tips-container">
+                    <div class="tip">
+                        <i class="material-icons tip-icon">watch_later</i>
+                        <div class="tip-content">
+                            <div class="tip-title">Datang Tepat Waktu</div>
+                            <div class="tip-desc">Persiapkan diri 15 menit sebelum wawancara</div>
+                        </div>
+                    </div>
+                    <div class="tip">
+                        <i class="material-icons tip-icon">style</i>
+                        <div class="tip-content">
+                            <div class="tip-title">Berpenampilan Profesional</div>
+                            <div class="tip-desc">Sesuaikan gaya dengan budaya perusahaan</div>
+                        </div>
+                    </div>
+                    <div class="tip">
+                        <i class="material-icons tip-icon">question_answer</i>
+                        <div class="tip-content">
+                            <div class="tip-title">Ajukan Pertanyaan</div>
+                            <div class="tip-desc">Tunjukkan minat dan ketertarikan pada perusahaan</div>
+                        </div>
+                    </div>
+                    <div class="tip">
+                        <i class="material-icons tip-icon">send</i>
+                        <div class="tip-content">
+                            <div class="tip-title">Follow-up</div>
+                            <div class="tip-desc">Kirim email terima kasih setelah wawancara</div>
+                        </div>
+                    </div>
+                    <div class="tip">
+                        <i class="material-icons tip-icon">psychology</i>
+                        <div class="tip-content">
+                            <div class="tip-title">Percaya Diri</div>
+                            <div class="tip-desc">Tunjukkan passion dan antusiasme pada desain</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

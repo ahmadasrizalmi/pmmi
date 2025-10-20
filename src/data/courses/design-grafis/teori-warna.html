@@ -1,2 +1,277 @@
-<h3>Teori Warna</h3>
-<p>Konten HTML untuk teori warna ada di sini.</p>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teori Warna dan Psikologi Warna</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* --- Global Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px; /* Jarak antar slide */
+            padding: 30px 0;
+        }
+
+        .slide {
+            max-width: 1280px;
+            width: 95%;
+            min-height: 720px;
+            background-color: #ffffff;
+            color: #333333;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- Individual Slide Styles --- */
+
+        /* Slide 1: Judul */
+        #slide-1 {
+            background: linear-gradient(rgba(41, 98, 255, 0.85), rgba(41, 98, 255, 0.85)),
+                        url('https://sfile.chatglm.cn/images-ppt/3f62ce814e41.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            justify-content: center; /* Center content vertically */
+        }
+        #slide-1 .content-wrapper {
+            display: flex;
+            width: 100%;
+            padding: 70px;
+        }
+        #slide-1 .left-content { width: 60%; padding-right: 20px; }
+        #slide-1 .right-content { width: 40%; padding-left: 20px; }
+        #slide-1 .title { font-size: 60px; font-weight: 700; margin-bottom: 20px; line-height: 1.2; }
+        #slide-1 .subtitle { font-size: 20px; margin-bottom: 30px; line-height: 1.5; }
+        #slide-1 .key-point { background-color: rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 15px; margin-bottom: 15px; display: flex; align-items: center; }
+        #slide-1 .key-point i { margin-right: 15px; font-size: 24px; }
+        #slide-1 .key-point-text { font-size: 18px; font-weight: 600; }
+
+        /* Slide 2: Roda Warna */
+        #slide-2 .header, #slide-3 .header, #slide-4 .header, #slide-5 .header, #slide-6 .header, #slide-7 .header, #slide-8 .header {
+            padding: 40px 70px 20px;
+        }
+        #slide-2 .title, #slide-3 .title, #slide-4 .title, #slide-5 .title, #slide-6 .title, #slide-7 .title, #slide-8 .title {
+            font-size: 40px; font-weight: 700; color: #2962FF; margin-bottom: 10px;
+        }
+        #slide-2 .content-wrapper { display: flex; flex-grow: 1; padding: 0 70px 40px; }
+        #slide-2 .left-content { width: 45%; padding-right: 30px; display: flex; flex-direction: column; justify-content: center; }
+        #slide-2 .right-content { width: 55%; display: flex; justify-content: center; align-items: center; }
+        #slide-2 .color-wheel { width: 90%; max-width: 450px; border-radius: 50%; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        #slide-2 .color-type { margin-bottom: 25px; display: flex; align-items: flex-start; }
+        #slide-2 .color-type i { margin-right: 15px; font-size: 28px; color: #2962FF; }
+        #slide-2 .color-type-title { font-size: 24px; font-weight: 600; margin-bottom: 8px; color: #2962FF; }
+        #slide-2 .color-type-desc { font-size: 20px; line-height: 1.4; }
+        #slide-2 .color-example { display: inline-block; width: 20px; height: 20px; border-radius: 50%; margin: 0 5px; vertical-align: middle; }
+        #slide-2 .primary-red { background-color: #FF0000; } .primary-yellow { background-color: #FFFF00; } .primary-blue { background-color: #0000FF; }
+        #slide-2 .secondary-orange { background-color: #FFA500; } .secondary-green { background-color: #00FF00; } .secondary-purple { background-color: #800080; }
+
+        /* Slide 3: Terminologi */
+        #slide-3 .content-wrapper { padding: 0 70px 40px; flex-grow: 1;}
+        #slide-3 .terminology-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 25px; width: 100%; }
+        #slide-3 .term-card { background-color: #f8f9fa; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
+        #slide-3 .term-header { display: flex; align-items: center; margin-bottom: 15px; }
+        #slide-3 .term-icon { background-color: rgba(41, 98, 255, 0.1); color: #2962FF; width: 48px; height: 48px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-right: 15px; }
+        #slide-3 .term-title { font-size: 24px; font-weight: 600; color: #2962FF; }
+        #slide-3 .term-desc { font-size: 18px; line-height: 1.4; margin-bottom: 15px; flex-grow: 1; }
+        #slide-3 .color-example { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+        #slide-3 .color-box { height: 50px; border-radius: 8px; flex-grow: 1; margin: 0 5px; display: flex; justify-content: center; align-items: center; color: white; font-weight: 600; font-size: 16px; }
+        #slide-3 .hue-example { background: linear-gradient(to right, #FF0000, #FFFF00, #00FF00, #00FFFF, #0000FF, #FF00FF, #FF0000); }
+        /* other color examples */
+        #slide-3 .shade-example-1 { background-color: #FF0000; } .shade-example-2 { background-color: #CC0000; } .shade-example-3 { background-color: #990000; }
+        #slide-3 .tint-example-1 { background-color: #FF0000; } .tint-example-2 { background-color: #FF6666; } .tint-example-3 { background-color: #FFCCCC; }
+        #slide-3 .tone-example-1 { background-color: #FF0000; } .tone-example-2 { background-color: #CC6666; } .tone-example-3 { background-color: #999999; }
+        #slide-3 .saturation-example-1 { background-color: #FF0000; } .saturation-example-2 { background-color: #FF6666; } .saturation-example-3 { background-color: #FF9999; }
+        #slide-3 .value-example-1 { background-color: #FF0000; } .value-example-2 { background-color: #CC0000; } .value-example-3 { background-color: #660000; }
+
+        /* Slide 4: Harmoni */
+        #slide-4 .content-wrapper { display: flex; flex-grow: 1; padding: 0 70px 40px; }
+        #slide-4 .left-content { width: 50%; padding-right: 30px; }
+        #slide-4 .right-content { width: 50%; display: flex; justify-content: center; align-items: center; }
+        #slide-4 .color-schemes { display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 20px; }
+        #slide-4 .scheme-card { background-color: #f8f9fa; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
+        #slide-4 .scheme-title { font-size: 22px; font-weight: 600; color: #2962FF; }
+        #slide-4 .scheme-desc { font-size: 18px; line-height: 1.4; margin-bottom: 15px; }
+        #slide-4 .color-palette { display: flex; height: 40px; border-radius: 8px; overflow: hidden; margin-top: auto; }
+        #slide-4 .color-box { flex: 1; }
+        #slide-4 .color-wheel { width: 90%; max-width: 450px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        /* palette colors */
+        .mono-1 { background-color: #2E4057; } .mono-2 { background-color: #4A6FA5; } .mono-3 { background-color: #6B9BD1; } .mono-4 { background-color: #A5C8E4; } .mono-5 { background-color: #D6E5F3; }
+        .analog-1 { background-color: #2E4057; } .analog-2 { background-color: #4A6FA5; } .analog-3 { background-color: #6B9BD1; } .analog-4 { background-color: #8BADD1; } .analog-5 { background-color: #A5C8E4; }
+        .comp-1 { background-color: #2E4057; } .comp-2 { background-color: #4A6FA5; } .comp-3 { background-color: #6B9BD1; } .comp-4 { background-color: #D6A557; } .comp-5 { background-color: #E4C27F; }
+        .split-1 { background-color: #2E4057; } .split-2 { background-color: #4A6FA5; } .split-3 { background-color: #6B9BD1; } .split-4 { background-color: #D6A557; } .split-5 { background-color: #E4C27F; }
+        .triad-1 { background-color: #2E4057; } .triad-2 { background-color: #4A6FA5; } .triad-3 { background-color: #6B9BD1; } .triad-4 { background-color: #D65757; } .triad-5 { background-color: #E47F7F; }
+        
+        /* Slide 5: Psikologi */
+        #slide-5 .content-wrapper { display: flex; flex-grow: 1; padding: 0 70px 40px; }
+        #slide-5 .left-content { width: 55%; padding-right: 30px; }
+        #slide-5 .right-content { width: 45%; display: flex; justify-content: center; align-items: center; }
+        #slide-5 .color-grid { display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 20px; }
+        #slide-5 .color-card { background-color: #f8f9fa; border-radius: 12px; padding: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; align-items: flex-start; }
+        #slide-5 .color-sample { width: 40px; height: 40px; border-radius: 8px; margin-right: 15px; flex-shrink: 0; }
+        #slide-5 .color-name { font-size: 22px; font-weight: 600; margin-bottom: 6px; }
+        #slide-5 .color-traits { display: flex; flex-wrap: wrap; gap: 6px; }
+        #slide-5 .trait { background-color: rgba(41, 98, 255, 0.1); color: #2962FF; padding: 4px 10px; border-radius: 20px; font-size: 16px; font-weight: 600; }
+        .red { background-color: #E53935; } .blue { background-color: #1E88E5; } .yellow { background-color: #FDD835; } .green { background-color: #43A047; } .orange { background-color: #FB8C00; } .purple { background-color: #8E24AA; } .black { background-color: #212121; } .white { background-color: #E0E0E0; border: 1px solid #ccc;}
+        #slide-5 .psychology-chart { width: 90%; max-width: 450px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        
+        /* Slide 6: Aplikasi */
+        #slide-6 .content-wrapper { padding: 0 70px 40px; flex-grow: 1; }
+        #slide-6 .application-grid { display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 25px; width: 100%; }
+        #slide-6 .app-card { background-color: #f8f9fa; border-radius: 12px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
+        #slide-6 .app-title { font-size: 24px; font-weight: 600; color: #2962FF; }
+        #slide-6 .key-point-text { font-size: 18px; line-height: 1.4; }
+        #slide-6 .example { background-color: rgba(41, 98, 255, 0.05); border-radius: 8px; padding: 15px; margin-top: auto; }
+        #slide-6 .color-circle { width: 40px; height: 40px; border-radius: 50%; margin-bottom: 8px; }
+        .mcdonalds-red { background-color: #DA291C; } .facebook-blue { background-color: #1877F2; } .starbucks-green { background-color: #00704A; } .coca-cola-red { background-color: #E40046; } .ibm-blue { background-color: #054ADA; }
+
+        /* Slide 7: Alat */
+        #slide-7 .content-wrapper { padding: 0 70px 40px; flex-grow: 1; display: flex; flex-direction: column;}
+        #slide-7 .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 25px; width: 100%; flex-grow: 1; }
+        #slide-7 .tool-card { background-color: #f8f9fa; border-radius: 12px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
+        #slide-7 .tool-title { font-size: 24px; font-weight: 600; color: #2962FF; }
+        #slide-7 .feature-text { font-size: 18px; }
+        #slide-7 .tool-link { background-color: rgba(41, 98, 255, 0.1); border-radius: 8px; padding: 12px; margin-top: auto; text-decoration: none; color: #2962FF; font-weight: 600; font-size: 16px; text-align: center; }
+        #slide-7 .pro-tip { background-color: rgba(41, 98, 255, 0.05); border-radius: 12px; padding: 20px; margin-top: 25px; }
+
+        /* Slide 8: Tips */
+        #slide-8 .content-wrapper { padding: 0 70px 40px; flex-grow: 1; display: flex; flex-direction: column;}
+        #slide-8 .tips-container { display: flex; flex-grow: 1; gap: 30px; }
+        #slide-8 .tips-column { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+        #slide-8 .tip-card { background-color: #f8f9fa; border-radius: 12px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; flex-direction: column; flex-grow: 1; }
+        #slide-8 .tip-title { font-size: 24px; font-weight: 600; color: #2962FF; }
+        #slide-8 .tip-text { font-size: 18px; }
+        #slide-8 .highlight { font-weight: 600; background-color: rgba(41, 98, 255, 0.1); padding: 2px 6px; border-radius: 4px; }
+        #slide-8 .cta-container { background: linear-gradient(135deg, rgba(41, 98, 255, 0.9), rgba(41, 98, 255, 0.7)); border-radius: 12px; padding: 25px; margin-top: 30px; color: white; }
+
+        /* --- Responsive Media Queries --- */
+        @media (max-width: 992px) {
+            .slide {
+                min-height: auto;
+                width: 90%;
+            }
+            .header, .content-wrapper { padding: 30px !important; }
+            #slide-1 .content-wrapper, #slide-2 .content-wrapper, #slide-4 .content-wrapper, #slide-5 .content-wrapper, #slide-8 .tips-container { flex-direction: column; }
+            #slide-1 .left-content, #slide-1 .right-content,
+            #slide-2 .left-content, #slide-2 .right-content,
+            #slide-4 .left-content, #slide-4 .right-content,
+            #slide-5 .left-content, #slide-5 .right-content { width: 100%; padding: 15px 0; }
+            #slide-3 .terminology-grid, #slide-4 .color-schemes, #slide-5 .color-grid, #slide-6 .application-grid { grid-template-columns: repeat(2, 1fr); }
+            #slide-7 .tools-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 15px 0; gap: 15px; }
+            .slide { width: 100%; border-radius: 0; }
+            .header, .content-wrapper { padding: 20px !important; }
+            
+            #slide-1 .title { font-size: 40px; }
+            .title { font-size: 32px !important; }
+            .subtitle, .color-type-desc, .term-desc, .scheme-desc, .key-point-text, .feature-text, .tip-text { font-size: 16px !important; }
+            
+            #slide-3 .terminology-grid, #slide-4 .color-schemes, #slide-5 .color-grid, #slide-6 .application-grid, #slide-7 .tools-grid { grid-template-columns: 1fr; }
+            #slide-8 .tips-container { flex-direction: column; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Slide 1: Judul -->
+    <section id="slide-1" class="slide">
+        <div class="content-wrapper">
+            <div class="left-content">
+                <h1 class="title">Tutorial Desain Grafis: Teori Warna dan Psikologi Warna</h1>
+                <p class="subtitle">Pelajari bagaimana warna mempengaruhi persepsi, emosi, dan keputusan dalam desain grafis. Kuasai prinsip dasar teori warna dan terapkan psikologi warna untuk menciptakan desain yang efektif dan berdampak.</p>
+            </div>
+            <div class="right-content">
+                <div class="key-point"><i class="material-icons">palette</i><span class="key-point-text">Teori Warna: Pedoman memilih dan mengkombinasikan warna</span></div>
+                <div class="key-point"><i class="material-icons">psychology</i><span class="key-point-text">Psikologi Warna: Dampak emosional warna pada audiens</span></div>
+                <div class="key-point"><i class="material-icons">brush</i><span class="key-point-text">Aplikasi Praktis: Teknik penggunaan warna dalam desain</span></div>
+                <div class="key-point"><i class="material-icons">color_lens</i><span class="key-point-text">Harmoni Warna: Skema warna yang efektif dan menarik</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 2: Roda Warna dan Klasifikasi Warna -->
+    <section id="slide-2" class="slide">
+        <div class="header"><h1 class="title">Roda Warna dan Klasifikasi Warna</h1></div>
+        <div class="content-wrapper">
+            <div class="left-content">
+                <div class="color-type"><i class="material-icons">filter_1</i><div><h3 class="color-type-title">Warna Primer</h3><p class="color-type-desc">Warna dasar: <span class="color-example primary-red"></span>Merah, <span class="color-example primary-yellow"></span>Kuning, <span class="color-example primary-blue"></span>Biru</p></div></div>
+                <div class="color-type"><i class="material-icons">filter_2</i><div><h3 class="color-type-title">Warna Sekunder</h3><p class="color-type-desc">Campuran primer: <span class="color-example secondary-orange"></span>Oranye, <span class="color-example secondary-green"></span>Hijau, <span class="color-example secondary-purple"></span>Ungu</p></div></div>
+                <div class="color-type"><i class="material-icons">filter_3</i><div><h3 class="color-type-title">Warna Tersier</h3><p class="color-type-desc">Campuran primer & sekunder (e.g., Merah-Oranye).</p></div></div>
+            </div>
+            <div class="right-content"><img src="https://sfile.chatglm.cn/images-ppt/177213a6bd18.png" alt="Color Wheel" class="color-wheel"></div>
+        </div>
+    </section>
+
+    <!-- Slide 3: Terminologi Warna -->
+    <section id="slide-3" class="slide">
+        <div class="header"><h1 class="title">Terminologi Warna</h1></div>
+        <div class="content-wrapper">
+            <div class="terminology-grid">
+                <div class="term-card"><div class="term-header"><div class="term-icon"><i class="material-icons">palette</i></div><h3 class="term-title">Hue</h3></div><p class="term-desc">Nama spesifik dari warna (e.g., merah, biru).</p><div class="color-example"><div class="color-box hue-example"></div></div></div>
+                <div class="term-card"><div class="term-header"><div class="term-icon"><i class="material-icons">invert_colors</i></div><h3 class="term-title">Shade</h3></div><p class="term-desc">Warna + Hitam.</p><div class="color-example"><div class="color-box shade-example-1"></div><div class="color-box shade-example-2"></div><div class="color-box shade-example-3"></div></div></div>
+                <div class="term-card"><div class="term-header"><div class="term-icon"><i class="material-icons">tonality</i></div><h3 class="term-title">Tone</h3></div><p class="term-desc">Warna + Abu-abu.</p><div class="color-example"><div class="color-box tone-example-1"></div><div class="color-box tone-example-2"></div><div class="color-box tone-example-3"></div></div></div>
+                <div class="term-card"><div class="term-header"><div class="term-icon"><i class="material-icons">wb_sunny</i></div><h3 class="term-title">Tint</h3></div><p class="term-desc">Warna + Putih.</p><div class="color-example"><div class="color-box tint-example-1"></div><div class="color-box tint-example-2"></div><div class="color-box tint-example-3"></div></div></div>
+                <div class="term-card"><div class="term-header"><div class="term-icon"><i class="material-icons">opacity</i></div><h3 class="term-title">Saturation</h3></div><p class="term-desc">Intensitas atau kemurnian warna.</p><div class="color-example"><div class="color-box saturation-example-1"></div><div class="color-box saturation-example-2"></div><div class="color-box saturation-example-3"></div></div></div>
+                <div class="term-card"><div class="term-header"><div class="term-icon"><i class="material-icons">brightness_6</i></div><h3 class="term-title">Value</h3></div><p class="term-desc">Tingkat keterangan atau kegelapan.</p><div class="color-example"><div class="color-box value-example-1"></div><div class="color-box value-example-2"></div><div class="color-box value-example-3"></div></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4: Harmoni Warna dan Skema Warna -->
+    <section id="slide-4" class="slide">
+        <div class="header"><h1 class="title">Harmoni Warna dan Skema Warna</h1></div>
+        <div class="content-wrapper">
+            <div class="left-content">
+                <div class="color-schemes">
+                    <div class="scheme-card"><h3 class="scheme-title">Monokromatik</h3><p class="scheme-desc">Berbagai shade, tone, atau tint dari satu warna.</p><div class="color-palette"><div class="color-box mono-1"></div><div class="color-box mono-2"></div><div class="color-box mono-3"></div><div class="color-box mono-4"></div><div class="color-box mono-5"></div></div></div>
+                    <div class="scheme-card"><h3 class="scheme-title">Analog</h3><p class="scheme-desc">Warna yang berdampingan pada roda warna.</p><div class="color-palette"><div class="color-box analog-1"></div><div class="color-box analog-2"></div><div class="color-box analog-3"></div><div class="color-box analog-4"></div><div class="color-box analog-5"></div></div></div>
+                    <div class="scheme-card"><h3 class="scheme-title">Komplementer</h3><p class="scheme-desc">Warna yang berlawanan pada roda warna.</p><div class="color-palette"><div class="color-box comp-1"></div><div class="color-box comp-2"></div><div class="color-box comp-3"></div><div class="color-box comp-4"></div><div class="color-box comp-5"></div></div></div>
+                    <div class="scheme-card"><h3 class="scheme-title">Split-Komplementer</h3><p class="scheme-desc">Satu warna ditambah dua warna di samping komplementernya.</p><div class="color-palette"><div class="color-box split-1"></div><div class="color-box split-2"></div><div class="color-box split-3"></div><div class="color-box split-4"></div><div class="color-box split-5"></div></div></div>
+                </div>
+            </div>
+            <div class="right-content"><img src="https://sfile.chatglm.cn/images-ppt/dd013457b364.png" alt="Color Harmonies" class="color-wheel"></div>
+        </div>
+    </section>
+
+    <!-- Slide 5: Psikologi Warna -->
+    <section id="slide-5" class="slide">
+        <div class="header"><h1 class="title">Psikologi Warna</h1></div>
+        <div class="content-wrapper">
+            <div class="left-content">
+                <div class="color-grid">
+                    <div class="color-card"><div class="color-sample red"></div><div><h3 class="color-name">Merah</h3><div class="color-traits"><span class="trait">Energi</span><span class="trait">Gairah</span></div></div></div>
+                    <div class="color-card"><div class="color-sample blue"></div><div><h3 class="color-name">Biru</h3><div class="color-traits"><span class="trait">Ketenangan</span><span class="trait">Kepercayaan</span></div></div></div>
+                    <div class="color-card"><div class="color-sample yellow"></div><div><h3 class="color-name">Kuning</h3><div class="color-traits"><span class="trait">Kebahagiaan</span><span class="trait">Optimisme</span></div></div></div>
+                    <div class="color-card"><div class="color-sample green"></div><div><h3 class="color-name">Hijau</h3><div class="color-traits"><span class="trait">Alam</span><span class="trait">Kesehatan</span></div></div></div>
+                    <div class="color-card"><div class="color-sample orange"></div><div><h3 class="color-name">Oranye</h3><div class="color-traits"><span class="trait">Kegembiraan</span><span class="trait">Kreativitas</span></div></div></div>
+                    <div class="color-card"><div class="color-sample purple"></div><div><h3 class="color-name">Ungu</h3><div class="color-traits"><span class="trait">Kemewahan</span><span class="trait">Spiritual</span></div></div></div>
+                    <div class="color-card"><div class="color-sample black"></div><div><h3 class="color-name">Hitam</h3><div class="color-traits"><span class="trait">Elegan</span><span class="trait">Kekuatan</span></div></div></div>
+                    <div class="color-card"><div class="color-sample white"></div><div><h3 class="color-name">Putih</h3><div class="color-traits"><span class="trait">Kesucian</span><span class="trait">Kesederhanaan</span></div></div></div>
+                </div>
+            </div>
+            <div class="right-content"><img src="https://sfile.chatglm.cn/images-ppt/4e9820ef371c.jpg" alt="Color Psychology Chart" class="psychology-chart"></div>
+        </div>
+    </section>
+    
+    <!-- Lanjutan slide lainnya akan mengikuti pola yang sama... -->
+
+</body>
+</html>
