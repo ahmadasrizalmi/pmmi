@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Lengkap Jenis-Jenis Fotografi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* --- Reset & Pengaturan Dasar --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* --- Struktur Section --- */
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            z-index: 2;
+        }
+        
+        /* --- Section 1: Hero --- */
+        #hero {
+            color: white;
+            text-align: center;
+            flex-direction: column;
+        }
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://picsum.photos/seed/photography-genres/1280/720');
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+        #hero .title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        #hero .subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            max-width: 800px;
+        }
+
+        /* --- Header Section Umum --- */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-header .title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        /* --- Tata Letak & Styling Konten --- */
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        .text-content, .image-content {
+            flex: 1;
+        }
+        
+        .image-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .info-section {
+            margin-bottom: 25px;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title i {
+            margin-right: 12px;
+        }
+        .info-list {
+            list-style-type: none;
+            padding-left: 5px;
+        }
+        .info-list li {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .info-list li::before {
+            content: "•";
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+        /* Coloring based on section */
+        #landscape .section-title, #landscape .info-list li::before { color: #3498db; }
+        #portrait .section-title, #portrait .info-list li::before { color: #9c27b0; }
+        #street .section-title, #street .info-list li::before { color: #ff9800; }
+        #macro .section-title, #macro .info-list li::before { color: #4caf50; }
+        #still-life .section-title, #still-life .info-list li::before { color: #795548; }
+        #product .section-title, #product .info-list li::before { color: #3f51b5; }
+        #fashion .section-title, #fashion .info-list li::before { color: #e91e63; }
+        #documentary .section-title, #documentary .info-list li::before { color: #607d8b; }
+
+        /* --- ATURAN RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .section { padding: 60px 4%; }
+            #hero .title { font-size: 3.5rem; }
+            #hero .subtitle { font-size: 1.3rem; }
+            .section-header .title { font-size: 2.5rem; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 50px 20px; min-height: auto; }
+            #hero { min-height: 100vh; }
+            #hero .title { font-size: 2.5rem; }
+            .section-header .title { font-size: 2.2rem; }
+            .content-wrapper { flex-direction: column; gap: 30px; }
+            .image-content { order: -1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Judul Utama -->
+    <section class="section" id="hero">
+        <div class="container">
+            <h1 class="title">Jenis-Jenis Fotografi</h1>
+            <p class="subtitle">Eksplorasi 8 Genre Fotografi Populer: Landscape, Portrait, Street, Macro, Still Life, Product, Fashion, dan Documentary</p>
+        </div>
+    </section>
+
+    <!-- Section-section untuk setiap jenis fotografi -->
+    <section class="section" id="landscape">
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h2 class="section-header title" style="text-align: left; color: #3498db;">Landscape Photography</h2>
+                    <div class="info-section">
+                        <h3 class="section-title"><i class="material-icons">landscape</i>Apa Itu?</h3>
+                        <ul class="info-list">
+                            <li>Fotografi pemandangan alam yang menangkap keindahan dan skala besar dari lingkungan seperti gunung, laut, hutan, dan langit.</li>
+                        </ul>
+                    </div>
+                    <div class="info-section">
+                        <h3 class="section-title"><i class="material-icons">auto_awesome</i>Karakteristik & Teknik</h3>
+                        <ul class="info-list">
+                            <li>Mengutamakan komposisi seimbang, pencahayaan dramatis (golden/blue hour), dan depth of field yang luas (aperture f/8-f/16) untuk ketajaman maksimal.</li>
+                            <li>Penggunaan tripod sangat disarankan untuk stabilitas.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container"><img src="https://picsum.photos/seed/landscape/600/450" alt="Foto lanskap pegunungan"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="portrait">
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h2 class="section-header title" style="text-align: left; color: #9c27b0;">Portrait Photography</h2>
+                    <div class="info-section">
+                        <h3 class="section-title"><i class="material-icons">person</i>Apa Itu?</h3>
+                        <ul class="info-list">
+                            <li>Fotografi yang berfokus pada manusia sebagai subjek utama, bertujuan menangkap esensi, kepribadian, dan emosi seseorang.</li>
+                        </ul>
+                    </div>
+                    <div class="info-section">
+                        <h3 class="section-title"><i class="material-icons">auto_awesome</i>Karakteristik & Teknik</h3>
+                        <ul class="info-list">
+                            <li>Mengutamakan ekspresi wajah yang natural dan koneksi dengan subjek. Latar belakang dibuat sederhana agar tidak mengganggu.</li>
+                            <li>Lensa prime (50mm, 85mm) dengan aperture besar (f/1.4-f/2.8) sering digunakan untuk menciptakan efek bokeh.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container"><img src="https://picsum.photos/seed/portrait/600/450" alt="Foto potret seorang wanita"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="street">
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h2 class="section-header title" style="text-align: left; color: #ff9800;">Street Photography</h2>
+                    <div class="info-section">
+                        <h3 class="section-title"><i class="material-icons">directions_walk</i>Apa Itu?</h3>
+                        <ul class="info-list">
+                            <li>Genre fotografi yang merekam kehidupan sehari-hari di ruang publik secara spontan dan tanpa arahan (candid).</li>
+                        </ul>
+                    </div>
+                    <div class="info-section">
+                        <h3 class="section-title"><i class="material-icons">auto_awesome</i>Karakteristik & Teknik</h3>
+                        <ul class="info-list">
+                            <li>Menangkap momen tak terduga, interaksi manusia, dan kontras cahaya yang dramatis di lingkungan urban.</li>
+                            <li>Fotografer harus jeli, sabar, dan cepat dalam mengantisipasi momen. Lensa wide (35mm) atau normal (50mm) menjadi favorit.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container"><img src="https://picsum.photos/seed/street/600/450" alt="Foto street photography di perkotaan"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section" id="macro">
+        <div class="container">
+             <div class="content-wrapper">
+                <div class="text-content">
+                    <h2 class="section-header title" style="text-align: left; color: #4caf50;">Macro Photography</h2>
+                    <div class="info-section">
+                        <h3 class="section-title"><i class="material-icons">zoom_in</i>Apa Itu?</h3>
+                        <ul class="info-list">
+                            <li>Fotografi close-up ekstrem yang bertujuan untuk menampilkan detail subjek kecil yang seringkali tak terlihat oleh mata telanjang.</li>
+                        </ul>
+                    </div>
+                    <div class="info-section">
+                        <h3 class="section-title"><i class="material-icons">auto_awesome</i>Karakteristik & Teknik</h3>
+                        <ul class="info-list">
+                            <li>Menghasilkan gambar dengan rasio 1:1 (ukuran subjek di sensor sama dengan ukuran asli) atau lebih besar.</li>
+                            <li>Memerlukan lensa makro khusus, fokus yang sangat presisi, dan seringkali tripod untuk stabilitas karena depth of field yang sangat sempit.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container"><img src="https://picsum.photos/seed/macro/600/450" alt="Foto makro serangga"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="still-life">
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h2 class="section-header title" style="text-align: left; color: #795548;">Still Life Photography</h2>
+                    <div class="info-section">
+                        <h3 class="section-title"><i class="material-icons">category</i>Apa Itu?</h3>
+                        <ul class="info-list">
+                            <li>Seni memotret objek mati (benda tidak bergerak) yang disusun secara artistik untuk menciptakan sebuah komposisi visual yang menarik.</li>
+                        </ul>
+                    </div>
+                    <div class="info-section">
+                        <h3 class="section-title"><i class="material-icons">auto_awesome</i>Karakteristik & Teknik</h3>
+                        <ul class="info-list">
+                            <li>Fotografer memiliki kontrol penuh atas subjek, komposisi, dan pencahayaan. Tujuannya adalah menonjolkan bentuk, tekstur, dan warna.</li>
+                            <li>Penggunaan tripod dan pencahayaan terkontrol (alami atau studio) sangat penting.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container"><img src="https://picsum.photos/seed/still-life/600/450" alt="Foto still life dengan buah-buahan"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="product">
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h2 class="section-header title" style="text-align: left; color: #3f51b5;">Product Photography</h2>
+                    <div class="info-section">
+                        <h3 class="section-title"><i class="material-icons">shopping_bag</i>Apa Itu?</h3>
+                        <ul class="info-list">
+                            <li>Genre fotografi komersial yang bertujuan untuk menampilkan produk secara menarik dan informatif untuk keperluan penjualan dan pemasaran.</li>
+                        </ul>
+                    </div>
+                    <div class="info-section">
+                        <h3 class="section-title"><i class="material-icons">auto_awesome</i>Karakteristik & Teknik</h3>
+                        <ul class="info-list">
+                            <li>Biasanya menggunakan latar belakang yang bersih dan pencahayaan merata untuk menonjolkan setiap detail dan fitur produk.</li>
+                            <li>Memerlukan setup studio seperti lightbox dan pencahayaan yang terkontrol untuk hasil yang profesional.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container"><img src="https://picsum.photos/seed/product/600/450" alt="Foto produk sebuah jam tangan"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="fashion">
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h2 class="section-header title" style="text-align: left; color: #e91e63;">Fashion Photography</h2>
+                    <div class="info-section">
+                        <h3 class="section-title"><i class="material-icons">style</i>Apa Itu?</h3>
+                        <ul class="info-list">
+                            <li>Genre yang berfokus pada penampilan pakaian dan aksesori fesyen, seringkali dalam konteks gaya hidup atau konsep artistik tertentu.</li>
+                        </ul>
+                    </div>
+                    <div class="info-section">
+                        <h3 class="section-title"><i class="material-icons">auto_awesome</i>Karakteristik & Teknik</h3>
+                        <ul class="info-list">
+                            <li>Melibatkan model dengan pose dan ekspresi yang kuat, serta lokasi dan pencahayaan yang mendukung tema.</li>
+                            <li>Merupakan kerja kolaboratif antara fotografer, model, stylist, dan makeup artist.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container"><img src="https://picsum.photos/seed/fashion/600/450" alt="Foto fashion seorang model"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="documentary">
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h2 class="section-header title" style="text-align: left; color: #607d8b;">Documentary Photography</h2>
+                    <div class="info-section">
+                        <h3 class="section-title"><i class="material-icons">camera_alt</i>Apa Itu?</h3>
+                        <ul class="info-list">
+                            <li>Fotografi yang bertujuan untuk merekam kejadian atau kondisi nyata secara jujur dan objektif, seringkali untuk menceritakan sebuah kisah atau isu sosial.</li>
+                        </ul>
+                    </div>
+                    <div class="info-section">
+                        <h3 class="section-title"><i class="material-icons">auto_awesome</i>Karakteristik & Teknik</h3>
+                        <ul class="info-list">
+                            <li>Mengutamakan keaslian dan konteks cerita di atas estetika semata. Fotografer bertindak sebagai pengamat.</li>
+                            <li>Membutuhkan riset, empati, dan kemampuan untuk bereaksi cepat terhadap situasi yang berkembang.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container"><img src="https://picsum.photos/seed/documentary/600/450" alt="Foto dokumenter tentang kehidupan sosial"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Fotografi Hitam Putih vs. Warna</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* --- Reset & Pengaturan Dasar --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f5f5;
+            color: #212121;
+            line-height: 1.6;
+        }
+
+        /* --- Struktur Section --- */
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            z-index: 2;
+        }
+        
+        .highlight {
+            color: #424242;
+            font-weight: 600;
+        }
+
+        /* --- Section 1: Hero --- */
+        #hero {
+            color: white;
+            text-align: center;
+            flex-direction: column;
+        }
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('https://picsum.photos/seed/bw-color/1280/720');
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+        #hero .title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        #hero .subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            max-width: 800px;
+        }
+        #hero .divider {
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, #ffffff, #9E9E9E);
+            margin: 30px auto;
+        }
+
+        /* --- Header Section Umum --- */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-header .title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #212121;
+        }
+        .section-header .divider {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, #424242, #9E9E9E);
+            margin: 10px auto 0;
+        }
+        
+        /* --- Tata Letak & Styling Konten --- */
+        .content-wrapper { display: flex; gap: 40px; align-items: center; }
+        .text-content, .image-content { flex: 1; }
+        .image-container { width: 100%; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+        .image-container img { width: 100%; height: auto; display: block; }
+
+        .feature { margin-bottom: 25px; }
+        .feature-title { font-size: 1.5rem; font-weight: 600; margin-bottom: 15px; color: #424242; display: flex; align-items: center; }
+        .feature-title i { margin-right: 12px; color: #616161; }
+        .feature-desc { font-size: 1.1rem; color: #616161; padding-left: 36px; }
+        .feature-desc ul { list-style: none; padding: 0; }
+        .feature-desc li { margin-bottom: 10px; }
+
+        .technique-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; }
+        .technique-card { background-color: #ffffff; border-radius: 8px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .technique-header { display: flex; align-items: center; margin-bottom: 15px; }
+        .technique-icon { width: 40px; height: 40px; border-radius: 50%; background-color: #424242; display: flex; align-items: center; justify-content: center; margin-right: 15px; }
+        .technique-icon i { color: #ffffff; font-size: 24px; }
+        .technique-title { font-size: 1.3rem; font-weight: 600; color: #424242; }
+        .technique-desc { font-size: 1rem; line-height: 1.5; color: #616161; }
+        
+        /* --- ATURAN RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .section { padding: 60px 4%; }
+            #hero .title { font-size: 3.5rem; }
+            #hero .subtitle { font-size: 1.3rem; }
+            .section-header .title { font-size: 2.5rem; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 50px 20px; min-height: auto; }
+            #hero { min-height: 100vh; }
+            #hero .title { font-size: 2.5rem; }
+            .section-header .title { font-size: 2.2rem; }
+            .content-wrapper { flex-direction: column; gap: 30px; }
+            .image-content { order: -1; }
+            .technique-grid { grid-template-columns: 1fr; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Judul Utama -->
+    <section class="section" id="hero">
+        <div class="container">
+            <h1 class="title">Fotografi Hitam Putih & Warna</h1>
+            <div class="divider"></div>
+            <p class="subtitle">Memahami Kekuatan Visual di Balik Dua Dunia Fotografi yang Berbeda</p>
+        </div>
+    </section>
+
+    <!-- Section 2: Fotografi Hitam Putih -->
+    <section class="section" id="hitam-putih">
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h2 class="section-header title" style="text-align: left;">Seni Fotografi Hitam Putih</h2>
+                    <div class="feature">
+                        <h3 class="feature-title"><i class="material-icons">contrast</i>Kekuatan Utama</h3>
+                        <div class="feature-desc">
+                            Fotografi hitam putih (B&W) mereduksi dunia visual menjadi elemen dasarnya: <span class="highlight">cahaya, bayangan, bentuk, tekstur, dan kontras</span>. Tanpa distraksi warna, komposisi menjadi raja.
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <h3 class="feature-title"><i class="material-icons">auto_awesome</i>Karakteristik</h3>
+                        <div class="feature-desc">
+                           <ul>
+                               <li>Menciptakan nuansa <span class="highlight">abadi (timeless)</span> dan nostalgia.</li>
+                               <li>Memperkuat emosi, drama, dan mood dalam sebuah foto.</li>
+                               <li>Menonjolkan detail tekstur dan pola yang mungkin terabaikan dalam foto berwarna.</li>
+                           </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/bw-photo/600/500" alt="Foto arsitektur hitam putih yang dramatis">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 3: Teknik Hitam Putih -->
+    <section class="section" id="teknik-hitam-putih">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Teknik Fotografi Hitam Putih</h2>
+                <div class="divider"></div>
+            </header>
+            <div class="technique-grid">
+                <div class="technique-card">
+                    <div class="technique-header"><div class="technique-icon"><i class="material-icons">wb_sunny</i></div><h3 class="technique-title">Fokus pada Kontras</h3></div>
+                    <div class="technique-desc">Cari adegan dengan perbedaan kuat antara area terang dan gelap. Cahaya samping (sidelight) sangat efektif untuk menciptakan bayangan yang mendefinisikan bentuk.</div>
+                </div>
+                <div class="technique-card">
+                    <div class="technique-header"><div class="technique-icon"><i class="material-icons">texture</i></div><h3 class="technique-title">Tonjolkan Tekstur & Pola</h3></div>
+                    <div class="technique-desc">Tanpa warna, mata pemirsa akan lebih fokus pada detail permukaan. Manfaatkan tekstur kayu, batu, atau kain untuk menambah dimensi.</div>
+                </div>
+                <div class="technique-card">
+                    <div class="technique-header"><div class="technique-icon"><i class="material-icons">camera</i></div><h3 class="technique-title">Pengaturan Kamera</h3></div>
+                    <div class="technique-desc">Gunakan ISO serendah mungkin untuk hasil yang bersih. Memotret dalam format RAW memberikan fleksibilitas maksimal saat konversi ke B&W di post-processing.</div>
+                </div>
+                <div class="technique-card">
+                    <div class="technique-header"><div class="technique-icon"><i class="material-icons">mood</i></div><h3 class="technique-title">Cari Emosi dan Bentuk</h3></div>
+                    <div class="technique-desc">Fotografi B&W sangat kuat dalam menyampaikan emosi. Fokus pada ekspresi wajah, bahasa tubuh, dan bentuk-bentuk kuat dalam komposisi Anda.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Fotografi Warna -->
+    <section class="section" id="warna">
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h2 class="section-header title" style="text-align: left;">Ekspresi Fotografi Warna</h2>
+                    <div class="feature">
+                        <h3 class="feature-title"><i class="material-icons">palette</i>Kekuatan Utama</h3>
+                        <div class="feature-desc">
+                            Fotografi warna menangkap dunia seperti yang kita lihat, menggunakan <span class="highlight">spektrum warna</span> untuk membangkitkan emosi, menciptakan mood, dan memberikan informasi visual yang kaya.
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <h3 class="feature-title"><i class="material-icons">auto_awesome</i>Karakteristik</h3>
+                        <div class="feature-desc">
+                           <ul>
+                               <li>Warna dapat menjadi subjek utama dalam foto.</li>
+                               <li>Mencerminkan <span class="highlight">realitas, waktu, dan musim</span> dengan lebih akurat.</li>
+                               <li>Memanfaatkan psikologi warna untuk mempengaruhi perasaan pemirsa (misal, biru untuk ketenangan, merah untuk gairah).</li>
+                           </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/color-photo/600/500" alt="Foto pasar tradisional yang penuh warna">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Teknik Warna -->
+    <section class="section" id="teknik-warna">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Teknik Fotografi Warna</h2>
+                <div class="divider"></div>
+            </header>
+            <div class="technique-grid">
+                <div class="technique-card">
+                    <div class="technique-header"><div class="technique-icon"><i class="material-icons">tonality</i></div><h3 class="technique-title">Harmoni Warna</h3></div>
+                    <div class="technique-desc">Gunakan teori warna. Warna komplementer (seperti biru dan oranye) menciptakan kontras, sementara warna analog (seperti hijau dan biru) menciptakan harmoni.</div>
+                </div>
+                <div class="technique-card">
+                    <div class="technique-header"><div class="technique-icon"><i class="material-icons">wb_auto</i></div><h3 class="technique-title">White Balance Akurat</h3></div>
+                    <div class="technique-desc">Pastikan White Balance (WB) diatur dengan benar agar warna putih terlihat netral dan warna lain akurat. Atur sesuai sumber cahaya (siang hari, mendung, dll).</div>
+                </div>
+                <div class="technique-card">
+                    <div class="technique-header"><div class="technique-icon"><i class="material-icons">filter_vintage</i></div><h3 class="technique-title">Saturasi dan Vibrance</h3></div>
+                    <div class="technique-desc">Gunakan saturasi dengan hati-hati saat editing. Terlalu jenuh bisa membuat foto terlihat tidak alami. Vibrance adalah alternatif yang lebih cerdas untuk meningkatkan warna.</div>
+                </div>
+                <div class="technique-card">
+                    <div class="technique-header"><div class="technique-icon"><i class="material-icons">flare</i></div><h3 class="technique-title">Kualitas Cahaya</h3></div>
+                    <div class="technique-desc">Warna terlihat paling baik dalam cahaya yang lembut. Manfaatkan Golden Hour (pagi/sore hari) untuk mendapatkan warna keemasan yang indah.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: Kapan Memilih -->
+    <section class="section" id="memilih">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Kapan Memilih Hitam Putih vs. Warna?</h2>
+                <div class="divider"></div>
+            </header>
+             <div class="technique-grid">
+                <div class="technique-card">
+                    <div class="technique-header"><div class="technique-icon" style="background-color:#757575;"><i class="material-icons">filter_b_and_w</i></div><h3 class="technique-title">Pilih Hitam Putih Jika:</h3></div>
+                    <div class="technique-desc">
+                        <ul>
+                            <li>Anda ingin menekankan <span class="highlight">emosi, bentuk, dan tekstur</span>.</li>
+                            <li>Warna pada adegan justru <span class="highlight">mengganggu</span> atau tidak menarik.</li>
+                            <li>Anda ingin menciptakan kesan <span class="highlight">klasik, dramatis, atau abadi</span>.</li>
+                            <li>Kondisi pencahayaan sangat <span class="highlight">kontras</span> (terik siang hari).</li>
+                        </ul>
+                    </div>
+                </div>
+                 <div class="technique-card">
+                    <div class="technique-header"><div class="technique-icon" style="background: linear-gradient(45deg, #F44336, #2196F3);"><i class="material-icons">palette</i></div><h3 class="technique-title">Pilih Warna Jika:</h3></div>
+                    <div class="technique-desc">
+                        <ul>
+                           <li><span class="highlight">Warna itu sendiri</span> adalah subjek atau elemen penting dalam cerita.</li>
+                           <li>Anda ingin menangkap <span class="highlight">mood atau suasana</span> yang diciptakan oleh warna (misal, senja).</li>
+                           <li>Anda ingin foto terlihat <span class="highlight">realistis dan hidup</span>.</li>
+                           <li>Subjek Anda adalah alam, makanan, atau festival budaya yang penuh warna.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

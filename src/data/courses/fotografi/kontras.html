@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Kontras dalam Desain dan Fotografi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* --- Reset & Pengaturan Dasar --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            line-height: 1.6;
+        }
+
+        /* --- Struktur Section --- */
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+        #hero, #tonal-range, #mood-design {
+             background-color: #ffffff;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .highlight {
+            color: #007AFF;
+            font-weight: 600;
+        }
+
+        /* --- Header Section Umum --- */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-header .title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #1d1d1f;
+            margin-bottom: 10px;
+        }
+        .section-header .subtitle {
+            font-size: 1.2rem;
+            color: #6e6e73;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* --- Tata Letak & Card --- */
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        .left-content, .right-content {
+            flex: 1;
+        }
+
+        .info-box {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .info-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            color: #1d1d1f;
+        }
+        .info-title i {
+            margin-right: 12px;
+            color: #007AFF;
+        }
+        .info-content, .info-content ul {
+            font-size: 1.1rem;
+            color: #6e6e73;
+        }
+         .info-content ul {
+            list-style-type: none;
+            padding-left: 5px;
+        }
+        .info-content li {
+            margin-bottom: 8px;
+        }
+        .info-content li::before {
+            content: '•';
+            color: #007AFF;
+            margin-right: 10px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .card {
+            background-color: #f5f5f7;
+            border-radius: 8px;
+            padding: 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        .card i {
+            margin-right: 12px;
+            color: #007AFF;
+        }
+
+        /* --- ATURAN RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .section { padding: 60px 4%; }
+            .section-header .title { font-size: 2.5rem; }
+            .content-wrapper { flex-direction: column; }
+            .right-content { width: 100%; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 50px 20px; min-height: auto; }
+            .section-header .title { font-size: 2.2rem; }
+            .card-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Pengenalan Kontras -->
+    <section class="section" id="intro-kontras">
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="left-content">
+                    <h1 class="section-header title" style="text-align: left;">Kontras dalam Desain Grafis</h1>
+                    <p class="subtitle" style="text-align: left; margin: 0 0 40px 0;">Kontras adalah salah satu prinsip desain paling fundamental yang memengaruhi keterbacaan, daya tarik visual, dan hierarki informasi.</p>
+                    <div class="info-box">
+                        <h2 class="info-title"><i class="material-icons">lightbulb</i>Definisi</h2>
+                        <div class="info-content">Perbedaan yang signifikan antara dua elemen atau lebih dalam sebuah desain untuk menciptakan penekanan dan ketertarikan visual.</div>
+                    </div>
+                    <div class="info-box">
+                        <h2 class="info-title"><i class="material-icons">star</i>Pentingnya Kontras</h2>
+                        <div class="info-content">
+                            <ul>
+                                <li>Meningkatkan keterbacaan dan kejelasan.</li>
+                                <li>Menarik perhatian ke elemen penting.</li>
+                                <li>Mengorganisir informasi dan menciptakan hierarki.</li>
+                                <li>Menambah daya tarik visual dan menghindari desain yang monoton.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="right-content">
+                    <div class="info-box" style="background-color: #f5f5f7; width: 100%;">
+                        <h2 class="info-title"><i class="material-icons">category</i>Jenis-Jenis Kontras</h2>
+                        <div class="card-grid">
+                            <div class="card"><i class="material-icons">palette</i>Warna</div>
+                            <div class="card"><i class="material-icons">photo_size_select_large</i>Ukuran</div>
+                            <div class="card"><i class="material-icons">interests</i>Bentuk</div>
+                            <div class="card"><i class="material-icons">texture</i>Tekstur</div>
+                        </div>
+                    </div>
+                     <div class="info-box" style="background-color: #f5f5f7; width: 100%;">
+                        <h2 class="info-title"><i class="material-icons">app_registration</i>Contoh Penerapan</h2>
+                        <div class="info-content">
+                           <ul>
+                               <li><span class="highlight">Logo:</span> Kontras warna dan bentuk untuk daya ingat.</li>
+                               <li><span class="highlight">Website:</span> Kontras teks dan latar belakang untuk keterbacaan.</li>
+                               <li><span class="highlight">Poster:</span> Kontras ukuran dan warna untuk menarik perhatian.</li>
+                           </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Tonal Range -->
+    <section class="section" id="tonal-range">
+        <div class="container">
+             <div class="content-wrapper">
+                <div class="left-content">
+                    <h1 class="section-header title" style="text-align: left;">Tonal Range dalam Fotografi</h1>
+                    <p class="subtitle" style="text-align: left; margin: 0 0 40px 0;">Tonal range mengacu pada rentang kecerahan dalam sebuah gambar, dari hitam pekat hingga putih murni, yang secara langsung menentukan tingkat kontras foto.</p>
+                    <div class="info-box">
+                        <h2 class="info-title"><i class="material-icons">tonality</i>Definisi</h2>
+                        <div class="info-content">
+                           Rentang nilai kecerahan dalam sebuah gambar yang terdiri dari <span class="highlight">Blacks, Shadows, Midtones, Highlights,</span> dan <span class="highlight">Whites</span>.
+                        </div>
+                    </div>
+                     <div class="info-box">
+                        <h2 class="info-title"><i class="material-icons">lightbulb</i>Pentingnya</h2>
+                        <div class="info-content">
+                            <ul>
+                                <li>Menentukan derajat kontras (tinggi atau rendah).</li>
+                                <li>Menciptakan ilusi kedalaman dan dimensi.</li>
+                                <li>Mengarahkan fokus dan perhatian pemirsa.</li>
+                                <li>Membangun mood dan suasana foto.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="right-content">
+                                        <div class="info-box" style="background-color: #f5f5f7; width: 100%; text-align: center;">
+                        <p class="info-content">Histogram adalah alat terbaik untuk menganalisis tonal range. Grafik yang lebar menandakan kontras tinggi, sedangkan grafik yang sempit menandakan kontras rendah.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Mood -->
+    <section class="section" id="mood-design">
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="left-content">
+                    <h1 class="section-header title" style="text-align: left;">Mood dalam Desain Visual</h1>
+                    <p class="subtitle" style="text-align: left; margin: 0 0 40px 0;">Mood adalah perasaan atau suasana emosional yang diciptakan oleh sebuah desain. Kontras adalah salah satu alat paling kuat untuk membangun mood.</p>
+                    <div class="info-box">
+                        <h2 class="info-title"><i class="material-icons">mood</i>Membangun Mood dengan Kontras</h2>
+                         <div class="info-content">
+                            <ul>
+                                <li><span class="highlight">Kontras Tinggi (High Key/Low Key):</span> Menciptakan suasana dramatis, tegang, atau penuh energi.</li>
+                                <li><span class="highlight">Kontras Rendah (Flat):</span> Menghasilkan suasana yang tenang, lembut, halus, atau bahkan muram.</li>
+                           </ul>
+                        </div>
+                    </div>
+                     <div class="info-box">
+                        <h2 class="info-title"><i class="material-icons">psychology</i>Elemen Pembentuk Mood Lainnya</h2>
+                        <div class="info-content">Selain kontras, mood juga dibentuk oleh kombinasi <span class="highlight">warna, bentuk, tekstur,</span> dan <span class="highlight">hierarki visual</span>.</div>
+                    </div>
+                </div>
+                 <div class="right-content">
+                    <div class="info-box" style="background-color: #f5f5f7; width: 100%;">
+                        <h2 class="info-title"><i class="material-icons">dashboard</i>Mood Board</h2>
+                        <p class="info-content">Mood board adalah kolase visual yang digunakan desainer untuk mengumpulkan ide dan inspirasi (gambar, warna, tekstur) untuk mendefinisikan mood sebuah proyek sebelum memulai desain.</p>
+                                             </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

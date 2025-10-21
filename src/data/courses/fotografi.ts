@@ -15,6 +15,17 @@ import bentukFotoContent from './fotografi/bentuk-foto.html?raw';
 import sudutPengambilanContent from './fotografi/sudut-pengambilan.html?raw';
 import sumberCahayaContent from './fotografi/sumber-cahaya.html?raw';
 import goldenhourContent from './fotografi/golden-hour.html?raw';
+import flashContent from './fotografi/flash.html?raw';
+import photogenicContent from './fotografi/photogenic.html?raw';
+import colorWBContent from './fotografi/color-wb.html?raw';
+import kontrasContent from './fotografi/kontras.html?raw';
+import alatEditingContent from './fotografi/alat-editing.html?raw';
+import dasarEditingContent from './fotografi/dasar-editing.html?raw';
+import workflowContent from './fotografi/workflow.html?raw';
+import storyTellingContent from './fotografi/story-telling.html?raw';
+import sensorDigitalContent from './fotografi/sensor-digital.html?raw';
+import aiEditingContent from './fotografi/ai-editing.html?raw';
+import aiVsHumanContent from './fotografi/ai-vs-human.html?raw';
 
 export const fotografiMaterials: Material[] = [
   {
@@ -91,5 +102,60 @@ export const fotografiMaterials: Material[] = [
     id: 'golden-hour',
     title: '15. Golden Hour dan Blue Hour',
     content: goldenhourContent,
-  }
+  },
+  {
+    id: 'flash',
+    title: '16. Flash Photography',
+    content: flashContent,
+  },
+  {
+    id: 'photogenic',
+    title: '17. Photogenic',
+    content: photogenicContent,
+  },
+  {
+    id: 'color-wb',
+    title: '18. Color B&W Photography',
+    content: colorWBContent,
+  },
+  {
+    id: 'kontras',
+    title: '19. Kontras Warna',
+    content: kontrasContent,
+  },
+  {
+    id: 'alat-editing',
+    title: '20. Alat Editing Foto',
+    content: alatEditingContent,
+  },
+  {
+    id: 'dasar-editing',
+    title: '21. Dasar Editing Foto',
+    content: dasarEditingContent,
+  },
+  {
+    id: 'workflow',
+    title: '22. Workflow Editing Foto',
+    content: workflowContent,
+  },
+  {
+    id: 'story-telling',
+    title: '23. Storytelling dalam Fotografi',
+    content: storyTellingContent,
+  },
+  {
+    id: 'sensor-digital',
+    title: '24. Sensor Digital',
+    content: sensorDigitalContent,
+  },
+  {
+    id: 'ai-editing',
+    title: '25. AI Editing Foto',
+    content: aiEditingContent,
+  },
+  {
+    id: 'ai-vs-human',
+    title: '26. AI VS Photographer',
+    content: aiVsHumanContent,
+  },
 ];
