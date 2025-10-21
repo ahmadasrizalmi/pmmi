@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workflow Penyimpanan dan Backup Foto</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* --- Reset & Pengaturan Dasar --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* --- Struktur Section --- */
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            z-index: 2;
+        }
+
+        .highlight {
+            color: #1a73e8;
+            font-weight: 600;
+        }
+
+        /* --- Section 1: Hero --- */
+        #hero {
+            color: white;
+            text-align: center;
+            flex-direction: column;
+        }
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(rgba(18, 41, 68, 0.8), rgba(18, 41, 68, 0.8)), url('https://picsum.photos/seed/backup/1280/720');
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+        #hero .title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        #hero .subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            max-width: 800px;
+        }
+        #hero .icon-container {
+            margin-bottom: 30px;
+        }
+        #hero .icon-container .material-icons {
+            font-size: 64px;
+            color: #64B5F6;
+        }
+
+        /* --- Header Section Umum --- */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-header .title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #1a73e8;
+        }
+        
+        /* --- Tata Letak & Card --- */
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        .text-content, .image-content {
+            flex: 1;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+        }
+        .card-icon {
+            background-color: #e8f0fe;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        .card-icon i {
+            font-size: 30px;
+            color: #1a73e8;
+        }
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .card-desc {
+            font-size: 1rem;
+            color: #5f6368;
+        }
+
+        /* --- ATURAN RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .section { padding: 60px 4%; }
+            #hero .title { font-size: 3.5rem; }
+            #hero .subtitle { font-size: 1.3rem; }
+            .section-header .title { font-size: 2.5rem; }
+            .content-wrapper { flex-direction: column; gap: 30px; }
+            .image-content { order: -1; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 50px 20px; min-height: auto; }
+            #hero { min-height: 100vh; }
+            #hero .title { font-size: 2.5rem; }
+            .section-header .title { font-size: 2.2rem; }
+            .card-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Judul Utama -->
+    <section class="section" id="hero">
+        <div class="container">
+            <div class="icon-container">
+                <i class="material-icons">backup</i>
+            </div>
+            <h1 class="title">Workflow Penyimpanan dan Backup Foto</h1>
+            <p class="subtitle">Strategi Lengkap untuk Melindungi Kenangan Digital Anda dari Berbagai Risiko</p>
+        </div>
+    </section>
+
+    <!-- Section 2: Mengapa Backup Penting -->
+    <section class="section" id="mengapa-penting">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Mengapa Backup Foto Begitu Penting?</h2>
+            </header>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon"><i class="material-icons">storage</i></div>
+                    <div>
+                        <h3 class="card-title">Risiko Kerusakan Hardware</h3>
+                        <p class="card-desc">Hard drive, SSD, dan kartu memori memiliki umur pakai dan bisa gagal tanpa peringatan.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="material-icons">security</i></div>
+                    <div>
+                        <h3 class="card-title">Ancaman Serangan Siber</h3>
+                        <p class="card-desc">Virus dan ransomware dapat mengenkripsi atau menghapus seluruh koleksi foto Anda dalam sekejap.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="material-icons">phonelink_erase</i></div>
+                    <div>
+                        <h3 class="card-title">Kehilangan atau Pencurian</h3>
+                        <p class="card-desc">Laptop, ponsel, atau hard drive eksternal bisa hilang atau dicuri, beserta semua data di dalamnya.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="material-icons">error</i></div>
+                    <div>
+                        <h3 class="card-title">Kesalahan Manusia</h3>
+                        <p class="card-desc">Penghapusan file yang tidak disengaja adalah salah satu penyebab paling umum kehilangan data.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 3: Strategi 3-2-1 -->
+    <section class="section" id="strategi-321">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Strategi Backup 3-2-1: Standar Emas Keamanan Data</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="text-content" style="display: flex; flex-direction: column; justify-content: center; gap: 30px;">
+                     <div class="card">
+                        <div class="card-icon" style="font-size: 2rem; font-weight: 700;">3</div>
+                        <div>
+                            <h3 class="card-title">Tiga Salinan Data</h3>
+                            <p class="card-desc">Selalu miliki setidaknya tiga salinan foto Anda: satu file asli dan dua salinan (backup).</p>
+                        </div>
+                    </div>
+                     <div class="card">
+                        <div class="card-icon" style="font-size: 2rem; font-weight: 700;">2</div>
+                        <div>
+                            <h3 class="card-title">Dua Media Berbeda</h3>
+                            <p class="card-desc">Simpan salinan Anda di dua jenis media penyimpanan yang berbeda, misalnya di hard drive internal dan hard drive eksternal.</p>
+                        </div>
+                    </div>
+                     <div class="card">
+                        <div class="card-icon" style="font-size: 2rem; font-weight: 700;">1</div>
+                        <div>
+                            <h3 class="card-title">Satu Lokasi Berbeda</h3>
+                            <p class="card-desc">Simpan satu salinan backup di lokasi yang terpisah (offsite), seperti di layanan cloud atau di rumah kerabat, untuk melindungi dari bencana lokal.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/321-backup/500/600" alt="Diagram strategi backup 3-2-1">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 4: Workflow Lengkap -->
+    <section class="section" id="workflow">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Contoh Workflow Sederhana</h2>
+            </header>
+            <div class="card-grid">
+                 <div class="card">
+                    <div class="card-icon"><i class="material-icons">camera_alt</i></div>
+                    <div>
+                        <h3 class="card-title">1. Ingest & Organisasi</h3>
+                        <p class="card-desc">Setelah memotret, segera transfer semua file dari kartu memori ke komputer (<span class="highlight">Salinan 1</span>). Beri nama file dan folder secara konsisten.</p>
+                    </div>
+                </div>
+                 <div class="card">
+                    <div class="card-icon"><i class="material-icons">storage</i></div>
+                    <div>
+                        <h3 class="card-title">2. Backup Lokal</h3>
+                        <p class="card-desc">Gunakan software backup untuk secara otomatis menyalin semua foto baru ke hard drive eksternal (<span class="highlight">Salinan 2, Media 2</span>).</p>
+                    </div>
+                </div>
+                 <div class="card">
+                    <div class="card-icon"><i class="material-icons">cloud_upload</i></div>
+                    <div>
+                        <h3 class="card-title">3. Backup Offsite</h3>
+                        <p class="card-desc">Atur sinkronisasi otomatis folder foto Anda ke layanan penyimpanan cloud seperti Google Drive, Dropbox, atau Backblaze (<span class="highlight">Salinan 3, Lokasi 2</span>).</p>
+                    </div>
+                </div>
+                 <div class="card">
+                    <div class="card-icon"><i class="material-icons">verified</i></div>
+                    <div>
+                        <h3 class="card-title">4. Verifikasi</h3>
+                        <p class="card-desc">Secara berkala (misalnya, sebulan sekali), periksa apakah file di semua lokasi backup dapat diakses dan tidak rusak.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

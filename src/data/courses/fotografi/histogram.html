@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Lengkap Histogram dan Metering dalam Fotografi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* --- Reset & Pengaturan Dasar --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* --- Struktur Section --- */
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .highlight {
+            color: #1565C0;
+            font-weight: 600;
+        }
+
+        /* --- Section 1: Hero --- */
+        #hero {
+            color: white;
+            background: linear-gradient(rgba(0, 40, 85, 0.7), rgba(0, 40, 85, 0.7)), 
+                        url('https://picsum.photos/seed/histogram/1280/720');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            flex-direction: column;
+        }
+        #hero .icon-container {
+            margin-bottom: 40px;
+            display: flex;
+            gap: 20px;
+        }
+        #hero .icon-container .material-icons {
+            font-size: 64px;
+            color: #64B5F6;
+        }
+        #hero .title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        #hero .subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            opacity: 0.9;
+            max-width: 800px;
+        }
+
+        /* --- Header Section Umum --- */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-header .title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #1565C0;
+        }
+        
+        /* --- Tata Letak Konten --- */
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        .text-content, .image-content {
+            flex: 1;
+        }
+        
+        .image-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* --- Styling Spesifik --- */
+        .definition {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1565C0;
+            margin-bottom: 30px;
+        }
+        .key-point {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        .key-point .material-icons {
+            color: #64B5F6;
+            margin-right: 15px;
+            font-size: 24px;
+        }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        .card {
+            background-color: #f5f9ff;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: flex-start;
+        }
+        .card .icon-container {
+            margin-right: 20px;
+            background-color: #1565C0;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .card .material-icons { font-size: 28px; }
+        .card-title { font-size: 1.3rem; font-weight: 600; color: #1565C0; margin-bottom: 8px; }
+        .card-description { font-size: 1rem; color: #555; }
+        
+        /* --- ATURAN RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .section { padding: 60px 4%; }
+            #hero .title { font-size: 3.5rem; }
+            #hero .subtitle { font-size: 1.3rem; }
+            .section-header .title { font-size: 2.5rem; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 50px 20px; min-height: auto; }
+            #hero { min-height: 100vh; }
+            #hero .title { font-size: 2.5rem; }
+            .section-header .title { font-size: 2.2rem; }
+            .content-wrapper { flex-direction: column; gap: 30px; }
+            .image-content { order: -1; } /* Pindahkan gambar ke atas */
+            .grid-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Judul Utama -->
+    <section class="section" id="hero">
+        <div class="container">
+            <div class="icon-container">
+                <i class="material-icons">bar_chart</i>
+                <i class="material-icons">camera</i>
+            </div>
+            <h1 class="title">Histogram dan Metering</h1>
+            <p class="subtitle">Menguasai Eksposur dan Komposisi dalam Fotografi Digital</p>
+        </div>
+    </section>
+
+    <!-- Section 2: Pengenalan Histogram -->
+    <section class="section" id="pengenalan-histogram">
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h2 class="section-header title" style="text-align: left;">Apa Itu Histogram?</h2>
+                    <p class="definition">Histogram adalah representasi grafis dari distribusi tonal (kecerahan) dalam sebuah foto.</p>
+                    <div class="key-points">
+                        <div class="key-point"><i class="material-icons">dark_mode</i><p>Sumbu horizontal kiri mewakili area <span class="highlight">gelap (shadows)</span>.</p></div>
+                        <div class="key-point"><i class="material-icons">brightness_medium</i><p>Bagian tengah mewakili <span class="highlight">midtones</span>.</p></div>
+                        <div class="key-point"><i class="material-icons">light_mode</i><p>Sumbu horizontal kanan mewakili area <span class="highlight">terang (highlights)</span>.</p></div>
+                        <div class="key-point"><i class="material-icons">height</i><p>Tinggi grafik menunjukkan <span class="highlight">jumlah piksel</span> pada tingkat kecerahan tertentu.</p></div>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/histogram-chart/600/400" alt="Contoh grafik histogram fotografi">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Penggunaan Histogram -->
+    <section class="section" id="kegunaan-histogram">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Mengapa Histogram Penting?</h2>
+            </header>
+            <div class="grid-container">
+                <div class="card">
+                    <div class="icon-container"><i class="material-icons">analytics</i></div>
+                    <div>
+                        <h3 class="card-title">Menganalisis Eksposur</h3>
+                        <p class="card-description">Histogram memberikan data objektif tentang kecerahan foto, yang lebih akurat daripada mengandalkan layar LCD kamera.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="icon-container"><i class="material-icons">error_outline</i></div>
+                    <div>
+                        <h3 class="card-title">Menghindari Clipping</h3>
+                        <p class="card-description">Grafik yang menumpuk di tepi kiri (shadow clipping) atau kanan (highlight clipping) menandakan hilangnya detail di area tersebut.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="icon-container"><i class="material-icons">tonality</i></div>
+                    <div>
+                        <h3 class="card-title">Menilai Kontras</h3>
+                        <p class="card-description">Histogram yang lebar menunjukkan foto dengan kontras tinggi, sementara histogram yang sempit menandakan kontras rendah.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="icon-container"><i class="material-icons">auto_fix_high</i></div>
+                    <div>
+                        <h3 class="card-title">Membantu Editing</h3>
+                        <p class="card-description">Memahami histogram memudahkan proses editing untuk menyesuaikan kecerahan dan kontras dengan lebih presisi.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 4: Pengenalan Metering -->
+    <section class="section" id="pengenalan-metering">
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h2 class="section-header title" style="text-align: left;">Apa Itu Metering?</h2>
+                    <p class="definition">Metering adalah proses bagaimana kamera Anda mengukur kecerahan subjek untuk menentukan eksposur yang tepat.</p>
+                    <div class="key-points">
+                        <div class="key-point"><i class="material-icons">camera</i><p>Fitur ini membantu kamera secara otomatis mengatur <span class="highlight">shutter speed, aperture, dan ISO</span> untuk mendapatkan foto dengan pencahayaan seimbang.</p></div>
+                        <div class="key-point"><i class="material-icons">auto_awesome</i><p>Tujuannya adalah untuk menghindari foto yang <span class="highlight">terlalu gelap (underexposed)</span> atau <span class="highlight">terlalu terang (overexposed)</span>.</p></div>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/metering-mode/600/400" alt="Ilustrasi mode metering pada kamera">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 5: Mode Metering -->
+    <section class="section" id="mode-metering">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Mode-Mode Metering Utama</h2>
+            </header>
+            <div class="grid-container">
+                 <div class="card">
+                    <div class="icon-container"><i class="material-icons">grid_on</i></div>
+                    <div>
+                        <h3 class="card-title">Evaluative / Matrix Metering</h3>
+                        <p class="card-description">Mode default yang mengukur cahaya dari seluruh frame. Sangat serbaguna dan cocok untuk sebagian besar situasi.</p>
+                    </div>
+                </div>
+                 <div class="card">
+                    <div class="icon-container"><i class="material-icons">center_focus_strong</i></div>
+                    <div>
+                        <h3 class="card-title">Spot Metering</h3>
+                        <p class="card-description">Mengukur cahaya hanya pada titik fokus yang sangat kecil (2-5% dari frame). Ideal untuk subjek dengan backlight atau kontras tinggi.</p>
+                    </div>
+                </div>
+                 <div class="card">
+                    <div class="icon-container"><i class="material-icons">radio_button_checked</i></div>
+                    <div>
+                        <h3 class="card-title">Center-Weighted Metering</h3>
+                        <p class="card-description">Mengukur cahaya di seluruh frame tetapi memberikan prioritas lebih pada area tengah. Cocok untuk potret klasik.</p>
+                    </div>
+                </div>
+                 <div class="card">
+                    <div class="icon-container"><i class="material-icons">lock</i></div>
+                    <div>
+                        <h3 class="card-title">AE Lock (Auto Exposure Lock)</h3>
+                        <p class="card-description">Fitur untuk "mengunci" pengaturan eksposur. Ini memungkinkan Anda mengukur cahaya pada satu area, lalu mengubah komposisi sebelum memotret.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 6: Ringkasan -->
+    <section class="section" id="ringkasan">
+        <div class="container">
+             <header class="section-header">
+                <h2 class="title">Ringkasan: Histogram & Metering</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3 class="card-title" style="font-size: 1.8rem;">Histogram</h3>
+                     <div class="key-points">
+                        <div class="key-point"><i class="material-icons">analytics</i><p><span class="highlight">Alat analisis</span> untuk memeriksa data eksposur secara objektif.</p></div>
+                        <div class="key-point"><i class="material-icons">check_circle</i><p>Membantu Anda mendapatkan <span class="highlight">eksposur yang sempurna</span> dan menghindari hilangnya detail.</p></div>
+                    </div>
+                </div>
+                <div class="text-content">
+                     <h3 class="card-title" style="font-size: 1.8rem;">Metering</h3>
+                    <div class="key-points">
+                        <div class="key-point"><i class="material-icons">camera</i><p><span class="highlight">Proses kamera</span> untuk menentukan pengaturan eksposur otomatis.</p></div>
+                        <div class="key-point"><i class="material-icons">settings</i><p>Memilih <span class="highlight">mode metering yang tepat</span> memberi Anda kontrol kreatif atas pencahayaan foto.</p></div>
+                    </div>
+                </div>
+            </div>
+             <div style="text-align: center; margin-top: 50px; font-size: 1.2rem; color: #a3c2e3;">
+                Dengan menguasai kedua alat ini, Anda akan memiliki kontrol penuh atas aspek teknis dan kreatif dalam fotografi Anda.
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Dasar Editing Foto untuk Mobile & Desktop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* --- Reset & Pengaturan Dasar --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* --- Struktur Section --- */
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            z-index: 2;
+        }
+
+        .highlight {
+            color: #1a73e8;
+            font-weight: 600;
+        }
+
+        /* --- Section 1: Hero --- */
+        #hero {
+            color: white;
+            text-align: center;
+            flex-direction: column;
+        }
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(rgba(0, 30, 60, 0.8), rgba(0, 30, 60, 0.8)), 
+                        url('https://picsum.photos/seed/editing-hero/1280/720');
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+        #hero .title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        #hero .subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 30px;
+        }
+        #hero .intro {
+            font-size: 1.2rem;
+            max-width: 800px;
+        }
+
+        /* --- Header Section Umum --- */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+            background-color: #1a73e8;
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+        }
+        .section-header .title {
+            font-size: 2.8rem;
+            font-weight: 700;
+        }
+        
+        /* --- Tata Letak & Card --- */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .term-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .term-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a73e8;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .term-title i {
+            margin-right: 12px;
+        }
+        .term-desc {
+            font-size: 1.1rem;
+            color: #555;
+        }
+        
+        .app-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            border-left: 5px solid #1a73e8;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .app-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .app-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            background-color: #e8f0fe;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+        }
+        .app-icon i {
+            font-size: 30px;
+            color: #1a73e8;
+        }
+        .app-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a73e8;
+        }
+        .app-feature {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        .app-details {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+        .price {
+            font-size: 1.1rem;
+            color: #ea4335;
+            font-weight: 600;
+        }
+        .best-for {
+            font-size: 1rem;
+            color: #5f6368;
+            font-weight: 600;
+        }
+
+        /* --- ATURAN RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .section { padding: 60px 4%; }
+            #hero .title { font-size: 3.5rem; }
+            #hero .subtitle { font-size: 1.3rem; }
+            .section-header .title { font-size: 2.5rem; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 50px 20px; min-height: auto; }
+            #hero { min-height: 100vh; }
+            #hero .title { font-size: 2.5rem; }
+            .section-header .title { font-size: 2.2rem; }
+            .grid-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Judul Utama -->
+    <section class="section" id="hero">
+        <div class="container">
+            <h1 class="title">Dasar Editing Foto untuk Mobile & Desktop</h1>
+            <h2 class="subtitle">Panduan Lengkap untuk Mengubah Foto Biasa Menjadi Karya Luar Biasa</h2>
+            <p class="intro">
+                Editing adalah langkah krusial dalam fotografi digital. Dengan memahami dasar-dasarnya, Anda dapat secara signifikan meningkatkan kualitas visual dan dampak emosional dari setiap foto yang Anda ambil.
+            </p>
+        </div>
+    </section>
+
+    <!-- Section 2: Terminologi Dasar -->
+    <section class="section" id="terminologi">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Konsep Dasar & Terminologi Editing</h2>
+            </header>
+            <div class="grid-container">
+                <div class="term-card">
+                    <h3 class="term-title"><i class="material-icons">brightness_6</i>Exposure (Eksposur)</h3>
+                    <p class="term-desc">Tingkat kecerahan atau kegelapan keseluruhan foto. <span class="highlight">Overexposed</span> berarti terlalu terang, <span class="highlight">Underexposed</span> berarti terlalu gelap.</p>
+                </div>
+                <div class="term-card">
+                    <h3 class="term-title"><i class="material-icons">contrast</i>Contrast (Kontras)</h3>
+                    <p class="term-desc">Perbedaan antara area paling terang dan paling gelap. Kontras tinggi membuat foto lebih "pop", sementara kontras rendah lebih lembut.</p>
+                </div>
+                <div class="term-card">
+                    <h3 class="term-title"><i class="material-icons">tonality</i>Highlights & Shadows</h3>
+                    <p class="term-desc"><span class="highlight">Highlights</span> adalah area paling terang (misal: langit), sementara <span class="highlight">Shadows</span> adalah area paling gelap (bayangan).</p>
+                </div>
+                <div class="term-card">
+                    <h3 class="term-title"><i class="material-icons">palette</i>Saturation & Vibrance</h3>
+                    <p class="term-desc"><span class="highlight">Saturation</span> meningkatkan intensitas semua warna. <span class="highlight">Vibrance</span> lebih cerdas, hanya meningkatkan warna yang kusam.</p>
+                </div>
+                <div class="term-card">
+                    <h3 class="term-title"><i class="material-icons">wb_sunny</i>White Balance</h3>
+                    <p class="term-desc">Menyesuaikan "suhu" warna agar putih terlihat benar-benar putih, mengoreksi foto yang terlalu kuning atau biru.</p>
+                </div>
+                <div class="term-card">
+                    <h3 class="term-title"><i class="material-icons">crop</i>Cropping & Straightening</h3>
+                    <p class="term-desc">Memotong (crop) untuk memperbaiki komposisi, dan meluruskan (straighten) foto yang miring.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Aplikasi Desktop -->
+    <section class="section" id="apps-desktop">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Aplikasi Edit Foto Populer untuk Desktop</h2>
+            </header>
+            <div class="grid-container">
+                <div class="app-card">
+                    <div class="app-header"><div class="app-icon"><i class="material-icons">layers</i></div><h3 class="app-name">Adobe Photoshop</h3></div>
+                    <p class="app-feature">Standar industri untuk manipulasi gambar, retouching, dan desain grafis kompleks berbasis layer.</p>
+                    <div class="app-details"><div class="price">Berbayar (Langganan)</div><div class="best-for">Profesional & Seniman</div></div>
+                </div>
+                <div class="app-card">
+                    <div class="app-header"><div class="app-icon"><i class="material-icons">filter</i></div><h3 class="app-name">Adobe Lightroom</h3></div>
+                    <p class="app-feature">Sempurna untuk manajemen ribuan foto, editing RAW, dan penyesuaian warna secara cepat dan efisien.</p>
+                    <div class="app-details"><div class="price">Berbayar (Langganan)</div><div class="best-for">Fotografer</div></div>
+                </div>
+                <div class="app-card">
+                    <div class="app-header"><div class="app-icon"><i class="material-icons">code</i></div><h3 class="app-name">GIMP</h3></div>
+                    <p class="app-feature">Alternatif Photoshop yang gratis dan open-source dengan fitur-fitur canggih seperti layer dan mask.</p>
+                    <div class="app-details"><div class="price">Gratis</div><div class="best-for">Pemula & Pengguna Hemat</div></div>
+                </div>
+                <div class="app-card">
+                    <div class="app-header"><div class="app-icon"><i class="material-icons">auto_fix_high</i></div><h3 class="app-name">Affinity Photo</h3></div>
+                    <p class="app-feature">Pesaing kuat Photoshop dengan performa tinggi dan model pembelian sekali bayar (tanpa langganan).</p>
+                    <div class="app-details"><div class="price">Berbayar (Sekali Beli)</div><div class="best-for">Profesional Alternatif</div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Aplikasi Mobile -->
+    <section class="section" id="apps-mobile">
+         <div class="container">
+            <header class="section-header">
+                <h2 class="title">Aplikasi Edit Foto Populer untuk Mobile</h2>
+            </header>
+            <div class="grid-container">
+                <div class="app-card">
+                    <div class="app-header"><div class="app-icon"><i class="material-icons">auto_fix_normal</i></div><h3 class="app-name">Snapseed</h3></div>
+                    <p class="app-feature">Aplikasi gratis dari Google dengan antarmuka geser yang intuitif dan tool setara desktop seperti Healing dan Curves.</p>
+                    <div class="app-details"><div class="price">Gratis</div><div class="best-for">Semua Kalangan</div></div>
+                </div>
+                <div class="app-card">
+                    <div class="app-header"><div class="app-icon"><i class="material-icons">filter</i></div><h3 class="app-name">Lightroom Mobile</h3></div>
+                    <p class="app-feature">Versi mobile yang powerful, dapat tersinkronisasi dengan Lightroom desktop. Mendukung editing file RAW.</p>
+                    <div class="app-details"><div class="price">Gratis + Premium</div><div class="best-for">Fotografer Mobile</div></div>
+                </div>
+                <div class="app-card">
+                    <div class="app-header"><div class="app-icon"><i class="material-icons">filter_vintage</i></div><h3 class="app-name">VSCO</h3></div>
+                    <p class="app-feature">Dikenal dengan preset (filter) estetik yang meniru film analog. Memiliki komunitas berbagi foto yang aktif.</p>
+                    <div class="app-details"><div class="price">Gratis + Premium</div><div class="best-for">Influencer & Pecinta Estetika</div></div>
+                </div>
+                 <div class="app-card">
+                    <div class="app-header"><div class="app-icon"><i class="material-icons">brush</i></div><h3 class="app-name">Picsart</h3></div>
+                    <p class="app-feature">Editor foto serbaguna dengan banyak fitur kreatif seperti stiker, template, dan tool berbasis AI.</p>
+                    <div class="app-details"><div class="price">Gratis + Premium</div><div class="best-for">Konten Media Sosial</div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Teknik Dasar -->
+    <section class="section" id="teknik-dasar">
+        <div class="container">
+             <header class="section-header">
+                <h2 class="title">Alur Kerja Editing Dasar untuk Pemula</h2>
+            </header>
+            <div class="grid-container">
+                <div class="term-card">
+                    <h3 class="term-title"><i class="material-icons">crop</i>1. Crop & Straighten</h3>
+                    <p class="term-desc">Langkah pertama adalah memperbaiki komposisi. Luruskan horizon yang miring dan potong (crop) bagian yang tidak perlu untuk memperkuat fokus pada subjek.</p>
+                </div>
+                 <div class="term-card">
+                    <h3 class="term-title"><i class="material-icons">brightness_6</i>2. Koreksi Eksposur</h3>
+                    <p class="term-desc">Sesuaikan kecerahan foto secara keseluruhan. Gunakan slider <span class="highlight">Exposure</span>. Periksa histogram untuk menghindari clipping (detail hilang di area terlalu terang/gelap).</p>
+                </div>
+                 <div class="term-card">
+                    <h3 class="term-title"><i class="material-icons">wb_sunny</i>3. Atur White Balance</h3>
+                    <p class="term-desc">Koreksi suhu warna agar foto tidak terlihat terlalu kuning atau biru. Gunakan tool "eyedropper" pada area netral (putih/abu-abu) untuk hasil cepat.</p>
+                </div>
+                 <div class="term-card">
+                    <h3 class="term-title"><i class="material-icons">tonality</i>4. Detail & Ketajaman</h3>
+                    <p class="term-desc">Tingkatkan <span class="highlight">Contrast, Clarity,</span> dan <span class="highlight">Sharpness</span> secara perlahan. Jangan berlebihan agar foto tidak terlihat tidak alami. Sesuaikan juga <span class="highlight">Highlights</span> dan <span class="highlight">Shadows</span> untuk memunculkan detail.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

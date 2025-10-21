@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fotografi Abad ke-20: Dokumenter, Perang, Fashion, dan Seni</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* --- Reset & Pengaturan Dasar --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* --- Struktur Section (Halaman) --- */
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .highlight {
+            font-weight: 600;
+        }
+        
+        /* --- Section 1: Hero (Judul Utama) --- */
+        #hero {
+            color: #ffffff;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://picsum.photos/seed/photo-20th/1280/720');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            flex-direction: column;
+        }
+
+        #hero .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+        }
+
+        #hero .subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #e0e0e0;
+        }
+
+        /* --- Header Section Umum --- */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-header .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            color: #2c3e50;
+        }
+        
+        /* --- Konten Kolom & Tata Letak --- */
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        .left-content, .right-content {
+            flex: 1;
+        }
+
+        .image-container {
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .image-container.grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .key-point, .photographer, .movement {
+            margin-bottom: 25px;
+        }
+        
+        .key-point-title, .photographer-name, .movement-name {
+            display: flex;
+            align-items: center;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 8px;
+        }
+        
+        .key-point-title i, .photographer-name i, .movement-name i {
+            margin-right: 12px;
+            color: #5d6d7e;
+        }
+        
+        .key-point-content, .photographer-details, .movement-details {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            color: #5d6d7e;
+            padding-left: 38px;
+        }
+        
+        .impact-box, .evolution-box, .recognition-box {
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .impact-box { background-color: #e8f4f8; border-left: 5px solid #3498db; }
+        .war-impact-box { background-color: #fdf2f2; border-left: 5px solid #e74c3c; }
+        .evolution-box { background-color: #f4ecf7; border-left: 5px solid #9b59b6; }
+        .recognition-box { background-color: #e8f8f5; border-left: 5px solid #16a085; }
+        
+        .impact-title, .evolution-title, .recognition-title {
+            font-size: 1.4rem; font-weight: 600; color: #2c3e50; margin-bottom: 10px; display: flex; align-items: center;
+        }
+        
+        .impact-title i, .evolution-title i, .recognition-title i { margin-right: 12px; }
+        .impact-box i { color: #3498db; }
+        .war-impact-box i { color: #e74c3c; }
+        .evolution-box i { color: #9b59b6; }
+        .recognition-box i { color: #16a085; }
+
+        .impact-content, .evolution-content, .recognition-content { font-size: 1.1rem; line-height: 1.5; color: #5d6d7e; }
+        
+        /* Highlight Colors per Section */
+        #documenter .highlight { color: #3498db; }
+        #perang .highlight { color: #e74c3c; }
+        #fashion .highlight { color: #9b59b6; }
+        #seni .highlight { color: #16a085; }
+
+        /* --- Section Warisan --- */
+         .genre-box {
+            background-color: #f5f5f5; border-radius: 8px; padding: 15px; margin-bottom: 15px; display: flex; align-items: center; gap: 15px;
+        }
+        .genre-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .genre-icon i { font-size: 28px; color: white; }
+        .genre-text { flex-grow: 1; }
+        .genre-name { font-size: 1.2rem; font-weight: 600; }
+        .genre-desc { font-size: 1rem; color: #5d6d7e; }
+
+        .documentary-icon { background-color: #3498db; }
+        .war-icon { background-color: #e74c3c; }
+        .fashion-icon { background-color: #9b59b6; }
+        .art-icon { background-color: #16a085; }
+
+        /* --- ATURAN RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .section { padding: 60px 4%; }
+            #hero .title { font-size: 3.5rem; }
+            #hero .subtitle { font-size: 1.3rem; }
+            .section-header .title { font-size: 2.5rem; }
+        }
+
+        @media (max-width: 768px) {
+            .section { padding: 50px 20px; min-height: auto; }
+            #hero { min-height: 100vh; }
+            #hero .title { font-size: 2.5rem; }
+            #hero .subtitle { font-size: 1.1rem; }
+            .section-header .title { font-size: 2.2rem; }
+            
+            .content-wrapper { flex-direction: column; gap: 30px; }
+            
+            .right-content { order: -1; }
+            
+            .key-point-content, .photographer-details, .movement-details { padding-left: 0; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Judul Utama -->
+    <section class="section" id="hero">
+        <div class="container">
+            <h1 class="title">Fotografi di Abad ke-20: Dokumenter, Perang, Fashion, dan Seni</h1>
+            <p class="subtitle">Evolusi dan Dampak Fotografi dalam Membentuk Dunia Modern</p>
+        </div>
+    </section>
+    
+    <!-- Section 2: Pengenalan -->
+    <section class="section" id="pengenalan">
+         <div class="container">
+            <header class="section-header">
+                <h2 class="title">Revolusi Visual Abad ke-20</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="left-content">
+                    <div class="key-point">
+                        <div class="key-point-title"><i class="material-icons">history</i>Transformasi Teknologi</div>
+                        <div class="key-point-content">Fotografi beralih dari kamera <span class="highlight">klasik berformat besar</span> ke kamera 35mm yang ringkas, hingga cikal bakal <span class="highlight">era digital</span> di akhir abad. Film warna menjadi medium yang dominan.</div>
+                    </div>
+                    <div class="key-point">
+                        <div class="key-point-title"><i class="material-icons">auto_awesome</i>Evolusi Artistik</div>
+                        <div class="key-point-content">Fotografi tidak lagi hanya sebagai alat dokumentasi, tetapi diakui sebagai <span class="highlight">medium seni yang kuat</span>, melahirkan berbagai aliran dan gaya visual yang berpengaruh.</div>
+                    </div>
+                    <div class="key-point">
+                        <div class="key-point-title"><i class="material-icons">public</i>Dampak Sosial</div>
+                        <div class="key-point-content">Gambar memiliki kekuatan untuk membentuk <span class="highlight">persepsi publik</span>, mengungkap ketidakadilan, dan menjadi alat penting dalam perubahan sosial dan politik.</div>
+                    </div>
+                </div>
+                <div class="right-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/photo-intro/600/450" alt="Kolase foto ikonik dari abad ke-20">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Fotografi Dokumenter -->
+    <section class="section" id="documenter">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Fotografi Dokumenter: Cermin Realitas Sosial</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="left-content">
+                    <div class="photographer">
+                        <div class="photographer-name"><i class="material-icons">person</i>Jacob Riis & Lewis Hine</div>
+                        <div class="photographer-details">Para pionir ini menggunakan kamera untuk mengungkap kondisi <span class="highlight">kemiskinan urban</span> dan <span class="highlight">buruh anak</span> di Amerika, yang karyanya mendorong lahirnya reformasi sosial.</div>
+                    </div>
+                    <div class="photographer">
+                        <div class="photographer-name"><i class="material-icons">person</i>August Sander</div>
+                        <div class="photographer-details">Melalui proyek monumentalnya "People of the 20th Century," ia menciptakan potret masyarakat Jerman yang komprehensif sebelum era Nazi, seperti dalam foto ikonik <span class="highlight">"Three Farmers"</span>.</div>
+                    </div>
+                    <div class="impact-box">
+                        <div class="impact-title"><i class="material-icons">insights</i>Dampak Sosial</div>
+                        <div class="impact-content">Fotografi dokumenter menjadi suara bagi mereka yang tak terdengar, meningkatkan kesadaran publik, dan menciptakan arsip visual yang tak ternilai bagi sejarah sosial.</div>
+                    </div>
+                </div>
+                <div class="right-content">
+                    <div class="image-container grid">
+                        <img src="https://picsum.photos/seed/photo-docu1/600/350" alt="Foto dokumenter tentang buruh anak oleh Lewis Hine">
+                        <img src="https://picsum.photos/seed/photo-docu2/600/350" alt="Potret petani oleh August Sander">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 4: Fotografi Perang -->
+    <section class="section" id="perang">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Fotografi Perang: Saksi di Garis Depan</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="left-content">
+                    <div class="photographer">
+                        <div class="photographer-name"><i class="material-icons">person</i>Robert Capa</div>
+                        <div class="photographer-details">Salah satu pendiri <span class="highlight">Magnum Photos</span>, ia meliput lima perang besar. Fotonya, "The Falling Soldier," menjadi salah satu gambar perang paling ikonik dan kontroversial.</div>
+                    </div>
+                    <div class="photographer">
+                        <div class="photographer-name"><i class="material-icons">person</i>Margaret Bourke-White & Lee Miller</div>
+                        <div class="photographer-details">Mereka mendobrak batasan gender sebagai <span class="highlight">fotografer perang wanita pertama</span>, mendokumentasikan kengerian Perang Dunia II, termasuk pembebasan kamp konsentrasi.</div>
+                    </div>
+                    <div class="impact-box war-impact-box">
+                        <div class="impact-title"><i class="material-icons">insights</i>Mengubah Persepsi Publik</div>
+                        <div class="impact-content">Fotografi membawa realitas brutal dari medan perang langsung ke ruang keluarga, mengubah cara pandang publik terhadap konflik dan memicu gerakan anti-perang.</div>
+                    </div>
+                </div>
+                 <div class="right-content">
+                    <div class="image-container grid">
+                        <img src="https://picsum.photos/seed/photo-war1/600/350" alt="Foto pendaratan pasukan di Normandia saat Perang Dunia II">
+                        <img src="https://picsum.photos/seed/photo-war2/600/350" alt="Foto ikonik dari Perang Vietnam">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Fotografi Fashion -->
+    <section class="section" id="fashion">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Fotografi Fashion: Refleksi Budaya Pop</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="left-content">
+                    <div class="photographer">
+                        <div class="photographer-name"><i class="material-icons">person</i>Edward Steichen & Horst P. Horst</div>
+                        <div class="photographer-details">Sebagai perintis di majalah Vogue, mereka mengangkat fotografi fashion dari sekadar katalog menjadi sebuah bentuk seni dengan pencahayaan dramatis dan komposisi yang elegan, seperti pada foto <span class="highlight">"Mainbocher Corset"</span>.</div>
+                    </div>
+                     <div class="photographer">
+                        <div class="photographer-name"><i class="material-icons">person</i>Richard Avedon & David Bailey</div>
+                        <div class="photographer-details">Mereka merevolusi genre ini dengan membawa model keluar dari studio ke jalanan, menangkap <span class="highlight">energi dinamis</span> dan semangat "Swinging London" pada era 1960-an.</div>
+                    </div>
+                    <div class="evolution-box">
+                        <div class="evolution-title"><i class="material-icons">auto_awesome</i>Evolusi & Cermin Budaya</div>
+                        <div class="evolution-content">Fotografi fashion tidak hanya menjual pakaian, tetapi juga gaya hidup dan aspirasi. Ia berevolusi dari citra yang statis dan formal menjadi lebih dinamis, merefleksikan perubahan peran wanita dan kebebasan berekspresi.</div>
+                    </div>
+                </div>
+                 <div class="right-content">
+                    <div class="image-container grid">
+                        <img src="https://picsum.photos/seed/photo-fashion1/600/350" alt="Foto fashion klasik hitam putih">
+                        <img src="https://picsum.photos/seed/photo-fashion2/600/350" alt="Model fashion di jalanan kota">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 6: Fotografi Seni -->
+    <section class="section" id="seni">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Fotografi Seni: Medium Ekspresi Murni</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="left-content">
+                    <div class="movement">
+                        <div class="movement-name"><i class="material-icons">brush</i>Dari Pictorialism ke Straight Photography</div>
+                        <div class="movement-details">Gerakan awal seperti Pictorialism mencoba meniru <span class="highlight">lukisan klasik</span>. Namun, ini dilawan oleh Straight Photography yang menekankan <span class="highlight">keaslian gambar</span> tanpa manipulasi, menjadikan fotografi sebagai medium seni yang independen.</div>
+                    </div>
+                    <div class="movement">
+                        <div class="movement-name"><i class="material-icons">psychology</i>Surrealisme dan Eksperimen</div>
+                        <div class="movement-details">Seniman seperti <span class="highlight">Man Ray</span> menggunakan teknik seperti fotomontase dan solarisasi untuk mengeksplorasi <span class="highlight">alam bawah sadar</span> dan menantang persepsi kita tentang realitas.</div>
+                    </div>
+                    <div class="recognition-box">
+                        <div class="recognition-title"><i class="material-icons">museum</i>Pengakuan Institusional</div>
+                        <div class="recognition-content">Dibukanya galeri khusus fotografi seperti "291" oleh Alfred Stieglitz dan pameran di museum-museum besar sejak tahun 1930-an secara resmi mengukuhkan posisi fotografi sebagai salah satu cabang seni rupa.</div>
+                    </div>
+                </div>
+                 <div class="right-content">
+                    <div class="image-container grid">
+                         <img src="https://picsum.photos/seed/photo-art1/600/350" alt="Lanskap hitam putih dramatis oleh Ansel Adams">
+                         <img src="https://picsum.photos/seed/photo-art2/600/350" alt="Karya seni fotografi surealis oleh Man Ray">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 7: Warisan dan Dampak -->
+    <section class="section" id="warisan">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Warisan Fotografi Abad ke-20</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="left-content">
+                     <div class="genre-box">
+                        <div class="genre-icon documentary-icon"><i class="material-icons">photo_camera</i></div>
+                        <div class="genre-text">
+                            <div class="genre-name">Fotografi Dokumenter</div>
+                            <div class="genre-desc">Mendorong reformasi sosial dan menciptakan kesadaran.</div>
+                        </div>
+                    </div>
+                     <div class="genre-box">
+                        <div class="genre-icon war-icon"><i class="material-icons">military_tech</i></div>
+                        <div class="genre-text">
+                            <div class="genre-name">Fotografi Perang</div>
+                            <div class="genre-desc">Mengubah persepsi publik tentang realitas konflik.</div>
+                        </div>
+                    </div>
+                      <div class="genre-box">
+                        <div class="genre-icon fashion-icon"><i class="material-icons">style</i></div>
+                        <div class="genre-text">
+                            <div class="genre-name">Fotografi Fashion</div>
+                            <div class="genre-desc">Mencerminkan perubahan budaya dan identitas zaman.</div>
+                        </div>
+                    </div>
+                     <div class="genre-box">
+                        <div class="genre-icon art-icon"><i class="material-icons">brush</i></div>
+                        <div class="genre-text">
+                            <div class="genre-name">Fotografi Seni</div>
+                            <div class="genre-desc">Mengukuhkan fotografi sebagai medium ekspresi artistik.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="right-content">
+                   <div class="impact-box" style="border-color: #2c3e50; background-color: #f0f0f0;">
+                       <div class="impact-title" style="color: #2c3e50;"><i class="material-icons" style="color: #2c3e50;">insights</i>Warisan Abadi</div>
+                       <div class="impact-content">Fotografi abad ke-20 tidak hanya mendokumentasikan sejarah, tetapi juga secara aktif membentuknya. Keempat genre ini meletakkan fondasi visual dan konseptual yang terus menginspirasi fotografer di era digital saat ini, membuktikan kekuatan abadi sebuah gambar.</div>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

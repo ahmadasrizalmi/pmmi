@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Storytelling & Konsep Fotografi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* --- Reset & Pengaturan Dasar --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* --- Struktur Section --- */
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            border-bottom: 1px solid rgba(144, 202, 249, 0.2);
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            z-index: 2;
+        }
+
+        .highlight {
+            color: #90caf9;
+            font-weight: 600;
+        }
+
+        /* --- Section 1: Hero --- */
+        #hero {
+            text-align: center;
+            flex-direction: column;
+        }
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(rgba(18, 18, 18, 0.7), rgba(18, 18, 18, 0.7)), url('https://picsum.photos/seed/storytelling-hero/1280/720');
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+        #hero .title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+        #hero .subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 40px;
+            max-width: 800px;
+            color: #e0e0e0;
+        }
+        #hero .keywords {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        #hero .keyword-item {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+        #hero .keyword-item i {
+            color: #90caf9;
+            margin-right: 15px;
+            font-size: 24px;
+        }
+
+        /* --- Header Section Umum --- */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-header .title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .section-header .subtitle {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: #e0e0e0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* --- Tata Letak & Card --- */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.3s ease;
+        }
+        .card:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .card-icon {
+            font-size: 32px;
+            color: #90caf9;
+            margin-right: 15px;
+        }
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #90caf9;
+        }
+        .card-description {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            color: #e0e0e0;
+        }
+
+        /* --- ATURAN RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .section { padding: 60px 4%; }
+            #hero .title { font-size: 3.5rem; }
+            #hero .subtitle { font-size: 1.3rem; }
+            .section-header .title { font-size: 2.5rem; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 50px 20px; min-height: auto; }
+            #hero { min-height: 100vh; }
+            #hero .title { font-size: 2.5rem; }
+            #hero .keywords { grid-template-columns: 1fr; }
+            .section-header .title { font-size: 2.2rem; }
+            .grid-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Judul Utama -->
+    <section class="section" id="hero">
+        <div class="container">
+            <h1 class="title">Storytelling & Konsep Fotografi</h1>
+            <p class="subtitle">Seni menceritakan kisah melalui lensa kamera, mengubah momen biasa menjadi narasi yang kuat dan menggugah emosi.</p>
+            <div class="keywords">
+                <div class="keyword-item"><i class="material-icons">auto_stories</i><span>Mengubah <span class="highlight">Visual</span> menjadi <span class="highlight">Narasi</span></span></div>
+                <div class="keyword-item"><i class="material-icons">psychology</i><span>Menciptakan <span class="highlight">Emosi</span> dan Koneksi</span></div>
+                <div class="keyword-item"><i class="material-icons">visibility</i><span>Menarik Perhatian Audiens</span></div>
+                <div class="keyword-item"><i class="material-icons">history_edu</i><span>Mencatat <span class="highlight">Sejarah</span> dan Budaya</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Elemen Penting -->
+    <section class="section" id="elemen-storytelling">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Elemen Penting dalam Storytelling Fotografi</h2>
+                <p class="subtitle">Komponen fundamental yang membangun sebuah narasi visual yang kuat dan menarik.</p>
+            </header>
+            <div class="grid-container">
+                <div class="card">
+                    <div class="card-header"><i class="material-icons card-icon">people</i><h3 class="card-title">Karakter</h3></div>
+                    <p class="card-description">Subjek foto yang menjadi pusat cerita. Karakter yang kuat memiliki ekspresi, gestur, atau identitas yang membuat pemirsa peduli.</p>
+                </div>
+                <div class="card">
+                    <div class="card-header"><i class="material-icons card-icon">explore</i><h3 class="card-title">Setting (Latar)</h3></div>
+                    <p class="card-description">Lingkungan di mana cerita terjadi. Latar yang tepat memberikan konteks dan memperkuat suasana narasi.</p>
+                </div>
+                <div class="card">
+                    <div class="card-header"><i class="material-icons card-icon">bolt</i><h3 class="card-title">Plot (Momen)</h3></div>
+                    <p class="card-description">Sebuah momen menentukan yang menyiratkan adanya aksi atau kejadian. Foto yang baik menangkap puncak dari sebuah cerita atau momen yang memancing pertanyaan.</p>
+                </div>
+                <div class="card">
+                    <div class="card-header"><i class="material-icons card-icon">mood</i><h3 class="card-title">Mood (Suasana)</h3></div>
+                    <p class="card-description">Perasaan atau emosi yang ditimbulkan oleh foto, yang dibangun melalui pencahayaan, warna, dan komposisi.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Teknik Storytelling -->
+    <section class="section" id="teknik-storytelling">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Teknik Menceritakan Kisah Lewat Foto</h2>
+                <p class="subtitle">Cara praktis untuk mengkomunikasikan narasi yang lebih dalam melalui elemen-elemen visual.</p>
+            </header>
+            <div class="grid-container">
+                <div class="card">
+                    <div class="card-header"><i class="material-icons card-icon">crop</i><h3 class="card-title">Komposisi yang Kuat</h3></div>
+                    <p class="card-description">Gunakan aturan seperti <span class="highlight">Rule of Thirds</span> dan <span class="highlight">Leading Lines</span> untuk memandu mata pemirsa dan menciptakan struktur naratif.</p>
+                </div>
+                 <div class="card">
+                    <div class="card-header"><i class="material-icons card-icon">wb_sunny</i><h3 class="card-title">Pencahayaan Dramatis</h3></div>
+                    <p class="card-description">Manfaatkan cahaya dan bayangan untuk membangun mood. <span class="highlight">Kontras tinggi</span> dapat menciptakan ketegangan, sementara <span class="highlight">cahaya lembut</span> memberikan kesan tenang.</p>
+                </div>
+                 <div class="card">
+                    <div class="card-header"><i class="material-icons card-icon">sentiment_satisfied_alt</i><h3 class="card-title">Tangkap Ekspresi & Momen</h3></div>
+                    <p class="card-description">Fokus pada emosi yang autentik. Sebuah tatapan, senyuman, atau gestur dapat menceritakan lebih dari seribu kata.</p>
+                </div>
+                 <div class="card">
+                    <div class="card-header"><i class="material-icons card-icon">palette</i><h3 class="card-title">Simbolisme Warna</h3></div>
+                    <p class="card-description">Gunakan warna secara sadar untuk membangkitkan emosi. <span class="highlight">Warna hangat</span> (merah, oranye) untuk energi, dan <span class="highlight">warna dingin</span> (biru, hijau) untuk ketenangan.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Prinsip Desain -->
+    <section class="section" id="prinsip-desain">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Prinsip Desain dalam Fotografi Naratif</h2>
+                <p class="subtitle">Dasar-dasar visual yang membantu menyusun elemen-elemen cerita Anda menjadi satu kesatuan yang harmonis.</p>
+            </header>
+            <div class="grid-container">
+                <div class="card">
+                    <div class="card-header"><i class="material-icons card-icon">balance</i><h3 class="card-title">Keseimbangan</h3></div>
+                    <p class="card-description">Distribusi visual yang seimbang (baik simetris maupun asimetris) menciptakan rasa harmoni dan stabilitas dalam cerita Anda.</p>
+                </div>
+                <div class="card">
+                    <div class="card-header"><i class="material-icons card-icon">center_focus_strong</i><h3 class="card-title">Penekanan (Emphasis)</h3></div>
+                    <p class="card-description">Ciptakan satu titik fokus yang jelas untuk menarik perhatian pemirsa langsung ke elemen terpenting dari narasi Anda.</p>
+                </div>
+                <div class="card">
+                    <div class="card-header"><i class="material-icons card-icon">waves</i><h3 class="card-title">Ritme & Gerakan</h3></div>
+                    <p class="card-description">Gunakan pengulangan elemen atau garis untuk menciptakan aliran visual yang memandu mata pemirsa melalui foto Anda dari awal hingga akhir cerita.</p>
+                </div>
+                <div class="card">
+                    <div class="card-header"><i class="material-icons card-icon">all_inclusive</i><h3 class="card-title">Kesatuan (Unity)</h3></div>
+                    <p class="card-description">Pastikan semua elemen dalam foto Anda bekerja bersama secara harmonis untuk mendukung satu gagasan atau cerita utama.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Studi Kasus (Opsional) dan Tips -->
+    <section class="section" id="studi-kasus">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Tips Praktis untuk Fotografi Naratif</h2>
+            </header>
+            <div class="grid-container">
+                 <div class="card">
+                    <div class="card-header"><i class="material-icons card-icon">visibility</i><h3 class="card-title">Amati Sebelum Memotret</h3></div>
+                    <p class="card-description">Luangkan waktu untuk mengamati lingkungan dan subjek. Pikirkan cerita apa yang ingin Anda sampaikan sebelum menekan tombol shutter.</p>
+                </div>
+                <div class="card">
+                    <div class="card-header"><i class="material-icons card-icon">zoom_in</i><h3 class="card-title">Fokus pada Detail</h3></div>
+                    <p class="card-description">Terkadang, detail kecil—seperti tangan yang menggenggam atau tetesan air mata—dapat menceritakan kisah yang lebih besar dan lebih kuat.</p>
+                </div>
+                 <div class="card">
+                    <div class="card-header"><i class="material-icons card-icon">collections</i><h3 class="card-title">Buat Seri Foto</h3></div>
+                    <p class="card-description">Jangan hanya bergantung pada satu gambar. Rangkaian beberapa foto dapat membangun narasi yang lebih kompleks dan mendalam.</p>
+                </div>
+                 <div class="card">
+                    <div class="card-header"><i class="material-icons card-icon">edit</i><h3 class="card-title">Editing yang Mendukung Cerita</h3></div>
+                    <p class="card-description">Gunakan proses editing untuk memperkuat mood. Konversi ke hitam putih untuk drama, atau tingkatkan warna hangat untuk nostalgia.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

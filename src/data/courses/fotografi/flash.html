@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Flash, Reflector, dan Diffuser dalam Fotografi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* --- Reset & Pengaturan Dasar --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* --- Struktur Section --- */
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            z-index: 2;
+        }
+        
+        .highlight { color: #1565c0; font-weight: 600; }
+
+        /* --- Section 1: Hero --- */
+        #hero {
+            color: white;
+            text-align: center;
+            flex-direction: column;
+        }
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://picsum.photos/seed/lighting-tools/1280/720');
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+        #hero .title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        #hero .subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            max-width: 800px;
+            margin-bottom: 40px;
+        }
+        #hero .icon-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        #hero .material-icons {
+            font-size: 48px;
+            color: #90caf9;
+        }
+        
+        /* --- Header Section Umum --- */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-header .title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #1565c0;
+        }
+
+        /* --- Tata Letak & Card --- */
+        .content-wrapper { display: flex; gap: 40px; align-items: center; }
+        .text-content, .image-content { flex: 1; }
+        .image-container { width: 100%; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .image-container img { width: 100%; height: auto; display: block; }
+        
+        .info-block { margin-bottom: 24px; }
+        .info-title { font-size: 1.5rem; font-weight: 600; color: #1565c0; margin-bottom: 15px; display: flex; align-items: center; }
+        .info-title .material-icons { margin-right: 10px; }
+        .info-content, ul { font-size: 1.1rem; line-height: 1.5; }
+        ul { list-style-type: none; }
+        li { margin-bottom: 10px; }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        .card {
+            background-color: #e3f2fd;
+            border-radius: 12px;
+            padding: 25px;
+            display: flex;
+            align-items: center;
+        }
+        .card i { font-size: 28px; color: #1565c0; margin-right: 15px; }
+        
+        /* --- ATURAN RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .section { padding: 60px 4%; }
+            #hero .title { font-size: 3.5rem; }
+            #hero .subtitle { font-size: 1.3rem; }
+            .section-header .title { font-size: 2.5rem; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 50px 20px; min-height: auto; }
+            #hero { min-height: 100vh; }
+            #hero .title { font-size: 2.5rem; }
+            .section-header .title { font-size: 2.2rem; }
+            .content-wrapper { flex-direction: column; gap: 30px; }
+            .image-content { order: -1; }
+            .card-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Judul Utama -->
+    <section class="section" id="hero">
+        <div class="container">
+            <div class="icon-container">
+                <i class="material-icons">flash_on</i>
+                <i class="material-icons">flip</i>
+                <i class="material-icons">blur_on</i>
+            </div>
+            <h1 class="title">Menguasai Cahaya: Flash, Reflector, dan Diffuser</h1>
+            <p class="subtitle">Panduan Esensial untuk Membentuk dan Mengontrol Pencahayaan dalam Fotografi</p>
+        </div>
+    </section>
+
+    <!-- Section 2: Flash -->
+    <section class="section" id="flash">
+        <div class="container">
+            <header class="section-header"><h2 class="title">Flash: Menciptakan Cahaya</h2></header>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <div class="info-block">
+                        <h3 class="info-title"><i class="material-icons">flash_on</i>Definisi</h3>
+                        <p class="info-content">Flash adalah sumber cahaya buatan yang menghasilkan <span class="highlight">kilatan cahaya singkat dan intens</span>. Alat ini sangat penting untuk memotret di kondisi minim cahaya atau untuk mengisi bayangan pada subjek.</p>
+                    </div>
+                    <div class="info-block">
+                        <h3 class="info-title"><i class="material-icons">category</i>Jenis Flash</h3>
+                        <ul>
+                            <li><strong>Built-in:</strong> Flash internal pada kamera, cocok untuk darurat.</li>
+                            <li><strong>Eksternal (Speedlite):</strong> Dipasang di atas kamera, lebih kuat dan fleksibel.</li>
+                            <li><strong>Studio Strobe:</strong> Flash berdaya sangat tinggi untuk penggunaan di studio.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container"><img src="https://picsum.photos/seed/flash-unit/500/400" alt="Unit flash kamera eksternal"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Kapan Menggunakan Flash -->
+    <section class="section" id="penggunaan-flash">
+        <div class="container">
+            <header class="section-header"><h2 class="title">Kapan Menggunakan Flash?</h2></header>
+            <div class="card-grid">
+                <div class="card"><i class="material-icons">nights_stay</i><span>Saat <span class="highlight">cahaya sangat minim</span>, seperti di dalam ruangan atau di malam hari.</span></div>
+                <div class="card"><i class="material-icons">wb_sunny</i><span>Sebagai <span class="highlight">fill light</span> di siang hari untuk mengurangi bayangan kasar di wajah subjek (misalnya, di bawah terik matahari).</span></div>
+                <div class="card"><i class="material-icons">directions_run</i><span>Untuk <span class="highlight">membekukan gerakan</span> subjek yang bergerak cepat, seperti pada fotografi olahraga indoor.</span></div>
+                <div class="card"><i class="material-icons">auto_awesome</i><span>Untuk menciptakan <span class="highlight">efek pencahayaan yang dramatis</span> dan kreatif yang tidak mungkin didapat dari cahaya alami.</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Reflector -->
+    <section class="section" id="reflector">
+        <div class="container">
+            <header class="section-header"><h2 class="title">Reflector: Memantulkan Cahaya</h2></header>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <div class="info-block">
+                        <h3 class="info-title"><i class="material-icons">flip</i>Definisi</h3>
+                        <p class="info-content">Reflector adalah alat sederhana namun sangat efektif yang berfungsi untuk <span class="highlight">memantulkan cahaya</span> yang sudah ada. Alat ini tidak menghasilkan cahaya sendiri.</p>
+                    </div>
+                    <div class="info-block">
+                        <h3 class="info-title"><i class="material-icons">palette</i>Fungsi Warna</h3>
+                        <ul>
+                            <li><strong>Perak:</strong> Menghasilkan pantulan yang kuat dan kontras.</li>
+                            <li><strong>Emas:</strong> Memberikan sentuhan warna yang hangat pada subjek.</li>
+                            <li><strong>Putih:</strong> Menghasilkan pantulan yang netral dan sangat lembut.</li>
+                            <li><strong>Hitam:</strong> Menyerap cahaya, digunakan untuk memperdalam bayangan.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container"><img src="https://picsum.photos/seed/reflector-use/500/400" alt="Seorang fotografer menggunakan reflector untuk potret outdoor"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 5: Diffuser -->
+    <section class="section" id="diffuser">
+        <div class="container">
+            <header class="section-header"><h2 class="title">Diffuser: Melembutkan Cahaya</h2></header>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <div class="info-block">
+                        <h3 class="info-title"><i class="material-icons">blur_on</i>Definisi</h3>
+                        <p class="info-content">Diffuser adalah material tembus cahaya (translucent) yang ditempatkan di antara sumber cahaya dan subjek. Fungsinya adalah untuk <span class="highlight">menyebarkan dan melembutkan cahaya</span>.</p>
+                    </div>
+                    <div class="info-block">
+                        <h3 class="info-title"><i class="material-icons">lightbulb</i>Cara Kerja</h3>
+                        <p class="info-content">Dengan menyebarkan cahaya, diffuser mengubah sumber cahaya kecil yang keras menjadi sumber cahaya besar yang lembut, sehingga menghasilkan <span class="highlight">bayangan yang lebih halus</span> dan transisi yang lebih gradual antara area terang dan gelap.</p>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container"><img src="https://picsum.photos/seed/softbox/500/400" alt="Sebuah softbox yang merupakan jenis diffuser studio"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 6: Perbandingan -->
+    <section class="section" id="perbandingan">
+        <div class="container">
+            <header class="section-header"><h2 class="title">Perbandingan Fungsi Utama</h2></header>
+            <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="card" style="text-align: center; display: block;">
+                    <i class="material-icons" style="font-size: 48px; margin-bottom: 15px;">flash_on</i>
+                    <h3 class="info-title" style="justify-content: center;">Flash</h3>
+                    <p><strong>Menciptakan</strong> Cahaya</p>
+                </div>
+                 <div class="card" style="text-align: center; display: block;">
+                    <i class="material-icons" style="font-size: 48px; margin-bottom: 15px;">flip</i>
+                    <h3 class="info-title" style="justify-content: center;">Reflector</h3>
+                    <p><strong>Memantulkan</strong> Cahaya</p>
+                </div>
+                 <div class="card" style="text-align: center; display: block;">
+                    <i class="material-icons" style="font-size: 48px; margin-bottom: 15px;">blur_on</i>
+                    <h3 class="info-title" style="justify-content: center;">Diffuser</h3>
+                    <p><strong>Melembutkan</strong> Cahaya</p>
+                </div>
+            </div>
+            <div class="info-box" style="margin-top: 40px; text-align: center;">
+                 <p class="info-text">
+                    Menguasai kombinasi dari ketiga alat ini adalah kunci untuk menjadi fotografer yang serbaguna. Anda dapat <span class="highlight">menciptakan cahaya</span> dengan flash, <span class="highlight">mengarahkannya</span> dengan reflector, dan <span class="highlight">mengaturnya</span> dengan diffuser untuk hasil yang sempurna di segala kondisi.
+                </p>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
