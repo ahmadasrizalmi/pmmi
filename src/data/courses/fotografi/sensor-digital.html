@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Sensor Digital dan Megapixel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* --- Reset & Pengaturan Dasar --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* --- Struktur Section --- */
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            z-index: 2;
+        }
+
+        .highlight {
+            color: #4a90e2;
+            font-weight: 600;
+        }
+
+        /* --- Section 1: Hero --- */
+        #hero {
+            color: white;
+            text-align: center;
+            flex-direction: column;
+        }
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(rgba(0, 20, 40, 0.7), rgba(0, 20, 40, 0.7)), url('https://picsum.photos/seed/sensor/1280/720');
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+        #hero .title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        #hero .subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: #a0c8ff;
+            margin-bottom: 40px;
+        }
+        #hero .accent-line {
+            width: 100px;
+            height: 4px;
+            background-color: #4a90e2;
+            margin: 0 auto 40px;
+        }
+
+        /* --- Header Section Umum --- */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-header .title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #1a3b5d;
+        }
+        .section-header .accent-line {
+             width: 80px;
+            height: 4px;
+            background-color: #4a90e2;
+            margin: 15px auto 0;
+        }
+        
+        /* --- Tata Letak & Card --- */
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        .text-content, .image-content {
+            flex: 1;
+        }
+        .image-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .info-box {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .info-title {
+            font-size: 1.5rem;
+            color: #1a3b5d;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .info-title i {
+            margin-right: 12px;
+            color: #4a90e2;
+        }
+        .info-box p {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+        .card-header { display: flex; align-items: center; margin-bottom: 15px; }
+        .card-icon { width: 50px; height: 50px; background-color: #e8f1fd; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0; }
+        .card-icon i { font-size: 28px; color: #4a90e2; }
+        .card-title { font-size: 1.5rem; font-weight: 600; color: #1a3b5d; }
+        .feature-list { list-style: none; margin-top: 15px; }
+        .feature-item { display: flex; align-items: flex-start; margin-bottom: 12px; font-size: 1rem; }
+        .feature-item i { font-size: 20px; margin-right: 10px; }
+        .good { color: #4caf50; }
+        .bad { color: #f44336; }
+
+        /* --- ATURAN RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .section { padding: 60px 4%; }
+            #hero .title { font-size: 3.5rem; }
+            #hero .subtitle { font-size: 1.3rem; }
+            .section-header .title { font-size: 2.5rem; }
+            .card-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 50px 20px; min-height: auto; }
+            #hero { min-height: 100vh; }
+            #hero .title { font-size: 2.5rem; }
+            .section-header .title { font-size: 2.2rem; }
+            .content-wrapper { flex-direction: column; gap: 30px; }
+            .image-content { order: -1; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Judul Utama -->
+    <section class="section" id="hero">
+        <div class="container">
+            <h1 class="title">Sensor Digital dan Megapixel</h1>
+            <div class="accent-line"></div>
+            <h2 class="subtitle">Memahami Jantung Kamera Digital dan Pengaruhnya Terhadap Kualitas Foto</h2>
+        </div>
+    </section>
+
+    <!-- Section 2: Definisi Sensor -->
+    <section class="section" id="definisi-sensor">
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h2 class="section-header title" style="text-align: left;">Apa Itu Sensor Digital?</h2>
+                    <div class="info-box">
+                        <h3><i class="material-icons">sensors</i>Definisi</h3>
+                        <p>Sensor digital adalah komponen elektronik di dalam kamera yang berfungsi <span class="highlight">mengubah cahaya menjadi data digital</span>. Anggap saja ini sebagai pengganti film pada kamera analog.</p>
+                    </div>
+                    <div class="info-box">
+                        <h3><i class="material-icons">lightbulb</i>Cara Kerja</h3>
+                        <p>Sensor terdiri dari jutaan titik sensitif cahaya (piksel). Saat Anda memotret, setiap piksel mengukur intensitas cahaya yang diterimanya dan mengubahnya menjadi sinyal listrik, yang kemudian diproses menjadi sebuah gambar.</p>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container">
+                                                <img src="https://picsum.photos/seed/sensor-works/600/400" alt="Ilustrasi cara kerja sensor kamera digital">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Jenis Sensor -->
+    <section class="section" id="jenis-sensor">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Jenis-jenis Sensor Digital</h2>
+                <div class="accent-line"></div>
+            </header>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon"><i class="material-icons">memory</i></div>
+                        <h3 class="card-title">CCD</h3>
+                    </div>
+                    <p>Charge-Coupled Device adalah teknologi sensor yang lebih tua, dikenal dengan <span class="highlight">kualitas gambar yang sangat baik</span> dan noise rendah, namun konsumsi dayanya lebih tinggi dan prosesnya lebih lambat.</p>
+                    <ul class="feature-list">
+                        <li class="feature-item"><i class="material-icons good">check_circle</i>Kualitas gambar superior</li>
+                        <li class="feature-item"><i class="material-icons bad">remove_circle</i>Konsumsi daya tinggi</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon"><i class="material-icons">developer_board</i></div>
+                        <h3 class="card-title">CMOS</h3>
+                    </div>
+                    <p>Complementary Metal-Oxide-Semiconductor adalah sensor yang paling umum digunakan saat ini. Sensor ini <span class="highlight">lebih cepat, lebih hemat daya, dan lebih murah</span> untuk diproduksi, menjadikannya standar untuk sebagian besar kamera modern.</p>
+                     <ul class="feature-list">
+                        <li class="feature-item"><i class="material-icons good">check_circle</i>Cepat dan hemat daya</li>
+                        <li class="feature-item"><i class="material-icons bad">remove_circle</i>Noise bisa lebih tinggi pada ISO ekstrim</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon"><i class="material-icons">grid_on</i></div>
+                        <h3 class="card-title">X-Trans</h3>
+                    </div>
+                    <p>Sensor eksklusif dari Fujifilm yang menggunakan pola filter warna yang unik. Tujuannya adalah untuk mengurangi moiré (pola aneh pada gambar) dan menghasilkan warna yang sering dianggap <span class="highlight">menyerupai film analog</span>.</p>
+                     <ul class="feature-list">
+                        <li class="feature-item"><i class="material-icons good">check_circle</i>Rendering warna unik</li>
+                        <li class="feature-item"><i class="material-icons bad">remove_circle</i>Dukungan software pihak ketiga terkadang terbatas</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 4: Megapixel -->
+    <section class="section" id="megapixel">
+         <div class="container">
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h2 class="section-header title" style="text-align: left;">Megapixel: Mitos dan Fakta</h2>
+                    <div class="info-box">
+                        <h3><i class="material-icons">photo_size_select_large</i>Apa Itu Megapixel?</h3>
+                        <p>Satu megapixel (MP) sama dengan <span class="highlight">satu juta piksel</span>. Jumlah megapixel menunjukkan <span class="highlight">resolusi</span> atau total piksel yang dimiliki sebuah sensor. Resolusi 24 MP berarti sensor memiliki sekitar 24 juta piksel.</p>
+                    </div>
+                    <div class="info-box">
+                        <h3><i class="material-icons">help_outline</i>Apakah Lebih Besar Selalu Lebih Baik?</h3>
+                        <p>Tidak selalu. Megapixel yang lebih besar memungkinkan Anda untuk <span class="highlight">mencetak foto dalam ukuran besar</span> dan melakukan <span class="highlight">cropping</span> tanpa kehilangan banyak detail. Namun, <span class="highlight">kualitas gambar</span> lebih dipengaruhi oleh <span class="highlight">ukuran sensor fisik</span> dan kualitas lensa.</p>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container">
+                                                <img src="https://picsum.photos/seed/megapixel-crop/600/400" alt="Perbandingan hasil crop antara kamera resolusi tinggi dan rendah">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <!-- Section 5: Ukuran Sensor -->
+    <section class="section" id="ukuran-sensor">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Ukuran Sensor Lebih Penting dari Megapixel</h2>
+                <div class="accent-line"></div>
+                <p class="subtitle" style="color: #555;">Ukuran fisik sensor menentukan seberapa banyak cahaya yang dapat ditangkap, yang berdampak langsung pada kualitas gambar, terutama di kondisi minim cahaya.</p>
+            </header>
+            <div class="card-grid">
+                <div class="card">
+                     <div class="card-header">
+                        <div class="card-icon"><i class="material-icons">fullscreen</i></div>
+                        <h3 class="card-title">Full-Frame</h3>
+                    </div>
+                    <p>Ukuran sensor terbesar (setara film 35mm). Menghasilkan <span class="highlight">kualitas gambar terbaik</span>, performa low-light superior, dan depth of field paling dangkal (bokeh). Digunakan di kamera profesional.</p>
+                </div>
+                 <div class="card">
+                     <div class="card-header">
+                        <div class="card-icon"><i class="material-icons">crop</i></div>
+                        <h3 class="card-title">APS-C</h3>
+                    </div>
+                    <p>Ukuran sensor menengah yang umum ditemukan di kamera DSLR dan mirrorless kelas menengah. Keseimbangan yang <span class="highlight">baik antara kualitas, ukuran, dan harga</span>.</p>
+                </div>
+                 <div class="card">
+                     <div class="card-header">
+                        <div class="card-icon"><i class="material-icons">grid_4x4</i></div>
+                        <h3 class="card-title">Micro Four Thirds & 1-Inch</h3>
+                    </div>
+                    <p>Sensor yang lebih kecil, sering digunakan di kamera mirrorless yang ringkas dan kamera saku premium. Memberikan <span class="highlight">portabilitas</span> yang luar biasa.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

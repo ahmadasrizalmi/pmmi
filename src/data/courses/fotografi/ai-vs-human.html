@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gambar AI vs Fotografi Konvensional</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* --- Reset & Pengaturan Dasar --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f7ff;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* --- Struktur Section --- */
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            z-index: 2;
+        }
+
+        .highlight-ai { color: #7c3aed; font-weight: 600; }
+        .highlight-photo { color: #ea580c; font-weight: 600; }
+        .highlight-future { color: #059669; font-weight: 600; }
+
+        /* --- Section 1: Hero --- */
+        #hero {
+            color: white;
+            text-align: center;
+            flex-direction: column;
+        }
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(rgba(25, 25, 112, 0.7), rgba(75, 0, 130, 0.7)), url('https://picsum.photos/seed/ai-vs-photo/1280/720');
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+        #hero .title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        #hero .subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            max-width: 800px;
+        }
+        
+        /* --- Header Section Umum --- */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-header .title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        /* --- Tata Letak & Card --- */
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        .text-content, .image-content {
+            flex: 1;
+        }
+        .image-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .process-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        .process-icon { font-size: 28px; margin-right: 15px; }
+        .process-text h3 { font-size: 1.4rem; font-weight: 600; margin-bottom: 5px; }
+        .process-text p { font-size: 1.1rem; color: #4b5563; }
+        #ai-process .process-icon, #ai-process h3 { color: #7c3aed; }
+        #photo-process .process-icon, #photo-process h3 { color: #ea580c; }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .card-header { display: flex; align-items: center; margin-bottom: 15px; }
+        .card-icon { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; }
+        .card-icon i { font-size: 32px; }
+        .card-title { font-size: 1.5rem; font-weight: 600; }
+        .card-point { display: flex; align-items: flex-start; margin-bottom: 12px; font-size: 1.1rem; color: #4b5563; }
+        .card-point i { font-size: 20px; margin-right: 10px; }
+
+        /* --- ATURAN RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .section { padding: 60px 4%; }
+            #hero .title { font-size: 3.5rem; }
+            #hero .subtitle { font-size: 1.3rem; }
+            .section-header .title { font-size: 2.5rem; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 50px 20px; min-height: auto; }
+            #hero { min-height: 100vh; }
+            #hero .title { font-size: 2.5rem; }
+            .section-header .title { font-size: 2.2rem; }
+            .content-wrapper { flex-direction: column; gap: 30px; }
+            .image-content { order: -1; }
+            .card-grid { grid-template-columns: 1fr; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Judul Utama -->
+    <section class="section" id="hero">
+        <div class="container">
+            <h1 class="title">Gambar AI vs Fotografi <span class="highlight-ai">Konvensional</span></h1>
+            <p class="subtitle">Perbandingan antara Gambar Hasil Kecerdasan Buatan dan Fotografi Tradisional: Proses, Keunggulan, dan Masa Depan Industri Kreatif.</p>
+        </div>
+    </section>
+
+    <!-- Section 2: Proses AI -->
+    <section class="section" id="ai-process">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title" style="color: #4c1d95;">Bagaimana Gambar AI Dibuat?</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <div class="process-item">
+                        <i class="material-icons process-icon">text_fields</i>
+                        <div class="process-text">
+                            <h3>1. Input Teks (Prompt)</h3>
+                            <p>Semuanya berawal dari deskripsi teks yang detail, yang memerintahkan AI gambar seperti apa yang harus dibuat.</p>
+                        </div>
+                    </div>
+                    <div class="process-item">
+                        <i class="material-icons process-icon">psychology</i>
+                        <div class="process-text">
+                            <h3>2. Pemrosesan AI</h3>
+                            <p>Model AI, yang telah dilatih dengan miliaran gambar, menganalisis dan menginterpretasikan prompt tersebut.</p>
+                        </div>
+                    </div>
+                    <div class="process-item">
+                        <i class="material-icons process-icon">auto_awesome</i>
+                        <div class="process-text">
+                            <h3>3. Generasi Gambar</h3>
+                            <p>AI menciptakan gambar piksel demi piksel dari "noise", membentuknya sesuai pemahaman terhadap prompt.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/ai-process/600/400" alt="Ilustrasi proses pembuatan gambar oleh AI">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Proses Fotografi -->
+    <section class="section" id="photo-process">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title" style="color: #c2410c;">Bagaimana Fotografi Konvensional Bekerja?</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <div class="process-item">
+                        <i class="material-icons process-icon">visibility</i>
+                        <div class="process-text">
+                            <h3>1. Observasi & Visi</h3>
+                            <p>Fotografer secara aktif mencari momen, cahaya, dan komposisi di dunia nyata yang sesuai dengan visi kreatifnya.</p>
+                        </div>
+                    </div>
+                    <div class="process-item">
+                        <i class="material-icons process-icon">camera_alt</i>
+                        <div class="process-text">
+                            <h3>2. Pengambilan Gambar</h3>
+                            <p>Menggunakan kamera untuk menangkap foton cahaya dari subjek nyata dan merekamnya pada sensor digital atau film.</p>
+                        </div>
+                    </div>
+                    <div class="process-item">
+                        <i class="material-icons process-icon">edit</i>
+                        <div class="process-text">
+                            <h3>3. Pasca-Produksi</h3>
+                            <p>Menyempurnakan gambar yang telah diambil melalui software editing untuk menyesuaikan warna, kontras, dan detail lainnya.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/photographer-action/600/400" alt="Seorang fotografer sedang mengambil gambar di alam">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 4: Kelebihan -->
+    <section class="section" id="kelebihan">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title" style="color: #4c1d95;">Perbandingan Keunggulan</h2>
+            </header>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background-color: #e9d5ff;"><i class="material-icons" style="color: #7c3aed;">auto_awesome</i></div>
+                        <h3 class="card-title" style="color: #7c3aed;">Keunggulan Gambar AI</h3>
+                    </div>
+                    <div class="card-point"><i class="material-icons" style="color: #7c3aed;">speed</i><span><span class="highlight-ai">Kecepatan:</span> Hasil instan dalam hitungan menit.</span></div>
+                    <div class="card-point"><i class="material-icons" style="color: #7c3aed;">savings</i><span><span class="highlight-ai">Efektivitas Biaya:</span> Menghemat hingga 90% biaya produksi.</span></div>
+                    <div class="card-point"><i class="material-icons" style="color: #7c3aed;">all_inclusive</i><span><span class="highlight-ai">Tanpa Batas:</span> Mampu menciptakan adegan imajinatif yang mustahil di dunia nyata.</span></div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background-color: #fed7aa;"><i class="material-icons" style="color: #ea580c;">camera_alt</i></div>
+                        <h3 class="card-title" style="color: #ea580c;">Keunggulan Fotografi</h3>
+                    </div>
+                    <div class="card-point"><i class="material-icons" style="color: #ea580c;">verified</i><span><span class="highlight-photo">Keaslian:</span> Menangkap momen dan emosi yang nyata.</span></div>
+                    <div class="card-point"><i class="material-icons" style="color: #ea580c;">psychology</i><span><span class="highlight-photo">Sentuhan Manusia:</span> Mengandung intuisi, kreativitas, dan koneksi emosional.</span></div>
+                    <div class="card-point"><i class="material-icons" style="color: #ea580c;">history</i><span><span class="highlight-photo">Nilai Dokumenter:</span> Menjadi bukti otentik dari sebuah peristiwa atau keberadaan.</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Masa Depan -->
+    <section class="section" id="masa-depan">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title" style="color: #059669;">Masa Depan Fotografi di Era AI</h2>
+            </header>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background-color: #d1fae5;"><i class="material-icons" style="color: #059669;">merge_type</i></div>
+                        <h3 class="card-title" style="color: #059669;">Pendekatan Hybrid</h3>
+                    </div>
+                    <p class="card-point"><i class="material-icons" style="color: #059669;">check_circle</i><span>AI akan menjadi <span class="highlight-future">alat bantu (tool)</span> yang kuat bagi fotografer, bukan pengganti.</span></p>
+                    <p class="card-point"><i class="material-icons" style="color: #059669;">check_circle</i><span>Fotografer akan menggunakan AI untuk mempercepat tugas rutin seperti editing, retouching, dan bahkan pembuatan latar belakang.</span></p>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background-color: #d1fae5;"><i class="material-icons" style="color: #059669;">trending_up</i></div>
+                        <h3 class="card-title" style="color: #059669;">Evolusi Keterampilan</h3>
+                    </div>
+                     <p class="card-point"><i class="material-icons" style="color: #059669;">check_circle</i><span>Nilai seorang fotografer akan bergeser dari sekadar kemampuan teknis menjadi <span class="highlight-future">visi artistik, storytelling</span>, dan kreativitas yang unik.</span></p>
+                     <p class="card-point"><i class="material-icons" style="color: #059669;">check_circle</i><span>Fotografi tidak akan mati, melainkan <span class="highlight-future">berevolusi</span>. Keaslian dan sentuhan manusia akan menjadi lebih berharga dari sebelumnya.</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

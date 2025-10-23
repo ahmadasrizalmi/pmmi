@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Teknik Komposisi Fotografi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* --- Reset & Pengaturan Dasar --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* --- Struktur Section --- */
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .highlight {
+            font-weight: 600;
+        }
+
+        /* --- Section 1: Hero --- */
+        #hero {
+            color: white;
+            background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('https://picsum.photos/seed/composition/1280/720');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            flex-direction: column;
+        }
+        #hero .icon-container {
+            margin-bottom: 40px;
+        }
+        #hero .icon-container .material-icons {
+            font-size: 64px;
+            color: #e0e0e0;
+        }
+        #hero .title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+        #hero .subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            opacity: 0.9;
+            max-width: 800px;
+        }
+
+        /* --- Header Section Umum --- */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-header .title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+         .section-header .title .material-icons {
+            margin-right: 15px;
+            font-size: 36px;
+        }
+
+        /* --- Tata Letak Konten --- */
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        .text-content, .image-content {
+            flex: 1;
+        }
+        
+        .image-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* --- Styling Spesifik --- */
+        .key-points {
+            list-style: none;
+        }
+        .key-point {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            color: #34495e;
+        }
+        .key-point .material-icons {
+            margin-right: 15px;
+            font-size: 24px;
+        }
+        
+        #rule-of-thirds .highlight { color: #3498db; }
+        #rule-of-thirds .key-point .material-icons { color: #3498db; }
+        #rule-of-thirds .section-header .title .material-icons { color: #3498db; }
+        
+        #leading-lines .highlight { color: #e74c3c; }
+        #leading-lines .key-point .material-icons { color: #e74c3c; }
+        #leading-lines .section-header .title .material-icons { color: #e74c3c; }
+
+        #symmetry .highlight { color: #9b59b6; }
+        #symmetry .key-point .material-icons { color: #9b59b6; }
+        #symmetry .section-header .title .material-icons { color: #9b59b6; }
+        
+        #framing .highlight { color: #16a085; }
+        #framing .key-point .material-icons { color: #16a085; }
+        #framing .section-header .title .material-icons { color: #16a085; }
+
+        /* --- ATURAN RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .section { padding: 60px 4%; }
+            #hero .title { font-size: 3.5rem; }
+            #hero .subtitle { font-size: 1.3rem; }
+            .section-header .title { font-size: 2.5rem; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 50px 20px; min-height: auto; }
+            #hero { min-height: 100vh; }
+            #hero .title { font-size: 2.5rem; }
+            .section-header .title { font-size: 2.2rem; }
+            .content-wrapper { flex-direction: column; gap: 30px; }
+            .image-content { order: -1; } /* Pindahkan gambar ke atas */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Judul Utama -->
+    <section class="section" id="hero">
+        <div class="container">
+            <div class="icon-container">
+                <i class="material-icons">photo_camera</i>
+            </div>
+            <h1 class="title">Teknik Komposisi Fotografi</h1>
+            <p class="subtitle">Meningkatkan Kualitas Foto dengan Rule of Thirds, Leading Lines, Symmetry, dan Framing</p>
+        </div>
+    </section>
+
+    <!-- Section 2: Rule of Thirds -->
+    <section class="section" id="rule-of-thirds">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title"><i class="material-icons">grid_on</i>Rule of Thirds</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <ul class="key-points">
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <div>Membagi frame menjadi <span class="highlight">9 kotak sama besar</span> dengan dua garis horizontal dan dua garis vertikal.</div>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <div>Tempatkan elemen penting atau subjek utama di sepanjang <span class="highlight">garis</span> atau pada <span class="highlight">titik potongnya</span>.</div>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <div>Teknik ini menciptakan komposisi yang lebih <span class="highlight">seimbang, dinamis, dan menarik</span> secara visual dibandingkan menempatkan subjek tepat di tengah.</div>
+                        </li>
+                         <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <div>Sangat efektif untuk berbagai genre fotografi, mulai dari potret hingga lanskap.</div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="image-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/thirds/600/400" alt="Contoh penerapan Rule of Thirds pada foto lanskap">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Leading Lines -->
+    <section class="section" id="leading-lines">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title"><i class="material-icons">linear_scale</i>Leading Lines</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="text-content">
+                     <ul class="key-points">
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <div>Menggunakan garis-garis yang ada di dalam frame untuk <span class="highlight">mengarahkan pandangan mata</span> pemirsa menuju subjek utama.</div>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <div>Garis ini bisa berupa jalan, rel kereta api, sungai, pagar, atau bahkan bayangan.</div>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <div>Teknik ini sangat efektif untuk menciptakan ilusi <span class="highlight">kedalaman (depth)</span> dan <span class="highlight">perspektif</span>, membuat foto terasa lebih tiga dimensi.</div>
+                        </li>
+                         <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <div>Garis dapat berbentuk horizontal, vertikal, diagonal, melengkung, atau konvergen (menyatu di satu titik).</div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="image-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/leading-lines/600/400" alt="Contoh penggunaan Leading Lines pada foto jalan">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Symmetry -->
+    <section class="section" id="symmetry">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title"><i class="material-icons">flip</i>Symmetry (Simetri)</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <ul class="key-points">
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <div>Komposisi di mana dua sisi gambar saling <span class="highlight">mencerminkan satu sama lain</span>, menciptakan keseimbangan yang sempurna.</div>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <div>Simetri menciptakan perasaan <span class="highlight">harmoni, ketertiban, dan keindahan</span> yang menenangkan secara visual.</div>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <div>Sering ditemukan dalam <span class="highlight">arsitektur</span> (bangunan, jembatan) dan <span class="highlight">alam</span> (refleksi di air).</div>
+                        </li>
+                         <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <div>Untuk memaksimalkan efeknya, tempatkan garis simetri tepat di tengah frame.</div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="image-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/symmetry/600/400" alt="Contoh komposisi simetris pada sebuah bangunan">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Framing -->
+    <section class="section" id="framing">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title"><i class="material-icons">crop_free</i>Framing (Pembingkaian)</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <ul class="key-points">
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <div>Menggunakan elemen di latar depan (foreground) untuk menciptakan sebuah <span class="highlight">"bingkai" alami</span> di sekitar subjek utama.</div>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <div>Bingkai ini bisa berupa jendela, pintu, lengkungan, dahan pohon, atau bahkan terowongan.</div>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <div>Teknik ini membantu <span class="highlight">mengisolasi subjek</span>, menarik perhatian langsung ke sana, dan menambahkan <span class="highlight">konteks serta kedalaman</span> pada foto.</div>
+                        </li>
+                         <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <div>Bingkai tidak harus mengelilingi seluruh subjek; bingkai parsial pun bisa sangat efektif.</div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="image-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/framing/600/400" alt="Contoh penggunaan teknik framing dengan lengkungan bangunan">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

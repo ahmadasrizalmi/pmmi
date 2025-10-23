@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Editing Foto Berbasis AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* --- Reset & Pengaturan Dasar --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #001e3c;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* --- Struktur Section --- */
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            border-bottom: 1px solid rgba(79, 195, 247, 0.2);
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            z-index: 2;
+        }
+
+        .highlight {
+            color: #4fc3f7;
+            font-weight: 600;
+        }
+
+        /* --- Section 1: Hero --- */
+        #hero {
+            text-align: center;
+            flex-direction: column;
+        }
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(rgba(0, 30, 60, 0.85), rgba(0, 30, 60, 0.85)), 
+                        url('https://picsum.photos/seed/ai-editing/1280/720');
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+        #hero .title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+        #hero .subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 50px;
+            color: #e0f2ff;
+            max-width: 800px;
+        }
+        #hero .features {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        #hero .feature {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            width: 200px;
+            text-align: center;
+        }
+        #hero .feature i {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: #4fc3f7;
+        }
+        #hero .feature-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* --- Header Section Umum --- */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-header .title {
+            font-size: 2.8rem;
+            font-weight: 700;
+        }
+        
+        /* --- Tata Letak & Card --- */
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        .text-content, .image-content {
+            flex: 1;
+        }
+        
+        .image-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .feature-list { list-style: none; }
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        .feature-item i {
+            color: #4fc3f7;
+            font-size: 28px;
+            margin-right: 15px;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 25px;
+        }
+        .card-header { display: flex; align-items: center; margin-bottom: 15px; }
+        .card-icon { width: 50px; height: 50px; background-color: rgba(79, 195, 247, 0.2); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-right: 15px; }
+        .card-icon i { font-size: 28px; color: #4fc3f7; }
+        .card-title { font-size: 1.5rem; font-weight: 600; color: #4fc3f7; }
+        .card-list { list-style: none; padding-left: 5px; }
+        .card-list li { margin-bottom: 10px; display: flex; align-items: center; }
+        .card-list i { font-size: 20px; color: #4fc3f7; margin-right: 10px; }
+
+        /* --- ATURAN RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .section { padding: 60px 4%; }
+            #hero .title { font-size: 3.5rem; }
+            #hero .subtitle { font-size: 1.3rem; }
+            .section-header .title { font-size: 2.5rem; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 50px 20px; min-height: auto; }
+            #hero { min-height: 100vh; }
+            #hero .title { font-size: 2.5rem; }
+            .section-header .title { font-size: 2.2rem; }
+            .content-wrapper { flex-direction: column; gap: 30px; }
+            .image-content { order: -1; }
+            .card-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Judul Utama -->
+    <section class="section" id="hero">
+        <div class="container">
+            <h1 class="title">Revolusi Editing Foto Berbasis AI</h1>
+            <p class="subtitle">Bagaimana Kecerdasan Buatan (AI) Mengubah Cara Kita Menyempurnakan dan Memanipulasi Gambar</p>
+            <div class="features">
+                <div class="feature"><i class="material-icons">auto_awesome</i><span class="feature-text">Generative Fill</span></div>
+                <div class="feature"><i class="material-icons">filter_b_and_w</i><span class="feature-text">Noise Reduction</span></div>
+                <div class="feature"><i class="material-icons">face</i><span class="feature-text">Portrait AI</span></div>
+                <div class="feature"><i class="material-icons">landscape</i><span class="feature-text">Sky Replacement</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Generative Fill -->
+    <section class="section" id="generative-fill">
+        <div class="container">
+             <header class="section-header"><h2 class="title">Generative Fill: Imajinasi Tanpa Batas</h2></header>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <ul class="feature-list">
+                        <li class="feature-item"><i class="material-icons">auto_awesome</i><div><strong>Apa itu?</strong> Teknologi AI yang memungkinkan Anda menambah, menghapus, atau memodifikasi bagian gambar hanya dengan perintah teks sederhana.</div></li>
+                        <li class="feature-item"><i class="material-icons">psychology</i><div><strong>Bagaimana Caranya?</strong> Didukung oleh model AI generatif seperti Adobe Firefly, teknologi ini memahami konteks gambar dan menghasilkan piksel baru yang menyatu secara realistis.</div></li>
+                        <li class="feature-item"><i class="material-icons">layers</i><div><strong>Non-Destruktif.</strong> Hasil AI dibuat pada layer terpisah, sehingga gambar asli Anda tetap aman dan tidak berubah.</div></li>
+                    </ul>
+                </div>
+                <div class="image-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/generative-fill/600/400" alt="Contoh perbandingan sebelum dan sesudah menggunakan Generative Fill">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Reduksi Noise AI -->
+    <section class="section" id="reduksi-noise">
+        <div class="container">
+             <header class="section-header"><h2 class="title">Reduksi Noise Cerdas dengan AI</h2></header>
+             <div class="content-wrapper">
+                <div class="text-content">
+                    <ul class="feature-list">
+                        <li class="feature-item"><i class="material-icons">filter_b_and_w</i><div><strong>Masalah Klasik.</strong> Noise (bintik) adalah masalah umum pada foto yang diambil dengan ISO tinggi atau di kondisi minim cahaya.</div></li>
+                        <li class="feature-item"><i class="material-icons">auto_fix_high</i><div><strong>Solusi AI.</strong> AI menganalisis pola noise pada gambar dan secara cerdas menghapusnya sambil <span class="highlight">mempertahankan detail penting</span>, menghasilkan gambar yang bersih dan tajam.</div></li>
+                        <li class="feature-item"><i class="material-icons">speed</i><div><strong>Lebih Cepat & Akurat.</strong> Proses ini jauh lebih efektif daripada metode reduksi noise manual tradisional yang seringkali mengorbankan detail.</div></li>
+                    </ul>
+                </div>
+                <div class="image-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/noise-reduction/600/400" alt="Perbandingan foto dengan noise dan setelah direduksi oleh AI">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 4: Alat AI Lainnya -->
+    <section class="section" id="alat-lain">
+        <div class="container">
+            <header class="section-header"><h2 class="title">Fitur-Fitur Populer Lainnya Berbasis AI</h2></header>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-header"><div class="card-icon"><i class="material-icons">landscape</i></div><h3 class="card-title">Sky Replacement</h3></div>
+                    <p class="card-description">Mengganti langit yang membosankan dengan langit dramatis hanya dengan satu klik. AI secara otomatis akan melakukan masking dan menyesuaikan pencahayaan pada seluruh foto.</p>
+                </div>
+                <div class="card">
+                    <div class="card-header"><div class="card-icon"><i class="material-icons">face</i></div><h3 class="card-title">Portrait Enhancement</h3></div>
+                    <p class="card-description">AI mendeteksi wajah, mata, dan kulit untuk melakukan penyempurnaan potret secara otomatis, seperti menghaluskan kulit, mempertajam mata, dan menyesuaikan pencahayaan wajah.</p>
+                </div>
+                 <div class="card">
+                    <div class="card-header"><div class="card-icon"><i class="material-icons">layers_clear</i></div><h3 class="card-title">Object & Background Removal</h3></div>
+                    <p class="card-description">Menghapus objek yang mengganggu atau mengganti latar belakang dengan cepat dan akurat. AI mampu membuat seleksi yang kompleks di sekitar subjek.</p>
+                </div>
+                 <div class="card">
+                    <div class="card-header"><div class="card-icon"><i class="material-icons">zoom_out_map</i></div><h3 class="card-title">AI Upscaling</h3></div>
+                    <p class="card-description">Meningkatkan resolusi foto berkualitas rendah tanpa membuatnya pecah atau blur, dengan cara "mengisi" detail yang hilang menggunakan data dari jutaan gambar.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Keuntungan & Keterbatasan -->
+    <section class="section" id="pro-kontra">
+        <div class="container">
+            <header class="section-header"><h2 class="title">Keuntungan dan Keterbatasan AI</h2></header>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3 class="info-title"><i class="material-icons">thumb_up</i>Keuntungan</h3>
+                    <ul class="card-list">
+                        <li><i class="material-icons">speed</i><span class="highlight">Kecepatan & Efisiensi:</span> Mempercepat alur kerja secara dramatis.</li>
+                        <li><i class="material-icons">touch_app</i><span class="highlight">Aksesibilitas:</span> Memungkinkan pemula untuk mencapai hasil profesional.</li>
+                        <li><i class="material-icons">auto_awesome</i><span class="highlight">Kemungkinan Baru:</span> Membuka pintu kreativitas yang sebelumnya sulit atau tidak mungkin.</li>
+                    </ul>
+                </div>
+                <div class="text-content">
+                    <h3 class="info-title"><i class="material-icons">warning</i>Keterbatasan</h3>
+                     <ul class="card-list">
+                        <li><i class="material-icons">psychology</i><span class="highlight">Kurang Kontrol Artistik:</span> Terkadang hasilnya terlalu "sempurna" atau kurang memiliki sentuhan manusia.</li>
+                        <li><i class="material-icons">sync_problem</i><span class="highlight">Artefak & Kesalahan:</span> AI tidak selalu sempurna dan bisa menghasilkan detail yang aneh.</li>
+                        <li><i class="material-icons">memory</i><span class="highlight">Kebutuhan Komputasi:</span> Fitur-fitur AI canggih seringkali membutuhkan perangkat keras yang kuat.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

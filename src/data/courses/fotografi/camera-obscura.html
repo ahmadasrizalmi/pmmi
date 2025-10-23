@@ -1,2 +1,524 @@
-<h3>Camera Obscura</h3>
-<p>Konten HTML untuk camera obscura ada di sini.</p>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sejarah Lengkap Kamera Obscura</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* Reset dan Pengaturan Dasar */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', 'Source Han Sans SC', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Struktur Section (Slide) */
+        .slide {
+            width: 100%;
+            min-height: 100vh;
+            padding: 60px 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .slide:last-child {
+            border-bottom: none;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* Slide 1: Hero Section */
+        #slide-1 {
+            color: #fff;
+            /* --- PERBAIKAN: URL GAMBAR DIGANTI --- */
+            background-image: url('https://picsum.photos/seed/obscura1/1200/800');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            text-align: center;
+        }
+
+        #slide-1 .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(30, 30, 30, 0.75);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        #slide-1 .hero-title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        #slide-1 .decoration {
+            width: 100px;
+            height: 4px;
+            background-color: #90a4ae;
+            margin: 20px auto;
+        }
+
+        #slide-1 .hero-subtitle {
+            font-size: 1.25rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Header Umum untuk Section */
+        .section-header {
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #37474f;
+        }
+
+        /* Konten Umum dengan 2 Kolom */
+        .content-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .text-content, .image-content {
+            flex: 1;
+        }
+        
+        .image-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .highlight {
+            color: #455a64;
+            font-weight: 500;
+        }
+
+        /* Key Points & Lists */
+        .key-point, .event, .contributor, .milestone {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        
+        /* --- PERBAIKAN: Ditambahkan fallback untuk ikon --- */
+        .key-point i, .event-icon, .contributor-icon, .milestone-icon {
+            color: #546e7a;
+            margin-right: 15px;
+            font-size: 24px;
+            margin-top: 4px;
+
+            /* Properti tambahan untuk fallback jika font ikon gagal dimuat */
+            width: 24px; 
+            height: 24px;
+            overflow: hidden; /* Sembunyikan teks (cth: "camera") jika font gagal */
+            text-align: center;
+            flex-shrink: 0; /* Mencegah ikon mengecil */
+            line-height: 1; 
+        }
+        /* --- Akhir Perbaikan Ikon --- */
+        
+        .key-point-text, .event-description, .contributor-contribution, .milestone-description {
+            font-size: 1.1rem;
+        }
+        
+        /* Slide 3 & 6: Timeline Styles */
+        .year {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #546e7a;
+            margin-right: 25px;
+            min-width: 100px;
+            text-align: right;
+        }
+        
+        .event-title, .milestone-title, .contributor-name {
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: #455a64;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Slide 7: Kesimpulan */
+        .quote {
+            background-color: #eceff1;
+            border-left: 5px solid #78909c;
+            padding: 20px 30px;
+            margin-top: 30px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .quote-text {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #546e7a;
+        }
+        
+        .quote-author {
+            font-size: 1rem;
+            color: #78909c;
+            margin-top: 10px;
+            text-align: right;
+        }
+        
+
+        /* --- ATURAN RESPONSIVE --- */
+
+        /* Tablet (max-width: 1024px) */
+        @media (max-width: 1024px) {
+            .slide {
+                padding: 60px 4%;
+            }
+
+            #slide-1 .hero-title {
+                font-size: 3.5rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .content-wrapper {
+                gap: 30px;
+            }
+        }
+        
+        /* Mobile (max-width: 768px) */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 50px 20px;
+                min-height: auto; /* Biarkan tinggi menyesuaikan konten di mobile */
+            }
+            
+            #slide-1 {
+                min-height: 100vh;
+            }
+
+            #slide-1 .hero-title {
+                font-size: 2.5rem;
+            }
+
+            #slide-1 .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+                text-align: center;
+            }
+            
+            .section-header {
+                margin-bottom: 30px;
+            }
+
+            .content-wrapper {
+                flex-direction: column;
+            }
+            
+            .image-content {
+                margin-top: 30px;
+                order: -1; /* Pindahkan gambar ke atas di beberapa section */
+            }
+
+            #slide-3 .image-content, 
+            #slide-5 .image-content, 
+            #slide-6 .image-content {
+                order: 0;
+            }
+            
+            .year {
+                min-width: 60px;
+                text-align: left;
+                font-size: 1.2rem;
+                margin-bottom: 5px;
+            }
+
+            .event, .milestone {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .event-content, .milestone-content {
+                padding-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="slide" id="slide-1">
+        <div class="overlay">
+            <div class="container">
+                <h1 class="hero-title">Awal Mula Kamera Obscura</h1>
+                <div class="decoration"></div>
+                <p class="hero-subtitle">Sejarah dan Evolusi Teknologi Fotografi dari Konsep Ruang Gelap Hingga Kamera Modern</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="slide" id="slide-2">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="section-title">Definisi dan Konsep Dasar</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+                        <span class="highlight">Kamera obscura</span> secara harfiah berarti <span class="highlight">"ruang gelap"</span> dalam bahasa Latin.
+                    </p>
+                    <div class="key-points">
+                        <div class="key-point">
+                            <i class="material-icons">camera</i>
+                            <div class="key-point-text">Perangkat optik sederhana berupa ruangan gelap atau kotak dengan lubang kecil (pinhole)</div>
+                        </div>
+                        <div class="key-point">
+                            <i class="material-icons">lightbulb</i>
+                            <div class="key-point-text">Cahaya masuk melalui lubang, membentuk bayangan terbalik dari objek di luar pada dinding di seberangnya</div>
+                        </div>
+                        <div class="key-point">
+                            <i class="material-icons">history</i>
+                            <div class="key-point-text">Digunakan oleh para pelukis dan ilmuwan sejak zaman Yunani kuno</div>
+                        </div>
+                        <div class="key-point">
+                            <i class="material-icons">science</i>
+                            <div class="key-point-text">Konsep dasar optik yang menjadi cikal bakal teknologi kamera modern</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/obscura1/1200/800" alt="Ilustrasi prinsip kerja kamera obscura">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="slide" id="slide-3">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="section-title">Sejarah Awal Kamera Obscura</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <div class="event">
+                        <div class="year">400 SM</div>
+                        <div class="event-content">
+                            <h3 class="event-title"><i class="material-icons event-icon">auto_stories</i>Mo-tzu (Mozi)</h3>
+                            <p class="event-description">Filsuf Tiongkok mencatat <span class="highlight">catatan tertulis pertama</span> tentang cahaya yang melewati lubang kecil ke ruangan gelap.</p>
+                        </div>
+                    </div>
+                    <div class="event">
+                        <div class="year">350 SM</div>
+                        <div class="event-content">
+                            <h3 class="event-title"><i class="material-icons event-icon">wb_sunny</i>Aristoteles</h3>
+                            <p class="event-description">Filsuf Yunani menyadari <span class="highlight">gerhana sebagian</span> dapat dilihat melalui bayangan di bawah pohon.</p>
+                        </div>
+                    </div>
+                    <div class="event">
+                        <div class="year">1000 M</div>
+                        <div class="event-content">
+                            <h3 class="event-title"><i class="material-icons event-icon">science</i>Alhazen (Ibn al-Haytham)</h3>
+                            <p class="event-description">Ilmuwan Islam memberikan <span class="highlight">dokumentasi ilmiah pertama</span> tentang prinsip kerja kamera obscura.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/obscura2/1200/800" alt="Ilustrasi sejarah kamera obscura">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="slide" id="slide-4">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="section-title">Kontribusi Ibnu al-Haytham</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h3 class="contributor-name" style="font-size: 1.5rem; flex-direction: column; align-items: flex-start;">Abu Ali Muhammad bin al-Hasan bin al-Haitham
+                        <span style="font-size: 1.1rem; color: #78909c; font-weight: 400;">965 - 1039 M</span>
+                    </h3>
+                    <div class="key-points" style="margin-top: 20px;">
+                        <div class="key-point"><i class="material-icons">place</i><div class="key-point-text">Lahir di <span class="highlight">Basra, Irak</span> pada masa Dinasti Abbasiyah</div></div>
+                        <div class="key-point"><i class="material-icons">lightbulb</i><div class="key-point-text">Menemukan kamera obscura secara <span class="highlight">tidak sengaja</span> saat dipenjarakan di kamar gelap</div></div>
+                        <div class="key-point"><i class="material-icons">science</i><div class="key-point-text">Mengamati cahaya tajam masuk melalui lubang kecil, membentuk bayangan terbalik</div></div>
+                        <div class="key-point"><i class="material-icons">auto_stories</i><div class="key-point-text">Menulis buku <span class="highlight">"al-Manazhir"</span> yang menjadi dasar ilmu optik modern</div></div>
+                        <div class="key-point"><i class="material-icons">visibility</i><div class="key-point-text">Menjelaskan sifat cahaya dan mekanisme penglihatan manusia</div></div>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/obscura3/1200/800" alt="Potret Ibnu al-Haytham">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="slide" id="slide-5">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="section-title">Perkembangan Setelah Ibnu al-Haytham</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <div class="contributor">
+                        <div class="contributor-info">
+                            <h3 class="contributor-name"><i class="material-icons contributor-icon">brush</i>Leonardo da Vinci <span style="font-size: 1rem; color: #78909c; font-weight: 400; margin-left: 10px;">1452 - 1519</span></h3>
+                            <p class="contributor-contribution">Mengemukakan bahwa <span class="highlight">mata manusia seperti kamera obscura</span> dan menerbitkan deskripsi jelas pertama dalam Codex Atlanticus (1502).</p>
+                        </div>
+                    </div>
+                    <div class="contributor">
+                        <div class="contributor-info">
+                            <h3 class="contributor-name"><i class="material-icons contributor-icon">visibility</i>Giambattista della Porta <span style="font-size: 1rem; color: #78909c; font-weight: 400; margin-left: 10px;">1535 - 1615</span></h3>
+                            <p class="contributor-contribution">Menambahkan <span class="highlight">lensa cekung</span> di dekat lubang masuk cahaya, meningkatkan ketajaman dan kecerahan gambar.</p>
+                        </div>
+                    </div>
+                    <div class="contributor">
+                        <div class="contributor-info">
+                            <h3 class="contributor-name"><i class="material-icons contributor-icon">language</i>Johannes Kepler <span style="font-size: 1rem; color: #78909c; font-weight: 400; margin-left: 10px;">1571 - 1630</span></h3>
+                            <p class="contributor-contribution">Pertama kali menggunakan istilah <span class="highlight">"kamera obscura"</span> (1604) dan menciptakan versi portabel untuk astronomi.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/obscura4/1200/800" alt="Ilustrasi kamera obscura klasik">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="slide" id="slide-6">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="section-title">Evolusi ke Kamera Modern</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <div class="milestone">
+                        <div class="year">1826</div>
+                        <div class="milestone-content">
+                            <h3 class="milestone-title"><i class="material-icons milestone-icon">photo_camera</i>Joseph Nicephore Niepce</h3>
+                            <p class="milestone-description">Menciptakan <span class="highlight">gambar permanen pertama</span> menggunakan metode heliografi.</p>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <div class="year">1839</div>
+                        <div class="milestone-content">
+                            <h3 class="milestone-title"><i class="material-icons milestone-icon">filter</i>Louis Daguerre</h3>
+                            <p class="milestone-description">Mengembangkan proses <span class="highlight">daguerreotype</span>, cikal bakal fotografi modern.</p>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <div class="year">1888</div>
+                        <div class="milestone-content">
+                            <h3 class="milestone-title"><i class="material-icons milestone-icon">camera</i>George Eastman</h3>
+                            <p class="milestone-description">Memperkenalkan <span class="highlight">kamera Kodak pertama</span> dengan roll film.</p>
+                        </div>
+                    </div>
+                     <div class="milestone">
+                        <div class="year">1990s</div>
+                        <div class="milestone-content">
+                            <h3 class="milestone-title"><i class="material-icons milestone-icon">memory</i>Era Digital</h3>
+                            <p class="milestone-description">Kamera <span class="highlight">DSLR</span> dan kamera digital menggantikan film, membuat fotografi lebih mudah diakses.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/obscura5/1200/800" alt="Timeline evolusi kamera">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="slide" id="slide-7">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="section-title">Kesimpulan</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <div class="key-points">
+                        <div class="key-point">
+                            <i class="material-icons">history_edu</i>
+                            <div class="key-point-text">Kamera obscura adalah <span class="highlight">cikal bakal teknologi kamera modern</span> yang telah berkembang selama lebih dari 2.000 tahun.</div>
+                        </div>
+                        <div class="key-point">
+                            <i class="material-icons">science</i>
+                            <div class="key-point-text">Ibnu al-Haytham memberikan <span class="highlight">dasar ilmiah optik</span> yang menjadi fondasi fotografi modern.</div>
+                        </div>
+                        <div class="key-point">
+                            <i class="material-icons">lightbulb</i>
+                            <div class="key-point-text">Konsep sederhana "ruang gelap" telah berevolusi menjadi teknologi canggih yang kita gunakan hari ini.</div>
+                        </div>
+                    </div>
+                    <div class="quote">
+                        <p class="quote-text">"Dari konsep kamar gelap hingga kamera digital, perjalanan kamera adalah cerminan inovasi teknologi yang tak pernah berhenti."</p>
+                        <p class="quote-author">— Sejarah Fotografi</p>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/obscura6/1200/800" alt="Evolusi kamera dari kamera obscura ke modern">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Software Editing Foto: Mobile & Desktop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* --- Reset & Pengaturan Dasar --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* --- Struktur Section --- */
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .highlight {
+            color: #4a6baf;
+            font-weight: 600;
+        }
+
+        /* --- Header Section Umum --- */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-header .title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #4a6baf;
+            margin-bottom: 10px;
+        }
+        .section-header .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* --- Tata Letak & Card --- */
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        .text-content, .image-content {
+            flex: 1;
+        }
+        
+        .image-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .app-list {
+            list-style: none;
+        }
+        .app-item {
+            margin-bottom: 25px;
+        }
+        .app-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #4a6baf;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .app-name i {
+            margin-right: 12px;
+        }
+        .app-features {
+            font-size: 1.1rem;
+            color: #555;
+            padding-left: 36px;
+        }
+        .app-features li {
+            margin-bottom: 8px;
+        }
+        
+        .comparison-container {
+            display: flex;
+            gap: 30px;
+        }
+        .comparison-column {
+            flex: 1;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .platform-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #4a6baf;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .platform-title i {
+            margin-right: 10px;
+            font-size: 32px;
+        }
+        .feature-item {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: flex-start;
+            font-size: 1.1rem;
+        }
+        .feature-item i {
+            color: #4a6baf;
+            margin-right: 10px;
+            font-size: 22px;
+        }
+
+        /* --- ATURAN RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .section { padding: 60px 4%; }
+            .section-header .title { font-size: 2.5rem; }
+            .comparison-container { flex-direction: column; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 50px 20px; min-height: auto; }
+            .section-header .title { font-size: 2.2rem; }
+            .content-wrapper { flex-direction: column; gap: 30px; }
+            .image-content { order: -1; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Mobile Apps -->
+    <section class="section" id="mobile-apps">
+        <div class="container">
+            <header class="section-header">
+                <h1 class="title">Software Editing Foto untuk Mobile</h1>
+                <p class="subtitle">Aplikasi populer untuk menyempurnakan foto langsung dari genggaman Anda.</p>
+            </header>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <ul class="app-list">
+                        <li class="app-item">
+                            <h3 class="app-name"><i class="material-icons">photo_filter</i>Snapseed</h3>
+                            <ul class="app-features">
+                                <li>Antarmuka intuitif yang sangat mudah digunakan.</li>
+                                <li>Fitur profesional seperti kurva, healing, dan koreksi perspektif.</li>
+                                <li>Sepenuhnya <span class="highlight">gratis</span> di iOS & Android.</li>
+                            </ul>
+                        </li>
+                        <li class="app-item">
+                            <h3 class="app-name"><i class="material-icons">filter</i>Lightroom Mobile</h3>
+                            <ul class="app-features">
+                                <li>Versi mobile dari standar industri editing foto.</li>
+                                <li>Sinkronisasi preset dan editan dengan versi desktop melalui cloud.</li>
+                                <li>Fitur premium canggih seperti masking dan penyesuaian selektif.</li>
+                            </ul>
+                        </li>
+                         <li class="app-item">
+                            <h3 class="app-name"><i class="material-icons">auto_fix_high</i>VSCO</h3>
+                            <ul class="app-features">
+                                <li>Dikenal dengan koleksi <span class="highlight">filter estetik</span> yang meniru film analog.</li>
+                                <li>Komunitas berbagi foto yang terintegrasi.</li>
+                                <li>Menawarkan tool editing dasar dan lanjutan.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="image-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/mobile-editing/500/600" alt="Tampilan antarmuka aplikasi editing foto di ponsel">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Desktop Software -->
+    <section class="section" id="desktop-software">
+        <div class="container">
+             <header class="section-header">
+                <h1 class="title">Software Editing Foto untuk Desktop</h1>
+                <p class="subtitle">Perangkat lunak profesional untuk kontrol dan presisi maksimal di komputer.</p>
+            </header>
+             <div class="content-wrapper">
+                <div class="text-content">
+                    <ul class="app-list">
+                        <li class="app-item">
+                            <h3 class="app-name"><i class="material-icons">photo_library</i>Adobe Lightroom Classic</h3>
+                            <ul class="app-features">
+                                <li>Standar industri untuk <span class="highlight">manajemen dan editing foto RAW</span>.</li>
+                                <li>Sistem katalog yang kuat untuk mengorganisir ribuan foto.</li>
+                                <li>Editing non-destruktif dan fitur batch editing yang efisien.</li>
+                            </ul>
+                        </li>
+                        <li class="app-item">
+                            <h3 class="app-name"><i class="material-icons">layers</i>Adobe Photoshop</h3>
+                            <ul class="app-features">
+                                <li>Raja dari <span class="highlight">manipulasi gambar dan retouching</span>.</li>
+                                <li>Sistem layer yang tak tertandingi untuk komposisi kompleks.</li>
+                                <li>Tool seleksi dan masking yang sangat presisi.</li>
+                            </ul>
+                        </li>
+                         <li class="app-item">
+                            <h3 class="app-name"><i class="material-icons">tune</i>Capture One Pro</h3>
+                            <ul class="app-features">
+                                <li>Dikenal dengan <span class="highlight">rendering warna RAW terbaik</span> di kelasnya.</li>
+                                <li>Fitur color grading yang sangat canggih dan detail.</li>
+                                <li>Menawarkan opsi pembelian lisensi seumur hidup (perpetual).</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="image-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/desktop-editing/500/600" alt="Tampilan antarmuka software editing foto di desktop">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Perbandingan & Rekomendasi -->
+    <section class="section" id="perbandingan">
+        <div class="container">
+            <header class="section-header">
+                <h1 class="title">Mobile vs. Desktop: Mana yang Tepat untuk Anda?</h1>
+            </header>
+            <div class="comparison-container">
+                <div class="comparison-column">
+                    <h2 class="platform-title"><i class="material-icons">smartphone</i>Mobile Editing</h2>
+                    <div class="feature-item"><i class="material-icons">check_circle</i><div><span class="highlight">Portabilitas:</span> Edit kapan saja, di mana saja.</div></div>
+                    <div class="feature-item"><i class="material-icons">check_circle</i><div><span class="highlight">Kemudahan:</span> Antarmuka yang intuitif dan ramah pemula.</div></div>
+                    <div class="feature-item"><i class="material-icons">check_circle</i><div><span class="highlight">Kecepatan:</span> Proses editing dan berbagi ke media sosial sangat cepat.</div></div>
+                    <div class="feature-item"><i class="material-icons">cancel</i><div>Fitur lebih terbatas dibandingkan desktop.</div></div>
+                </div>
+                <div class="comparison-column">
+                     <h2 class="platform-title"><i class="material-icons">computer</i>Desktop Editing</h2>
+                    <div class="feature-item"><i class="material-icons">check_circle</i><div><span class="highlight">Kekuatan & Presisi:</span> Tool canggih untuk kontrol maksimal.</div></div>
+                    <div class="feature-item"><i class="material-icons">check_circle</i><div><span class="highlight">Layar Besar:</span> Memudahkan melihat detail dan akurasi warna.</div></div>
+                    <div class="feature-item"><i class="material-icons">check_circle</i><div><span class="highlight">Manajemen File:</span> Ideal untuk mengelola proyek besar dan ribuan foto.</div></div>
+                    <div class="feature-item"><i class="material-icons">cancel</i><div>Memerlukan perangkat khusus dan kurang portabel.</div></div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 50px;">
+                <h2 class="platform-title" style="justify-content: center;"><i class="material-icons">recommend</i>Rekomendasi</h2>
+                 <div class="card-grid">
+                    <div class="card"><i class="material-icons">person</i><span><span class="highlight">Untuk Pemula & Hobi:</span> Mulai dengan aplikasi mobile gratis seperti Snapseed atau versi gratis Lightroom Mobile.</span></div>
+                    <div class="card"><i class="material-icons">photo_camera</i><span><span class="highlight">Untuk Fotografer Serius:</span> Kombinasi Lightroom Classic (Desktop) dan Lightroom Mobile adalah alur kerja yang paling efisien.</span></div>
+                    <div class="card"><i class="material-icons">brush</i><span><span class="highlight">Untuk Seniman Digital & Desainer:</span> Photoshop adalah pilihan utama untuk manipulasi dan komposisi gambar yang kompleks.</span></div>
+                    <div class="card"><i class="material-icons">savings</i><span><span class="highlight">Untuk Alternatif Terjangkau:</span> GIMP (gratis) atau Affinity Photo (pembelian sekali) adalah alternatif kuat untuk Photoshop.</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

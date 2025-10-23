@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sejarah Lengkap Perkembangan Kamera</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* --- Reset & Pengaturan Dasar --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f8f5f2;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* --- Struktur Section (Halaman) --- */
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .highlight {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        /* --- Section 1: Hero (Judul Utama) --- */
+        #hero {
+            color: #ffffff;
+            background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.75)), url('https://picsum.photos/seed/camera-hero/1280/720');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            flex-direction: column;
+        }
+
+        #hero .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+        }
+
+        #hero .subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            opacity: 0.9;
+        }
+
+        /* --- Header Section Umum --- */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-header .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            color: #2c3e50;
+        }
+        
+        /* --- Konten Kolom & Tata Letak --- */
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .text-content, .image-content {
+            flex: 1;
+        }
+
+        .image-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* --- Styling Timeline & Milestone --- */
+        .timeline-item, .milestone {
+            margin-bottom: 30px;
+        }
+
+        .year {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #e67e22;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .year .material-icons {
+            margin-right: 12px;
+        }
+
+        .description {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            padding-left: 42px;
+        }
+        .description ul {
+            list-style: none;
+        }
+        .description ul li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 8px;
+        }
+        .description ul li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #e67e22;
+            font-weight: bold;
+        }
+        
+        .key-point {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            background-color: rgba(230, 126, 34, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+        }
+        .key-point .material-icons {
+            font-size: 2rem;
+            margin-right: 15px;
+            color: #e67e22;
+        }
+        .key-point-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .era-section {
+            margin-bottom: 30px;
+        }
+        .era-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #e67e22;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .era-title .material-icons {
+             margin-right: 12px;
+        }
+        .era-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding-left: 42px;
+        }
+        .milestone-item {
+            background-color: rgba(230, 126, 34, 0.08);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .milestone-year {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .milestone-desc {
+            font-size: 1rem;
+        }
+        
+        /* --- ATURAN RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .section { padding: 60px 4%; }
+            #hero .title { font-size: 3.5rem; }
+            #hero .subtitle { font-size: 1.3rem; }
+            .section-header .title { font-size: 2.5rem; }
+        }
+
+        @media (max-width: 768px) {
+            .section { 
+                padding: 50px 20px; 
+                min-height: auto;
+            }
+            #hero { min-height: 100vh; }
+            #hero .title { font-size: 2.5rem; }
+            #hero .subtitle { font-size: 1.1rem; }
+            
+            .section-header .title { font-size: 2.2rem; }
+            
+            .content-wrapper {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            /* Urutan gambar di mobile */
+            #awal-mula .image-content,
+            #revolusi-film .image-content,
+            #era-35mm .image-content,
+            #zaman-keemasan .image-content,
+            #transisi-digital .image-content {
+                order: -1; /* Pindahkan gambar ke atas */
+            }
+            
+            .description, .era-content { padding-left: 0; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Judul Utama -->
+    <section class="section" id="hero">
+        <div class="container">
+            <h1 class="title">Perkembangan Film & Kamera Analog</h1>
+            <p class="subtitle">Sebuah Perjalanan dari Masa Lalu hingga Kebangkitannya di Era Modern</p>
+        </div>
+    </section>
+
+    <!-- Section 2: Awal Mula Fotografi -->
+    <section class="section" id="awal-mula">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Awal Mula Fotografi</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <div class="timeline-item">
+                        <div class="year"><i class="material-icons">camera</i>Camera Obscura</div>
+                        <div class="description">
+                            <ul>
+                                <li>Merupakan konsep kamera pertama yang telah ada sejak 400 SM.</li>
+                                <li>Bekerja dengan memproyeksikan gambar melalui lubang kecil ke dalam ruang gelap.</li>
+                                <li>Awalnya digunakan oleh seniman sebagai alat bantu untuk menggambar.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="year"><i class="material-icons">photo_camera</i>1826 - Foto Permanen Pertama</div>
+                        <div class="description">
+                            <ul>
+                                <li>Diciptakan oleh <span class="highlight">Joseph Nicéphore Niépce</span>.</li>
+                                <li>Membutuhkan waktu eksposur selama 8 jam.</li>
+                                <li>Menggunakan plat timah yang dilapisi oleh bitumen.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="year"><i class="material-icons">filter</i>1839 - Daguerreotype</div>
+                        <div class="description">
+                            <ul>
+                                <li>Dikembangkan oleh <span class="highlight">Louis Daguerre</span>.</li>
+                                <li>Menggunakan plat tembaga yang dilapisi perak.</li>
+                                <li>Menjadi proses fotografi komersial pertama di dunia.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/camera-early/600/450" alt="Evolusi kamera awal dari obscura ke daguerreotype">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Revolusi Film Gulung -->
+    <section class="section" id="revolusi-film">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Revolusi Film Gulung</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <div class="milestone">
+                        <div class="year"><i class="material-icons">camera</i>1888 - Kamera Kodak Pertama</div>
+                        <div class="description">
+                            <ul>
+                                <li>Diperkenalkan oleh <span class="highlight">George Eastman</span>.</li>
+                                <li>Merupakan kamera pertama yang menggunakan film gulung seluloid.</li>
+                                <li>Dipasarkan dengan slogan terkenal: "You press the button, we do the rest."</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <div class="year"><i class="material-icons">photo_camera</i>1900 - Kodak Brownie</div>
+                        <div class="description">
+                            <ul>
+                                <li>Dijual dengan harga sangat terjangkau, hanya $1.</li>
+                                <li>Membuat fotografi menjadi hobi yang aksesibel untuk keluarga kelas menengah.</li>
+                                <li>Memiliki desain kotak yang sederhana dan sangat mudah digunakan.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="key-point">
+                        <i class="material-icons">stars</i>
+                        <div class="key-point-text">Film gulung merevolusi fotografi dengan memungkinkan banyak foto dalam satu rol dan mempopulerkan konsep "point-and-shoot".</div>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/camera-kodak/600/450" alt="Kamera Kodak Brownie dan kamera film gulung awal">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Era 35mm -->
+    <section class="section" id="era-35mm">
+        <div class="container">
+             <header class="section-header">
+                <h2 class="title">Era Keemasan Film 35mm</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <div class="milestone">
+                        <div class="year"><i class="material-icons">movie</i>1934 - Film 135 Kodak</div>
+                        <div class="description">
+                            <ul>
+                                <li>Menjadi standar film 35mm pertama yang dapat digunakan di berbagai merek kamera.</li>
+                                <li>Memperkenalkan kartrid film yang memudahkan proses pemuatan.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="milestone">
+                        <div class="year"><i class="material-icons">camera_enhance</i>1950-an - SLR Mendominasi</div>
+                        <div class="description">
+                            <ul>
+                                <li>Kamera SLR (Single-Lens Reflex) seperti <span class="highlight">Nikon F</span> menawarkan sistem lengkap dengan lensa yang dapat diganti dan aksesoris.</li>
+                                <li>Inovasi seperti cermin pengembalian instan membuat pemotretan menjadi lebih cepat dan intuitif.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="key-point">
+                        <i class="material-icons">auto_awesome</i>
+                        <div class="key-point-text">Format 35mm menjadi standar industri selama hampir 80 tahun dan menjadi pendorong utama bagi perkembangan jurnalisme foto.</div>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/camera-35mm/600/450" alt="Kamera SLR 35mm klasik">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Fotografi Instan & Zaman Keemasan -->
+    <section class="section" id="zaman-keemasan">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Fotografi Instan & Puncak Popularitas</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <div class="era-section">
+                        <div class="era-title"><i class="material-icons">camera</i>Fotografi Instan</div>
+                        <div class="era-content">
+                            <div class="milestone-item">
+                                <div class="milestone-year">1948 - Polaroid</div>
+                                <div class="milestone-desc">Diciptakan oleh <span class="highlight">Edwin Land</span>, memperkenalkan keajaiban foto yang bisa langsung jadi.</div>
+                            </div>
+                             <div class="milestone-item">
+                                <div class="milestone-year">1970-an - Polaroid SX-70</div>
+                                <div class="milestone-desc">Menjadi ikon budaya dengan kemampuannya menghasilkan foto berwarna yang keluar dan berkembang di depan mata.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="era-section">
+                        <div class="era-title"><i class="material-icons">photo_library</i>Puncak Era Analog (1970-1990)</div>
+                         <div class="era-content">
+                            <div class="milestone-item">
+                                <div class="milestone-year">Inovasi Berkelanjutan</div>
+                                <div class="milestone-desc">Teknologi seperti <span class="highlight">autofokus</span>, flash otomatis, dan film warna yang lebih baik membuat fotografi semakin mudah dan populer.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/camera-polaroid/600/450" alt="Kamera Polaroid instan dan kamera dari era keemasan analog">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: Transisi Digital & Kebangkitan Analog -->
+    <section class="section" id="transisi-digital">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="title">Transisi Digital & Kebangkitan Analog</h2>
+            </header>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <div class="era-section">
+                        <div class="era-title"><i class="material-icons">phone_iphone</i>Revolusi Digital (2000-an)</div>
+                        <div class="era-content">
+                            <div class="milestone-item">
+                                <div class="milestone-year">Awal 2000-an</div>
+                                <div class="milestone-desc">Kamera digital dengan cepat menggantikan film sebagai pilihan utama konsumen.</div>
+                            </div>
+                            <div class="milestone-item">
+                                <div class="milestone-year">2007 - iPhone</div>
+                                <div class="milestone-desc">Smartphone memulai era baru di mana kamera ada di saku setiap orang, menyebabkan penjualan film dan kamera saku anjlok.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="era-section">
+                        <div class="era-title"><i class="material-icons">camera_retro</i>Kebangkitan Analog (2010-Sekarang)</div>
+                        <div class="era-content">
+                            <div class="milestone-item">
+                                <div class="milestone-year">Nostalgia & Estetika</div>
+                                <div class="milestone-desc">Generasi baru dan para kreator menemukan kembali film karena estetikanya yang unik dan otentik.</div>
+                            </div>
+                            <div class="milestone-item">
+                                <div class="milestone-year">Merek Legendaris Kembali</div>
+                                <div class="milestone-desc"><span class="highlight">Kodak</span> dan <span class="highlight">Polaroid</span> bangkit kembali, memproduksi film baru untuk pasar yang terus tumbuh.</div>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="key-point">
+                        <i class="material-icons">auto_awesome</i>
+                        <div class="key-point-text">Film menawarkan keunikan yang tidak bisa ditiru digital: tekstur grain, ketidakpastian, dan proses yang lebih meditatif.</div>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/camera-revival/600/450" alt="Seorang fotografer muda menggunakan kamera film analog">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
