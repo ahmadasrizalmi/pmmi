@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Komposisi Visual Dasar</title>
+    <!-- Menggunakan Font Source Sans Pro dari Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Menggunakan Material Icons untuk ikon -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        /* ====================================
+           GLOBAL & MOBILE FIRST STYLES
+           (Default for screens < 768px)
+        ==================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #121212; /* Dark background for the whole page */
+            color: #ffffff;
+            padding: 0;
+        }
+
+        /* Base styling for all content sections (slides) */
+        .slide {
+            width: 100%;
+            min-height: auto;
+            position: relative;
+            overflow: hidden;
+            background-color: #121212;
+            color: #ffffff;
+            padding: 30px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        /* Styling specific to the dark intro slide */
+        #slide-intro {
+            background-image: url('https://sfile.chatglm.cn/images-ppt/ea3c39ba393e.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+        }
+        #slide-intro .content {
+            position: relative;
+            z-index: 1;
+            /* Flex properties inherited from content class */
+            align-items: center;
+            justify-content: center;
+        }
+        #slide-intro:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(18, 18, 18, 0.7); /* Dark overlay for text readability */
+        }
+        
+        #slide-intro .title {
+            color: #ffffff;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        #slide-intro .subtitle {
+            font-size: 16px;
+            color: #90caf9;
+            margin-bottom: 20px;
+        }
+        .accent {
+            color: #64B5F6;
+            font-weight: 700;
+        }
+        .material-icons {
+            font-size: 32px;
+            color: #64B5F6;
+        }
+
+        /* General Layouts */
+        .header {
+            padding: 0 0 20px;
+            margin: -30px -20px 0;
+            padding: 30px 20px;
+            margin-bottom: 20px;
+            border-radius: 8px 8px 0 0;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .content {
+            display: flex;
+            flex-direction: column; /* Stacked content on mobile */
+            gap: 30px;
+        }
+
+        /* Content Columns (for alternating layouts) */
+        .left-content, .right-content {
+            flex: 1;
+            width: 100%;
+        }
+        .right-content {
+            order: -1; /* Image/Diagram above text on mobile */
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Text Points & Sections */
+        .subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            color: #90caf9;
+            margin-bottom: 20px;
+        }
+        .key-points {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .point {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .point-icon {
+            color: #64B5F6;
+            margin-right: 0;
+            font-size: 20px;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+        .point-text {
+            font-size: 16px;
+            line-height: 1.4;
+        }
+        
+        /* Image Containers */
+        .image-container {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            margin-bottom: 15px;
+        }
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        /* Tip Box */
+        .tip-box {
+            background-color: rgba(100, 181, 246, 0.1);
+            border-left: 4px solid #64b5f6;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 0 8px 8px 0;
+        }
+        .tip-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            color: #64b5f6;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        /* Summary Grid */
+        .summary-box {
+            background-color: rgba(100, 181, 246, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .summary-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .summary-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        .tips-box {
+            background-color: rgba(100, 181, 246, 0.05);
+            border-left: 4px solid #64b5f6;
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+        }
+        .tips-list {
+            gap: 8px;
+        }
+
+        /* ====================================
+           TABLET STYLES
+           (min-width: 768px)
+        ==================================== */
+        @media (min-width: 768px) {
+            .slide {
+                max-width: 90%;
+                margin: 20px auto;
+                padding: 40px;
+            }
+            .header {
+                padding: 40px 40px 20px;
+                margin: -40px -40px 0;
+                margin-bottom: 30px;
+            }
+            .title {
+                font-size: 36px;
+            }
+            #slide-intro .title {
+                font-size: 48px;
+            }
+            
+            .content {
+                flex-direction: row;
+                gap: 40px;
+            }
+            .right-content {
+                order: initial; /* Image on the right */
+            }
+            .left-content {
+                justify-content: center;
+            }
+
+            .point-text {
+                font-size: 18px;
+            }
+            .image-container {
+                height: 350px;
+            }
+            
+            /* Summary Grid */
+            .summary-title {
+                font-size: 24px;
+            }
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .summary-item {
+                font-size: 16px;
+            }
+        }
+        
+        /* ====================================
+           DESKTOP STYLES
+           (min-width: 1024px)
+        ==================================== */
+        @media (min-width: 1024px) {
+            .slide {
+                max-width: 1280px;
+                padding: 60px 70px;
+            }
+            .header {
+                padding: 40px 70px 20px;
+                margin: -60px -70px 0;
+            }
+            .title {
+                font-size: 40px;
+            }
+            #slide-intro .title {
+                font-size: 64px;
+            }
+            .image-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- SLIDE 1: JUDUL UTAMA -->
+    <div class="slide" id="slide-intro">
+        <div class="content">
+            <i class="material-icons">videocam</i>
+            <h1 class="title">Tutorial Videografi:<br><span class="accent">Komposisi Visual Dasar</span></h1>
+            <p class="subtitle">Aturan Rule of Thirds, Leading Lines, Simetri, Framing, Headroom, dan Lookspace</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: PENGANTAR KOMPOSISI -->
+    <div class="slide" id="slide-pengantar">
+        <div class="header">
+            <h1 class="title">Pengantar Komposisi dalam Videografi</h1>
+        </div>
+        <div class="content">
+            <div class="right-content">
+                <div class="image-container" style="background-image: url('https://sfile.chatglm.cn/images-ppt/c1d065f58b7e.jpg');">
+                    <div class="image-overlay"></div>
+                </div>
+            </div>
+            <div class="left-content">
+                <p class="subtitle">Komposisi visual adalah fondasi dari videografi yang efektif</p>
+                <div class="key-points">
+                    <div class="point">
+                        <i class="material-icons point-icon">visibility</i>
+                        <p class="point-text"><span class="accent">Pengaturan elemen visual</span> dalam frame untuk menciptakan gambar yang estetis</p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">psychology</i>
+                        <p class="point-text">Membimbing <span class="accent">perhatian penonton</span> ke area penting dalam frame</p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">auto_awesome</i>
+                        <p class="point-text">Menciptakan <span class="accent">kedalaman visual</span> dan keseimbangan dalam video</p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">movie</i>
+                        <p class="point-text">Menyampaikan <span class="accent">pesan dan emosi</span> secara lebih efektif</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: RULE OF THIRDS -->
+    <div class="slide" id="slide-rule-of-thirds">
+        <div class="header">
+            <h1 class="title">Rule of Thirds</h1>
+        </div>
+        <div class="content">
+            <div class="right-content">
+                <div class="image-container" style="background-image: url('https://sfile.chatglm.cn/images-ppt/42fee56f1a80.jpg');">
+                    <div class="image-overlay"></div>
+                </div>
+            </div>
+            <div class="left-content">
+                <p class="subtitle">Teknik komposisi fundamental dalam videografi</p>
+                <div class="key-points">
+                    <div class="point">
+                        <i class="material-icons point-icon">grid_on</i>
+                        <p class="point-text">Bagi frame menjadi <span class="accent">9 bagian</span> dengan 2 garis vertikal dan 2 garis horizontal</p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">place</i>
+                        <p class="point-text">Tempatkan subjek pada <span class="accent">titik potong garis</span> untuk menciptakan fokus visual</p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">straighten</i>
+                        <p class="point-text">Posisikan <span class="accent">horizon</span> pada garis horizontal, bukan di tengah frame</p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">auto_awesome</i>
+                        <p class="point-text">Menciptakan <span class="accent">keseimbangan visual</span> yang lebih dinamis dan menarik</p>
+                    </div>
+                </div>
+                <div class="tip-box">
+                    <div class="tip-title">
+                        <i class="material-icons">lightbulb</i>
+                        <span>Tip Profesional</span>
+                    </div>
+                    <p class="point-text">Aktifkan grid di kamera Anda untuk memvisualisasikan rule of thirds saat merekam</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: LEADING LINES -->
+    <div class="slide" id="slide-leading-lines">
+        <div class="header">
+            <h1 class="title">Leading Lines</h1>
+        </div>
+        <div class="content">
+            <div class="right-content">
+                <div class="image-container" style="background-image: url('https://sfile.chatglm.cn/images-ppt/a97b9304f5b5.jpg');">
+                    <div class="image-overlay"></div>
+                </div>
+            </div>
+            <div class="left-content">
+                <p class="subtitle">Mengarahkan pandangan penonton ke subjek utama</p>
+                <div class="key-points">
+                    <div class="point">
+                        <i class="material-icons point-icon">trending_flat</i>
+                        <p class="point-text">Gunakan <span class="accent">garis-garis alami</span> untuk memandu mata penonton</p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">linear_scale</i>
+                        <p class="point-text">Jalan, pagar, sungai, atau bayangan dapat menjadi <span class="accent">leading lines</span></p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">depth</i>
+                        <p class="point-text">Menciptakan <span class="accent">kedalaman visual</span> dan dimensi dalam frame</p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">visibility</i>
+                        <p class="point-text">Membantu penonton <span class="accent">fokus pada subjek</span> tanpa instruksi verbal</p>
+                    </div>
+                </div>
+                <div class="tip-box">
+                    <div class="tip-title">
+                        <i class="material-icons">lightbulb</i>
+                        <span>Tip Profesional</span>
+                    </div>
+                    <p class="point-text">Posisikan leading lines untuk mengarah ke subjek dari berbagai sudut untuk menciptakan efek yang berbeda</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: SIMETRI -->
+    <div class="slide" id="slide-simetri">
+        <div class="header">
+            <h1 class="title">Simetri</h1>
+        </div>
+        <div class="content">
+            <div class="right-content">
+                <div class="image-container" style="background-image: url('https://sfile.chatglm.cn/images-ppt/1ad6954f01d5.jpg');">
+                    <div class="image-overlay"></div>
+                </div>
+            </div>
+            <div class="left-content">
+                <p class="subtitle">Menciptakan keseimbangan visual yang harmonis</p>
+                <div class="key-points">
+                    <div class="point">
+                        <i class="material-icons point-icon">balance</i>
+                        <p class="point-text">Tempatkan subjek <span class="accent">di tengah frame</span> untuk menciptakan keseimbangan</p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">center_focus_strong</i>
+                        <p class="point-text">Gunakan untuk <span class="accent">momen yang kuat</span> atau menonjolkan subjek utama</p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">repeat</i>
+                        <p class="point-text">Ciptakan <span class="accent">refleksi</span> atau pola yang sama di kedua sisi frame</p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">psychology</i>
+                        <p class="point-text">Otak manusia <span class="accent">merespons positif</span> terhadap simetri visual</p>
+                    </div>
+                </div>
+                <div class="tip-box">
+                    <div class="tip-title">
+                        <i class="material-icons">lightbulb</i>
+                        <span>Tip Profesional</span>
+                    </div>
+                    <p class="point-text">Simetri adalah satu-satunya waktu saat "melanggar" rule of thirds bekerja dengan baik</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: TEKNIK FRAMING -->
+    <div class="slide" id="slide-framing">
+        <div class="header">
+            <h1 class="title">Teknik Framing</h1>
+        </div>
+        <div class="content">
+            <div class="right-content">
+                <div class="image-container" style="background-image: url('https://sfile.chatglm.cn/images-ppt/89ff4dccb7aa.jpg');">
+                    <div class="image-overlay"></div>
+                </div>
+            </div>
+            <div class="left-content">
+                <p class="subtitle">Mengatur elemen visual dalam frame untuk hasil maksimal</p>
+                <div class="key-points">
+                    <div class="point">
+                        <i class="material-icons point-icon">image</i>
+                        <p class="point-text"><span class="accent">Background</span> - Sampaikan informasi tentang lokasi dan konteks</p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">camera</i>
+                        <p class="point-text"><span class="accent">Pemilihan lensa</span> - Wide angle (lebih banyak background), Telephoto (fokus subjek)</p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">aspect_ratio</i>
+                        <p class="point-text"><span class="accent">Ukuran shot</span> - Wide (lingkungan), Medium (konteks), Close-up (emosi)</p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">height</i>
+                        <p class="point-text"><span class="accent">Sudut kamera</span> - High angle (lemah), Low angle (kuat), Eye-level (netral)</p>
+                    </div>
+                </div>
+                <div class="tip-box">
+                    <div class="tip-title">
+                        <i class="material-icons">lightbulb</i>
+                        <span>Tip Profesional</span>
+                    </div>
+                    <p class="point-text">Ciptakan "frame dalam frame" menggunakan elemen alami seperti pintu, jendela, atau cermin</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: HEADROOM -->
+    <div class="slide" id="slide-headroom">
+        <div class="header">
+            <h1 class="title">Headroom</h1>
+        </div>
+        <div class="content">
+            <div class="right-content">
+                <div class="image-container" style="background-image: url('https://sfile.chatglm.cn/images-ppt/064715c6f904.png');">
+                    <div class="image-overlay"></div>
+                </div>
+            </div>
+            <div class="left-content">
+                <p class="subtitle">Memberikan ruang yang tepat di atas kepala subjek</p>
+                <div class="key-points">
+                    <div class="point">
+                        <i class="material-icons point-icon">height</i>
+                        <p class="point-text">Ruang antara <span class="accent">bagian atas kepala</span> subjek dan tepi frame</p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">balance</i>
+                        <p class="point-text">Menciptakan <span class="accent">kenyamanan visual</span> dan menghindari kesan terjepit</p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">tune</i>
+                        <p class="point-text">Terlalu banyak headroom membuat subjek <span class="accent">tenggelam</span> dalam frame</p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">close</i>
+                        <p class="point-text">Dalam <span class="accent">close-up ekstrem</span>, aturan ini bisa dilanggar untuk fokus pada mata</p>
+                    </div>
+                </div>
+                <div class="tip-box">
+                    <div class="tip-title">
+                        <i class="material-icons">lightbulb</i>
+                        <span>Tip Profesional</span>
+                    </div>
+                    <p class="point-text">Untuk wawancara, posisikan mata subjek sekitar sepertiga dari bagian atas frame</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: LOOKSPACE (LEADING ROOM) -->
+    <div class="slide" id="slide-lookspace">
+        <div class="header">
+            <h1 class="title">Lookspace (Leading Room)</h1>
+        </div>
+        <div class="content">
+            <div class="right-content">
+                <div class="image-container" style="background-image: url('https://sfile.chatglm.cn/images-ppt/c63fdb1df7a5.jpg');">
+                    <div class="image-overlay"></div>
+                </div>
+            </div>
+            <div class="left-content">
+                <p class="subtitle">Memberikan ruang di depan subjek yang sedang melihat</p>
+                <div class="key-points">
+                    <div class="point">
+                        <i class="material-icons point-icon">visibility</i>
+                        <p class="point-text">Ruang antara subjek dan <span class="accent">arah pandangan</span> mereka</p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">swap_horiz</i>
+                        <p class="point-text">Jika subjek melihat ke kiri, posisikan di <span class="accent">sisi kanan frame</span></p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">arrow_forward</i>
+                        <p class="point-text">Menciptakan <span class="accent">ruang visual</span> untuk arah gerakan atau pandangan</p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">psychology</i>
+                        <p class="point-text">Menghindari kesan subjek <span class="accent">melihat keluar layar</span></p>
+                    </div>
+                </div>
+                <div class="tip-box">
+                    <div class="tip-title">
+                        <i class="material-icons">lightbulb</i>
+                        <span>Tip Profesional</span>
+                    </div>
+                    <p class="point-text">Untuk subjek yang bergerak, berikan lebih banyak lookspace di depan arah gerakan mereka</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 9: RINGKASAN DAN TIPS PRAKTIS -->
+    <div class="slide" id="slide-ringkasan">
+        <div class="header">
+            <h1 class="title">Ringkasan & Tips Praktis</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <p class="subtitle">Menerapkan prinsip komposisi dalam videografi</p>
+                <div class="key-points">
+                    <div class="point">
+                        <i class="material-icons point-icon">auto_awesome</i>
+                        <p class="point-text">Komposisi visual adalah <span class="accent">fondasi</span> videografi profesional</p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">psychology</i>
+                        <p class="point-text">Aturan komposisi membimbing <span class="accent">perhatian penonton</span></p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">balance</i>
+                        <p class="point-text">Keseimbangan antara <span class="accent">aturan dan kreativitas</span> menciptakan hasil optimal</p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">trending_up</i>
+                        <p class="point-text"><span class="accent">Latihan konsisten</span> adalah kunci untuk menguasai komposisi</p>
+                    </div>
+                </div>
+            </div>
+            <div class="right-content" style="order: initial;">
+                <div class="summary-box">
+                    <div class="summary-title">
+                        <i class="material-icons">format_list_bulleted</i>
+                        <span>Prinsip Komposisi Dasar</span>
+                    </div>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <i class="material-icons summary-icon">grid_on</i>
+                            <span class="summary-text">Rule of Thirds</span>
+                        </div>
+                        <div class="summary-item">
+                            <i class="material-icons summary-icon">trending_flat</i>
+                            <span class="summary-text">Leading Lines</span>
+                        </div>
+                        <div class="summary-item">
+                            <i class="material-icons summary-icon">balance</i>
+                            <span class="summary-text">Simetri</span>
+                        </div>
+                        <div class="summary-item">
+                            <i class="material-icons summary-icon">crop</i>
+                            <span class="summary-text">Framing</span>
+                        </div>
+                        <div class="summary-item">
+                            <i class="material-icons summary-icon">height</i>
+                            <span class="summary-text">Headroom</span>
+                        </div>
+                        <div class="summary-item">
+                            <i class="material-icons summary-icon">visibility</i>
+                            <span class="summary-text">Lookspace</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tips-box">
+                    <div class="tips-title">
+                        <i class="material-icons">lightbulb</i>
+                        <span>Tips Praktis</span>
+                    </div>
+                    <div class="tips-list">
+                        <div class="tips-item">
+                            <i class="material-icons tips-icon">camera</i>
+                            <p class="tips-text">Aktifkan <span class="accent">grid</span> di kamera untuk visualisasi</p>
+                        </div>
+                        <div class="tips-item">
+                            <i class="material-icons tips-icon">photo_camera</i>
+                            <p class="tips-text">Ambil <span class="accent">beberapa versi</span> dari setiap adegan</p>
+                        </div>
+                        <div class="tips-item">
+                            <i class="material-icons tips-icon">movie_filter</i>
+                            <p class="tips-text">"Langgar" aturan untuk <span class="accent">efek kreatif</span> yang disengaja</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

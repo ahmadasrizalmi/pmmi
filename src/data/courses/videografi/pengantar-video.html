@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Pengantar Video Editing</title>
+    <!-- Menggunakan Font Source Sans Pro dari Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Menggunakan Material Icons untuk ikon -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        /* ====================================
+           GLOBAL & MOBILE FIRST STYLES
+        ==================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f5f7;
+            color: #333;
+            padding: 10px;
+        }
+        
+        /* Tema Warna */
+        .primary-dark { color: #2c3e50; }
+        .accent-blue { color: #3498db; }
+        .highlight { color: #3498db; font-weight: 600; }
+
+        /* BASE SLIDE CONTAINER */
+        .slide {
+            width: 100%;
+            position: relative;
+            background-color: #ffffff;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        /* INTRO SLIDE KHUSUS (TEMA GELAP) */
+        #slide-intro {
+            background: linear-gradient(rgba(20, 20, 30, 0.9), rgba(20, 20, 30, 0.9)), 
+                        url('https://sfile.chatglm.cn/images-ppt/4656a5859bbb.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #ffffff;
+            text-align: center;
+            padding: 80px 20px;
+            min-height: 350px;
+        }
+        #slide-intro .title {
+            font-size: 32px;
+            line-height: 1.2;
+            color: #ffffff;
+        }
+        #slide-intro .subtitle {
+            font-size: 16px;
+            color: #e0e0e0;
+        }
+        #slide-intro .material-icons {
+            font-size: 48px;
+            color: #64B5F6;
+        }
+
+        /* HEADER & TYPOGRAPHY */
+        .header {
+            background-color: #2c3e50;
+            padding: 15px;
+            color: white;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        /* CONTENT LAYOUT - MOBILE (STACKED) */
+        .content {
+            display: flex;
+            flex-direction: column; 
+            gap: 25px;
+        }
+        .left-content, .right-content {
+            width: 100%;
+        }
+        
+        /* SECTION STYLING */
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title .material-icons {
+            margin-right: 10px;
+            color: #3498db;
+            font-size: 24px;
+        }
+        
+        /* LISTS & POINTS (General) */
+        ul { list-style-type: none; padding-left: 0; }
+        li {
+            font-size: 16px;
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 15px;
+        }
+        li:before {
+            content: "•";
+            color: #3498db;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        /* WORKFLOW STYLING */
+        .workflow-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            background-color: #f8f9fa;
+            border-left: 3px solid #3498db;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .step-number {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: #3498db;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+            font-size: 14px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .step-text {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        /* SOFTWARE CARDS */
+        .software-column {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .software-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .software-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        .software-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        .premiere-icon { background-color: #9999ff; }
+        .resolve-icon { background-color: #2c3e50; }
+        .software-icon .material-icons { font-size: 20px; color: white; margin: 0; }
+        .feature-title, .ideal-use-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+        .feature-title i, .ideal-use-title i {
+            font-size: 18px;
+            color: #3498db;
+        }
+        
+        /* RESOLVE PAGES */
+        .pages-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .page-card {
+            background-color: #ffffff;
+            border-left: 3px solid #3498db;
+            padding: 10px;
+        }
+        .page-name { font-size: 16px; font-weight: 600; color: #2c3e50; }
+        .page-desc { font-size: 14px; color: #555; margin-top: 5px; }
+
+        /* IMAGE CONTAINERS */
+        .interface-image {
+            width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            background-color: #e0e0e0; /* Placeholder BG */
+        }
+        .interface-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* ====================================
+           TABLET STYLES (min-width: 768px)
+        ==================================== */
+        @media (min-width: 768px) {
+            .title { font-size: 28px; }
+            
+            /* Tampilan 2 Kolom */
+            .content { flex-direction: row; gap: 30px; }
+            .left-content, .right-content { width: 50%; }
+            
+            .interface-image { max-height: 300px; }
+            
+            .software-column { margin-bottom: 0; }
+            
+            /* Resolve Pages Layout */
+            .pages-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        /* ====================================
+           DESKTOP STYLES (min-width: 1024px)
+        ==================================== */
+        @media (min-width: 1024px) {
+            .slide { max-width: 1280px; margin: 25px auto; }
+            #slide-intro .title { font-size: 64px; }
+            .title { font-size: 40px; }
+            
+            /* Premiere Panel Grid */
+            .panel-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .interface-image { max-height: 350px; }
+            
+            /* Resolve Pages Layout */
+            .pages-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .page-card[style*="grid-column: span 3;"] {
+                 grid-column: span 4 !important; /* Overriding specific inline style from original slide structure */
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- SLIDE 1: JUDUL UTAMA -->
+    <div class="slide" id="slide-intro">
+        <div class="content">
+            <div class="icon-container">
+                <i class="material-icons">videocam</i>
+            </div>
+            <h1 class="title">Tutorial Videografi:<br>Pengantar Video Editing</h1>
+            <p class="subtitle">Pengenalan software, antarmuka, dan impor footage</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: PENGANTAR VIDEO EDITING -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Pengantar Video Editing</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="material-icons">movie</i>
+                        Apa itu Video Editing?
+                    </h2>
+                    <ul>
+                        <li>Proses <span class="highlight">memanipulasi</span> dan <span class="highlight">mengatur</span> video shot</li>
+                        <li>Menggabungkan, memotong, dan menambahkan efek</li>
+                        <li>Menciptakan narasi visual yang kohesif</li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="material-icons">star</i>
+                        Mengapa Penting?
+                    </h2>
+                    <ul>
+                        <li>Meningkatkan <span class="highlight">kualitas visual</span> dan audio</li>
+                        <li>Menciptakan <span class="highlight">cerita yang menarik</span></li>
+                        <li>Koreksi warna dan penyesuaian tempo</li>
+                        <li>Menambahkan elemen profesional (teks, transisi)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="right-content">
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="material-icons">timeline</i>
+                        Alur Kerja Dasar
+                    </h2>
+                    <div class="workflow-container">
+                        <div class="workflow-step">
+                            <div class="step-number">1</div>
+                            <div class="step-text">Import footage ke software</div>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">2</div>
+                            <div class="step-text">Organisasi material (bins/folders)</div>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">3</div>
+                            <div class="step-text">Pemotongan dan penyusunan di timeline</div>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">4</div>
+                            <div class="step-text">Penambahan efek, transisi, dan teks</div>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">5</div>
+                            <div class="step-text">Koreksi warna dan penyesuaian audio</div>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">6</div>
+                            <div class="step-text">Export/render video final</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: PERBANDINGAN SOFTWARE -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Perbandingan Software Video Editing</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="software-column">
+                    <div class="software-header">
+                        <div class="software-icon premiere-icon">
+                            <i class="material-icons">movie_filter</i>
+                        </div>
+                        <h2 class="software-name">Adobe Premiere Pro</h2>
+                    </div>
+                    
+                    <div class="feature-section">
+                        <h3 class="feature-title"><i class="material-icons">star</i>Keunggulan</h3>
+                        <ul>
+                            <li>Integrasi <span class="highlight">seamless</span> dengan Adobe Creative Cloud</li>
+                            <li>Interface <span class="highlight">intuitif</span> untuk pemula</li>
+                            <li>Kontrol timeline yang <span class="highlight">fleksibel</span></li>
+                            <li>Dukungan format file yang luas</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-section">
+                        <h3 class="feature-title"><i class="material-icons">settings</i>Fitur Utama</h3>
+                        <ul>
+                            <li>Multi-camera editing</li>
+                            <li>Auto Reframe untuk media sosial</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="ideal-use">
+                        <h3 class="ideal-use-title"><i class="material-icons">thumb_up</i>Ideal Untuk</h3>
+                        <ul>
+                            <li>YouTuber & content creator</li>
+                            <li>Profesional media</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-content">
+                <div class="software-column">
+                    <div class="software-header">
+                        <div class="software-icon resolve-icon">
+                            <i class="material-icons">color_lens</i>
+                        </div>
+                        <h2 class="software-name">DaVinci Resolve</h2>
+                    </div>
+                    
+                    <div class="feature-section">
+                        <h3 class="feature-title"><i class="material-icons">star</i>Keunggulan</h3>
+                        <ul>
+                            <li>Versi <span class="highlight">gratis</span> dengan fitur lengkap</li>
+                            <li>Kemampuan <span class="highlight">color grading</span> profesional</li>
+                            <li>Alat audio Fairlight terintegrasi</li>
+                            <li>Performa tinggi dengan GPU acceleration</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-section">
+                        <h3 class="feature-title"><i class="material-icons">settings</i>Fitur Utama</h3>
+                        <ul>
+                            <li>Node-based color correction</li>
+                            <li>Fusion visual effects</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="ideal-use">
+                        <h3 class="ideal-use-title"><i class="material-icons">thumb_up</i>Ideal Untuk</h3>
+                        <ul>
+                            <li>Colorist profesional</li>
+                            <li>Pembuat film independen</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: ADOBE PREMIERE PRO INTERFACE -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Adobe Premiere Pro Interface</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="workspace-section">
+                    <h2 class="section-title"><i class="material-icons">dashboard</i>Workspace Layout</h2>
+                    <p class="workspace-desc">
+                        Premiere Pro menggunakan sistem <span class="highlight">panel</span> yang dapat diatur ulang sesuai kebutuhan. Setiap panel memiliki fungsi spesifik dalam alur kerja editing video.
+                    </p>
+                    <div class="workspace-tips">
+                        <h3 class="tips-title primary-dark">
+                            <i class="material-icons primary-dark">lightbulb</i>
+                            Tips Workspace
+                        </h3>
+                        <ul class="tips-list">
+                            <li class="tips-item">Window > Workspace untuk memilih preset layout</li>
+                            <li class="tips-item">Drag & drop panel untuk mengatur ulang tata letak</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="interface-image">
+                                    </div>
+            </div>
+            
+            <div class="right-content">
+                <h2 class="section-title"><i class="material-icons">view_quilt</i>Panel Utama</h2>
+                <div class="panel-grid">
+                    <div class="panel-card">
+                        <i class="material-icons panel-icon accent-blue">folder</i>
+                        <div class="panel-content">
+                            <h3 class="panel-name">Media Browser</h3>
+                            <p class="panel-desc">Mencari dan mengimpor file media</p>
+                        </div>
+                    </div>
+                    <div class="panel-card">
+                        <i class="material-icons panel-icon accent-blue">inventory_2</i>
+                        <div class="panel-content">
+                            <h3 class="panel-name">Project Panel</h3>
+                            <p class="panel-desc">Mengorganisir semua aset media</p>
+                        </div>
+                    </div>
+                    <div class="panel-card">
+                        <i class="material-icons panel-icon accent-blue">slideshow</i>
+                        <div class="panel-content">
+                            <h3 class="panel-name">Program Monitor</h3>
+                            <p class="panel-desc">Menampilkan preview timeline</p>
+                        </div>
+                    </div>
+                    <div class="panel-card">
+                        <i class="material-icons panel-icon accent-blue">timeline</i>
+                        <div class="panel-content">
+                            <h3 class="panel-name">Timeline</h3>
+                            <p class="panel-desc">Area utama menyusun klip video dan audio</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: DAVINCI RESOLVE INTERFACE -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">DaVinci Resolve Interface</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="workflow-section">
+                    <h2 class="section-title"><i class="material-icons">view_carousel</i>7 Pages Workspace</h2>
+                    <p class="workflow-desc">
+                        DaVinci Resolve menggunakan sistem <span class="highlight">7 Pages</span> yang dirancang khusus untuk setiap tahap produksi video. Alur kerja bergerak dari kiri ke kanan.
+                    </p>
+                    
+                    <div class="workflow-flow">
+                        <div class="workflow-step"><div class="step-icon"><i class="material-icons">folder</i></div><div class="step-text">Media</div></div>
+                        <div class="workflow-step"><div class="step-icon"><i class="material-icons">content_cut</i></div><div class="step-text">Cut</div></div>
+                        <div class="workflow-step"><div class="step-icon"><i class="material-icons">edit</i></div><div class="step-text">Edit</div></div>
+                        <div class="workflow-step"><div class="step-icon"><i class="material-icons">auto_fix_high</i></div><div class="step-text">Fusion</div></div>
+                        <div class="workflow-step"><div class="step-icon"><i class="material-icons">color_lens</i></div><div class="step-text">Color</div></div>
+                        <div class="workflow-step"><div class="step-icon"><i class="material-icons">graphic_eq</i></div><div class="step-text">Fairlight</div></div>
+                        <div class="workflow-step"><div class="step-icon"><i class="material-icons">send</i></div><div class="step-text">Deliver</div></div>
+                    </div>
+                    
+                    <div class="workflow-tips">
+                        <h3 class="tips-title primary-dark"><i class="material-icons primary-dark">lightbulb</i>Tips Interface</h3>
+                        <ul class="tips-list">
+                            <li class="tips-item">Klik tab di bagian bawah untuk berpindah antar pages</li>
+                            <li class="tips-item">Setiap page memiliki tools khusus untuk tahap produksi tertentu</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="interface-image">
+                                    </div>
+            </div>
+            
+            <div class="right-content">
+                <h2 class="section-title"><i class="material-icons">view_quilt</i>Fungsi Setiap Page</h2>
+                <div class="pages-grid">
+                    <div class="page-card"><div class="page-header"><i class="material-icons page-icon accent-blue">folder</i><h3 class="page-name">Media</h3></div><p class="page-desc">Mengimpor dan mengorganisir file media</p></div>
+                    <div class="page-card"><div class="page-header"><i class="material-icons page-icon accent-blue">content_cut</i><h3 class="page-name">Cut</h3></div><p class="page-desc">Membuat edit cepat dan kasar</p></div>
+                    <div class="page-card"><div class="page-header"><i class="material-icons page-icon accent-blue">edit</i><h3 class="page-name">Edit</h3></div><p class="page-desc">Menyusun dan menyempurnakan klip</p></div>
+                    <div class="page-card"><div class="page-header"><i class="material-icons page-icon accent-blue">auto_fix_high</i><h3 class="page-name">Fusion</h3></div><p class="page-desc">Menambahkan efek visual</p></div>
+                    <div class="page-card"><div class="page-header"><i class="material-icons page-icon accent-blue">color_lens</i><h3 class="page-name">Color</h3></div><p class="page-desc">Melakukan color correction dan grading</p></div>
+                    <div class="page-card"><div class="page-header"><i class="material-icons page-icon accent-blue">graphic_eq</i><h3 class="page-name">Fairlight</h3></div><p class="page-desc">Mencampur dan mengedit audio</p></div>
+                    <div class="page-card" style="grid-column: span 2;"><div class="page-header"><i class="material-icons page-icon accent-blue">send</i><h3 class="page-name">Deliver</h3></div><p class="page-desc">Mengekspor proyek dalam berbagai format</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

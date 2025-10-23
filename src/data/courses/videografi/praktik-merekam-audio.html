@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Praktik Merekam Audio</title>
+    <!-- Menggunakan Font Source Sans Pro dari Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Menggunakan Material Icons untuk ikon -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        /* ====================================
+           GLOBAL & MOBILE FIRST STYLES
+           (Default for screens < 768px)
+        ==================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f5f5;
+            color: #333333;
+            padding: 0;
+        }
+
+        /* BASE SLIDE STYLING */
+        .slide {
+            width: 100%;
+            min-height: 200px;
+            position: relative;
+            overflow: hidden;
+            background-color: #ffffff;
+            color: #333333;
+            padding: 30px 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+        }
+        
+        /* TEMA WARNA */
+        .highlight {
+            color: #3949ab;
+            font-weight: 600;
+        }
+        .accent, .topic-icon, .practice-icon, .summary-icon, .solution-icon, .tip-item i {
+            color: #3949ab; /* Blue Accent */
+        }
+
+        /* SLIDE INTRO - TEMA GELAP */
+        #slide-intro {
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), 
+                        url('https://sfile.chatglm.cn/images-ppt/2ec799bf4a26.png');
+            background-size: cover;
+            background-position: center;
+            color: #ffffff;
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 0;
+        }
+        #slide-intro .title {
+            font-size: 32px;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+        #slide-intro .subtitle {
+            font-size: 16px;
+            color: #e0e0e0;
+        }
+        #slide-intro .accent {
+            color: #64B5F6;
+        }
+
+        /* HEADER & LAYOUT */
+        .header {
+            padding: 0 0 15px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a237e;
+        }
+        .content {
+            display: flex;
+            flex-direction: column; 
+            gap: 20px;
+        }
+        .left-content, .right-content {
+            width: 100%;
+        }
+        .right-content {
+            order: -1; /* Gambar di atas teks di mobile */
+        }
+        .topic-number {
+            display: none; /* Sembunyikan di mobile */
+        }
+
+        /* ITEM LISTS & CARDS */
+        .point-list, .topic-list, .practice-list, .principle-list, .technique-list, .solution-list, .summary-list, .tips-container {
+            list-style: none;
+            padding: 0;
+        }
+        .point-item, .topic-item, .practice-item, .principle-item, .technique-item, .solution-item, .summary-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+        .point-icon, .topic-icon, .practice-icon, .principle-icon, .technique-icon, .solution-icon, .summary-icon {
+            margin-right: 12px;
+            font-size: 20px;
+            flex-shrink: 0;
+            color: #3949ab;
+        }
+        .topic-item, .practice-item, .technique-item, .solution-item {
+            background-color: #f0f8ff;
+            border-radius: 6px;
+            padding: 10px;
+        }
+        
+        /* IMAGE CONTAINERS */
+        .image-container {
+            width: 100%;
+            height: 200px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* METER DISPLAY */
+        .meter-container {
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .meter-display {
+            height: 25px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .meter-zones {
+            display: flex;
+            height: 100%;
+        }
+        .green-zone { flex: 6; background-color: #4CAF50; }
+        .yellow-zone { flex: 2; background-color: #FFC107; }
+        .red-zone { flex: 1; background-color: #F44336; }
+        .meter-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+            padding: 0 5px;
+        }
+        .meter-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a237e;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .tip-box, .final-message {
+            background-color: rgba(57, 73, 171, 0.1);
+            border-left: 4px solid #3949ab;
+            padding: 12px;
+            border-radius: 0 4px 4px 0;
+            margin-top: 15px;
+        }
+        .tip-title, .final-title {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            color: #3949ab;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+        .tip-content, .final-content {
+            font-size: 14px;
+        }
+        
+        /* SCENARIO CARDS (SLIDE 8) */
+        .scenarios-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .scenario-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            padding: 15px;
+            border-left: 4px solid #3949ab;
+        }
+        .scenario-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .scenario-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: rgba(57, 73, 171, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+        .scenario-icon i {
+            font-size: 18px;
+            color: #3949ab;
+        }
+        .scenario-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a237e;
+        }
+
+        /* SOFTWARE GRID (SLIDE 11) */
+        .software-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .software-item {
+            background-color: #e6f7ff;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #3949ab;
+            display: flex;
+            align-items: center;
+        }
+        .software-item i {
+            margin-right: 8px;
+            font-size: 16px;
+        }
+
+        /* KESIMPULAN */
+        .tips-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .tip-item {
+            background-color: #e6f7ff;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #3949ab;
+            display: flex;
+            align-items: center;
+        }
+        .tip-item i {
+            margin-right: 8px;
+            font-size: 16px;
+        }
+
+        /* ====================================
+           TABLET STYLES
+           (min-width: 768px)
+        ==================================== */
+        @media (min-width: 768px) {
+            .slide {
+                max-width: 90%;
+                margin: 20px auto;
+                padding: 40px;
+            }
+            .title {
+                font-size: 30px;
+            }
+            #slide-intro .title {
+                font-size: 48px;
+            }
+            .topic-number {
+                display: block; /* Tampilkan di tablet ke atas */
+                font-size: 70px;
+                position: absolute;
+                top: 10px;
+                right: 30px;
+            }
+            
+            .content {
+                flex-direction: row; 
+                gap: 30px;
+            }
+            .right-content {
+                order: initial; 
+                width: 45%;
+            }
+            .left-content {
+                width: 55%;
+            }
+
+            .image-container {
+                height: 300px;
+            }
+            
+            .point-item, .topic-item, .practice-item, .principle-item, .technique-item, .solution-item, .summary-item {
+                font-size: 18px;
+            }
+            
+            /* METER DISPLAY */
+            .meter-title { font-size: 20px; }
+            .meter-display { height: 30px; }
+
+            /* SCENARIO CARDS (SLIDE 8) */
+            .scenarios-container {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            .scenario-card {
+                flex: 1 1 calc(50% - 15px);
+            }
+            
+            /* SOFTWARE GRID */
+            .software-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .tips-grid {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+            .tip-item {
+                flex: 1 1 calc(50% - 8px);
+                font-size: 16px;
+            }
+        }
+        
+        /* ====================================
+           DESKTOP STYLES
+           (min-width: 1024px)
+        ==================================== */
+        @media (min-width: 1024px) {
+            .slide {
+                max-width: 1280px;
+                padding: 60px 70px;
+            }
+            .title {
+                font-size: 40px;
+            }
+            #slide-intro .title {
+                font-size: 64px;
+            }
+            .topic-number {
+                font-size: 90px;
+            }
+            
+            .left-content {
+                padding-right: 40px;
+            }
+            .right-content {
+                width: 40%;
+            }
+
+            .image-container {
+                height: 400px;
+            }
+            
+            /* SCENARIO CARDS (3x layout) */
+            .scenarios-container {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .scenario-card {
+                flex: none;
+                width: 100%;
+            }
+            
+            /* FINAL SUMMARY */
+            .summary-list {
+                padding-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- SLIDE 1: JUDUL UTAMA -->
+    <div class="slide" id="slide-intro">
+        <div class="content" style="width: 100%; max-width: 800px; margin: 0 auto; padding: 0; text-align: center;">
+            <h1 class="title">12 Praktik Merekam Audio <span class="accent">untuk Videografi</span></h1>
+            <p class="subtitle">Setting Level Audio, Penempatan Mikrofon, dan Mengatasi Kebisingan</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: PENTINGNYA AUDIO DALAM VIDEOGRAFI -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title"><i class="material-icons">hearing</i>Pentingnya Audio dalam Videografi</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <ul class="point-list">
+                    <li class="point-item">
+                        <i class="material-icons point-icon">hearing</i>
+                        <span class="point-text">Audio <span class="highlight">50% dari pengalaman menonton</span> - kualitas suara memengaruhi persepsi penonton</span>
+                    </li>
+                    <li class="point-item">
+                        <i class="material-icons point-icon">sentiment_dissatisfied</i>
+                        <span class="point-text">Audio buruk <span class="highlight">mengurangi kredibilitas</span> dan profesionalisme video</span>
+                    </li>
+                    <li class="point-item">
+                        <i class="material-icons point-icon">psychology</i>
+                        <span class="point-text">Audio jernih <span class="highlight">meningkatkan pemahaman</span> dan retensi informasi</span>
+                    </li>
+                    <li class="point-item">
+                        <i class="material-icons point-icon">trending_up</i>
+                        <span class="point-text">Video dengan audio berkualitas <span class="highlight">lebih menarik perhatian</span> dan berdampak emosional</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="right-content">
+                <div class="image-container">
+                                    </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: MEMAHAMI LEVEL AUDIO DAN METER -->
+    <div class="slide">
+        <div class="topic-number">04</div>
+        <div class="header">
+            <h1 class="title"><i class="material-icons">graphic_eq</i>Memahami Level Audio dan Meter</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <ul class="point-list">
+                    <li class="point-item">
+                        <i class="material-icons point-icon">volume_up</i>
+                        <span class="point-text"><span class="highlight">Level audio</span> diukur dalam desibel (dB) pada skala minus</span>
+                    </li>
+                    <li class="point-item">
+                        <i class="material-icons point-icon">warning</i>
+                        <span class="point-text"><span class="highlight">0dB</span> adalah level maksimum - di atas ini terjadi distorsi (clipping)</span>
+                    </li>
+                    <li class="point-item">
+                        <i class="material-icons point-icon">settings_input_component</i>
+                        <span class="point-text"><span class="highlight">Preamp kamera</span> mempengaruhi kualitas sinyal audio</span>
+                    </li>
+                    <li class="point-item">
+                        <i class="material-icons point-icon">headset</i>
+                        <span class="point-text"><span class="highlight">Monitoring</span> dengan headphone penting untuk memastikan kualitas</span>
+                    </li>
+                </ul>
+                <div class="tip-box">
+                    <div class="tip-title">
+                        <i class="material-icons">lightbulb</i>
+                        <span>Pro Tip</span>
+                    </div>
+                    <div class="tip-content">
+                        Level yang terlalu rendah akan menambah noise saat proses editing
+                    </div>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="meter-container">
+                    <h3 class="meter-title">Zona Level Audio</h3>
+                    <div class="meter-display">
+                        <div class="meter-zones">
+                            <div class="green-zone"></div>
+                            <div class="yellow-zone"></div>
+                            <div class="red-zone"></div>
+                        </div>
+                    </div>
+                    <div class="meter-labels">
+                        <span>-20dB</span>
+                        <span>-12dB</span>
+                        <span>-6dB</span>
+                        <span>0dB</span>
+                    </div>
+                </div>
+                <ul class="point-list">
+                    <li class="point-item">
+                        <i class="material-icons point-icon" style="color: #4CAF50;">check_circle</i>
+                        <span class="point-text"><span class="highlight">Zona Hijau:</span> Level aman, ideal untuk rekaman</span>
+                    </li>
+                    <li class="point-item">
+                        <i class="material-icons point-icon" style="color: #FFC107;">warning</i>
+                        <span class="point-text"><span class="highlight">Zona Kuning:</span> Peringatan, mendekati level maksimum</span>
+                    </li>
+                    <li class="point-item">
+                        <i class="material-icons point-icon" style="color: #F44336;">error</i>
+                        <span class="point-text"><span class="highlight">Zona Merah:</span> Distorsi, hindari zona ini</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: PRAKTIK TERBAIK SETTING LEVEL AUDIO -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title"><i class="material-icons">tune</i>Praktik Terbaik Setting Level Audio</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <ul class="practice-list">
+                    <li class="practice-item">
+                        <i class="material-icons practice-icon">settings_off</i>
+                        <span class="point-text"><span class="highlight">Nonaktifkan fitur otomatis</span> seperti AGC, limiter, dan wind noise reduction</span>
+                    </li>
+                    <li class="practice-item">
+                        <i class="material-icons practice-icon">graphic_eq</i>
+                        <span class="point-text"><span class="highlight">Tetap di zona hijau</span> (-12dB hingga -6dB) untuk rekaman optimal</span>
+                    </li>
+                    <li class="practice-item">
+                        <i class="material-icons practice-icon">headset</i>
+                        <span class="point-text"><span class="highlight">Gunakan headphone</span> untuk monitoring real-time selama rekaman</span>
+                    </li>
+                    <li class="practice-item">
+                        <i class="material-icons practice-icon">volume_up</i>
+                        <span class="point-text"><span class="highlight">Uji level dengan suara terkeras</span> yang akan direkam untuk menghindari clipping</span>
+                    </li>
+                </ul>
+                <div class="tip-box">
+                    <div class="tip-title">
+                        <i class="material-icons">lightbulb</i>
+                        <span>Pro Tip</span>
+                    </div>
+                    <div class="tip-content">
+                        Untuk sumber suara dinamis, set level agar puncak terkeras berada tepat di bawah zona kuning
+                    </div>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="image-container">
+                                    </div>
+                <ul class="practice-list" style="margin-top: 20px;">
+                    <li class="practice-item">
+                        <i class="material-icons practice-icon">warning</i>
+                        <span class="point-text"><span class="highlight">Hindari zona merah</span> (0dB) yang menyebabkan distorsi permanen</span>
+                    </li>
+                    <li class="practice-item">
+                        <i class="material-icons practice-icon">tune</i>
+                        <span class="point-text"><span class="highlight">Seimbangkan gain mikrofon</span> dengan level input kamera untuk sinyal bersih</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: TEKNIK PENEMPATAN MIKROFON -->
+    <div class="slide">
+        <div class="topic-number">06</div>
+        <div class="header">
+            <h1 class="title"><i class="material-icons">mic</i>Teknik Penempatan Mikrofon</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <ul class="principle-list">
+                    <li class="principle-item">
+                        <i class="material-icons principle-icon">straighten</i>
+                        <span class="point-text"><span class="highlight">Jarak optimal</span> - semakin dekat, semakin jelas, tapi waspadai proximity effect</span>
+                    </li>
+                    <li class="principle-item">
+                        <i class="material-icons principle-icon">rotate_right</i>
+                        <span class="point-text"><span class="highlight">Sudut mikrofon</span> - sedikit miring untuk mengurangi plosive (p, b, t)</span>
+                    </li>
+                    <li class="principle-item">
+                        <i class="material-icons principle-icon">center_focus_strong</i>
+                        <span class="point-text"><span class="highlight">Arahkan ke sumber</span> - antara hidung dan mulut untuk suara vokal</span>
+                    </li>
+                    <li class="principle-item">
+                        <i class="material-icons principle-icon">filter_center_focus</i>
+                        <span class="point-text"><span class="highlight">Polar pattern</span> - gunakan sisi yang tepat sesuai jenis mikrofon</span>
+                    </li>
+                </ul>
+                <div class="tip-box">
+                    <div class="tip-title">
+                        <i class="material-icons">lightbulb</i>
+                        <span>Pro Tip</span>
+                    </div>
+                    <div class="tip-content">
+                        Gunakan pop filter untuk mengurangi suara plosive dan lindungi mikrofon
+                    </div>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="image-container">
+                                    </div>
+                <ul class="principle-list" style="margin-top: 20px;">
+                    <li class="principle-item">
+                        <i class="material-icons principle-icon">volume_up</i>
+                        <span class="point-text"><span class="highlight">Proximity effect</span> - bass meningkat saat mikrofon mendekati sumber</span>
+                    </li>
+                    <li class="principle-item">
+                        <i class="material-icons principle-icon">explore</i>
+                        <span class="point-text"><span class="highlight">Eksperimen</span> - coba berbagai posisi untuk menemukan suara terbaik</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- SLIDE 6: TEKNIK KHUSUS UNTUK BERBAGAI SKENARIO -->
+    <div class="slide">
+        <div class="topic-number">08</div>
+        <div class="header">
+            <h1 class="title"><i class="material-icons">record_voice_over</i>Teknik Khusus untuk Berbagai Skenario</h1>
+        </div>
+        <div class="content">
+            <div class="scenarios-container">
+                <div class="scenario-card">
+                    <div class="scenario-header">
+                        <div class="scenario-icon">
+                            <i class="material-icons">people</i>
+                        </div>
+                        <h2 class="scenario-title">Wawancara</h2>
+                    </div>
+                    <ul class="technique-list">
+                        <li class="technique-item">
+                            <i class="material-icons technique-icon">mic</i>
+                            <span class="point-text"><span class="highlight">Lavalier</span> - tempatkan di dada, 15-20cm dari mulut</span>
+                        </li>
+                        <li class="technique-item">
+                            <i class="material-icons technique-icon">settings_input_antenna</i>
+                            <span class="point-text"><span class="highlight">Boom mic</span> - 45° dari atas, arahkan ke mulut</span>
+                        </li>
+                        <li class="technique-item">
+                            <i class="material-icons technique-icon">swap_horiz</i>
+                            <span class="point-text"><span class="highlight">Dual mic</span> - gunakan dua mikrofon untuk dua pembicara</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="scenario-card">
+                    <div class="scenario-header">
+                        <div class="scenario-icon">
+                            <i class="material-icons">record_voice_over</i>
+                        </div>
+                        <h2 class="scenario-title">Voice-over</h2>
+                    </div>
+                    <ul class="technique-list">
+                        <li class="technique-item">
+                            <i class="material-icons technique-icon">mic</i>
+                            <span class="point-text"><span class="highlight">Condenser mic</span> - 15-30cm dari mulut, gunakan pop filter</span>
+                        </li>
+                        <li class="technique-item">
+                            <i class="material-icons technique-icon">screen_rotation</i>
+                            <span class="point-text"><span class="highlight">Sudut 45°</span> - arahkan sedikit miring untuk mengurangi plosive</span>
+                        </li>
+                        <li class="technique-item">
+                            <i class="material-icons technique-icon">surround_sound</i>
+                            <span class="point-text"><span class="highlight">Isolasi ruangan</span> - gunakan bantalan akustik untuk mengurangi gema</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="scenario-card">
+                    <div class="scenario-header">
+                        <div class="scenario-icon">
+                            <i class="material-icons">landscape</i>
+                        </div>
+                        <h2 class="scenario-title">Luar Ruangan</h2>
+                    </div>
+                    <ul class="technique-list">
+                        <li class="technique-item">
+                            <i class="material-icons technique-icon">mic</i>
+                            <span class="point-text"><span class="highlight">Shotgun mic</span> - arahkan langsung ke sumber suara</span>
+                        </li>
+                        <li class="technique-item">
+                            <i class="material-icons technique-icon">filter_drama</i>
+                            <span class="point-text"><span class="highlight">Deadcat</span> - gunakan windscreen untuk mengurangi noise angin</span>
+                        </li>
+                        <li class="technique-item">
+                            <i class="material-icons technique-icon">volume_off</i>
+                            <span class="point-text"><span class="highlight">Pilih lokasi</span> - cari area dengan latar belakang yang tenang</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: MENGATASI KEBISINGAN (NOISE) -->
+    <div class="slide">
+        <div class="topic-number">09</div>
+        <div class="header">
+            <h1 class="title"><i class="material-icons">volume_off</i>Mengatasi Kebisingan (Noise)</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <ul class="topic-list">
+                    <li class="topic-item">
+                        <i class="material-icons topic-icon">volume_off</i>
+                        <span class="point-text"><span class="highlight">Identifikasi sumber noise</span> - lingkungan, peralatan, dan kabel</span>
+                    </li>
+                    <li class="topic-item">
+                        <i class="material-icons topic-icon">shield</i>
+                        <span class="point-text"><span class="highlight">Pencegahan</span> - teknik rekaman untuk mengurangi noise</span>
+                    </li>
+                    <li class="topic-item">
+                        <i class="material-icons topic-icon">tune</i>
+                        <span class="point-text"><span class="highlight">Peralatan</span> - mikrofon dan aksesori untuk mengatasi noise</span>
+                    </li>
+                    <li class="topic-item">
+                        <i class="material-icons topic-icon">settings</i>
+                        <span class="point-text"><span class="highlight">Post-produksi</span> - perangkat lunak dan teknik editing</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="right-content">
+                <div class="image-container">
+                                    </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: TEKNIK PENCEGAHAN NOISE SAAT REKAMAN -->
+    <div class="slide">
+        <div class="topic-number">10</div>
+        <div class="header">
+            <h1 class="title"><i class="material-icons">shield</i>Teknik Pencegahan Noise Saat Rekaman</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <ul class="technique-list">
+                    <li class="technique-item">
+                        <i class="material-icons technique-icon">location_on</i>
+                        <span class="point-text"><span class="highlight">Pilih lokasi tenang</span> - hindari area dengan AC, lalu lintas, atau elektronik</span>
+                    </li>
+                    <li class="technique-item">
+                        <i class="material-icons technique-icon">mic</i>
+                        <span class="point-text"><span class="highlight">Mikrofon directional</span> - gunakan shotgun atau cardioid untuk menolak noise</span>
+                    </li>
+                    <li class="technique-item">
+                        <i class="material-icons technique-icon">panorama_fish_eye</i>
+                        <span class="point-text"><span class="highlight">Akustik ruangan</span> - tambahkan bantalan, karpet, atau gorden untuk meredam gema</span>
+                    </li>
+                    <li class="technique-item">
+                        <i class="material-icons technique-icon">settings_input_component</i>
+                        <span class="point-text"><span class="highlight">Periksa kabel</span> - pastikan semua kabel terhubung baik dan tidak longgar</span>
+                    </li>
+                </ul>
+                <div class="tip-box">
+                    <div class="tip-title">
+                        <i class="material-icons">lightbulb</i>
+                        <span>Pro Tip</span>
+                    </div>
+                    <div class="tip-content">
+                        Lakukan rekaman tes selama 30 detik untuk mendeteksi noise yang mungkin tidak terlihat
+                    </div>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="image-container">
+                                    </div>
+                <ul class="technique-list" style="margin-top: 20px;">
+                    <li class="technique-item">
+                        <i class="material-icons technique-icon">filter_drama</i>
+                        <span class="point-text"><span class="highlight">Windscreen</span> - gunakan deadcat untuk rekaman outdoor</span>
+                    </li>
+                    <li class="technique-item">
+                        <i class="material-icons technique-icon">headset</i>
+                        <span class="point-text"><span class="highlight">Monitoring</span> - gunakan headphone untuk mendeteksi noise real-time</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 9: SOLUSI POST-PRODUKSI UNTUK NOISE -->
+    <div class="slide">
+        <div class="topic-number">11</div>
+        <div class="header">
+            <h1 class="title"><i class="material-icons">settings</i>Solusi Post-Produksi untuk Noise</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <ul class="solution-list">
+                    <li class="solution-item">
+                        <i class="material-icons solution-icon">equalizer</i>
+                        <span class="point-text"><span class="highlight">Noise Reduction Plugin</span> - identifikasi dan hapus frekuensi noise</span>
+                    </li>
+                    <li class="solution-item">
+                        <i class="material-icons solution-icon">graphic_eq</i>
+                        <span class="point-text"><span class="highlight">Equalizer (EQ)</span> - potong frekuensi yang tidak diinginkan</span>
+                    </li>
+                    <li class="solution-item">
+                        <i class="material-icons solution-icon">compress</i>
+                        <span class="point-text"><span class="highlight">Compressor</span> - tingkatkan volume sinyal dan kurangi noise</span>
+                    </li>
+                    <li class="solution-item">
+                        <i class="material-icons solution-icon">hearing</i>
+                        <span class="point-text"><span class="highlight">Spectral Repair</span> - hapus noise spesifik dengan presisi</span>
+                    </li>
+                </ul>
+                <div class="tip-box">
+                    <div class="tip-title">
+                        <i class="material-icons">lightbulb</i>
+                        <span>Pro Tip</span>
+                    </div>
+                    <div class="tip-content">
+                        Gunakan noise reduction dengan hati-hati - terlalu banyak dapat membuat audio terdengar tidak alami
+                    </div>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="software-container">
+                    <h3 class="title" style="font-size: 20px; margin-bottom: 15px;">
+                        <i class="material-icons">apps</i>
+                        Software Rekomendasi
+                    </h3>
+                    <div class="software-grid">
+                        <div class="software-item">
+                            <i class="material-icons">audiotrack</i>
+                            Adobe Audition
+                        </div>
+                        <div class="software-item">
+                            <i class="material-icons">audiotrack</i>
+                            iZotope RX
+                        </div>
+                        <div class="software-item">
+                            <i class="material-icons">audiotrack</i>
+                            Audacity
+                        </div>
+                        <div class="software-item">
+                            <i class="material-icons">audiotrack</i>
+                            CrumplePop
+                        </div>
+                    </div>
+                </div>
+                <ul class="solution-list" style="margin-top: 20px;">
+                    <li class="solution-item">
+                        <i class="material-icons solution-icon">filter_center_focus</i>
+                        <span class="point-text"><span class="highlight">Gate</span> - otomatis senyapkan audio di bawah threshold</span>
+                    </li>
+                    <li class="solution-item">
+                        <i class="material-icons solution-icon">autorenew</i>
+                        <span class="point-text"><span class="highlight">AI Noise Removal</span> - teknologi modern untuk hasil optimal</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 10: KESIMPULAN DAN TIPS TAMBAHAN -->
+    <div class="slide">
+        <div class="topic-number">12</div>
+        <div class="header">
+            <h1 class="title"><i class="material-icons">stars</i>Kesimpulan dan Tips Tambahan</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <ul class="summary-list">
+                    <li class="summary-item">
+                        <i class="material-icons summary-icon">graphic_eq</i>
+                        <span class="point-text"><span class="highlight">Level Audio</span> - Tetap di zona hijau, nonaktifkan AGC, monitor dengan headphone</span>
+                    </li>
+                    <li class="summary-item">
+                        <i class="material-icons summary-icon">mic</i>
+                        <span class="point-text"><span class="highlight">Penempatan Mikrofon</span> - Dekati sumber, perhatikan sudut, gunakan pop filter</span>
+                    </li>
+                    <li class="summary-item">
+                        <i class="material-icons summary-icon">volume_off</i>
+                        <span class="point-text"><span class="highlight">Pengendalian Noise</span> - Pilih lokasi tepat, gunakan peralatan yang sesuai, proses di post-produksi</span>
+                    </li>
+                </ul>
+                <div class="final-message">
+                    <div class="final-title">
+                        <i class="material-icons">stars</i>
+                        <span>Ingat</span>
+                    </div>
+                    <div class="final-content">
+                        Audio berkualitas adalah 50% dari pengalaman menonton. Investasikan waktu untuk menguasai teknik audio!
+                    </div>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="tips-container">
+                    <h3 class="title" style="font-size: 20px; margin-bottom: 15px;">
+                        <i class="material-icons">lightbulb</i>
+                        Tips Tambahan
+                    </h3>
+                    <div class="tips-grid">
+                        <div class="tip-item">
+                            <i class="material-icons">battery_full</i>
+                            Periksa baterai mikrofon
+                        </div>
+                        <div class="tip-item">
+                            <i class="material-icons">backup</i>
+                            Backup rekaman audio
+                        </div>
+                        <div class="tip-item">
+                            <i class="material-icons">sync</i>
+                            Sinkronisasi audio-video
+                        </div>
+                        <div class="tip-item">
+                            <i class="material-icons">headset</i>
+                            Monitor selama rekaman
+                        </div>
+                        <div class="tip-item">
+                            <i class="material-icons">school</i>
+                            Latih telinga Anda
+                        </div>
+                        <div class="tip-item">
+                            <i class="material-icons">update</i>
+                            Lakukan tes rekaman
+                        </div>
+                    </div>
+                </div>
+                <ul class="summary-list" style="margin-top: 20px;">
+                    <li class="summary-item">
+                        <i class="material-icons summary-icon">attach_money</i>
+                        <span class="point-text"><span class="highlight">Investasi</span> - Mikrofon berkualitas lebih penting dari kamera mahal</span>
+                    </li>
+                    <li class="summary-item">
+                        <i class="material-icons summary-icon">trending_up</i>
+                        <span class="point-text"><span class="highlight">Praktik</span> - Semakin sering merekam, semakin baik hasilnya</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

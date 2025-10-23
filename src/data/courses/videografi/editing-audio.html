@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Lengkap Videografi: Membersihkan Suara, Mixing, dan Transisi Audio</title>
+    <!-- Menggunakan Font Source Sans Pro dari Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Menggunakan Material Icons untuk ikon -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        /* ====================================
+           GLOBAL & MOBILE FIRST STYLES
+        ==================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f5f7;
+            color: #333;
+            /* Menghilangkan overflow: hidden dan fixed sizing */
+        }
+        
+        /* Tema Warna */
+        .primary-dark { color: #192A56; }
+        .accent-blue { color: #64B5F6; }
+        .highlight { color: #90CAF9; font-weight: 600; }
+        .text-light { color: #e0e0e0; }
+
+        /* BASE SLIDE CONTAINER (Sekarang menjadi Section) */
+        .slide {
+            width: 100%;
+            position: relative;
+            background: linear-gradient(to right, #192A56, #2C3E50);
+            color: white;
+            padding: 40px 20px; /* Padding responsif */
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* SLIDE 1: INTRO KHUSUS */
+        #slide-intro {
+            background: linear-gradient(rgba(25, 42, 86, 0.9), rgba(25, 42, 86, 0.9)), 
+                        url('https://sfile.chatglm.cn/images-ppt/c8c1be22ec6d.jpg');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            padding: 80px 20px;
+        }
+        #slide-intro .title {
+            font-size: 32px;
+            line-height: 1.2;
+        }
+        #slide-intro .subtitle {
+            font-size: 18px;
+        }
+        #slide-intro .material-icons {
+            font-size: 48px;
+        }
+        .icon-container {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .icon-item {
+            text-align: center;
+        }
+
+        /* HEADER & TYPOGRAPHY UMUM */
+        .header {
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #64B5F6;
+        }
+        
+        /* CONTENT LAYOUT - MOBILE (STACKED) */
+        .content {
+            display: flex;
+            flex-direction: column; 
+            gap: 25px;
+        }
+        .left-section, .right-section {
+            width: 100%;
+        }
+
+        /* CARD STYLING & COMPONENTS */
+        .importance, .technique, .levels, .tips, .software, .transition-types, .summary {
+            background: rgba(100, 181, 246, 0.15);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .importance-title, .techniques-title, .levels-title, .tips-title, .software-title, .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            color: #90CAF9;
+        }
+        .material-icons {
+            margin-right: 10px;
+            color: #64B5F6;
+        }
+        .importance-text, .technique-text, .level-item, .tip-item, .topic-item, .summary-point {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #e0e0e0;
+        }
+        .topic-item, .tip-item, .level-item, .summary-point {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+        .topic-item .material-icons, .tip-item .material-icons, .summary-point .material-icons {
+            font-size: 18px;
+            margin-top: 4px;
+            flex-shrink: 0;
+        }
+        
+        .image-container {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* GRIDS */
+        .software-grid, .technique-grid, .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        .technique-item {
+            background: rgba(100, 181, 246, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+        }
+        .technique-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            color: #64B5F6;
+        }
+        .technique-desc {
+            font-size: 15px;
+        }
+
+        /* MIXING LEVELS CHART */
+        .level-chart {
+            display: flex;
+            align-items: flex-end;
+            height: 100px;
+            margin-top: 15px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #64B5F6;
+            padding-bottom: 5px;
+        }
+        .level-bar {
+            flex: 1;
+            margin: 0 5px;
+            background: rgba(100, 181, 246, 0.3);
+            border-radius: 5px 5px 0 0;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        .level-bar-fill {
+            width: 100%;
+            border-radius: 5px 5px 0 0;
+        }
+        .level-bar-label {
+            position: absolute;
+            top: -25px;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+        }
+        .level-bar-value {
+            position: absolute;
+            bottom: -20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        /* TRANSITION VISUAL */
+        .transition-example {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(100, 181, 246, 0.1);
+        }
+        .transition-visual {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            justify-content: center;
+        }
+        .audio-clip {
+            height: 30px;
+            background: #64B5F6;
+            border-radius: 5px;
+            position: relative;
+        }
+        .clip-1 { width: 45%; margin-right: 0; }
+        .clip-2 { width: 45%; margin-left: 0; }
+        .fade-area {
+            position: absolute;
+            height: 100%;
+            background: linear-gradient(to right, rgba(100, 181, 246, 0.3), rgba(100, 181, 246, 1));
+            border-radius: 5px;
+        }
+        .fade-out { right: 0; width: 30%; }
+        .fade-in { 
+            left: 0; 
+            width: 30%; 
+            background: linear-gradient(to right, rgba(100, 181, 246, 1), rgba(100, 181, 246, 0.3));
+        }
+        .transition-label {
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 10px;
+            text-align: center;
+            color: #90CAF9;
+        }
+        
+        /* KESIMPULAN */
+        .qa {
+            background: rgba(100, 181, 246, 0.15);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .contact-item {
+            font-size: 16px;
+        }
+
+
+        /* ====================================
+           TABLET STYLES (min-width: 768px)
+        ==================================== */
+        @media (min-width: 768px) {
+            .slide {
+                padding: 60px 40px;
+            }
+            .title { 
+                font-size: 34px; 
+            }
+            
+            .content {
+                flex-direction: row; 
+                gap: 40px;
+            }
+            .left-section, .right-section {
+                width: 50%;
+            }
+            
+            .software-grid, .summary-grid, .transition-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .technique-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .importance-title, .techniques-title, .levels-title, .tips-title, .software-title, .section-title {
+                font-size: 22px;
+            }
+            .importance-text, .technique-text, .level-item, .tip-item, .topic-item, .summary-point {
+                font-size: 17px;
+            }
+            
+            .image-container {
+                 height: 300px;
+            }
+        }
+        
+        /* ====================================
+           DESKTOP STYLES (min-width: 1024px)
+        ==================================== */
+        @media (min-width: 1024px) {
+            .slide {
+                padding: 70px 70px;
+            }
+            #slide-intro .title { 
+                font-size: 60px; 
+            }
+            .title { 
+                font-size: 40px; 
+            }
+            
+            .technique-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .software-grid, .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .image-container {
+                 height: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- SLIDE 1: JUDUL UTAMA -->
+    <div class="slide" id="slide-intro">
+        <div class="content">
+            <h1 class="title">Tutorial Videografi: <span class="highlight">Editing Audio Lanjutan</span></h1>
+            <p class="subtitle">Membersihkan Suara, Mixing Audio, dan Penggunaan Audio Transition</p>
+            
+            <div class="icon-container">
+                <div class="icon-item">
+                    <i class="material-icons">cleaning_services</i>
+                    <span class="icon-text">Membersihkan Suara</span>
+                </div>
+                <div class="icon-item">
+                    <i class="material-icons">tune</i>
+                    <span class="icon-text">Mixing Audio</span>
+                </div>
+                <div class="icon-item">
+                    <i class="material-icons">compare_arrows</i>
+                    <span class="icon-text">Audio Transition</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: PENGENALAN EDITING AUDIO LANJUTAN -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Pengenalan Editing Audio Lanjutan</h1>
+        </div>
+        <div class="content">
+            <div class="left-section">
+                <div class="importance">
+                    <div class="importance-title">
+                        <i class="material-icons">volume_up</i>
+                        <span>Mengapa Audio Berkualitas Penting?</span>
+                    </div>
+                    <p class="importance-text">
+                        • Audio yang buruk dapat <span class="highlight">mengurangi kualitas video</span> secara drastis<br>
+                        • Penonton lebih <span class="highlight">memaafkan video berkualitas rendah</span> daripada audio buruk<br>
+                        • Audio yang jernih meningkatkan <span class="highlight">engagement dan profesionalisme</span>
+                    </p>
+                </div>
+                
+                <div class="topics">
+                    <div class="topics-title">
+                        <i class="material-icons">list</i>
+                        <span>Topik yang Akan Dibahas</span>
+                    </div>
+                    <div class="topic-item">
+                        <i class="material-icons">cleaning_services</i>
+                        <span>Membersihkan Suara - Menghilangkan noise dan gangguan</span>
+                    </div>
+                    <div class="topic-item">
+                        <i class="material-icons">tune</i>
+                        <span>Mixing Audio - Menyeimbangkan volume elemen audio</span>
+                    </div>
+                    <div class="topic-item">
+                        <i class="material-icons">compare_arrows</i>
+                        <span>Audio Transition - Membuat transisi yang halus</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-section">
+                <div class="image-container">
+                    <img src="https://sfile.chatglm.cn/images-ppt/03bc22fb13b4.jpg" alt="Audio mixing interface">
+                </div>
+                
+                <div class="software">
+                    <div class="software-title">
+                        <i class="material-icons">apps</i>
+                        <span>Software yang Akan Digunakan</span>
+                    </div>
+                    <div class="software-grid">
+                        <div class="software-item">
+                            <i class="material-icons">cloud</i>
+                            <span>CapCut Web</span>
+                        </div>
+                        <div class="software-item">
+                            <i class="material-icons">audiotrack</i>
+                            <span>Audacity</span>
+                        </div>
+                        <div class="software-item">
+                            <i class="material-icons">movie</i>
+                            <span>Adobe Premiere Pro</span>
+                        </div>
+                        <div class="software-item">
+                            <i class="material-icons">movie_filter</i>
+                            <span>Clipchamp</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: MEMBERSIHKAN SUARA -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Membersihkan Suara</h1>
+        </div>
+        <div class="content">
+            <div class="left-section">
+                <div class="technique">
+                    <div class="techniques-title">
+                        <i class="material-icons">cleaning_services</i>
+                        <span>Teknik Membersihkan Suara</span>
+                    </div>
+                    <p class="technique-text">
+                        • <span class="highlight">Noise Reduction</span> - Menghilangkan desis stabil dari perangkat elektronik<br>
+                        • <span class="highlight">Background Noise Removal</span> - Mengurangi suara latar (lalu lintas, AC, dll)<br>
+                        • <span class="highlight">Click Removal</span> - Menghilangkan klik tajam dari rekaman<br>
+                        • <span class="highlight">De-essing</span> - Mengurangi sibilance (suara 's' yang tajam)
+                    </p>
+                </div>
+                
+                <div class="steps">
+                    <div class="techniques-title">
+                        <i class="material-icons">format_list_numbered</i>
+                        <span>Langkah-langkah dengan CapCut Web</span>
+                    </div>
+                    <div class="tip-item">
+                        <i class="material-icons">looks_one</i>
+                        <span>Unggah file audio/video ke CapCut Web</span>
+                    </div>
+                    <div class="tip-item">
+                        <i class="material-icons">looks_two</i>
+                        <span>Akses tab "Audio" → "Dasar" → "Pengurangan Kebisingan"</span>
+                    </div>
+                    <div class="tip-item">
+                        <i class="material-icons">looks_3</i>
+                        <span>Aktifkan fitur untuk menghilangkan noise otomatis</span>
+                    </div>
+                    <div class="tip-item">
+                        <i class="material-icons">looks_4</i>
+                        <span>Pratinjau hasil dan ekspor video/audio</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-section">
+                <div class="image-container">
+                    <img src="https://sfile.chatglm.cn/images-ppt/c8c1be22ec6d.jpg" alt="Audio editing software interface with waveform">
+                </div>
+                
+                <div class="software-options">
+                    <div class="software-item">
+                        <i class="material-icons">cloud</i>
+                        <div class="technique-name">CapCut Web</div>
+                        <div class="technique-desc">AI-powered noise reduction</div>
+                    </div>
+                    <div class="software-item">
+                        <i class="material-icons">audiotrack</i>
+                        <div class="technique-name">Audacity</div>
+                        <div class="technique-desc">Noise reduction & spectral editing</div>
+                    </div>
+                </div>
+                
+                <div class="tips">
+                    <div class="tips-title">
+                        <i class="material-icons">lightbulb</i>
+                        <span>Tips untuk Hasil Optimal</span>
+                    </div>
+                    <div class="tip-item">
+                        <i class="material-icons">check_circle</i>
+                        <span>Rekam dengan <span class="highlight">headroom 10-12dB</span> untuk menghindari clipping</span>
+                    </div>
+                    <div class="tip-item">
+                        <i class="material-icons">check_circle</i>
+                        <span>Gunakan <span class="highlight">backup mic</span> untuk opsi audio alternatif</span>
+                    </div>
+                    <div class="tip-item">
+                        <i class="material-icons">check_circle</i>
+                        <span>Terapkan noise reduction <span class="highlight">secara bertahap</span> untuk menghindari artefak</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: MIXING AUDIO -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Mixing Audio</h1>
+        </div>
+        <div class="content">
+            <div class="left-section">
+                <div class="levels">
+                    <div class="levels-title">
+                        <i class="material-icons">graphic_eq</i>
+                        <span>Rekomendasi Level Audio</span>
+                    </div>
+                    
+                    <div class="level-chart">
+                        <div class="level-bar" style="height: 100%;">
+                            <div class="level-bar-label">Dialog</div>
+                            <div class="level-bar-fill" style="height: 60%; background-color: #64B5F6;"></div>
+                            <div class="level-bar-value">-12 dB</div>
+                        </div>
+                        <div class="level-bar" style="height: 100%;">
+                            <div class="level-bar-label">Musik</div>
+                            <div class="level-bar-fill" style="height: 40%; background-color: #4FC3F7;"></div>
+                            <div class="level-bar-value">-18 dB</div>
+                        </div>
+                        <div class="level-bar" style="height: 100%;">
+                            <div class="level-bar-label">SFX</div>
+                            <div class="level-bar-fill" style="height: 65%; background-color: #29B6F6;"></div>
+                            <div class="level-bar-value">-10 dB</div>
+                        </div>
+                    </div>
+                    
+                    <div class="level-item">
+                        <i class="material-icons">record_voice_over</i>
+                        <span>Dialog: <span class="level-value">-12 dB hingga -15 dB</span> (elemen utama)</span>
+                    </div>
+                    <div class="level-item">
+                        <i class="material-icons">music_note</i>
+                        <span>Musik: <span class="level-value">-18 dB hingga -22 dB</span> (latar)</span>
+                    </div>
+                    <div class="level-item">
+                        <i class="material-icons">surround_sound</i>
+                        <span>Sound Effect: <span class="level-value">-10 dB hingga -20 dB</span></span>
+                    </div>
+                    <div class="level-item">
+                        <i class="material-icons">volume_up</i>
+                        <span>Overall Mix: <span class="level-value">-10 dB hingga -14 dB</span></span>
+                    </div>
+                </div>
+                
+                <div class="techniques">
+                    <div class="techniques-title">
+                        <i class="material-icons">tune</i>
+                        <span>Teknik Mixing Efektif</span>
+                    </div>
+                    <div class="technique-grid">
+                        <div class="technique-item">
+                            <div class="technique-name">
+                                <i class="material-icons">equalizer</i>
+                                <span>Equalizer (EQ)</span>
+                            </div>
+                            <p class="technique-desc">
+                                • Buat ruang frekuensi<br>
+                                • Potong frekuensi yang tidak perlu
+                            </p>
+                        </div>
+                        <div class="technique-item">
+                            <div class="technique-name">
+                                <i class="material-icons">compress</i>
+                                <span>Kompresi</span>
+                            </div>
+                            <p class="technique-desc">
+                                • Ratakan dinamika suara<br>
+                                • Tingkatkan konsistensi volume
+                            </p>
+                        </div>
+                        <div class="technique-item">
+                            <div class="technique-name">
+                                <i class="material-icons">panorama_horizontal</i>
+                                <span>Panning</span>
+                            </div>
+                            <p class="technique-desc">
+                                • Posisikan elemen di ruang stereo<br>
+                                • Ciptakan dimensi dan kedalaman
+                            </p>
+                        </div>
+                        <div class="technique-item">
+                            <div class="technique-name">
+                                <i class="material-icons">blur_on</i>
+                                <span>Reverb & Delay</span>
+                            </div>
+                            <p class="technique-desc">
+                                • Tambahkan ruang dan kedalaman<br>
+                                • Gunakan dengan bijaksana
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-section">
+                <div class="image-container">
+                    <img src="https://sfile.chatglm.cn/images-ppt/03bc22fb13b4.jpg" alt="Audio mixing interface with multiple tracks and faders">
+                </div>
+                
+                <div class="tips">
+                    <div class="tips-title">
+                        <i class="material-icons">lightbulb</i>
+                        <span>Tips Menyeimbangkan Volume</span>
+                    </div>
+                    <div class="tip-item">
+                        <i class="material-icons">check_circle</i>
+                        <span>Mulai dengan <span class="highlight">dialog sebagai prioritas utama</span>, lalu tambahkan elemen lain</span>
+                    </div>
+                    <div class="tip-item">
+                        <i class="material-icons">check_circle</i>
+                        <span>Gunakan <span class="highlight">sidechain compression</span> untuk memberikan ruang pada dialog</span>
+                    </div>
+                    <div class="tip-item">
+                        <i class="material-icons">check_circle</i>
+                        <span>Dengarkan mix pada <span class="highlight">volume rendah</span> untuk mendeteksi masalah keseimbangan</span>
+                    </div>
+                    <div class="tip-item">
+                        <i class="material-icons">check_circle</i>
+                        <span>Test hasil pada <span class="highlight">berbagai perangkat</span> (headphone, speaker, laptop)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: PENGGUNAAN AUDIO TRANSITION -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Penggunaan Audio Transition</h1>
+        </div>
+        <div class="content">
+            <div class="left-section">
+                <div class="transition-types">
+                    <div class="section-title">
+                        <i class="material-icons">compare_arrows</i>
+                        <span>Jenis-jenis Audio Transition</span>
+                    </div>
+                    <div class="transition-grid">
+                        <div class="transition-item">
+                            <i class="material-icons">swap_horiz</i>
+                            <span>Crossfade</span>
+                        </div>
+                        <div class="transition-item">
+                            <i class="material-icons">arrow_downward</i>
+                            <span>Fade In</span>
+                        </div>
+                        <div class="transition-item">
+                            <i class="material-icons">arrow_upward</i>
+                            <span>Fade Out</span>
+                        </div>
+                        <div class="transition-item">
+                            <i class="material-icons">waves</i>
+                            <span>J-Cut</span>
+                        </div>
+                        <div class="transition-item">
+                            <i class="material-icons">waves</i>
+                            <span>L-Cut</span>
+                        </div>
+                        <div class="transition-item">
+                            <i class="material-icons">blur_on</i>
+                            <span>Dissolve</span>
+                        </div>
+                    </div>
+                    
+                    <div class="transition-example">
+                        <div class="transition-visual">
+                            <div class="audio-clip clip-1">
+                                <div class="fade-area fade-out"></div>
+                            </div>
+                            <div class="audio-clip clip-2">
+                                <div class="fade-area fade-in"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="transition-label">Crossfade Transition</div>
+                </div>
+                
+                <div class="steps">
+                    <div class="section-title">
+                        <i class="material-icons">format_list_numbered</i>
+                        <span>Menambahkan Audio Transition</span>
+                    </div>
+                    <div class="tip-item">
+                        <i class="material-icons">looks_one</i>
+                        <span>Tempatkan dua klip audio <span class="highlight">berdampingan</span> di timeline</span>
+                    </div>
+                    <div class="tip-item">
+                        <i class="material-icons">looks_two</i>
+                        <span>Pilih tab <span class="highlight">"Transitions"</span> di toolbar</span>
+                    </div>
+                    <div class="tip-item">
+                        <i class="material-icons">looks_3</i>
+                        <span>Pilih jenis transition yang diinginkan</span>
+                    </div>
+                    <div class="tip-item">
+                        <i class="material-icons">looks_4</i>
+                        <span><span class="highlight">Seret dan lepas</span> transition di antara dua klip</span>
+                    </div>
+                    <div class="tip-item">
+                        <i class="material-icons">looks_5</i>
+                        <span>Atur <span class="highlight">durasi transition</span> sesuai kebutuhan</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-section">
+                <div class="image-container">
+                    <img src="https://sfile.chatglm.cn/images-ppt/ad04968097e1.png" alt="Audio crossfade transition example">
+                </div>
+                
+                <div class="tips">
+                    <div class="section-title">
+                        <i class="material-icons">lightbulb</i>
+                        <span>Tips untuk Transisi Halus</span>
+                    </div>
+                    <div class="tip-item">
+                        <i class="material-icons">check_circle</i>
+                        <span>Gunakan <span class="highlight">durasi 0.5-2 detik</span> untuk crossfade standar</span>
+                    </div>
+                    <div class="tip-item">
+                        <i class="material-icons">check_circle</i>
+                        <span><span class="highlight">Sinkronkan</span> audio transition dengan visual transition</span>
+                    </div>
+                    <div class="tip-item">
+                        <i class="material-icons">check_circle</i>
+                        <span>Untuk dialog, gunakan <span class="highlight">J-Cut atau L-Cut</span> untuk transisi natural</span>
+                    </div>
+                    <div class="tip-item">
+                        <i class="material-icons">check_circle</i>
+                        <span>Tambahkan <span class="highlight">efek suara</span> (whoosh, sweep) untuk transisi dramatis</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: PENUTUP - RINGKASAN DAN KESIMPULAN -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Kesimpulan</h1>
+        </div>
+        <div class="content">
+            <div class="left-section">
+                <div class="summary">
+                    <div class="section-title">
+                        <i class="material-icons">summarize</i>
+                        <span>Ringkasan Poin Penting</span>
+                    </div>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <div class="summary-title">
+                                <i class="material-icons">volume_up</i>
+                                <span>Audio Berkualitas</span>
+                            </div>
+                            <div class="summary-point">
+                                <i class="material-icons">check_circle</i>
+                                <span>Lebih penting dari visual</span>
+                            </div>
+                            <div class="summary-point">
+                                <i class="material-icons">check_circle</i>
+                                <span>Meningkatkan engagement</span>
+                            </div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-title">
+                                <i class="material-icons">cleaning_services</i>
+                                <span>Membersihkan Suara</span>
+                            </div>
+                            <div class="summary-point">
+                                <i class="material-icons">check_circle</i>
+                                <span>Gunakan AI tools</span>
+                            </div>
+                            <div class="summary-point">
+                                <i class="material-icons">check_circle</i>
+                                <span>Headroom 10-12dB</span>
+                            </div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-title">
+                                <i class="material-icons">tune</i>
+                                <span>Mixing Audio</span>
+                            </div>
+                            <div class="summary-point">
+                                <i class="material-icons">check_circle</i>
+                                <span>Dialog: -12 to -15 dB</span>
+                            </div>
+                            <div class="summary-point">
+                                <i class="material-icons">check_circle</i>
+                                <span>Musik: -18 to -22 dB</span>
+                            </div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-title">
+                                <i class="material-icons">compare_arrows</i>
+                                <span>Audio Transition</span>
+                            </div>
+                            <div class="summary-point">
+                                <i class="material-icons">check_circle</i>
+                                <span>Crossfade 0.5-2 detik</span>
+                            </div>
+                            <div class="summary-point">
+                                <i class="material-icons">check_circle</i>
+                                <span>Sinkron dengan visual</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="resources">
+                    <div class="section-title">
+                        <i class="material-icons">library_books</i>
+                        <span>Sumber Daya Tambahan</span>
+                    </div>
+                    <div class="resource-item">
+                        <i class="material-icons">cloud</i>
+                        <span class="resource-name">CapCut Web:</span>
+                        <span>capcut.com/id-id/resource/clean-up-audio</span>
+                    </div>
+                    <div class="resource-item">
+                        <i class="material-icons">audiotrack</i>
+                        <span class="resource-name">Audacity:</span>
+                        <span>www.audacityteam.org</span>
+                    </div>
+                    <div class="resource-item">
+                        <i class="material-icons">school</i>
+                        <span class="resource-name">Tutorial:</span>
+                        <span>YouTube Creator Academy</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-section">
+                <div class="image-container">
+                    <img src="https://sfile.chatglm.cn/images-ppt/958d4288ec94.jpeg" alt="Audio level recommendations">
+                </div>
+                
+                <div class="qa">
+                    <i class="material-icons qa-icon">question_answer</i>
+                    <h2 class="qa-title">Sesi Tanya Jawab</h2>
+                    <p class="qa-text">Ada pertanyaan tentang editing audio lanjutan? <span class="highlight">Mari diskusikan bersama!</span></p>
+                    
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="material-icons">email</i>
+                            <span>email@example.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="material-icons">smartphone</i>
+                            <span>+62 123-456-789</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

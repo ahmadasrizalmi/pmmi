@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Praktik Pencahayaan Dasar</title>
+    <!-- Menggunakan Font Source Sans Pro dari Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Menggunakan Material Icons untuk ikon -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        /* ====================================
+           GLOBAL & MOBILE FIRST STYLES
+           (Default for screens < 768px)
+        ==================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #121212; /* Dark background for the whole page */
+            color: #ffffff;
+            padding: 0;
+        }
+
+        /* Base styling for all content sections (slides) */
+        .slide {
+            width: 100%;
+            min-height: auto;
+            position: relative;
+            overflow: hidden;
+            background-color: #121212;
+            color: #ffffff;
+            padding: 30px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        /* Styling specific to the dark intro slide */
+        #slide-intro {
+            background-image: url('https://sfile.chatglm.cn/images-ppt/0e316e6ac196.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 80px 20px;
+            text-align: center;
+            /* Ensure the overlay is active */
+            position: relative;
+        }
+        #slide-intro .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 80px 20px; /* Re-apply padding over overlay */
+        }
+
+        #slide-intro .title {
+            color: #ffffff;
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+        #slide-intro .subtitle {
+            font-size: 16px;
+            color: #e0e0e0;
+            margin-bottom: 20px;
+        }
+        .highlight {
+            color: #64B5F6;
+            font-weight: 700;
+        }
+        .material-icons {
+            font-size: 36px;
+            color: #64B5F6;
+        }
+
+        /* General Layouts */
+        .header {
+            padding: 0 0 20px;
+            margin: -30px -20px 0;
+            padding: 30px 20px;
+            margin-bottom: 20px;
+            border-radius: 8px 8px 0 0;
+        }
+        .title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .content {
+            display: flex;
+            flex-direction: column; /* Stacked content on mobile */
+            gap: 30px;
+        }
+
+        /* Content Columns (for alternating layouts) */
+        .left-content, .right-content, .main-content {
+            flex: 1;
+            width: 100%;
+        }
+        .right-content {
+            order: -1; /* Image/Diagram above text on mobile */
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Text Points & Sections */
+        .point {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        .point-icon {
+            color: #e0e0e0;
+            margin-right: 10px;
+            font-size: 18px;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+        .point-text {
+            font-size: 16px;
+            line-height: 1.4;
+        }
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #64B5F6;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+        .section-icon {
+            margin-right: 10px;
+            font-size: 24px;
+        }
+        .subtitle {
+            font-size: 18px;
+            font-weight: 600;
+            color: #e0e0e0;
+            margin-bottom: 15px;
+        }
+
+        /* Image Containers */
+        .image-container {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 15px;
+        }
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        #slide-three-point .image-container img {
+            object-fit: contain;
+        }
+
+        /* Reflector and Diffuser Types Grid (Mobile Stack) */
+        .reflector-types, .diffuser-types {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .reflector-type, .diffuser-type {
+            background-color: rgba(100, 181, 246, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 15px;
+        }
+        .reflector-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .reflector-name, .diffuser-name {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 0;
+            width: 60px;
+            text-align: left;
+        }
+        .reflector-desc, .diffuser-desc {
+            font-size: 14px;
+            flex-grow: 1;
+            text-align: left;
+        }
+        .diffuser-icon {
+            font-size: 28px;
+            margin: 0;
+            flex-shrink: 0;
+        }
+
+        /* Conclusion Grid (Mobile Stack) */
+        .summary-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .summary-item {
+            background-color: rgba(100, 181, 246, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .summary-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .summary-title {
+            font-size: 20px;
+        }
+        .summary-point {
+            margin-bottom: 8px;
+        }
+        .final-note {
+            font-size: 16px;
+            padding: 15px;
+            margin-top: 0;
+        }
+
+        /* ====================================
+           TABLET STYLES
+           (min-width: 768px)
+        ==================================== */
+        @media (min-width: 768px) {
+            .slide {
+                max-width: 90%;
+                margin: 20px auto;
+                padding: 40px;
+            }
+            .header {
+                padding: 40px 40px 20px;
+                margin: -40px -40px 0;
+                margin-bottom: 30px;
+            }
+            .title {
+                font-size: 36px;
+            }
+            
+            .content {
+                flex-direction: row;
+                gap: 40px;
+            }
+            .right-content {
+                order: initial; /* Image on the right */
+            }
+
+            .point-text {
+                font-size: 18px;
+            }
+            .image-container {
+                height: 350px;
+            }
+
+            /* Reflector/Diffuser Grid (2 columns) */
+            .reflector-types, .diffuser-types {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+            .reflector-type, .diffuser-type {
+                flex: 1 1 100%; /* Temporarily back to one column to adjust inner flex */
+                /* Re-adjusting inner layout for vertical consistency on tablets */
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 5px;
+            }
+            .reflector-name, .diffuser-name, .reflector-desc, .diffuser-desc {
+                width: auto;
+                text-align: center;
+            }
+
+            /* Conclusion Grid (2 columns) */
+            .summary-grid {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+            .summary-item {
+                width: calc(50% - 10px);
+            }
+        }
+        
+        /* ====================================
+           DESKTOP STYLES
+           (min-width: 1024px)
+        ==================================== */
+        @media (min-width: 1024px) {
+            .slide {
+                max-width: 1280px;
+                padding: 60px 70px;
+            }
+            .header {
+                padding: 40px 70px 20px;
+                margin: -60px -70px 0;
+            }
+            .title {
+                font-size: 40px;
+            }
+            #slide-intro .title {
+                font-size: 60px;
+            }
+            
+            .left-content {
+                padding-right: 30px;
+            }
+
+            /* Image Containers */
+            .image-container {
+                height: 400px;
+            }
+
+            /* Reflector/Diffuser Types (3 or more columns) */
+            .reflector-types, .diffuser-types {
+                gap: 15px;
+            }
+            .reflector-type, .diffuser-type {
+                flex: 1; 
+                flex-direction: column;
+                padding: 15px;
+            }
+            .reflector-name, .diffuser-name, .reflector-desc, .diffuser-desc {
+                width: auto;
+                text-align: center;
+            }
+
+            /* Conclusion Grid (4 columns) */
+            .summary-grid {
+                flex-wrap: nowrap;
+                gap: 30px;
+            }
+            .summary-item {
+                width: calc(25% - 22.5px);
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- SLIDE 1: JUDUL UTAMA -->
+    <div class="slide" id="slide-intro">
+        <div class="overlay">
+            <div class="content">
+                <h1 class="title">6 Praktik <span class="highlight">Pencahayaan Dasar</span> dalam Videografi</h1>
+                <p class="subtitle">Setting lampu praktis di lokasi, penggunaan reflector dan diffuser</p>
+                <div class="icon-container">
+                    <i class="material-icons">lightbulb</i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: PENTINGNYA PENCAHAYAAN -->
+    <div class="slide" id="slide-pentingnya-cahaya">
+        <div class="header">
+            <h1 class="title">Pentingnya Pencahayaan dalam Videografi</h1>
+        </div>
+        <div class="content">
+            <div class="right-content">
+                <div class="image-container">
+                                    </div>
+            </div>
+            <div class="left-content">
+                <div class="point">
+                    <i class="material-icons point-icon">mood</i>
+                    <p class="point-text"><span class="highlight">Menciptakan Suasana</span> - Pencahayaan menentukan emosi dan mood video</p>
+                </div>
+                <div class="point">
+                    <i class="material-icons point-icon">visibility</i>
+                    <p class="point-text"><span class="highlight">Mengarahkan Perhatian</span> - Menyoroti elemen penting dalam frame</p>
+                </div>
+                <div class="point">
+                    <i class="material-icons point-icon">face</i>
+                    <p class="point-text"><span class="highlight">Mempengaruhi Penampilan</span> - Membuat subjek terlihat profesional atau dramatis</p>
+                </div>
+                <div class="point">
+                    <i class="material-icons point-icon">grade</i>
+                    <p class="point-text"><span class="highlight">Kualitas Profesional</span> - Memisahkan video amatir dari profesional</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: TEKNIK THREE-POINT LIGHTING -->
+    <div class="slide" id="slide-three-point">
+        <div class="header">
+            <h1 class="title">Teknik Three-Point Lighting</h1>
+        </div>
+        <div class="content">
+            <div class="right-content">
+                <div class="image-container">
+                                    </div>
+            </div>
+            <div class="left-content">
+                <p class="subtitle">Tiga komponen utama pencahayaan profesional:</p>
+                <div class="point">
+                    <i class="material-icons light-icon">highlight</i>
+                    <div>
+                        <p class="point-text"><span class="highlight">Key Light (Cahaya Utama)</span></p>
+                        <p class="point-text">Sumber cahaya utama, 45° dari subjek</p>
+                    </div>
+                </div>
+                <div class="point">
+                    <i class="material-icons light-icon">wb_sunny</i>
+                    <div>
+                        <p class="point-text"><span class="highlight">Fill Light (Cahaya Pengisi)</span></p>
+                        <p class="point-text">Mengurangi bayangan, lebih lembut</p>
+                    </div>
+                </div>
+                <div class="point">
+                    <i class="material-icons light-icon">flare</i>
+                    <div>
+                        <p class="point-text"><span class="highlight">Back Light (Cahaya Belakang)</span></p>
+                        <p class="point-text">Memisahkan subjek dari latar belakang</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: PENCAHAYAAN PRAKTIS -->
+    <div class="slide" id="slide-pencahayaan-praktis">
+        <div class="header">
+            <h1 class="title">Pencahayaan Praktis</h1>
+        </div>
+        <div class="content">
+            <div class="right-content">
+                <div class="image-container">
+                                    </div>
+            </div>
+            <div class="left-content">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="material-icons section-icon">lightbulb</i>
+                        Definisi
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">check_circle</i>
+                        <p class="point-text">Sumber cahaya yang <span class="highlight">terlihat dalam frame</span></p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">check_circle</i>
+                        <p class="point-text">Bisa alami (matahari) atau buatan (lampu, lilin)</p>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">
+                        <i class="material-icons section-icon">stars</i>
+                        Manfaat
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">check_circle</i>
+                        <p class="point-text">Menciptakan <span class="highlight">atmosfer realistis</span></p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">check_circle</i>
+                        <p class="point-text">Hemat biaya dan mudah ditemukan</p>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">
+                        <i class="material-icons section-icon">settings</i>
+                        Setup
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">check_circle</i>
+                        <p class="point-text">Gunakan lampu yang <span class="highlight">ada di lokasi</span></p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">check_circle</i>
+                        <p class="point-text">Set exposure untuk lampu praktis terlebih dahulu</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: PENGGUNAAN REFLECTOR -->
+    <div class="slide" id="slide-reflector">
+        <div class="header">
+            <h1 class="title">Penggunaan Reflector</h1>
+        </div>
+        <div class="content">
+            <div class="right-content">
+                <div class="image-container">
+                                    </div>
+            </div>
+            <div class="left-content">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="material-icons section-icon">palette</i>
+                        Jenis Reflector
+                    </div>
+                    <div class="reflector-types">
+                        <div class="reflector-type">
+                            <div class="reflector-color white" style="background-color: #f5f5f5; border: 1px solid #333;"></div>
+                            <div class="reflector-name">Putih</div>
+                            <div class="reflector-desc">Cahaya lembut, netral</div>
+                        </div>
+                        <div class="reflector-type">
+                            <div class="reflector-color silver" style="background-color: #e0e0e0;"></div>
+                            <div class="reflector-name">Perak</div>
+                            <div class="reflector-desc">Paling reflektif, cahaya terang</div>
+                        </div>
+                        <div class="reflector-type">
+                            <div class="reflector-color gold" style="background-color: #ffd54f;"></div>
+                            <div class="reflector-name">Emas</div>
+                            <div class="reflector-desc">Cahaya hangat, seperti matahari</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">
+                        <i class="material-icons section-icon">schedule</i>
+                        Kapan Menggunakan
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">check_circle</i>
+                        <p class="point-text">Saat ada <span class="highlight">satu sumber cahaya directional</span></p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">check_circle</i>
+                        <p class="point-text">Untuk mengurangi bayangan yang keras</p>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">
+                        <i class="material-icons section-icon">settings</i>
+                        Cara Penggunaan
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">check_circle</i>
+                        <p class="point-text">Posisi di <span class="highlight">sisi berlawanan</span> dari sumber cahaya</p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">check_circle</i>
+                        <p class="point-text">Eksperimen dengan sudut untuk efek terbaik</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: PENGGUNAAN DIFFUSER -->
+    <div class="slide" id="slide-diffuser">
+        <div class="header">
+            <h1 class="title">Penggunaan Diffuser</h1>
+        </div>
+        <div class="content">
+            <div class="right-content">
+                <div class="image-container">
+                                    </div>
+            </div>
+            <div class="left-content">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="material-icons section-icon">blur_on</i>
+                        Apa itu Diffuser?
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">check_circle</i>
+                        <p class="point-text">Bahan yang <span class="highlight">menyebarkan cahaya</span> tanpa memblokirnya</p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">check_circle</i>
+                        <p class="point-text">Menciptakan pencahayaan lembut dan merata</p>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">
+                        <i class="material-icons section-icon">category</i>
+                        Jenis Diffuser
+                    </div>
+                    <div class="diffuser-types">
+                        <div class="diffuser-type">
+                            <i class="material-icons diffuser-icon">view_in_ar</i>
+                            <div class="diffuser-name">Softbox</div>
+                            <div class="diffuser-desc">Cahaya terkontrol, ideal studio</div>
+                        </div>
+                        <div class="diffuser-type">
+                            <i class="material-icons diffuser-icon">beach_access</i>
+                            <div class="diffuser-name">Umbrella</div>
+                            <div class="diffuser-desc">Cahaya lembut, portabel</div>
+                        </div>
+                        <div class="diffuser-type">
+                            <i class="material-icons diffuser-icon">crop_square</i>
+                            <div class="diffuser-name">Panel</div>
+                            <div class="diffuser-desc">Area besar, untuk outdoor</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">
+                        <i class="material-icons section-icon">schedule</i>
+                        Kapan & Cara Menggunakan
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">check_circle</i>
+                        <p class="point-text">Dengan cahaya <span class="highlight">terang</span> (matahari siang)</p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">check_circle</i>
+                        <p class="point-text">Tempatkan <span class="highlight">antara sumber cahaya dan subjek</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: KESIMPULAN -->
+    <div class="slide" id="slide-kesimpulan">
+        <div class="header">
+            <h1 class="title">Kesimpulan</h1>
+        </div>
+        <div class="content">
+            <div class="main-content">
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <i class="material-icons summary-icon">lightbulb</i>
+                        <h2 class="summary-title">Pencahayaan Dasar</h2>
+                        <div class="summary-points">
+                            <div class="summary-point">
+                                <i class="material-icons point-icon">check_circle</i>
+                                <p class="point-text"><span class="highlight">Three-point lighting</span> - kunci, pengisi, belakang</p>
+                            </div>
+                            <div class="summary-point">
+                                <i class="material-icons point-icon">check_circle</i>
+                                <p class="point-text">Menciptakan mood dan arah perhatian</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-item">
+                        <i class="material-icons summary-icon">wb_incandescent</i>
+                        <h2 class="summary-title">Pencahayaan Praktis</h2>
+                        <div class="summary-points">
+                            <div class="summary-point">
+                                <i class="material-icons point-icon">check_circle</i>
+                                <p class="point-text">Sumber cahaya <span class="highlight">terlihat dalam frame</span></p>
+                            </div>
+                            <div class="summary-point">
+                                <i class="material-icons point-icon">check_circle</i>
+                                <p class="point-text">Hemat biaya, menambah kedalaman</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-item">
+                        <i class="material-icons summary-icon">panorama_fish_eye</i>
+                        <h2 class="summary-title">Reflector</h2>
+                        <div class="summary-points">
+                            <div class="summary-point">
+                                <i class="material-icons point-icon">check_circle</i>
+                                <p class="point-text">Mengarahkan cahaya ke subjek</p>
+                            </div>
+                            <div class="summary-point">
+                                <i class="material-icons point-icon">check_circle</i>
+                                <p class="point-text">Jenis: <span class="highlight">putih, perak, emas</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-item">
+                        <i class="material-icons summary-icon">blur_on</i>
+                        <h2 class="summary-title">Diffuser</h2>
+                        <div class="summary-points">
+                            <div class="summary-point">
+                                <i class="material-icons point-icon">check_circle</i>
+                                <p class="point-text">Menyebarkan cahaya secara merata</p>
+                            </div>
+                            <div class="summary-point">
+                                <i class="material-icons point-icon">check_circle</i>
+                                <p class="point-text">Mengurangi bayangan keras</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="final-note">
+                    Praktikkan teknik-teknik ini untuk meningkatkan kualitas video Anda secara signifikan!
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

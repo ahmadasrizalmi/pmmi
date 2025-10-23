@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Segitiga Eksposur untuk Videografi</title>
+    <!-- Menggunakan Font Source Sans Pro dari Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Menggunakan Material Icons untuk ikon -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        /* ====================================
+           GLOBAL & MOBILE FIRST STYLES
+           (Default for screens < 768px)
+        ==================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #141e30; /* Dark background for the whole page */
+            color: #ffffff;
+            padding: 0;
+        }
+
+        /* Base styling for all content sections (slides) */
+        .slide {
+            width: 100%;
+            min-height: auto;
+            position: relative;
+            overflow: hidden;
+            background-color: #141e30;
+            color: #ffffff;
+            padding: 30px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        /* Styling specific to the dark intro slide */
+        #slide-intro {
+            background: linear-gradient(rgba(20, 30, 48, 0.95), rgba(20, 30, 48, 0.95)), 
+                        url('https://sfile.chatglm.cn/images-ppt/81b3c1617de6.png');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        #slide-intro .title {
+            color: #ffffff;
+            font-size: 38px;
+            margin-bottom: 20px;
+        }
+        #slide-intro .subtitle {
+            font-size: 18px;
+            color: #e0e0e0;
+        }
+        
+        .icon-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .icon-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            min-width: 100px;
+        }
+        .icon-item .material-icons {
+            font-size: 40px;
+            color: #64B5F6;
+        }
+        .icon-label {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        /* General Layouts */
+        .header {
+            padding: 0 0 20px;
+            margin: -30px -20px 0;
+            padding: 30px 20px;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 20px;
+        }
+        .title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .content {
+            display: flex;
+            flex-direction: column; /* Stacked content on mobile */
+            gap: 30px;
+        }
+        .left-content, .right-content {
+            flex: 1;
+            padding-right: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .right-content {
+            order: -1; /* Image/Diagram above text on mobile */
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Content Sections */
+        .section {
+            margin-bottom: 25px;
+        }
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #64B5F6;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .material-icons {
+            margin-right: 10px;
+            font-size: 24px;
+        }
+        .key-point {
+            font-size: 18px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: flex-start;
+            line-height: 1.4;
+        }
+        .key-point:before {
+            content: "•";
+            color: #64B5F6;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 1.2em;
+            line-height: 1;
+        }
+        .highlight {
+            color: #64B5F6;
+            font-weight: 700;
+        }
+
+        /* Image and Scale Styles */
+        .iso-image, .shutter-image, .aperture-image, .triangle-image {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            margin-bottom: 20px;
+        }
+        .iso-scale, .shutter-scale, .aperture-scale {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .iso-value, .shutter-value, .aperture-value {
+            font-size: 16px;
+            font-weight: 600;
+            padding: 0 5px;
+        }
+        .iso-arrow, .shutter-arrow, .aperture-arrow {
+            flex-grow: 1;
+            height: 2px;
+            background: #64B5F6;
+            position: relative;
+        }
+        .iso-arrow:after, .shutter-arrow:after, .aperture-arrow:after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: -4px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 8px solid #64B5F6;
+        }
+        .iso-label, .shutter-label, .aperture-label {
+            font-size: 14px;
+            margin-top: 5px;
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .tip-box {
+            background: rgba(100, 181, 246, 0.2);
+            border-left: 4px solid #64B5F6;
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 20px;
+        }
+        .tip-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #64B5F6;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        .tip-content {
+            font-size: 16px;
+        }
+
+        /* Balance Examples */
+        .balance-examples {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .example-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .example-row {
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+        }
+        .example-scenario, .example-settings {
+            width: 100%;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        .example-settings span {
+            display: block;
+            margin-right: 0;
+        }
+
+        /* Scenarios Tips */
+        .scenarios-container {
+            flex-direction: column;
+            gap: 20px;
+        }
+        .scenario-card {
+            flex: 1 1 100%;
+            min-width: 100%;
+        }
+        .settings-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .setting-item {
+            flex: 1;
+            padding: 8px;
+            margin: 0 5px;
+        }
+        .setting-label {
+            font-size: 14px;
+        }
+        .setting-value {
+            font-size: 18px;
+        }
+        .tip-item {
+            font-size: 16px;
+        }
+        .bottom-note {
+            margin-top: 20px;
+        }
+        
+        /* ====================================
+           TABLET STYLES
+           (min-width: 768px)
+        ==================================== */
+        @media (min-width: 768px) {
+            .slide {
+                max-width: 90%;
+                margin: 20px auto;
+                padding: 40px;
+            }
+            
+            .title {
+                font-size: 38px;
+            }
+            .section-title {
+                font-size: 24px;
+            }
+            .key-point {
+                font-size: 19px;
+            }
+
+            /* Two Column Layout */
+            .content {
+                flex-direction: row;
+                gap: 40px;
+            }
+            .right-content {
+                order: initial; /* Text on left, Image/Diagram on right */
+            }
+            .left-content {
+                padding-right: 20px;
+            }
+            
+            /* Image & Scale */
+            .iso-image, .shutter-image, .aperture-image, .triangle-image {
+                max-width: 100%;
+            }
+            .iso-scale, .shutter-scale, .aperture-scale, .balance-examples {
+                max-width: 100%;
+            }
+
+            /* Balance Examples */
+            .example-row {
+                flex-direction: row;
+            }
+            .example-scenario {
+                width: 40%;
+            }
+            .example-settings {
+                width: 60%;
+                text-align: right;
+            }
+            .example-settings span {
+                display: inline-block;
+                margin-left: 10px;
+            }
+
+            /* Scenarios Tips (2 columns) */
+            .scenarios-container {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            .scenario-card {
+                flex: 1 1 calc(50% - 15px);
+            }
+            .settings-container {
+                flex-direction: column;
+            }
+            .setting-item {
+                margin: 5px 0;
+            }
+        }
+        
+        /* ====================================
+           DESKTOP STYLES
+           (min-width: 1024px)
+        ==================================== */
+        @media (min-width: 1024px) {
+            .slide {
+                max-width: 1280px;
+                padding: 60px 70px;
+            }
+            .header {
+                padding: 40px 70px 20px;
+                margin: -60px -70px 0;
+            }
+            .title {
+                font-size: 40px;
+            }
+
+            /* Specific Layout Adjustments */
+            #slide-intro .title {
+                font-size: 64px;
+            }
+            
+            /* Text to Image ratio */
+            .left-content {
+                flex: 1.2;
+            }
+            .right-content {
+                flex: 0.8;
+            }
+
+            /* Scenarios Tips (Optimal columns) */
+            .scenario-card {
+                flex: 1 1 calc(25% - 19px); /* 4 cards per row */
+            }
+            .settings-container {
+                flex-direction: row;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- SLIDE 1: JUDUL UTAMA -->
+    <div class="slide" id="slide-intro">
+        <div class="content">
+            <h1 class="title">Tutorial Segitiga Eksposur</h1>
+            <p class="subtitle">Memahami <span class="highlight">ISO</span>, <span class="highlight">Shutter Speed</span>, dan <span class="highlight">Aperture</span> untuk menciptakan video berkualitas profesional</p>
+            
+            <div class="icon-container">
+                <div class="icon-item">
+                    <i class="material-icons">camera</i>
+                    <span class="icon-label">ISO</span>
+                </div>
+                <div class="icon-item">
+                    <i class="material-icons">speed</i>
+                    <span class="icon-label">Shutter Speed</span>
+                </div>
+                <div class="icon-item">
+                    <i class="material-icons">camera_enhance</i>
+                    <span class="icon-label">Aperture</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: MEMAHAMI ISO -->
+    <div class="slide" id="slide-iso">
+        <div class="header">
+            <h1 class="title">Memahami ISO</h1>
+        </div>
+        <div class="content">
+            <div class="right-content">
+                                <div class="iso-scale">
+                    <div class="iso-value">100</div>
+                    <div class="iso-arrow"></div>
+                    <div class="iso-value">1600</div>
+                    <div class="iso-arrow"></div>
+                    <div class="iso-value">6400+</div>
+                </div>
+                <div class="iso-label">ISO Rendah → ISO Tinggi</div>
+            </div>
+            <div class="left-content">
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="material-icons">info</i>
+                        Definisi
+                    </h2>
+                    <p class="key-point">ISO adalah <span class="highlight">sensitivitas sensor kamera</span> terhadap cahaya</p>
+                    <p class="key-point">Semakin tinggi ISO, semakin sensitif sensor terhadap cahaya</p>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="material-icons">visibility</i>
+                        Efek pada Video
+                    </h2>
+                    <p class="key-point"><span class="highlight">ISO tinggi</span> = video lebih terang, tetapi menambah <span class="highlight">noise/grain</span></p>
+                    <p class="key-point"><span class="highlight">ISO rendah</span> = video lebih gelap, tetapi kualitas gambar lebih bersih</p>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="material-icons">settings</i>
+                        Cara Pengaturan
+                    </h2>
+                    <p class="key-point">Gunakan ISO serendah mungkin untuk kualitas terbaik</p>
+                    <p class="key-point">Naikkan ISO hanya saat kondisi cahaya kurang</p>
+                    <p class="key-point">Setiap kamera memiliki <span class="highlight">ISO native</span> (biasanya 100-200)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: MEMAHAMI SHUTTER SPEED -->
+    <div class="slide" id="slide-shutter">
+        <div class="header">
+            <h1 class="title">Memahami Shutter Speed</h1>
+        </div>
+        <div class="content">
+            <div class="right-content">
+                                
+                <div class="shutter-scale">
+                    <div class="shutter-value">1/1000</div>
+                    <div class="shutter-arrow"></div>
+                    <div class="shutter-value">1/60</div>
+                    <div class="shutter-arrow"></div>
+                    <div class="shutter-value">1/30</div>
+                </div>
+                <div class="shutter-label">Cepat → Lambat</div>
+            </div>
+            <div class="left-content">
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="material-icons">speed</i>
+                        Definisi
+                    </h2>
+                    <p class="key-point">Lama waktu sensor kamera <span class="highlight">terbuka</span> untuk menangkap cahaya</p>
+                    <p class="key-point">Diukur dalam <span class="highlight">detik</span> atau pecahan detik (1/50, 1/100, dll)</p>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="material-icons">motion_photos_on</i>
+                        Efek pada Video
+                    </h2>
+                    <p class="key-point"><span class="highlight">Shutter cepat</span> = gambar lebih gelap, gerakan <span class="highlight">beku</span></p>
+                    <p class="key-point"><span class="highlight">Shutter lambat</span> = gambar lebih terang, gerakan <span class="highlight">blur</span></p>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="material-icons">settings</i>
+                        Cara Pengaturan
+                    </h2>
+                    <p class="key-point">Aturan umum: <span class="highlight">2x frame rate</span> (24fps → 1/50, 30fps → 1/60)</p>
+                    <p class="key-point">Untuk efek slow motion, gunakan shutter lebih cepat</p>
+                    <p class="key-point">Untuk efek motion blur, gunakan shutter lebih lambat</p>
+                </div>
+                
+                <div class="tip-box">
+                    <h3 class="tip-title">
+                        <i class="material-icons" style="font-size: 20px; margin-right: 5px;">lightbulb</i>
+                        Tips
+                    </h3>
+                    <p class="tip-content">Shutter speed terlalu lambat dapat menyebabkan video terlihat <span class="highlight">bergetar</span> saat merekam gerakan cepat</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: MEMAHAMI APERTURE -->
+    <div class="slide" id="slide-aperture">
+        <div class="header">
+            <h1 class="title">Memahami Aperture</h1>
+        </div>
+        <div class="content">
+            <div class="right-content">
+                                
+                <div class="aperture-scale">
+                    <div class="aperture-value">f/1.4</div>
+                    <div class="aperture-arrow"></div>
+                    <div class="aperture-value">f/5.6</div>
+                    <div class="aperture-arrow"></div>
+                    <div class="aperture-value">f/16</div>
+                </div>
+                <div class="aperture-label">Bukaan Besar → Bukaan Kecil</div>
+            </div>
+            <div class="left-content">
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="material-icons">camera_enhance</i>
+                        Definisi
+                    </h2>
+                    <p class="key-point">Aperture adalah <span class="highlight">bukaan lensa</span> yang mengontrol jumlah cahaya masuk</p>
+                    <p class="key-point">Diukur dengan <span class="highlight">f-stop</span> (f/1.4, f/2.8, f/4, dll)</p>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="material-icons">blur_on</i>
+                        Efek pada Video
+                    </h2>
+                    <p class="key-point"><span class="highlight">f-stop kecil</span> (f/1.4) = bukaan besar, lebih banyak cahaya, <span class="highlight">depth of field dangkal</span></p>
+                    <p class="key-point"><span class="highlight">f-stop besar</span> (f/16) = bukaan kecil, lebih sedikit cahaya, <span class="highlight">depth of field dalam</span></p>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="material-icons">settings</i>
+                        Cara Pengaturan
+                    </h2>
+                    <p class="key-point">Untuk fokus pada subjek tunggal, gunakan <span class="highlight">f-stop kecil</span></p>
+                    <p class="key-point">Untuk landscape atau grup, gunakan <span class="highlight">f-stop besar</span></p>
+                    <p class="key-point">Di cahaya terang, gunakan f-stop lebih besar untuk menghindari overexposure</p>
+                </div>
+                
+                <div class="tip-box">
+                    <h3 class="tip-title">
+                        <i class="material-icons" style="font-size: 20px; margin-right: 5px;">lightbulb</i>
+                        Tips
+                    </h3>
+                    <p class="tip-content">Aperture mempengaruhi <span class="highlight">bokeh</span> (kualitas blur latar belakang) - semakin kecil f-stop, semakin bagus bokeh</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: KESEIMBANGAN SEGITIGA EKSPOSUR -->
+    <div class="slide" id="slide-keseimbangan">
+        <div class="header">
+            <h1 class="title">Keseimbangan Segitiga Eksposur</h1>
+        </div>
+        <div class="content">
+            <div class="right-content">
+                                
+                <div class="balance-examples">
+                    <h3 class="example-title">Contoh Keseimbangan</h3>
+                    
+                    <div class="example-row" style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255, 255, 255, 0.2); padding-bottom: 15px; margin-bottom: 15px;">
+                        <div class="example-scenario">Cahaya Terang</div>
+                        <div class="example-settings">
+                            <span class="highlight">f/8</span> 
+                            <span>1/250</span> 
+                            <span>ISO 100</span>
+                        </div>
+                    </div>
+                    
+                    <div class="example-row" style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255, 255, 255, 0.2); padding-bottom: 15px; margin-bottom: 15px;">
+                        <div class="example-scenario">Cahaya Redup</div>
+                        <div class="example-settings">
+                            <span class="highlight">f/2.8</span> 
+                            <span>1/50</span> 
+                            <span>ISO 800</span>
+                        </div>
+                    </div>
+                    
+                    <div class="example-row" style="display: flex; justify-content: space-between;">
+                        <div class="example-scenario">Aksi Cepat</div>
+                        <div class="example-settings">
+                            <span>f/4</span> 
+                            <span class="highlight">1/1000</span> 
+                            <span>ISO 1600</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="left-content">
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="material-icons">balance</i>
+                        Prinsip Keseimbangan
+                    </h2>
+                    <p class="key-point">Ketiga elemen <span class="highlight">saling terkait</span> - perubahan satu elemen mempengaruhi yang lain</p>
+                    <p class="key-point">Tujuan: mencapai <span class="highlight">eksposur tepat</span> tanpa mengorbankan kualitas visual</p>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="material-icons">sync</i>
+                        Cara Menyeimbangkan
+                    </h2>
+                    <p class="key-point">Mulai dengan <span class="highlight">prioritas utama</span> (shutter speed untuk motion, aperture untuk depth of field)</p>
+                    <p class="key-point">Kompensasi dengan elemen lain (naikkan ISO jika kurang cahaya)</p>
+                    <p class="key-point">Gunakan <span class="highlight">ND filter</span> di cahaya terang untuk menjaga aperture terbuka</p>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="material-icons">trending_up</i>
+                        Stop System
+                    </h2>
+                    <p class="key-point">1 stop = <span class="highlight">dua kali lipat</span> cahaya</p>
+                    <p class="key-point">Contoh: f/2.8 → f/4 (kurang 1 stop) = ISO 200 → ISO 400 (tambah 1 stop)</p>
+                </div>
+                
+                <div class="tip-box">
+                    <h3 class="tip-title">
+                        <i class="material-icons" style="font-size: 20px; margin-right: 5px;">lightbulb</i>
+                        Tips
+                    </h3>
+                    <p class="tip-content">Latih diri dengan mode manual untuk memahami hubungan antar elemen exposure triangle</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: TIPS PRAKTIS UNTUK BERBAGAI SKENARIO -->
+    <div class="slide" id="slide-tips">
+        <div class="header">
+            <h1 class="title">Tips Praktis untuk Berbagai Skenario</h1>
+        </div>
+        <div class="content">
+            <div class="scenarios-container">
+                <div class="scenario-card">
+                    <div class="scenario-header">
+                        <div class="scenario-icon">
+                            <i class="material-icons">wb_sunny</i>
+                        </div>
+                        <h2 class="scenario-title">Cahaya Terang</h2>
+                    </div>
+                    <div class="settings-container">
+                        <div class="setting-item">
+                            <div class="setting-label">Aperture</div>
+                            <div class="setting-value">f/8 - f/16</div>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-label">Shutter</div>
+                            <div class="setting-value">1/100 - 1/250</div>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-label">ISO</div>
+                            <div class="setting-value">100 - 200</div>
+                        </div>
+                    </div>
+                    <div class="tips-list">
+                        <div class="tip-item">
+                            <i class="material-icons">check_circle</i>
+                            <span>Gunakan <span class="highlight">ND filter</span> untuk mengurangi cahaya</span>
+                        </div>
+                        <div class="tip-item">
+                            <i class="material-icons">check_circle</i>
+                            <span>Pertahankan ISO serendah mungkin</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="scenario-card">
+                    <div class="scenario-header">
+                        <div class="scenario-icon">
+                            <i class="material-icons">nights_stay</i>
+                        </div>
+                        <h2 class="scenario-title">Cahaya Redup</h2>
+                    </div>
+                    <div class="settings-container">
+                        <div class="setting-item">
+                            <div class="setting-label">Aperture</div>
+                            <div class="setting-value">f/1.4 - f/2.8</div>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-label">Shutter</div>
+                            <div class="setting-value">1/50 - 1/60</div>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-label">ISO</div>
+                            <div class="setting-value">800 - 3200</div>
+                        </div>
+                    </div>
+                    <div class="tips-list">
+                        <div class="tip-item">
+                            <i class="material-icons">check_circle</i>
+                            <span>Buka aperture <span class="highlight">selebar mungkin</span></span>
+                        </div>
+                        <div class="tip-item">
+                            <i class="material-icons">check_circle</i>
+                            <span>Pertimbangkan tambahan cahaya</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="scenario-card">
+                    <div class="scenario-header">
+                        <div class="scenario-icon">
+                            <i class="material-icons">directions_run</i>
+                        </div>
+                        <h2 class="scenario-title">Aksi Cepat</h2>
+                    </div>
+                    <div class="settings-container">
+                        <div class="setting-item">
+                            <div class="setting-label">Aperture</div>
+                            <div class="setting-value">f/2.8 - f/5.6</div>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-label">Shutter</div>
+                            <div class="setting-value">1/500 - 1/1000</div>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-label">ISO</div>
+                            <div class="setting-value">400 - 1600</div>
+                        </div>
+                    </div>
+                    <div class="tips-list">
+                        <div class="tip-item">
+                            <i class="material-icons">check_circle</i>
+                            <span>Gunakan shutter <span class="highlight">cepat</span> untuk membekukan gerakan</span>
+                        </div>
+                        <div class="tip-item">
+                            <i class="material-icons">check_circle</i>
+                            <span>Pre-fokus pada area aksi</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="scenario-card">
+                    <div class="scenario-header">
+                        <div class="scenario-icon">
+                            <i class="material-icons">face</i>
+                        </div>
+                        <h2 class="scenario-title">Wawancara</h2>
+                    </div>
+                    <div class="settings-container">
+                        <div class="setting-item">
+                            <div class="setting-label">Aperture</div>
+                            <div class="setting-value">f/2.8 - f/4</div>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-label">Shutter</div>
+                            <div class="setting-value">1/50 - 1/60</div>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-label">ISO</div>
+                            <div class="setting-value">200 - 800</div>
+                        </div>
+                    </div>
+                    <div class="tips-list">
+                        <div class="tip-item">
+                            <i class="material-icons">check_circle</i>
+                            <span>Gunakan aperture <span class="highlight">sedang</span> untuk depth of field natural</span>
+                        </div>
+                        <div class="tip-item">
+                            <i class="material-icons">check_circle</i>
+                            <span>Fokus pada mata subjek</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bottom-note">
+                <h3 class="bottom-note-title">
+                    <i class="material-icons">lightbulb</i>
+                    Tips Universal
+                </h3>
+                <p class="bottom-note-content">
+                    Selalu mulai dengan <span class="highlight">ISO terendah</span> yang memungkinkan, atur <span class="highlight">shutter speed</span> sesuai frame rate (2x), lalu sesuaikan <span class="highlight">aperture</span> untuk depth of field yang diinginkan
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
