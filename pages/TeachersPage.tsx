@@ -30,7 +30,7 @@ const teamMembers: TeamMember[] = [
     { name: 'Yudi Suroto S.Sos', role: 'Pimpinan', imageUrl: 'https://res.cloudinary.com/dyuvttfa2/image/upload/v1758934704/Generated_Image_September_27_2025_-_7_56AM_c4xszi.png' },
     { name: 'Ahmad Asri Zalmi S.Sn', role: 'Kabag Pendidikan', imageUrl: 'https://res.cloudinary.com/dyuvttfa2/image/upload/v1758933657/56593605_10216670286102834_1790103856001056768_n_sljjuv.jpg' },
     { name: 'Arif Roihan C.L.Q, S.H', role: 'Mentor Photo & Video', imageUrl: 'https://res.cloudinary.com/dyuvttfa2/image/upload/v1758933658/Generated_Image_September_27_2025_-_7_30AM_xhxkyj.png' },
-    { name: 'Faisal Nur Fajri', role: 'Staf Admin', imageUrl: 'https://i.pinimg.com/736x/79/63/a5/7963a5246188d408b8f28961a0cf2b90.jpg' },
+    { name: 'Faisal Nur Fajri', role: 'Staf Admin', imageUrl: 'https://res.cloudinary.com/dfjvcvbsn/image/upload/v1761196910/gemini-thumbnail-1761192658296_ynvfo0.png' },
 ];
 
 const XIcon = () => (
