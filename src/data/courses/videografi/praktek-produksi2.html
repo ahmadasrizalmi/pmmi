@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Praktik Produksi di Lokasi: Audio dan Pencahayaan</title>
+    <!-- Menggunakan Font Source Sans Pro dari Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Menggunakan Material Icons untuk ikon -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        /* ====================================
+           GLOBAL & MOBILE FIRST STYLES
+        ==================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            padding: 10px;
+        }
+        
+        /* Tema Warna */
+        .primary-dark { color: #141e30; }
+        .accent-light { color: #ffcc80; }
+        .secondary-blue { color: #a5d8ff; }
+        .highlight { color: #ffcc80; font-weight: 600; }
+
+        /* BASE SLIDE CONTAINER */
+        .slide {
+            width: 100%;
+            position: relative;
+            background-color: #ffffff;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        /* INTRO SLIDE KHUSUS (TEMA GELAP) */
+        #slide-intro {
+            background: linear-gradient(rgba(20, 30, 48, 0.8), rgba(20, 30, 48, 0.8)), 
+                        url('https://sfile.chatglm.cn/images-ppt/1348d8132e26.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #ffffff;
+            text-align: center;
+            padding: 80px 20px;
+            min-height: 350px;
+        }
+        #slide-intro .title {
+            font-size: 32px;
+            line-height: 1.2;
+            color: #ffffff;
+        }
+        #slide-intro .subtitle {
+            font-size: 20px;
+            color: #a5d8ff;
+        }
+
+        /* HEADER & TYPOGRAPHY */
+        .header {
+            background-color: #141e30;
+            padding: 15px;
+            color: white;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        /* CONTENT LAYOUT - MOBILE (STACKED) */
+        .content {
+            display: flex;
+            flex-direction: column; 
+            gap: 25px;
+        }
+        .left-content, .right-content {
+            width: 100%;
+        }
+        .right-content {
+            order: -1; /* Gambar/diagram di atas teks di mobile */
+        }
+        
+        /* SECTION STYLING */
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #141e30;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title .material-icons {
+            margin-right: 10px;
+            color: #141e30;
+            font-size: 24px;
+        }
+        
+        /* LISTS & POINTS */
+        .key-point {
+            margin-bottom: 20px;
+        }
+        .key-point-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #141e30;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .key-point-title i {
+            margin-right: 8px;
+            color: #ffcc80;
+            font-size: 22px;
+        }
+        .key-point-content, .tip-text {
+            font-size: 15px;
+            line-height: 1.5;
+            color: #555;
+            padding-left: 30px;
+        }
+        .key-point-content > ul {
+            list-style: none;
+        }
+        .key-point-content > ul > li {
+            margin-bottom: 5px;
+        }
+
+        /* LIGHTING SPECIFIC */
+        .light-setup-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* Stacked in mobile */
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .light-card {
+            background-color: #fff9e6;
+            border-left: 4px solid #ffcc80;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        .light-card i {
+            color: #141e30;
+            font-size: 20px;
+        }
+        .light-card span {
+            font-size: 16px;
+            font-weight: 600;
+            color: #141e30;
+        }
+
+        /* AUDIO SPECIFIC */
+        .audio-setup-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* Stacked in mobile */
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .audio-card {
+            background-color: #e6f7ff;
+            border-left: 4px solid #a5d8ff;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        .audio-card i {
+            color: #141e30;
+            font-size: 20px;
+        }
+        .audio-card span {
+            font-size: 16px;
+            font-weight: 600;
+            color: #141e30;
+        }
+
+        /* MISTAKES & TIPS */
+        .mistake-card, .tip-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+            margin-bottom: 15px;
+        }
+        .mistake-card {
+            border-left: 4px solid #d32f2f;
+        }
+        .tip-card {
+            border-left: 4px solid #4caf50;
+        }
+        .card-header {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        .card-header i {
+            margin-right: 8px;
+            font-size: 20px;
+        }
+        .mistake-card .card-header i { color: #d32f2f; }
+        .tip-card .card-header i { color: #4caf50; }
+        .card-content ul {
+            list-style: none;
+        }
+        .card-content li {
+            margin-bottom: 4px;
+            font-size: 15px;
+        }
+
+        /* IMAGE CONTAINERS */
+        .image-container {
+            width: 100%;
+            max-height: 250px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* ====================================
+           TABLET STYLES (min-width: 768px)
+        ==================================== */
+        @media (min-width: 768px) {
+            .slide {
+                padding: 30px;
+            }
+            .title {
+                font-size: 28px;
+            }
+            
+            .content {
+                flex-direction: row; 
+                gap: 30px;
+            }
+            .right-content {
+                order: initial;
+                width: 40%;
+            }
+            .left-content {
+                width: 60%;
+            }
+
+            .image-container {
+                max-height: 300px;
+            }
+            
+            /* LIGHTING / AUDIO GRID */
+            .light-setup-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .audio-setup-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            /* MISTAKES & TIPS LAYOUT */
+            .mistakes-tips-container {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+            .mistake-card, .tip-card {
+                margin-bottom: 0;
+            }
+        }
+        
+        /* ====================================
+           DESKTOP STYLES (min-width: 1024px)
+        ==================================== */
+        @media (min-width: 1024px) {
+            .slide {
+                padding: 50px 70px;
+                max-width: 1280px;
+                margin: 25px auto;
+            }
+            #slide-intro .title {
+                font-size: 64px;
+            }
+            .title {
+                font-size: 40px;
+            }
+
+            .left-content, .right-content {
+                width: 50%;
+            }
+            .image-container {
+                max-height: 400px;
+            }
+
+            .light-setup-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .audio-setup-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .mistakes-tips-container {
+                grid-template-columns: 1fr 1fr; 
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- SLIDE 1: JUDUL UTAMA -->
+    <div class="slide" id="slide-intro">
+        <div class="content">
+            <h1 class="title">Tutorial Videografi</h1>
+            <h2 class="subtitle">Praktik Produksi di Lokasi</h2>
+            <div class="highlight">
+                <span>Fokus pada Pencahayaan dan Audio</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: PENGENALAN -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Pengenalan: Praktik Pengambilan Gambar di Lokasi</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="key-point">
+                    <div class="key-point-title primary-dark">
+                        <i class="material-icons primary-dark">lightbulb</i>
+                        Pentingnya Pencahayaan & Audio
+                    </div>
+                    <div class="key-point-content">
+                        <ul>
+                            <li>Menciptakan <span class="highlight">mood & atmosfer</span> yang diinginkan</li>
+                            <li>Menentukan <span class="highlight">kualitas visual</span> video</li>
+                            <li>Audio jernih meningkatkan <span class="highlight">pengalaman menonton</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="key-point">
+                    <div class="key-point-title primary-dark">
+                        <i class="material-icons primary-dark">warning</i>
+                        Tantangan di Lokasi
+                    </div>
+                    <div class="key-point-content">
+                        <ul>
+                            <li>Kondisi cahaya yang tidak terkendali</li>
+                            <li>Noise lingkungan yang mengganggu</li>
+                            <li>Keterbatasan ruang dan peralatan</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="key-point">
+                    <div class="key-point-title primary-dark">
+                        <i class="material-icons primary-dark">school</i>
+                        Tujuan Tutorial
+                    </div>
+                    <div class="key-point-content">
+                        <ul>
+                            <li>Menguasai teknik pencahayaan dasar</li>
+                            <li>Memahami setup audio profesional</li>
+                            <li>Mengatasi masalah umum di lokasi</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="image-container">
+                                    </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- SLIDE 3: PRAKTEK PENCERAHAN DASAR -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Praktek Pencahayaan Dasar di Lokasi</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="key-point">
+                    <div class="key-point-title primary-dark">
+                        <i class="material-icons primary-dark">highlight</i>
+                        Prinsip Three-Point Lighting
+                    </div>
+                    <div class="key-point-content">
+                        <ul>
+                            <li><span class="highlight">Key Light:</span> Sumber utama, letakkan 45° dari subjek.</li>
+                            <li><span class="highlight">Fill Light:</span> Mengisi bayangan, 45° di sisi berlawanan (lebih lembut).</li>
+                            <li><span class="highlight">Back Light:</span> Memisahkan subjek dari latar belakang.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    <div class="key-point-title primary-dark">
+                        <i class="material-icons primary-dark">wb_sunny</i>
+                        Menggunakan Cahaya Alami
+                    </div>
+                    <div class="key-point-content">
+                        <ul>
+                            <li>Gunakan jendela sebagai <span class="highlight">Key Light</span> alami.</li>
+                            <li>Gunakan <span class="highlight">Reflektor</span> atau dinding putih sebagai <span class="highlight">Fill Light</span>.</li>
+                            <li>Hindari matahari langsung di tengah hari (gunakan area teduh).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-content">
+                <div class="key-point">
+                    <div class="key-point-title primary-dark">
+                        <i class="material-icons primary-dark">flare</i>
+                        Peralatan & Aksesori
+                    </div>
+                    <div class="light-setup-grid">
+                        <div class="light-card">
+                            <i class="material-icons primary-dark">filter_center_focus</i>
+                            <span>Key Light (Lampu LED)</span>
+                        </div>
+                        <div class="light-card">
+                            <i class="material-icons primary-dark">panorama_fish_eye</i>
+                            <span>Reflektor</span>
+                        </div>
+                        <div class="light-card">
+                            <i class="material-icons primary-dark">blur_on</i>
+                            <span>Diffuser (Softbox/Payung)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="image-container">
+                                    </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: PRAKTEK PENGAMBILAN AUDIO -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Praktek Pengambilan Audio di Lokasi</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="key-point">
+                    <div class="key-point-title primary-dark">
+                        <i class="material-icons primary-dark">mic</i>
+                        Teknik Penempatan Mikrofon
+                    </div>
+                    <div class="key-point-content">
+                        <ul>
+                            <li><span class="highlight">Lavalier:</span> Pasang di dada, sekitar 15-20cm dari mulut (sembunyikan dengan hati-hati).</li>
+                            <li><span class="highlight">Shotgun:</span> Gunakan boom pole, arahkan dari atas (sedikit miring) ke sumber suara.</li>
+                            <li>Jaga mikrofon <span class="highlight">di luar frame</span>, tapi sedekat mungkin dengan subjek.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    <div class="key-point-title primary-dark">
+                        <i class="material-icons primary-dark">graphic_eq</i>
+                        Setting Level Audio
+                    </div>
+                    <div class="key-point-content">
+                        <ul>
+                            <li>Set level manual, pastikan puncak suara berada di zona <span class="highlight">-12dB hingga -6dB</span>.</li>
+                            <li>Lakukan <span class="highlight">sound check</span> dengan narasumber berbicara keras sebelum merekam.</li>
+                            <li>Matikan <span class="highlight">AGC</span> (Auto Gain Control) kamera.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-content">
+                <div class="key-point">
+                    <div class="key-point-title primary-dark">
+                        <i class="material-icons primary-dark">volume_off</i>
+                        Mengatasi Noise
+                    </div>
+                    <div class="audio-setup-grid">
+                        <div class="audio-card">
+                            <i class="material-icons primary-dark">filter_drama</i>
+                            <span>Deadcat/Windscreen</span>
+                        </div>
+                        <div class="audio-card">
+                            <i class="material-icons primary-dark">headset</i>
+                            <span>Headphone Monitor</span>
+                        </div>
+                        <div class="audio-card">
+                            <i class="material-icons primary-dark">record_voice_over</i>
+                            <span>Room Tone (30 detik)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="image-container">
+                                    </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- SLIDE 5: LATIHAN DAN KESALAHAN UMUM -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Latihan Praktis dan Kesalahan Umum</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <h2 class="section-title">
+                    <i class="material-icons primary-dark">fitness_center</i>
+                    Latihan Integrasi
+                </h2>
+                
+                <div class="key-point">
+                    <div class="key-point-title primary-dark">
+                        <i class="material-icons primary-dark">camera</i>
+                        Latihan 1: Setup Tiga Titik Sederhana
+                    </div>
+                    <div class="key-point-content">
+                        Gunakan <span class="highlight">satu lampu</span> (Key Light), <span class="highlight">reflektor</span> (Fill Light), dan <span class="highlight">lampu meja</span> (Back Light) untuk mewawancarai satu subjek.
+                    </div>
+                </div>
+                
+                <div class="key-point">
+                    <div class="key-point-title primary-dark">
+                        <i class="material-icons primary-dark">mic</i>
+                        Latihan 2: Noise Hunting
+                    </div>
+                    <div class="key-point-content">
+                        Rekam 60 detik di 3 lokasi berbeda. Dengarkan hasilnya dengan headphone untuk mengidentifikasi semua <span class="highlight">sumber kebisingan</span>.
+                    </div>
+                </div>
+                
+                <div class="key-point">
+                    <div class="key-point-title primary-dark">
+                        <i class="material-icons primary-dark">tune</i>
+                        Latihan 3: Level Audit
+                    </div>
+                    <div class="key-point-content">
+                        Minta subjek berbicara tenang dan keras. Set level agar suara tenang di <span class="highlight">-20dB</span> dan suara keras tidak melewati <span class="highlight">-6dB</span>.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-content">
+                <h2 class="section-title">
+                    <i class="material-icons primary-dark">error_outline</i>
+                    Kesalahan Umum
+                </h2>
+                <div class="mistakes-tips-container">
+                    <div class="mistake-card">
+                        <div class="card-header">
+                            <i class="material-icons">close</i>
+                            Pencahayaan
+                        </div>
+                        <div class="card-content">
+                            <ul>
+                                <li>Bayangan keras di wajah (Key Light terlalu dekat)</li>
+                                <li>Warna cahaya tidak konsisten (White Balance salah)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mistake-card">
+                        <div class="card-header">
+                            <i class="material-icons">close</i>
+                            Audio
+                        </div>
+                        <div class="card-content">
+                            <ul>
+                                <li>Clipping (level terlalu tinggi)</li>
+                                <li>Noise (tidak ada Deadcat/windscreen)</li>
+                                <li>Audio gema (tidak ada peredam)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tip-card">
+                        <div class="card-header">
+                            <i class="material-icons">lightbulb</i>
+                            Tips Cepat
+                        </div>
+                        <div class="card-content">
+                            <ul>
+                                <li>Selalu bawa baterai & headphone.</li>
+                                <li>Gunakan ND Filter untuk mengontrol cahaya di outdoor.</li>
+                                <li>Jaga jarak mikrofon sependek mungkin.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tip-card">
+                        <div class="card-header">
+                            <i class="material-icons">check_circle</i>
+                            Kunci Keberhasilan
+                        </div>
+                        <div class="card-content">
+                            <ul>
+                                <li><span class="highlight">Fleksibilitas:</span> Siap beradaptasi dengan lokasi.</li>
+                                <li><span class="highlight">Monitoring:</span> Selalu dengarkan audio real-time.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

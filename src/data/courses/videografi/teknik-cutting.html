@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20 Teknik Cutting Dasar Videografi</title>
+    <!-- Menggunakan Font Source Sans Pro dari Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Menggunakan Material Icons untuk ikon -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        /* ====================================
+           GLOBAL & MOBILE FIRST STYLES
+        ==================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f5f7;
+            color: #333;
+            padding: 10px;
+        }
+        
+        /* Tema Warna */
+        .primary-dark { color: #193764; }
+        .accent-blue { color: #64B5F6; }
+        .highlight { color: #90CAF9; font-weight: 600; }
+        .text-light { color: #e0e0e0; }
+
+        /* BASE SLIDE CONTAINER (Untuk konten) */
+        .slide {
+            width: 100%;
+            position: relative;
+            background: linear-gradient(135deg, #193764 0%, #2c5282 100%);
+            color: white;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        /* INTRO SLIDE KHUSUS */
+        #slide-intro {
+            background: linear-gradient(rgba(25, 55, 100, 0.9), rgba(25, 55, 100, 0.9)), 
+                        url('https://sfile.chatglm.cn/images-ppt/4181b1004421.jpg');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            padding: 80px 20px;
+            min-height: 350px;
+        }
+        #slide-intro .title {
+            font-size: 32px;
+            line-height: 1.2;
+        }
+        #slide-intro .subtitle {
+            font-size: 18px;
+        }
+        #slide-intro .material-icons {
+            font-size: 48px;
+        }
+
+        /* HEADER & TYPOGRAPHY */
+        .header {
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        /* CONTENT LAYOUT - MOBILE (STACKED) */
+        .content {
+            display: flex;
+            flex-direction: column; 
+            gap: 25px;
+        }
+        .techniques-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        .left-content, .right-content {
+            width: 100%;
+        }
+        
+        /* CARD STYLING */
+        .technique-card, .example-card, .tip-category {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+        .technique-card:hover, .example-card:hover, .tip-category:hover {
+            transform: translateY(-3px);
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .technique-header, .category-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .technique-icon, .category-icon {
+            background-color: #64B5F6;
+            color: #193764;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .technique-icon .material-icons, .category-icon .material-icons {
+            font-size: 20px;
+        }
+        .technique-title, .category-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #90CAF9;
+        }
+        .technique-desc, .example-desc, .tip-text {
+            font-size: 15px;
+            line-height: 1.4;
+            color: #e0e0e0;
+            margin-bottom: 10px;
+        }
+        .technique-usage {
+            font-size: 14px;
+            color: #B0BEC5;
+            display: flex;
+            align-items: center;
+            margin-top: auto;
+        }
+        .technique-usage .material-icons {
+            font-size: 16px;
+            margin-right: 5px;
+            color: #64B5F6;
+        }
+        
+        /* SPECIFIC COMPONENTS */
+        .image-container {
+            width: 100%;
+            height: 200px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .steps-container .step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+        .step-number {
+            background-color: #64B5F6;
+            color: #193764;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 12px;
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+        .step-text {
+            font-size: 15px;
+            line-height: 1.4;
+            color: #e0e0e0;
+        }
+        
+        /* FOOTER & RINGKASAN */
+        .note {
+            text-align: center;
+            font-size: 14px;
+            color: #B0BEC5;
+            margin-top: 10px;
+        }
+        .motivation-box {
+            background-color: rgba(100, 181, 246, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 15px;
+            text-align: center;
+        }
+        .motivation-icon { font-size: 36px; }
+        .motivation-text { font-size: 16px; line-height: 1.4; }
+
+        .techniques-grid-ringkasan {
+            display: grid;
+            grid-template-columns: 1fr; 
+            gap: 10px;
+        }
+        .technique-category-ringkasan {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 10px;
+        }
+        .category-name-ringkasan { font-size: 16px; font-weight: 600; color: #90CAF9; margin-bottom: 5px; }
+        .technique-tag {
+            background-color: rgba(100, 181, 246, 0.2);
+            border-radius: 4px;
+            padding: 3px 6px;
+            font-size: 12px;
+            color: #e0e0e0;
+            display: inline-block;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+
+        /* ====================================
+           TABLET STYLES (min-width: 768px)
+        ==================================== */
+        @media (min-width: 768px) {
+            .title { font-size: 28px; }
+            .subtitle { font-size: 20px; }
+            
+            .techniques-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            .techniques-grid > .technique-card:nth-child(3) {
+                 grid-column: span 2; 
+            }
+            
+            .content.columns {
+                flex-direction: row; 
+                gap: 30px;
+            }
+            .left-content, .right-content {
+                width: 50%;
+            }
+
+            .techniques-grid-ringkasan {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .image-container {
+                 height: 250px;
+            }
+
+            .techniques-grid > .technique-card:nth-child(3),
+            .techniques-grid > .technique-card:nth-child(6),
+            .techniques-grid > .technique-card:nth-child(9),
+            .techniques-grid > .technique-card:nth-child(12),
+            .techniques-grid > .technique-card:nth-child(15) {
+                grid-column: 1 / span 2;
+            }
+        }
+        
+        /* ====================================
+           DESKTOP STYLES (min-width: 1024px)
+        ==================================== */
+        @media (min-width: 1024px) {
+            #slide-intro .title { font-size: 64px; }
+            .title { font-size: 40px; }
+            .techniques-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            /* Resetting specific spans for desktop grid of 3 */
+            .techniques-grid > .technique-card:nth-child(3),
+            .techniques-grid > .technique-card:nth-child(6),
+            .techniques-grid > .technique-card:nth-child(9),
+            .techniques-grid > .technique-card:nth-child(12),
+            .techniques-grid > .technique-card:nth-child(15) {
+                grid-column: auto;
+            }
+            
+            .techniques-grid-ringkasan {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- SLIDE 1: JUDUL UTAMA -->
+    <div class="slide" id="slide-intro">
+        <div class="content">
+            <h1 class="title">20 Teknik <span class="accent-blue">Cutting</span> Dasar</h1>
+            <h2 class="subtitle">Tutorial Videogrfy: Memotong (Cutting) dan Menyambung (Trim)</h2>
+            <div class="icon-container">
+                <i class="material-icons accent-blue">content_cut</i>
+                <i class="material-icons accent-blue">movie</i>
+                <i class="material-icons accent-blue">video_settings</i>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: PENGENALAN TEKNIK CUTTING -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Pentingnya Teknik Cutting dalam Video Editing</h1>
+        </div>
+        <div class="content columns">
+            <div class="left-content">
+                <div class="concept">
+                    <div class="technique-title primary-dark"><i class="material-icons accent-blue">content_cut</i>Definisi Cutting</div>
+                    <p class="technique-desc">
+                        Proses <span class="highlight">memotong</span> klip video untuk menghilangkan bagian yang tidak diperlukan dan mengatur urutan adegan
+                    </p>
+                </div>
+                <div class="concept">
+                    <div class="technique-title primary-dark"><i class="material-icons accent-blue">compare_arrows</i>Definisi Trimming</div>
+                    <p class="technique-desc">
+                        Teknik <span class="highlight">menyambung</span> atau mengatur panjang klip video dengan memotong bagian awal atau akhir
+                    </p>
+                </div>
+                <div class="concept">
+                    <div class="technique-title primary-dark"><i class="material-icons accent-blue">auto_stories</i>Peran dalam Storytelling</div>
+                    <p class="technique-desc">
+                        • Mengatur <span class="highlight">ritme</span> dan <span class="highlight">tempo</span> video<br>
+                        • Menciptakan <span class="highlight">transisi</span> yang halus<br>
+                        • Membangun <span class="highlight">emosi</span> dan <span class="highlight">ketegangan</span>
+                    </p>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="image-container">
+                                    </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: TEKNIK DASAR #1-5 -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Teknik Dasar #1-5</h1>
+        </div>
+        <div class="content">
+            <div class="techniques-grid">
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <div class="technique-icon"><i class="material-icons">content_cut</i></div>
+                        <h2 class="technique-title">Standard Cut</h2>
+                    </div>
+                    <p class="technique-desc">Transisi <span class="highlight">langsung</span> dari satu shot ke shot lainnya tanpa efek khusus</p>
+                    <div class="technique-usage"><i class="material-icons">check_circle</i><span>Transisi umum, perpindahan adegan</span></div>
+                </div>
+                
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <div class="technique-icon"><i class="material-icons">flash_on</i></div>
+                        <h2 class="technique-title">Jump Cut</h2>
+                    </div>
+                    <p class="technique-desc">Cut yang <span class="highlight">mengejutkan</span> untuk menunjukkan lompatan waktu atau perubahan tiba-tiba</p>
+                    <div class="technique-usage"><i class="material-icons">check_circle</i><span>Menunjukkan perubahan waktu, efek dramatis</span></div>
+                </div>
+                
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <div class="technique-icon"><i class="material-icons">compare_arrows</i></div>
+                        <h2 class="technique-title">J Cut & L Cut</h2>
+                    </div>
+                    <p class="technique-desc"><span class="highlight">J Cut:</span> audio muncul sebelum video<br><span class="highlight">L Cut:</span> video muncul sebelum audio</p>
+                    <div class="technique-usage"><i class="material-icons">check_circle</i><span>Transisi halus, percakapan alami</span></div>
+                </div>
+                
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <div class="technique-icon"><i class="material-icons">directions_run</i></div>
+                        <h2 class="technique-title">Cutting on Action</h2>
+                    </div>
+                    <p class="technique-desc">Cut di <span class="highlight">tengah aksi</span> untuk membuat transisi lebih halus dan tidak terlihat</p>
+                    <div class="technique-usage"><i class="material-icons">check_circle</i><span>Adegan gerakan, transisi mulus</span></div>
+                </div>
+                
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <div class="technique-icon"><i class="material-icons">filter_center_focus</i></div>
+                        <h2 class="technique-title">Match Cut</h2>
+                    </div>
+                    <p class="technique-desc">Transisi dengan <span class="highlight">mencocokkan</span> komposisi, aksi, atau subjek antar shot</p>
+                    <div class="technique-usage"><i class="material-icons">check_circle</i><span>Koneksi simbolis, transisi tematik</span></div>
+                </div>
+            </div>
+            <p class="note">Teknik-teknik ini membentuk fondasi editing video profesional</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: TEKNIK DASAR #6-10 -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Teknik Dasar #6-10</h1>
+        </div>
+        <div class="content">
+            <div class="techniques-grid">
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <div class="technique-icon"><i class="material-icons">bolt</i></div>
+                        <h2 class="technique-title">Smash Cut</h2>
+                    </div>
+                    <p class="technique-desc">Cut <span class="highlight">tiba-tiba dan tajam</span> dari adegan tenang ke adegan intens untuk efek dramatis</p>
+                    <div class="technique-usage"><i class="material-icons">check_circle</i><span>Efek kejutan, transisi dramatis</span></div>
+                </div>
+                
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <div class="technique-icon"><i class="material-icons">call_split</i></div>
+                        <h2 class="technique-title">Cross Cut</h2>
+                    </div>
+                    <p class="technique-desc">Memotong antara <span class="highlight">dua adegan simultan</span> di lokasi berbeda untuk menciptakan ketegangan</p>
+                    <div class="technique-usage"><i class="material-icons">check_circle</i><span>Adegan kejar-kejaran, ketegangan</span></div>
+                </div>
+                
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <div class="technique-icon"><i class="material-icons">movie_filter</i></div>
+                        <h2 class="technique-title">Montage</h2>
+                    </div>
+                    <p class="technique-desc">Serangkaian shot <span class="highlight">cepat</span> untuk menunjukkan perjalanan waktu atau perkembangan</p>
+                    <div class="technique-usage"><i class="material-icons">check_circle</i><span>Latihan, perjalanan waktu, transformasi</span></div>
+                </div>
+                
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <div class="technique-icon"><i class="material-icons">visibility_off</i></div>
+                        <h2 class="technique-title">Invisible Cut</h2>
+                    </div>
+                    <p class="technique-desc">Cut <span class="highlight">tersembunyi</span> dalam adegan untuk membuatnya tampak seperti shot tunggal</p>
+                    <div class="technique-usage"><i class="material-icons">check_circle</i><span>Shot panjang, adegan tanpa jeda</span></div>
+                </div>
+                
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <div class="technique-icon"><i class="material-icons">panorama</i></div>
+                        <h2 class="technique-title">Cutaways</h2>
+                    </div>
+                    <p class="technique-desc">Shot yang <span class="highlight">menjauh</span> dari aksi utama untuk menunjukkan detail atau konteks</p>
+                    <div class="technique-usage"><i class="material-icons">check_circle</i><span>Menambah konteks, menyembunyikan cut</span></div>
+                </div>
+            </div>
+            <p class="note">Teknik-teknik ini meningkatkan dinamika dan kualitas storytelling</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: TEKNIK DASAR #11-15 -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Teknik Dasar #11-15</h1>
+        </div>
+        <div class="content">
+            <div class="techniques-grid">
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <div class="technique-icon"><i class="material-icons">zoom_in</i></div>
+                        <h2 class="technique-title">Inserts</h2>
+                    </div>
+                    <p class="technique-desc">Close-up <span class="highlight">objek atau detail</span> dalam adegan untuk menyoroti elemen penting</p>
+                    <div class="technique-usage"><i class="material-icons">check_circle</i><span>Menyoroti detail, memberikan konteks</span></div>
+                </div>
+                
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <div class="technique-icon"><i class="material-icons">blur_on</i></div>
+                        <h2 class="technique-title">Dissolves</h2>
+                    </div>
+                    <p class="technique-desc">Transisi di mana satu shot <span class="highlight">memudar</span> ke shot lainnya secara bertahap</p>
+                    <div class="technique-usage"><i class="material-icons">check_circle</i><span>Perpindahan waktu, transisi halus</span></div>
+                </div>
+                
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <div class="technique-icon"><i class="material-icons">swipe</i></div>
+                        <h2 class="technique-title">Wipes</h2>
+                    </div>
+                    <p class="technique-desc">Transisi di mana satu shot <span class="highlight">bergerak</span> melintasi layar untuk menggantikan shot lainnya</p>
+                    <div class="technique-usage"><i class="material-icons">check_circle</i><span>Perpindahan lokasi, transisi dinamis</span></div>
+                </div>
+                
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <div class="technique-icon"><i class="material-icons">brightness_3</i></div>
+                        <h2 class="technique-title">Fades</h2>
+                    </div>
+                    <p class="technique-desc">Transisi dengan <span class="highlight">memudar ke hitam/putih</span> atau muncul dari hitam/putih</p>
+                    <div class="technique-usage"><i class="material-icons">check_circle</i><span>Akhir/bagian awal, lompatan waktu</span></div>
+                </div>
+                
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <div class="technique-icon"><i class="material-icons">flash_on</i></div>
+                        <h2 class="technique-title">Flash Cuts</h2>
+                    </div>
+                    <p class="technique-desc">Cut <span class="highlight">cepat dan singkat</span> yang menciptakan efek jarring atau dramatis</p>
+                    <div class="technique-usage"><i class="material-icons">check_circle</i><span>Efek dramatis, transisi intens</span></div>
+                </div>
+            </div>
+            <p class="note">Teknik-teknik ini menambah dimensi visual dan emosional pada video</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: TEKNIK DASAR #16-20 -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Teknik Dasar #16-20</h1>
+        </div>
+        <div class="content">
+            <div class="techniques-grid">
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <div class="technique-icon"><i class="material-icons">visibility</i></div>
+                        <h2 class="technique-title">Subliminal Cuts</h2>
+                    </div>
+                    <p class="technique-desc">Cut <span class="highlight">sangat cepat</span> yang hampir tidak terlihat untuk dampak bawah sadar</p>
+                    <div class="technique-usage"><i class="material-icons">check_circle</i><span>Efek psikologis, transisi halus</span></div>
+                </div>
+                
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <div class="technique-icon"><i class="material-icons">content_cut</i></div>
+                        <h2 class="technique-title">Trims</h2>
+                    </div>
+                    <p class="technique-desc">Menghilangkan bagian <span class="highlight">awal/akhir</span> klip dan mengatur panjang video sesuai kebutuhan</p>
+                    <div class="technique-usage"><i class="material-icons">check_circle</i><span>Menghilangkan bagian tidak perlu</span></div>
+                </div>
+                
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <div class="technique-icon"><i class="material-icons">call_split</i></div>
+                        <h2 class="technique-title">Split</h2>
+                    </div>
+                    <p class="technique-desc"><span class="highlight">Memecah</span> video menjadi beberapa bagian untuk menggabungkan dalam satu frame</p>
+                    <div class="technique-usage"><i class="material-icons">check_circle</i><span>Split screen, perbandingan adegan</span></div>
+                </div>
+                
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <div class="technique-icon"><i class="material-icons">blur_on</i></div>
+                        <h2 class="technique-title">Cross-Fades</h2>
+                    </div>
+                    <p class="technique-desc">Transisi <span class="highlight">memudar</span> dari satu adegan ke adegan berikutnya secara bertahap</p>
+                    <div class="technique-usage"><i class="material-icons">check_circle</i><span>Perpindahan waktu, transisi elegan</span></div>
+                </div>
+                
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <div class="technique-icon"><i class="material-icons">link</i></div>
+                        <h2 class="technique-title">Join</h2>
+                    </div>
+                    <p class="technique-desc"><span class="highlight">Menggabungkan</span> dua video, musik, atau gambar menjadi satu kesatuan</p>
+                    <div class="technique-usage"><i class="material-icons">check_circle</i><span>Menghubungkan klip, transisi mulus</span></div>
+                </div>
+            </div>
+            <p class="note">Teknik-teknik ini melengkapi toolbox editing video profesional Anda</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: TEKNIK TRIMMING -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Teknik Trimming</h1>
+        </div>
+        <div class="content columns">
+            <div class="left-content">
+                <div class="section">
+                    <div class="technique-title primary-dark"><i class="material-icons accent-blue">content_cut</i>Definisi Trimming</div>
+                    <p class="technique-desc">
+                        Proses <span class="highlight">menghilangkan bagian awal/akhir</span> klip video dan mengatur panjang video sesuai kebutuhan
+                    </p>
+                </div>
+                
+                <div class="section">
+                    <div class="technique-title primary-dark"><i class="material-icons accent-blue">format_list_numbered</i>Langkah-langkah Trimming</div>
+                    <div class="steps-container">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-text">Siapkan klip dan <span class="highlight">sinkronisasi</span> audio</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-text">Gunakan <span class="highlight">Razor Tool</span> untuk memotong klip</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-text">Gunakan <span class="highlight">Ripple Edit</span> atau <span class="highlight">Delete Tool</span> untuk menghilangkan bagian video</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-text">Atur <span class="highlight">kecepatan</span> klip dengan Rate Stretch Tool</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="key-point">
+                    <p class="tip-text">
+                        <i class="material-icons accent-blue" style="vertical-align: middle; margin-right: 8px;">lightbulb</i>
+                        Trimming yang efektif menciptakan <span class="highlight">alur yang kohesif</span> dan <span class="highlight">ritme yang tepat</span> dalam video
+                    </p>
+                </div>
+            </div>
+            
+            <div class="right-content">
+                <div class="image-container">
+                                    </div>
+                
+                <div class="section">
+                    <div class="technique-title primary-dark"><i class="material-icons accent-blue">tips_and_updates</i>Tips Trimming Efektif</div>
+                    <div class="tips-container">
+                        <div class="tip">
+                            <i class="material-icons accent-blue">check_circle</i>
+                            <div class="tip-text">Potong <span class="highlight">sebelum dan sesudah</span> aksi penting</div>
+                        </div>
+                        <div class="tip">
+                            <i class="material-icons accent-blue">check_circle</i>
+                            <div class="tip-text">Pertahankan <span class="highlight">timing alami</span> dalam percakapan</div>
+                        </div>
+                        <div class="tip">
+                            <i class="material-icons accent-blue">check_circle</i>
+                            <div class="tip-text">Gunakan <span class="highlight">J-Cut/L-Cut</span> untuk transisi halus</div>
+                        </div>
+                        <div class="tip">
+                            <i class="material-icons accent-blue">check_circle</i>
+                            <div class="tip-text">Hindari <span class="highlight">jump cuts</span> yang tidak disengaja</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: CONTOH PENERAPAN TEKNIK CUTTING -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Contoh Penerapan Teknik Cutting</h1>
+        </div>
+        <div class="content">
+            <div class="techniques-grid">
+                <div class="example-card">
+                    <div class="example-image"></div>
+                    <div class="example-content">
+                        <h2 class="technique-title">Timeline Editing</h2>
+                        <p class="example-desc">Antarmuka timeline menunjukkan <span class="highlight">potongan klip</span> dan <span class="highlight">penyusunan</span> video</p>
+                        <div class="technique-usage"><i class="material-icons">check_circle</i><span>Visualisasi urutan adegan</span></div>
+                    </div>
+                </div>
+                
+                <div class="example-card">
+                    <div class="example-image"></div>
+                    <div class="example-content">
+                        <h2 class="technique-title">Trimming Tools</h2>
+                        <p class="example-desc">Aplikasi <span class="highlight">trimming</span> untuk mengatur panjang klip dan menghilangkan bagian tidak perlu</p>
+                        <div class="technique-usage"><i class="material-icons">check_circle</i><span>Presisi dalam memotong klip</span></div>
+                    </div>
+                </div>
+                
+                <div class="example-card">
+                    <div class="example-image"></div>
+                    <div class="example-content">
+                        <h2 class="technique-title">Transisi Effects</h2>
+                        <p class="example-desc">Penerapan <span class="highlight">transisi</span> untuk menghubungkan adegan dengan cara yang menarik</p>
+                        <div class="technique-usage"><i class="material-icons">check_circle</i><span>Efek dissolve dan fade</span></div>
+                    </div>
+                </div>
+                
+                <div class="example-card">
+                    <div class="example-image"></div>
+                    <div class="example-content">
+                        <h2 class="technique-title">Tutorial Interface</h2>
+                        <p class="example-desc">Panduan <span class="highlight">visual</span> untuk memahami konsep dasar editing video</p>
+                        <div class="technique-usage"><i class="material-icons">check_circle</i><span>Pembelajaran langkah demi langkah</span></div>
+                    </div>
+                </div>
+            </div>
+            <p class="note">Teknik-teknik ini dapat diterapkan pada berbagai software editing video profesional</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 9: TIPS PRAKTIS TEKNIK CUTTING -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Tips Praktis Penerapan Teknik Cutting</h1>
+        </div>
+        <div class="content">
+            <div class="tips-container">
+                <div class="tip-category">
+                    <div class="category-header">
+                        <div class="category-icon"><i class="material-icons">tune</i></div>
+                        <h2 class="category-title">Pemilihan Teknik</h2>
+                    </div>
+                    <div class="tips-list">
+                        <div class="tip-item"><i class="material-icons accent-blue">check_circle</i><div class="tip-text">Sesuaikan teknik dengan <span class="highlight">mood</span> dan <span class="highlight">genre</span> video</div></div>
+                        <div class="tip-item"><i class="material-icons accent-blue">check_circle</i><div class="tip-text">Gunakan <span class="highlight">Standard Cut</span> untuk transisi umum</div></div>
+                        <div class="tip-item"><i class="material-icons accent-blue">check_circle</i><div class="tip-text">Pilih <span class="highlight">Jump Cut</span> untuk efek dramatis</div></div>
+                        <div class="tip-item"><i class="material-icons accent-blue">check_circle</i><div class="tip-text">Terapkan <span class="highlight">J/L Cut</span> untuk percakapan alami</div></div>
+                    </div>
+                </div>
+                
+                <div class="tip-category">
+                    <div class="category-header">
+                        <div class="category-icon"><i class="material-icons">timer</i></div>
+                        <h2 class="category-title">Pengaturan Timing</h2>
+                    </div>
+                    <div class="tips-list">
+                        <div class="tip-item"><i class="material-icons accent-blue">check_circle</i><div class="tip-text">Pertahankan <span class="highlight">ritme konsisten</span> dalam video</div></div>
+                        <div class="tip-item"><i class="material-icons accent-blue">check_circle</i><div class="tip-text">Gunakan <span class="highlight">beat sync</span> untuk musik video</div></div>
+                        <div class="tip-item"><i class="material-icons accent-blue">check_circle</i><div class="tip-text">Variasi <span class="highlight">durasi shot</span> untuk menciptakan dinamika</div></div>
+                        <div class="tip-item"><i class="material-icons accent-blue">check_circle</i><div class="tip-text">Atur <span class="highlight">pause</span> untuk menekankan momen penting</div></div>
+                    </div>
+                </div>
+                
+                <div class="tip-category">
+                    <div class="category-header">
+                        <div class="category-icon"><i class="material-icons">error_outline</i></div>
+                        <h2 class="category-title">Hindari Kesalahan</h2>
+                    </div>
+                    <div class="tips-list">
+                        <div class="tip-item"><i class="material-icons accent-blue">check_circle</i><div class="tip-text">Hindari <span class="highlight">jump cuts</span> yang tidak disengaja</div></div>
+                        <div class="tip-item"><i class="material-icons accent-blue">check_circle</i><div class="tip-text">Jangan <span class="highlight">overuse</span> efek transisi</div></div>
+                        <div class="tip-item"><i class="material-icons accent-blue">check_circle</i><div class="tip-text">Perhatikan <span class="highlight">kontinuitas</span> visual dan audio</div></div>
+                        <div class="tip-item"><i class="material-icons accent-blue">check_circle</i><div class="tip-text">Hindari <span class="highlight">cutting</span> di tengah gerakan penting</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 10: PENUTUP - RINGKASAN DAN KESIMPULAN -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Ringkasan dan Kesimpulan</h1>
+        </div>
+        <div class="content columns">
+            <div class="left-content">
+                <div class="summary-section">
+                    <div class="technique-title primary-dark"><i class="material-icons accent-blue">summarize</i>20 Teknik Cutting Dasar</div>
+                    <div class="techniques-grid-ringkasan">
+                        <div class="technique-category-ringkasan">
+                            <div class="category-name-ringkasan">Cut & Action</div>
+                            <div class="technique-list">
+                                <span class="technique-tag">Standard Cut</span>
+                                <span class="technique-tag">Cutting on Action</span>
+                                <span class="technique-tag">Match Cut</span>
+                                <span class="technique-tag">Invisible Cut</span>
+                                <span class="technique-tag">Smash Cut</span>
+                                <span class="technique-tag">Cross Cut</span>
+                            </div>
+                        </div>
+                        <div class="technique-category-ringkasan">
+                            <div class="category-name-ringkasan">Transisi & Efek</div>
+                            <div class="technique-list">
+                                <span class="technique-tag">J Cut / L Cut</span>
+                                <span class="technique-tag">Dissolves</span>
+                                <span class="technique-tag">Wipes</span>
+                                <span class="technique-tag">Fades</span>
+                                <span class="technique-tag">Montage</span>
+                                <span class="technique-tag">Cross-Fades</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="summary-section next-steps">
+                    <div class="technique-title primary-dark"><i class="material-icons accent-blue">trending_up</i>Langkah Selanjutnya</div>
+                    <div class="key-points">
+                        <div class="next-step-item">
+                            <div class="step-number">1</div>
+                            <div class="step-text">Praktikkan <span class="highlight">satu teknik</span> per proyek</div>
+                        </div>
+                        <div class="next-step-item">
+                            <div class="step-number">2</div>
+                            <div class="step-text">Analisis <span class="highlight">video profesional</span> untuk inspirasi</div>
+                        </div>
+                        <div class="next-step-item">
+                            <div class="step-number">3</div>
+                            <div class="step-text">Dapatkan <span class="highlight">feedback</span> untuk perbaikan</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-content">
+                <div class="motivation-box">
+                    <i class="material-icons motivation-icon">emoji_events</i>
+                    <p class="motivation-text">
+                        "Latihan adalah kunci untuk <span class="highlight">menguasai</span> teknik cutting. Setiap video adalah kesempatan untuk <span class="highlight">berkembang</span> dan <span class="highlight">berinovasi</span>!"
+                    </p>
+                </div>
+                
+                <div class="summary-section">
+                    <div class="technique-title primary-dark"><i class="material-icons accent-blue">lightbulb</i>Poin Penting</div>
+                    <div class="key-points">
+                        <div class="key-point">
+                            <i class="material-icons accent-blue">check_circle</i>
+                            <div class="key-point-text">Cutting adalah <span class="highlight">fondasi</span> storytelling video</div>
+                        </div>
+                        <div class="key-point">
+                            <i class="material-icons accent-blue">check_circle</i>
+                            <div class="key-point-text">Setiap teknik memiliki <span class="highlight">tujuan</span> dan <span class="highlight">efek</span> spesifik</div>
+                        </div>
+                        <div class="key-point">
+                            <i class="material-icons accent-blue">check_circle</i>
+                            <div class="key-point-text">Pemilihan teknik yang tepat meningkatkan <span class="highlight">kualitas</span> video</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

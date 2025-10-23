@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Teknik Wawancara</title>
+    <!-- Menggunakan Font Source Sans Pro dari Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Menggunakan Material Icons untuk ikon -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        /* ====================================
+           GLOBAL & MOBILE FIRST STYLES
+           (Default for screens < 768px)
+        ==================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f5f5;
+            color: #333333;
+        }
+
+        /* TEMA WARNA */
+        .primary-dark { color: #1f3a61; }
+        .accent-blue { color: #64b5f6; }
+        .highlight { color: #64b5f6; font-weight: 600; }
+        .sub-highlight { color: #90caf9; }
+        
+        /* BASE SLIDE STYLING */
+        .slide {
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            background-color: #ffffff;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+        }
+        
+        /* SLIDE INTRO - TEMA GELAP */
+        #slide-intro {
+            background: linear-gradient(rgba(31, 58, 97, 0.9), rgba(31, 58, 97, 0.9)), 
+                        url('https://sfile.chatglm.cn/images-ppt/d42e8043adeb.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #ffffff;
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 0;
+            min-height: 400px;
+        }
+        #slide-intro .title {
+            font-size: 36px;
+            color: #ffffff;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+        #slide-intro .subtitle {
+            font-size: 16px;
+            color: #e0e0e0;
+        }
+
+        /* HEADER & LAYOUT */
+        .header {
+            background-color: #1f3a61;
+            padding: 15px;
+            color: white;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .content {
+            display: flex;
+            flex-direction: column; 
+            gap: 20px;
+        }
+        /* Mobile: Konten akan menumpuk (default) */
+        .left-content, .right-content {
+            width: 100%;
+        }
+        .right-content {
+            order: -1; /* Gambar di atas teks di mobile */
+        }
+
+        /* SECTION STYLING */
+        .point, .technique, .summary-section {
+            padding: 5px 0;
+            margin-bottom: 10px;
+        }
+        .point-icon, .technique-icon, .section-icon, .point-icon-sm {
+            font-size: 20px;
+            flex-shrink: 0;
+            margin-right: 10px;
+            margin-top: 3px;
+            color: #1f3a61; /* Default untuk slide non-gelap */
+        }
+        .point-text, .technique-desc, .summary-text, .tips-text {
+            font-size: 15px;
+            line-height: 1.4;
+            color: #555;
+        }
+        .technique-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1f3a61;
+            margin-bottom: 5px;
+        }
+
+        /* IMAGE CONTAINERS */
+        .image-container {
+            width: 100%;
+            max-height: 250px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* SLIDE GELAP KHUSUS */
+        #slide-penempatan, #slide-pertanyaan, #slide-broll, #slide-kesimpulan {
+            background-color: #1f3a61;
+        }
+        #slide-penempatan .title, #slide-pertanyaan .title, #slide-broll .title, #slide-kesimpulan .title {
+            color: #ffffff;
+        }
+        #slide-penempatan .point-text, #slide-penempatan .technique-desc, 
+        #slide-pertanyaan .point-text, #slide-pertanyaan .technique-desc,
+        #slide-broll .point-text, #slide-broll .technique-desc,
+        #slide-kesimpulan .point-text, #slide-kesimpulan .technique-desc {
+            color: #e0e0e0;
+        }
+        #slide-penempatan .technique-icon, #slide-broll .technique-icon, #slide-kesimpulan .section-icon, 
+        #slide-pertanyaan .technique-icon, #slide-kesimpulan .point-icon {
+            color: #64b5f6; 
+        }
+        #slide-penempatan .technique-title, #slide-broll .technique-title, #slide-kesimpulan .section-title {
+            color: #90caf9;
+        }
+        
+        .definition-box {
+            background-color: rgba(100, 181, 246, 0.1);
+            border-left: 3px solid #64b5f6;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 0 4px 4px 0;
+        }
+        .definition-text {
+            color: #e0e0e0;
+            font-size: 15px;
+            line-height: 1.4;
+        }
+        .example {
+            background-color: rgba(100, 181, 246, 0.1);
+            border-left: 3px solid #64b5f6;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 0 4px 4px 0;
+        }
+        .example-text {
+            color: #e0e0e0;
+            font-size: 14px;
+            font-style: italic;
+        }
+
+        /* TIPS AKHIR */
+        .tips-box {
+            background-color: rgba(100, 181, 246, 0.1);
+            border-left: 3px solid #64b5f6;
+            padding: 15px;
+            border-radius: 0 4px 4px 0;
+            margin-top: 20px;
+        }
+        .tips-title {
+            color: #90caf9;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .tips-icon {
+            color: #64b5f6;
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        .tips-text {
+            color: #e0e0e0;
+            font-size: 15px;
+            line-height: 1.4;
+        }
+
+        
+        /* ====================================
+           TABLET STYLES
+           (min-width: 768px)
+        ==================================== */
+        @media (min-width: 768px) {
+            .slide {
+                max-width: 90%;
+                margin: 20px auto;
+                padding: 40px;
+            }
+            #slide-intro .title {
+                font-size: 48px;
+            }
+            .title {
+                font-size: 32px;
+            }
+
+            .content {
+                flex-direction: row; 
+                gap: 40px;
+            }
+            .right-content {
+                order: initial; 
+                width: 40%;
+            }
+            .left-content {
+                width: 60%;
+            }
+
+            .image-container {
+                max-height: 350px;
+                margin-bottom: 0;
+            }
+            
+            /* TIPS SECTION */
+            .tips-container {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            .tip-card {
+                flex-basis: auto;
+            }
+        }
+        
+        /* ====================================
+           DESKTOP STYLES
+           (min-width: 1024px)
+        ==================================== */
+        @media (min-width: 1024px) {
+            .slide {
+                max-width: 1280px;
+                padding: 60px 70px;
+            }
+            #slide-intro .title {
+                font-size: 64px;
+            }
+            .title {
+                font-size: 40px;
+            }
+
+            .left-content {
+                width: 50%;
+                padding-right: 40px;
+            }
+            .right-content {
+                width: 50%;
+                padding-left: 40px;
+            }
+
+            .image-container {
+                max-height: 450px;
+            }
+
+            /* TIPS SECTION */
+            #slide-broll .tips-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- SLIDE 1: JUDUL UTAMA -->
+    <div class="slide" id="slide-intro">
+        <div class="overlay">
+            <div class="icon-container">
+                <i class="material-icons accent-blue">videocam</i>
+            </div>
+            <h1 class="title">Tutorial Videografi: Teknik Wawancara</h1>
+            <p class="subtitle">Penempatan Subjek, Teknik Pertanyaan, dan Penggunaan B-Roll</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: PENTINGNYA TEKNIK WAWANCARA -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Pentingnya Teknik Wawancara dalam Videografi</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="point">
+                    <i class="material-icons point-icon">check_circle</i>
+                    <p class="point-text">Wawancara yang baik <span class="highlight">meningkatkan kualitas storytelling</span> dan keterlibatan penonton</p>
+                </div>
+                <div class="point">
+                    <i class="material-icons point-icon">check_circle</i>
+                    <p class="point-text">Teknik yang tepat membantu <span class="highlight">mengekstrak informasi berkualitas</span> dari narasumber</p>
+                </div>
+                <div class="point">
+                    <i class="material-icons point-icon">check_circle</i>
+                    <p class="point-text">Menghindari <span class="highlight">jawaban singkat</span> dan mendorong respons yang mendalam</p>
+                </div>
+                <div class="point">
+                    <i class="material-icons point-icon">check_circle</i>
+                    <p class="point-text">Visual yang baik dan pertanyaan efektif menciptakan <span class="highlight">koneksi emosional</span> dengan audiens</p>
+                </div>
+                <div class="point">
+                    <i class="material-icons point-icon">check_circle</i>
+                    <p class="point-text">B-roll yang relevan <span class="highlight">memperkuat narasi</span> dan mencegah kebosanan penonton</p>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="image-container">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: PENEMPATAN SUBJEK & FRAMING -->
+    <div class="slide" id="slide-penempatan">
+        <div class="header">
+            <h1 class="title">Penempatan Subjek & Framing</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="technique">
+                    <i class="material-icons technique-icon">grid_on</i>
+                    <div class="technique-content">
+                        <h3 class="technique-title">Rule of Thirds</h3>
+                        <p class="technique-desc">Posisikan mata subjek di <span class="highlight">garis horizontal 1/3</span> dari atas untuk komposisi yang seimbang</p>
+                    </div>
+                </div>
+                <div class="technique">
+                    <i class="material-icons technique-icon">height</i>
+                    <div class="technique-content">
+                        <h3 class="technique-title">Head Room</h3>
+                        <p class="technique-desc">Beri <span class="highlight">ruang di atas kepala</span> subjek, tidak terlalu banyak atau terlalu sedikit</p>
+                    </div>
+                </div>
+                <div class="technique">
+                    <i class="material-icons technique-icon">arrow_forward</i>
+                    <div class="technique-content">
+                        <h3 class="technique-title">Lead Room</h3>
+                        <p class="technique-desc">Sisakan <span class="highlight">ruang di depan subjek</span> saat melihat ke samping untuk menciptakan arah pandang</p>
+                    </div>
+                </div>
+                <div class="technique">
+                    <i class="material-icons technique-icon">camera</i>
+                    <div class="technique-content">
+                        <h3 class="technique-title">Posisi Kamera</h3>
+                        <p class="technique-desc">Letakkan kamera <span class="highlight">sejajar mata subjek</span> atau sedikit di bawah untuk angle yang natural</p>
+                    </div>
+                </div>
+                <div class="technique">
+                    <i class="material-icons technique-icon">visibility</i>
+                    <div class="technique-content">
+                        <h3 class="technique-title">Eye Contact</h3>
+                        <p class="technique-desc">Subjek melihat <span class="highlight">sedikit di samping kamera</span> (ke arah pewawancara) untuk koneksi yang lebih natural</p>
+                    </div>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="image-container">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: TEKNIK MENGAJUKAN PERTANYAAN -->
+    <div class="slide" id="slide-pertanyaan">
+        <div class="header">
+            <h1 class="title">Teknik Mengajukan Pertanyaan</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="technique">
+                    <i class="material-icons technique-icon">help_outline</i>
+                    <div class="technique-content">
+                        <h3 class="technique-title">Pertanyaan Terbuka</h3>
+                        <p class="technique-desc">Gunakan pertanyaan yang <span class="highlight">mendorong narasi</span> dan bukan jawaban singkat</p>
+                        <div class="example">
+                            <p class="example-text">"Bagaimana pengalaman Anda saat..." bukan "Apakah Anda suka..."</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="technique">
+                    <i class="material-icons technique-icon">psychology</i>
+                    <div class="technique-content">
+                        <h3 class="technique-title">Persiapan Pertanyaan</h3>
+                        <p class="technique-desc">Siapkan <span class="highlight">5-10 pertanyaan utama</span> sebelum wawancara, tetapi tetap fleksibel</p>
+                    </div>
+                </div>
+                <div class="technique">
+                    <i class="material-icons technique-icon">record_voice_over</i>
+                    <div class="technique-content">
+                        <h3 class="technique-title">Adaptasi Bahasa</h3>
+                        <p class="technique-desc">Sesuaikan <span class="highlight">gaya bahasa</span> dengan latar belakang narasumber</p>
+                    </div>
+                </div>
+                <div class="technique">
+                    <i class="material-icons technique-icon">repeat</i>
+                    <div class="technique-content">
+                        <h3 class="technique-title">Ulangi Pertanyaan</h3>
+                        <p class="technique-desc">Minta narasumber <span class="highlight">mengulang pertanyaan</span> dalam jawaban mereka untuk memudahkan editing</p>
+                    </div>
+                </div>
+                <div class="technique">
+                    <i class="material-icons technique-icon">timer</i>
+                    <div class="technique-content">
+                        <h3 class="technique-title">Jeda Emas</h3>
+                        <p class="technique-desc">Beri <span class="highlight">waktu jeda</span> setelah pertanyaan untuk membiarkan narasumber berpikir</p>
+                    </div>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="image-container">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: PENGGUNAAN B-ROLL DALAM WAWANCARA -->
+    <div class="slide" id="slide-broll">
+        <div class="header">
+            <h1 class="title">Penggunaan B-Roll dalam Wawancara</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="definition-box">
+                    <p class="definition-text"><span class="highlight">B-Roll</span> adalah footage tambahan yang melengkapi rekaman utama (A-roll) untuk memperkuat visual storytelling</p>
+                </div>
+                
+                <div class="technique">
+                    <i class="material-icons technique-icon">movie_filter</i>
+                    <div class="technique-content">
+                        <h3 class="technique-title">Menutupi Kelemahan</h3>
+                        <p class="technique-desc">Sembunyikan <span class="highlight">jeda canggung</span>, batuk, atau kesalahan teknis dalam rekaman utama</p>
+                    </div>
+                </div>
+                
+                <div class="technique">
+                    <i class="material-icons technique-icon">auto_awesome</i>
+                    <div class="technique-content">
+                        <h3 class="technique-title">Visualisasi Konten</h3>
+                        <p class="technique-desc">Tampilkan <span class="highlight">gambar yang relevan</span> dengan apa yang sedang dibicarakan narasumber</p>
+                    </div>
+                </div>
+                
+                <div class="technique">
+                    <i class="material-icons technique-icon">speed</i>
+                    <div class="technique-content">
+                        <h3 class="technique-title">Meningkatkan Tempo</h3>
+                        <p class="technique-desc">Ciptakan <span class="highlight">ritme dinamis</span> dan mencegah kebosanan penonton</p>
+                    </div>
+                </div>
+                
+                <div class="technique">
+                    <i class="material-icons technique-icon">link</i>
+                    <div class="technique-content">
+                        <h3 class="technique-title">Koneksi Emosional</h3>
+                        <p class="technique-desc">Gunakan B-Roll untuk <span class="highlight">memperkuat emosi</span> dan narasi yang disampaikan</p>
+                    </div>
+                </div>
+                
+                <div class="technique">
+                    <i class="material-icons technique-icon">videocam</i>
+                    <div class="technique-content">
+                        <h3 class="technique-title">Tips Pengambilan</h3>
+                        <p class="technique-desc">Rekam <span class="highlight">lebih banyak</span> dari yang dibutuhkan, variasikan sudut dan jarak</p>
+                    </div>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="image-container">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: KESIMPULAN & TIPS TAMBAHAN -->
+    <div class="slide" id="slide-kesimpulan">
+        <div class="header">
+            <h1 class="title">Kesimpulan & Tips Tambahan</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="summary-section">
+                    <h2 class="section-title">
+                        <i class="material-icons section-icon">summarize</i>
+                        Ringkasan Teknik Utama
+                    </h2>
+                    <div class="point">
+                        <i class="material-icons point-icon">check_circle</i>
+                        <p class="point-text"><span class="highlight">Framing yang tepat</span> dengan Rule of Thirds dan ruang yang cukup untuk subjek</p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">check_circle</i>
+                        <p class="point-text"><span class="highlight">Pertanyaan terbuka</span> yang mendorong narasi mendalam</p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">check_circle</i>
+                        <p class="point-text"><span class="highlight">B-Roll relevan</span> untuk memperkuat visual storytelling</p>
+                    </div>
+                </div>
+                
+                <div class="summary-section">
+                    <h2 class="section-title">
+                        <i class="material-icons section-icon">tips_and_updates</i>
+                        Tips Profesional
+                    </h2>
+                    <div class="point">
+                        <i class="material-icons point-icon">psychology</i>
+                        <p class="point-text">Buat subjek <span class="highlight">nyaman</span> sebelum memulai wawancara</p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">mic</i>
+                        <p class="point-text">Gunakan <span class="highlight">mikrofon eksternal</span> untuk kualitas audio terbaik</p>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">visibility</i>
+                        <p class="point-text">Jangan berhenti merekam setelah wawancara <span class="highlight">resmi selesai</span></p>
+                    </div>
+                </div>
+                
+                <div class="tips-box">
+                    <h3 class="tips-title">
+                        <i class="material-icons tips-icon">lightbulb</i>
+                        Pro Tip
+                    </h3>
+                    <p class="tips-text">Selalu <span class="highlight">rekam lebih banyak</span> dari yang Anda butuhkan. Footage ekstra memberikan fleksibilitas lebih saat editing dan seringkali menghasilkan momen terbaik yang tidak terduga.</p>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="image-container">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

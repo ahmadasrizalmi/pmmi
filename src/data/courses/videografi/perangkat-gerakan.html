@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Perangkat Gerakan Kamera</title>
+    <!-- Menggunakan Font Source Sans Pro dari Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Menggunakan Material Icons untuk ikon -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        /* ====================================
+           GLOBAL & MOBILE FIRST STYLES
+           (Default for screens < 768px)
+        ==================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f5f5; /* Light background for the whole page */
+            color: #333333;
+            padding: 0;
+        }
+
+        /* Base styling for all content sections (slides) */
+        .slide {
+            width: 100%;
+            min-height: auto;
+            position: relative;
+            overflow: hidden;
+            background-color: #ffffff; /* White card background for content slides */
+            color: #333333;
+            padding: 30px 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+        }
+        
+        /* Styling specific to the intro slide (dark blue theme) */
+        #slide-intro {
+            background: linear-gradient(rgba(18, 41, 71, 0.85), rgba(18, 41, 71, 0.85)), 
+                        url('https://sfile.chatglm.cn/images-ppt/d1a459448e16.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #ffffff;
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 0;
+        }
+        #slide-intro .title {
+            font-size: 36px;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+        #slide-intro .subtitle {
+            font-size: 16px;
+            color: #e0e0e0;
+            max-width: 90%;
+            margin: 0 auto 20px;
+        }
+        #slide-intro .bento-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        #slide-intro .bento-item {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+        }
+        .material-icons {
+            color: #90caf9; /* Light blue accent */
+        }
+        .bento-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #90caf9;
+        }
+        .bento-content {
+            font-size: 12px;
+            color: #e0e0e0;
+        }
+
+        /* General Layouts */
+        .header {
+            padding: 0 0 20px;
+            margin: -30px -20px 0;
+            padding: 20px 20px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #122947; /* Dark blue title */
+        }
+        .content {
+            display: flex;
+            flex-direction: column; /* Stacked content on mobile */
+            gap: 20px;
+        }
+
+        /* Content Columns (for alternating layouts) */
+        .left-content, .right-content {
+            flex: 1;
+            width: 100%;
+        }
+        .right-content {
+            order: -1; /* Image/Diagram above text on mobile */
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Sections and Text */
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #122947;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title i {
+            margin-right: 10px;
+            font-size: 24px;
+            color: #90caf9;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .info-item {
+            background-color: #f0f8ff;
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+        }
+        .info-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #122947;
+        }
+        .info-content {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.4;
+        }
+
+        /* Lists (Techniques, Components, Steps) */
+        .technique-list, .type-list, .component-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .technique-item, .type-item, .component-item {
+            background-color: #e6f7ff;
+            border-radius: 20px;
+            padding: 6px 12px;
+            font-size: 14px;
+            color: #122947;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+        }
+        .technique-item i, .type-item i, .component-item i {
+            font-size: 16px;
+            margin-right: 5px;
+            color: #122947;
+        }
+
+        /* Gimbal Steps */
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .step-item {
+            display: flex;
+            background-color: #f0f8ff;
+            border-radius: 8px;
+            padding: 10px;
+        }
+        .step-number {
+            width: 25px;
+            height: 25px;
+            background-color: #90caf9;
+            color: #122947;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 10px;
+            flex-shrink: 0;
+            font-size: 14px;
+        }
+        .step-content {
+            font-size: 14px;
+            color: #333;
+        }
+        
+        /* Moves Grid */
+        .moves-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+        .move-item {
+            background-color: #e6f7ff;
+            border-radius: 8px;
+            padding: 10px;
+        }
+        .move-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #122947;
+            display: flex;
+            align-items: center;
+        }
+        .move-title .material-icons {
+            font-size: 16px;
+            margin-right: 5px;
+            color: #90caf9;
+        }
+        .move-description {
+            font-size: 13px;
+            color: #555;
+        }
+
+        /* Tips and Mistakes */
+        .mistakes-container {
+            background-color: rgba(244, 67, 54, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        .mistakes-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #d32f2f;
+            display: flex;
+            align-items: center;
+        }
+        .mistake-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #555;
+        }
+        .mistake-item .material-icons {
+            font-size: 16px;
+            margin-right: 8px;
+            margin-top: 2px;
+            color: #d32f2f;
+        }
+        .key-tips {
+            background-color: #f0f8ff;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        .key-tips-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #122947;
+            display: flex;
+            align-items: center;
+        }
+        .key-tips-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .key-tip-item {
+            background-color: #90caf9;
+            border-radius: 20px;
+            padding: 6px 12px;
+            font-size: 13px;
+            color: #122947;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+        }
+        .key-tip-item .material-icons {
+            font-size: 16px;
+            margin-right: 5px;
+            color: #122947;
+        }
+
+        /* Image Containers */
+        .image-container {
+            width: 100%;
+            height: 200px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+        }
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+
+        /* ====================================
+           TABLET STYLES
+           (min-width: 768px)
+        ==================================== */
+        @media (min-width: 768px) {
+            .slide {
+                max-width: 90%;
+                margin: 20px auto;
+                padding: 40px;
+            }
+            .header {
+                padding: 20px 40px;
+                margin: -40px -40px 0;
+                margin-bottom: 30px;
+            }
+            .title {
+                font-size: 32px;
+            }
+            #slide-intro .title {
+                font-size: 48px;
+            }
+            
+            .content {
+                flex-direction: row; /* Content side-by-side */
+                gap: 40px;
+            }
+            .right-content {
+                order: initial; /* Image on the right */
+            }
+            .left-content {
+                justify-content: flex-start;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .image-container {
+                height: 300px;
+            }
+            
+            /* Gimbal Steps & Moves */
+            .left-content, .right-content {
+                flex: 1;
+            }
+            #slide-gimbal-praktik .content {
+                flex-direction: row;
+            }
+            .moves-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            /* Tips Grid */
+            #slide-tips .content {
+                flex-direction: row;
+            }
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+            .mistake-item, .tip-content, .key-tip-item {
+                font-size: 16px;
+            }
+        }
+        
+        /* ====================================
+           DESKTOP STYLES
+           (min-width: 1024px)
+        ==================================== */
+        @media (min-width: 1024px) {
+            .slide {
+                max-width: 1280px;
+                padding: 60px 70px;
+            }
+            .header {
+                padding: 40px 70px 20px;
+                margin: -60px -70px 0;
+            }
+            .title {
+                font-size: 40px;
+            }
+            #slide-intro .title {
+                font-size: 60px;
+            }
+            
+            .left-content {
+                padding-right: 30px;
+            }
+            
+            .info-title {
+                font-size: 18px;
+            }
+            .info-content {
+                font-size: 16px;
+            }
+            .image-container {
+                height: 400px;
+            }
+
+            /* Tips Grid */
+            .tips-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .mistake-item, .tip-content, .key-tip-item {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- SLIDE 1: JUDUL UTAMA -->
+    <div class="slide" id="slide-intro">
+        <div class="left-content" style="width: 100%; max-width: 800px; margin: 0 auto; padding: 0;">
+            <h1 class="title">Tutorial Videografi: Perangkat Gerakan Kamera</h1>
+            <p class="subtitle">Panduan lengkap penggunaan slider dan gimbal untuk menciptakan video sinematik</p>
+            <div class="bento-grid">
+                <div class="bento-item">
+                    <div class="bento-title">
+                        <i class="material-icons">videocam</i>Slider Kamera
+                    </div>
+                    <div class="bento-content">Gerakan halus & presisi</div>
+                </div>
+                <div class="bento-item">
+                    <div class="bento-title">
+                        <i class="material-icons">camera</i>Gimbal Stabilizer
+                    </div>
+                    <div class="bento-content">Video tanpa getaran</div>
+                </div>
+                <div class="bento-item">
+                    <div class="bento-title">
+                        <i class="material-icons">settings</i>Kalibrasi
+                    </div>
+                    <div class="bento-content">Setup optimal gimbal</div>
+                </div>
+                <div class="bento-item">
+                    <div class="bento-title">
+                        <i class="material-icons">movie</i>Basic Moves
+                    </div>
+                    <div class="bento-content">Teknik gerakan dasar</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: PENGENALAN SLIDER KAMERA -->
+    <div class="slide" id="slide-slider">
+        <div class="header">
+            <h1 class="title"><i class="material-icons">linear_scale</i>Pengenalan Slider Kamera</h1>
+        </div>
+        <div class="content">
+            <div class="right-content">
+                <div class="image-container">
+                                    </div>
+                <div class="info-item" style="border: none; background-color: transparent;">
+                    <div class="section-title" style="margin-bottom: 8px;">
+                        <i class="material-icons">tips_and_updates</i>Tips Penggunaan
+                    </div>
+                    <div class="info-content" style="color: #555;">
+                        • Gunakan kecepatan yang tepat<br>
+                        • Stabilkan slider di permukaan datar<br>
+                        • Manfaatkan fokus manual<br>
+                        • Eksperimen dengan sudut kamera
+                    </div>
+                </div>
+            </div>
+            <div class="left-content">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="material-icons">info</i>Definisi & Fungsi
+                    </div>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-title">Apa Itu Slider?</div>
+                            <div class="info-content">Alat yang memungkinkan kamera bergerak halus di sepanjang track</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-title">Manfaat Utama</div>
+                            <div class="info-content">Menciptakan gerakan panning, dolly, atau tracking yang mulus</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">
+                        <i class="material-icons">category</i>Jenis-Jenis Slider
+                    </div>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-title">Manual Slider</div>
+                            <div class="info-content">Digerakkan secara manual dengan tangan</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-title">Motorized Slider</div>
+                            <div class="info-content">Digerakkan dengan motor untuk kontrol presisi</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">
+                        <i class="material-icons">movie</i>Teknik Dasar
+                    </div>
+                    <div class="type-list">
+                        <div class="technique-item">
+                            <i class="material-icons" style="color: #122947;">arrow_forward</i>Dolly In/Out
+                        </div>
+                        <div class="technique-item">
+                            <i class="material-icons" style="color: #122947;">arrow_forward</i>Tracking Shot
+                        </div>
+                        <div class="technique-item">
+                            <i class="material-icons" style="color: #122947;">arrow_forward</i>Reveal Shot
+                        </div>
+                        <div class="technique-item">
+                            <i class="material-icons" style="color: #122947;">arrow_forward</i>Gerakan Diagonal
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: PENGENALAN GIMBAL (STABILIZER) -->
+    <div class="slide" id="slide-gimbal">
+        <div class="header">
+            <h1 class="title"><i class="material-icons">camera</i>Pengenalan Gimbal (Stabilizer)</h1>
+        </div>
+        <div class="content">
+            <div class="right-content">
+                <div class="image-container">
+                                    </div>
+                <div class="info-item" style="border: none; background-color: transparent;">
+                    <div class="section-title" style="margin-bottom: 8px;">
+                        <i class="material-icons">tips_and_updates</i>Keunggulan
+                    </div>
+                    <div class="info-content" style="color: #555;">
+                        • Video halus tanpa getaran<br>
+                        • Meningkatkan kualitas produksi<br>
+                        • Memungkinkan gerakan kamera kompleks<br>
+                        • Cocok untuk berbagai jenis shooting
+                    </div>
+                </div>
+            </div>
+            <div class="left-content">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="material-icons">info</i>Definisi & Fungsi
+                    </div>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-title">Apa Itu Gimbal?</div>
+                            <div class="info-content">Perangkat mekanis yang menjaga kamera tetap stabil selama pengambilan gambar</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-title">Cara Kerja</div>
+                            <div class="info-content">Menggunakan sensor dan motor untuk menyeimbangkan kamera terhadap gerakan</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">
+                        <i class="material-icons">category</i>Jenis-Jenis Gimbal
+                    </div>
+                    <div class="type-list">
+                        <div class="type-item">
+                            <i class="material-icons" style="color: #122947;">pan_tool</i>Handheld
+                        </div>
+                        <div class="type-item">
+                            <i class="material-icons" style="color: #122947;">flight</i>Drone
+                        </div>
+                        <div class="type-item">
+                            <i class="material-icons" style="color: #122947;">smartphone</i>Smartphone
+                        </div>
+                        <div class="type-item">
+                            <i class="material-icons" style="color: #122947;">camera</i>DSLR/Mirrorless
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">
+                        <i class="material-icons">settings</i>Komponen Utama
+                    </div>
+                    <div class="component-list" style="margin-bottom: 0;">
+                        <div class="component-item">
+                            <i class="material-icons" style="color: #122947;">rotate_90_degrees_ccw</i>
+                            <div class="component-name" style="color: #333333;">Tilt Axis</div>
+                        </div>
+                        <div class="component-item">
+                            <i class="material-icons" style="color: #122947;">rotate_right</i>
+                            <div class="component-name" style="color: #333333;">Roll Axis</div>
+                        </div>
+                        <div class="component-item">
+                            <i class="material-icons" style="color: #122947;">sync</i>
+                            <div class="component-name" style="color: #333333;">Pan Axis</div>
+                        </div>
+                        <div class="component-item">
+                            <i class="material-icons" style="color: #122947;">battery_full</i>
+                            <div class="component-name" style="color: #333333;">Baterai</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: PRAKTIK DASAR MENGGUNAKAN GIMBAL -->
+    <div class="slide" id="slide-gimbal-praktik">
+        <div class="header">
+            <h1 class="title"><i class="material-icons">movie</i>Praktik Dasar Menggunakan Gimbal</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="material-icons">settings</i>Kalibrasi Gimbal
+                    </div>
+                    <div class="steps-container">
+                        <div class="step-item">
+                            <div class="step-number">1</div>
+                            <div class="step-content">Pasang kamera dengan seimbang pada mount</div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number">2</div>
+                            <div class="step-content">Seimbangkan TILT axis (atas-bawah)</div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number">3</div>
+                            <div class="step-content">Seimbangkan ROLL axis (kiri-kanan)</div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number">4</div>
+                            <div class="step-content">Seimbangkan PAN axis (putar)</div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number">5</div>
+                            <div class="step-content">Nyalakan gimbal dan uji stabilitas</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-item" style="border: none; background-color: transparent; padding: 0;">
+                    <div class="section-title" style="margin-bottom: 8px;">
+                        <i class="material-icons">lightbulb</i>Tips Kalibrasi
+                    </div>
+                    <div class="info-content" style="color: #555;">
+                        • Gunakan tripod atau permukaan datar saat kalibrasi<br>
+                        • Pastikan kamera dalam keadaan mati saat pemasangan
+                    </div>
+                </div>
+
+                <div class="image-container" style="margin-top: 20px;">
+                                    </div>
+            </div>
+            
+            <div class="right-content">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="material-icons">movie</i>Gerakan Dasar
+                    </div>
+                    <div class="moves-grid">
+                        <div class="move-item">
+                            <div class="move-title">
+                                <i class="material-icons">arrow_upward</i>Mini Jib Reveal
+                            </div>
+                            <div class="move-description">Dari bawah ke atas secara perlahan</div>
+                        </div>
+                        <div class="move-item">
+                            <div class="move-title">
+                                <i class="material-icons">arrow_forward</i>Side Track
+                            </div>
+                            <div class="move-description">Berjalan beriringan dengan objek</div>
+                        </div>
+                        <div class="move-item">
+                            <div class="move-title">
+                                <i class="material-icons">directions_walk</i>The Follow
+                            </div>
+                            <div class="move-description">Ikuti objek dari belakang</div>
+                        </div>
+                        <div class="move-item">
+                            <div class="move-title">
+                                <i class="material-icons">360</i>Orbit Rotation
+                            </div>
+                            <div class="move-description">Berputar di sekitar objek</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: TIPS DAN TRIK -->
+    <div class="slide" id="slide-tips">
+        <div class="header">
+            <h1 class="title"><i class="material-icons">tips_and_updates</i>Tips dan Trik</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="material-icons">tips_and_updates</i>Tips Penggunaan
+                    </div>
+                    <div class="info-grid">
+                        <div class="tip-card" style="border: none; background-color: #f0f8ff;">
+                            <div class="tip-header">
+                                <div class="tip-icon" style="background-color: #90caf9;">
+                                    <i class="material-icons" style="color: #122947;">linear_scale</i>
+                                </div>
+                                <div class="tip-title" style="color: #122947;">Slider</div>
+                            </div>
+                            <div class="tip-content" style="font-size: 14px;">
+                                <ul>
+                                    <li>Gunakan kecepatan yang tepat</li>
+                                    <li>Stabilkan di permukaan datar</li>
+                                    <li>Manfaatkan fokus manual</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="tip-card" style="border: none; background-color: #f0f8ff;">
+                            <div class="tip-header">
+                                <div class="tip-icon" style="background-color: #90caf9;">
+                                    <i class="material-icons" style="color: #122947;">camera</i>
+                                </div>
+                                <div class="tip-title" style="color: #122947;">Gimbal</div>
+                            </div>
+                            <div class="tip-content" style="font-size: 14px;">
+                                <ul>
+                                    <li>Kalibrasi dengan benar</li>
+                                    <li>Gunakan mode yang sesuai</li>
+                                    <li>Latih gerakan dasar</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mistakes-container">
+                    <div class="mistakes-title">
+                        <i class="material-icons">error_outline</i>Kesalahan yang Dihindari
+                    </div>
+                    <div class="mistake-item">
+                        <i class="material-icons">close</i>
+                        <div class="mistake-text">Gerakan terlalu cepat pada slider</div>
+                    </div>
+                    <div class="mistake-item">
+                        <i class="material-icons">close</i>
+                        <div class="mistake-text">Tidak mengunci slider dengan benar</div>
+                    </div>
+                    <div class="mistake-item">
+                        <i class="material-icons">close</i>
+                        <div class="mistake-text">Mengabaikan komposisi video</div>
+                    </div>
+                    <div class="mistake-item">
+                        <i class="material-icons">close</i>
+                        <div class="mistake-text">Kalibrasi gimbal yang tidak tepat</div>
+                    </div>
+                </div>
+
+                <div class="key-tips" style="margin-top: 20px;">
+                    <div class="key-tips-title">
+                        <i class="material-icons">settings_suggest</i>Setup Optimal (Gimbal)
+                    </div>
+                    <div class="key-tips-list" style="flex-direction: column; align-items: flex-start; gap: 4px;">
+                        <div class="key-tip-item" style="background-color: transparent; padding: 0; color: #122947;">
+                            • Balance dengan benar
+                        </div>
+                        <div class="key-tip-item" style="background-color: transparent; padding: 0; color: #122947;">
+                            • Pilih motor strength
+                        </div>
+                        <div class="key-tip-item" style="background-color: transparent; padding: 0; color: #122947;">
+                            • Atur dead zone
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-content">
+                <div class="image-container">
+                                    </div>
+                
+                <div class="section" style="margin-top: 10px;">
+                    <div class="section-title">
+                        <i class="material-icons">auto_awesome</i>Teknik Lanjutan
+                    </div>
+                    <div class="info-grid">
+                        <div class="tip-card" style="border: none; background-color: #f0f8ff;">
+                            <div class="tip-header">
+                                <div class="tip-icon" style="background-color: #90caf9;">
+                                    <i class="material-icons" style="color: #122947;">movie_filter</i>
+                                </div>
+                                <div class="tip-title" style="color: #122947;">Transisi Kreatif</div>
+                            </div>
+                            <div class="tip-content" style="font-size: 14px;">
+                                <ul>
+                                    <li>Chest Transition</li>
+                                    <li>Wipe Transition</li>
+                                    <li>Soft Focus Reveal</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="tip-card" style="border: none; background-color: #f0f8ff;">
+                            <div class="tip-header">
+                                <div class="tip-icon" style="background-color: #90caf9;">
+                                    <i class="material-icons" style="color: #122947;">stars</i>
+                                </div>
+                                <div class="tip-title" style="color: #122947;">Key Takeaways</div>
+                            </div>
+                            <div class="tip-content" style="font-size: 14px;">
+                                <div class="key-tips-list" style="flex-direction: column; align-items: flex-start; gap: 4px;">
+                                    <div class="key-tip-item" style="background-color: transparent; padding: 0; color: #555;">
+                                        • Praktik rutin
+                                    </div>
+                                    <div class="key-tip-item" style="background-color: transparent; padding: 0; color: #555;">
+                                        • Eksperimen dengan gerakan
+                                    </div>
+                                    <div class="key-tip-item" style="background-color: transparent; padding: 0; color: #555;">
+                                        • Perhatikan komposisi
+                                    </div>
+                                    <div class="key-tip-item" style="background-color: transparent; padding: 0; color: #555;">
+                                        • Gunakan tripod saat perlu
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Teori Audio Responsif</title>
+    <!-- Menggunakan Font Source Sans Pro dari Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Menggunakan Material Icons untuk ikon -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        /* ====================================
+           GLOBAL & MOBILE FIRST STYLES
+           (Default for screens < 768px)
+        ==================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f5f5;
+            color: #333333;
+            padding: 0;
+        }
+
+        /* BASE SLIDE STYLING - Hapus properti width/height tetap */
+        .slide {
+            width: 100%;
+            min-height: 200px; /* Minimal height agar terlihat */
+            position: relative;
+            overflow: hidden;
+            background-color: #ffffff;
+            color: #333333;
+            padding: 30px 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+        }
+        
+        /* Tema Warna */
+        .accent, .point-icon, .section-title, .title, .step-number, .mic-name {
+            color: #122947; /* Dark Blue Primary */
+        }
+        .highlight, .tip-icon {
+            color: #4a8fff; /* Light Blue Secondary */
+            font-weight: 600;
+        }
+        .mic-card {
+            border-left: 4px solid #4a8fff;
+            background-color: #f0f8ff; /* Light background for cards */
+        }
+
+        /* SLIDE INTRO - TEMA GELAP */
+        #slide-intro {
+            background: linear-gradient(rgba(18, 32, 54, 0.9), rgba(18, 32, 54, 0.9)), 
+                        url('https://sfile.chatglm.cn/images-ppt/02d92d4d4596.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #ffffff;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        #slide-intro .title {
+            font-size: 32px;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+        #slide-intro .subtitle {
+            font-size: 16px;
+            color: #a9c6ff;
+            margin-bottom: 20px;
+        }
+        #slide-intro .material-icons {
+            font-size: 50px;
+            color: #4a8fff;
+        }
+
+        /* HEADER & LAYOUT */
+        .header {
+            padding: 0 0 15px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .title {
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            color: #122947;
+        }
+        .content {
+            display: flex;
+            flex-direction: column; 
+            gap: 20px;
+        }
+        .left-content, .right-content {
+            width: 100%;
+        }
+        .right-content {
+            order: -1; /* Gambar di atas teks di mobile */
+        }
+
+        /* SECTION STYLING */
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            color: #122947;
+        }
+        .section-title i {
+            margin-right: 8px;
+            font-size: 20px;
+            color: #4a8fff;
+        }
+        .point, .tip-item, .mistake-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 8px;
+            font-size: 15px;
+            line-height: 1.4;
+        }
+        .point-icon {
+            color: #4a8fff;
+            margin-right: 10px;
+            font-size: 16px;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+
+        /* MIKROFON CARDS (SLIDE 3 & 4) */
+        .mic-card {
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .mic-name {
+            font-size: 20px;
+            color: #122947;
+        }
+        .mic-description {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .mic-image {
+            height: 120px;
+            margin-bottom: 10px;
+            background-color: #e6f7ff;
+            border-radius: 4px;
+        }
+        .mic-image img {
+            width: auto;
+            height: 100%;
+            object-fit: contain;
+            margin: 0 auto;
+            display: block;
+        }
+
+        /* IMAGE CONTAINERS */
+        .image-container {
+            width: 100%;
+            height: 200px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* SLIDE 5 - KALIBRASI DAN GERAKAN */
+        .step-number {
+            width: 25px;
+            height: 25px;
+            background-color: #4a8fff;
+            color: #ffffff;
+            font-size: 14px;
+        }
+        .step-content {
+            font-size: 14px;
+        }
+        .moves-grid {
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+        .move-item {
+            background-color: #e6f7ff;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .move-title {
+            font-size: 15px;
+            color: #122947;
+        }
+
+        /* SLIDE 6 - KESIMPULAN */
+        .summary-box {
+            background-color: #e6f7ff;
+            padding: 15px;
+            border-left: 4px solid #122947;
+        }
+        .summary-title {
+            font-size: 18px;
+            color: #122947;
+        }
+        .summary-point {
+            background-color: #f0f8ff;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .tip-card {
+            background-color: #f0f8ff;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .tip-card .tip-title {
+            font-size: 16px;
+            color: #122947;
+        }
+        .tip-card .tip-content ul {
+            padding-left: 20px;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        /* ====================================
+           TABLET STYLES
+           (min-width: 768px)
+        ==================================== */
+        @media (min-width: 768px) {
+            .slide {
+                max-width: 90%;
+                margin: 20px auto;
+                padding: 40px;
+            }
+            .header {
+                padding: 0 0 20px;
+                margin-bottom: 20px;
+            }
+            .title {
+                font-size: 32px;
+            }
+            #slide-intro .title {
+                font-size: 48px;
+            }
+            #slide-intro .bento-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .content {
+                flex-direction: row; 
+                gap: 30px;
+            }
+            .right-content {
+                order: initial; /* Gambar di kanan */
+                width: 40%;
+            }
+            .left-content {
+                width: 60%;
+            }
+
+            .image-container {
+                height: 300px;
+            }
+            
+            /* MIC CARDS */
+            #slide-jenis-mic-1 .content {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+            .mic-card {
+                margin-bottom: 0;
+            }
+            #slide-jenis-mic-2 .content {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            /* SLIDE 5 */
+            #slide-merekam-bersih .content {
+                flex-direction: row;
+            }
+            .moves-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            /* SLIDE 6 */
+            #slide-kesimpulan .content {
+                flex-direction: row;
+            }
+            .tips-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .summary-points {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        /* ====================================
+           DESKTOP STYLES
+           (min-width: 1024px)
+        ==================================== */
+        @media (min-width: 1024px) {
+            .slide {
+                max-width: 1280px;
+                padding: 60px 70px;
+            }
+            .header {
+                padding: 0 0 25px;
+            }
+            .title {
+                font-size: 40px;
+            }
+            #slide-intro .title {
+                font-size: 64px;
+            }
+            
+            .mic-name {
+                font-size: 24px;
+            }
+            .mic-description {
+                font-size: 16px;
+            }
+            .mic-image {
+                height: 150px;
+            }
+
+            .image-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- SLIDE 1: JUDUL UTAMA -->
+    <div class="slide" id="slide-intro">
+        <div class="left-content" style="width: 100%; max-width: 800px; margin: 0 auto; padding: 0;">
+            <div class="icon-container">
+                <i class="material-icons">mic</i>
+            </div>
+            <h1 class="title">Teori Audio untuk <span class="highlight" style="color: #4a8fff;">Video</span></h1>
+            <p class="subtitle">Panduan Lengkap untuk Videografi</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: PENTINGNYA AUDIO DALAM VIDEO -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title"><i class="material-icons">volume_up</i>Pentingnya Audio dalam Video</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="point">
+                    <i class="material-icons point-icon">volume_up</i>
+                    <div class="point-text"><span class="highlight">50% pengalaman menonton</span> ditentukan oleh kualitas audio</div>
+                </div>
+                <div class="point">
+                    <i class="material-icons point-icon">record_voice_over</i>
+                    <div class="point-text"><span class="highlight">Dialog yang jelas</span> penting untuk storytelling yang efektif</div>
+                </div>
+                <div class="point">
+                    <i class="material-icons point-icon">music_note</i>
+                    <div class="point-text"><span class="highlight">Musik latar</span> menetapkan mood dan emosi penonton</div>
+                </div>
+                <div class="point">
+                    <i class="material-icons point-icon">surround_sound</i>
+                    <div class="point-text"><span class="highlight">Efek suara</span> meningkatkan immersivitas dan realisme</div>
+                </div>
+                <div class="point">
+                    <i class="material-icons point-icon">trending_up</i>
+                    <div class="point-text">Video dengan <span class="highlight">audio berkualitas</span> memiliki retensi penonton lebih tinggi</div>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="image-container">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: JENIS-JENIS MIKROFON (BAGIAN 1) -->
+    <div class="slide" id="slide-jenis-mic-1">
+        <div class="header">
+            <h1 class="title"><i class="material-icons">category</i>Jenis-jenis Mikrofon (Bagian 1)</h1>
+        </div>
+        <div class="content" style="flex-direction: row;">
+            <div class="mic-card">
+                <div class="mic-header">
+                    <i class="material-icons mic-icon">mic</i>
+                    <h2 class="mic-name">Dynamic</h2>
+                </div>
+                <p class="mic-description" style="color: #555;">Mikrofon tangguh dengan sensitivitas rendah, ideal untuk lingkungan dengan volume tinggi.</p>
+                <div class="mic-features">
+                    <div class="point">
+                        <i class="material-icons point-icon">check_circle</i>
+                        <span class="point-text">Tahan terhadap <span class="highlight" style="color: #4a8fff;">feedback</span></span>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">check_circle</i>
+                        <span class="point-text">Cocok untuk <span class="highlight" style="color: #4a8fff;">live performance</span></span>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">check_circle</i>
+                        <span class="point-text">Ideal untuk instrumen <span class="highlight" style="color: #4a8fff;">berdaya tinggi</span></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mic-card">
+                <div class="mic-header">
+                    <i class="material-icons mic-icon">settings_voice</i>
+                    <h2 class="mic-name">Condenser</h2>
+                </div>
+                <p class="mic-description" style="color: #555;">Mikrofon sensitif yang menangkap detail suara dengan presisi tinggi.</p>
+                <div class="mic-features">
+                    <div class="point">
+                        <i class="material-icons point-icon">check_circle</i>
+                        <span class="point-text">Sangat <span class="highlight" style="color: #4a8fff;">sensitif</span> terhadap suara</span>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">check_circle</i>
+                        <span class="point-text">Cocok untuk <span class="highlight" style="color: #4a8fff;">vokal</span> dan dialog</span>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">check_circle</i>
+                        <span class="point-text">Memerlukan <span class="highlight" style="color: #4a8fff;">phantom power</span></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mic-card">
+                <div class="mic-header">
+                    <i class="material-icons mic-icon">graphic_eq</i>
+                    <h2 class="mic-name">Ribbon</h2>
+                </div>
+                <p class="mic-description" style="color: #555;">Mikrofon premium dengan karakteristik suara yang halus dan natural.</p>
+                <div class="mic-features">
+                    <div class="point">
+                        <i class="material-icons point-icon">check_circle</i>
+                        <span class="point-text">Menangkap <span class="highlight" style="color: #4a8fff;">detail sangat halus</span></span>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">check_circle</i>
+                        <span class="point-text">Cocok untuk <span class="highlight" style="color: #4a8fff;">instrumen akustik</span></span>
+                    </div>
+                    <div class="point">
+                        <i class="material-icons point-icon">check_circle</i>
+                        <span class="point-text">Harga <span class="highlight" style="color: #4a8fff;">premium</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: JENIS-JENIS MIKROFON (BAGIAN 2) -->
+    <div class="slide" id="slide-jenis-mic-2">
+        <div class="header">
+            <h1 class="title"><i class="material-icons">mic</i>Jenis-jenis Mikrofon (Bagian 2)</h1>
+        </div>
+        <div class="content" style="flex-direction: row; gap: 30px;">
+            <div class="left-content">
+                <div class="mic-card" style="flex-grow: 1;">
+                    <div class="mic-header">
+                        <i class="material-icons mic-icon">mic</i>
+                        <h2 class="mic-name">Lavalier</h2>
+                    </div>
+                    <div class="mic-image">
+                        
+                    </div>
+                    <p class="mic-description" style="color: #555;">Mikrofon kecil yang dapat dijepit pada pakaian, ideal untuk wawancara dan presentasi.</p>
+                    <div style="border-top: 1px solid #e0e0e0; margin: 10px 0;"></div>
+                    <div class="mic-features">
+                        <div class="point">
+                            <i class="material-icons point-icon">check_circle</i>
+                            <span class="point-text"><span class="highlight">Kelebihan:</span> Mobilitas tinggi, suara konsisten, mudah disembunyikan</span>
+                        </div>
+                        <div class="point">
+                            <i class="material-icons point-icon" style="color: #d32f2f;">remove_circle</i>
+                            <span class="point-text"><span class="highlight" style="color: #d32f2f;">Kekurangan:</span> Sensitif terhadap gesekan pakaian, rentan noise</span>
+                        </div>
+                        <div class="point">
+                            <i class="material-icons point-icon">star</i>
+                            <span class="point-text"><span class="highlight" style="color: #4a8fff;">Penggunaan:</span> Wawancara, presentasi, vlog, tutorial</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-content" style="order: initial;">
+                <div class="mic-card" style="flex-grow: 1;">
+                    <div class="mic-header">
+                        <i class="material-icons mic-icon">settings_voice</i>
+                        <h2 class="mic-name">Shotgun</h2>
+                    </div>
+                    <div class="mic-image">
+                        
+                    </div>
+                    <p class="mic-description" style="color: #555;">Mikrofon berbentuk panjang yang fokus menangkap suara dari arah depan.</p>
+                    <div style="border-top: 1px solid #e0e0e0; margin: 10px 0;"></div>
+                    <div class="mic-features">
+                        <div class="point">
+                            <i class="material-icons point-icon">check_circle</i>
+                            <span class="point-text"><span class="highlight">Kelebihan:</span> Directional, minim noise, jangkauan jarak jauh</span>
+                        </div>
+                        <div class="point">
+                            <i class="material-icons point-icon" style="color: #d32f2f;">remove_circle</i>
+                            <span class="point-text"><span class="highlight" style="color: #d32f2f;">Kekurangan:</span> Memerlukan boom pole, kurang praktis, mahal</span>
+                        </div>
+                        <div class="point">
+                            <i class="material-icons point-icon">star</i>
+                            <span class="point-text"><span class="highlight" style="color: #4a8fff;">Penggunaan:</span> Film, dokumenter, shooting outdoor, interview</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: CARA MEREKAM AUDIO YANG BERSIH -->
+    <div class="slide" id="slide-merekam-bersih">
+        <div class="header">
+            <h1 class="title"><i class="material-icons">room</i>Cara Merekam Audio yang Bersih</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="mic-card">
+                    <div class="section-title">
+                        <i class="material-icons">room</i>Persiapan Ruangan
+                    </div>
+                    <div class="steps-container">
+                        <div class="point">
+                            <i class="material-icons point-icon">check_circle</i>
+                            <span class="point-text">Pilih ruangan <span class="highlight">tenang</span> dan jauh dari kebisingan</span>
+                        </div>
+                        <div class="point">
+                            <i class="material-icons point-icon">check_circle</i>
+                            <span class="point-text">Hindari ruangan dengan permukaan keras (<span class="highlight">lantai kayu, pintu besi</span>)</span>
+                        </div>
+                        <div class="point">
+                            <i class="material-icons point-icon">check_circle</i>
+                            <span class="point-text">Gunakan <span class="highlight">karpet</span> untuk menyerap pantulan suara</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mic-card">
+                    <div class="section-title">
+                        <i class="material-icons">settings</i>Penataan Ruangan
+                    </div>
+                    <div class="steps-container">
+                        <div class="point">
+                            <i class="material-icons point-icon">check_circle</i>
+                            <span class="point-text">Letakkan <span class="highlight">busa akustik</span> di dinding untuk mengurangi pantulan</span>
+                        </div>
+                        <div class="point">
+                            <i class="material-icons point-icon">check_circle</i>
+                            <span class="point-text">Tutup <span class="highlight">jendela kaca</span> dengan gorden tebal</span>
+                        </div>
+                        <div class="point">
+                            <i class="material-icons point-icon">check_circle</i>
+                            <span class="point-text">Tutup <span class="highlight">celah pintu</span> dengan handuk atau selimut</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-content">
+                <div class="mic-card">
+                    <div class="section-title">
+                        <i class="material-icons">mic</i>Peralatan & Teknik
+                    </div>
+                    <div class="steps-container">
+                        <div class="point">
+                            <i class="material-icons point-icon">check_circle</i>
+                            <span class="point-text">Gunakan <span class="highlight">mikrofon eksternal</span> berkualitas</span>
+                        </div>
+                        <div class="point">
+                            <i class="material-icons point-icon">check_circle</i>
+                            <span class="point-text">Gunakan <span class="highlight">popping shield</span> untuk mengurangi noise</span>
+                        </div>
+                        <div class="point">
+                            <i class="material-icons point-icon">check_circle</i>
+                            <span class="point-text">Pilih <span class="highlight">posisi optimal</span> dari sumber suara</span>
+                        </div>
+                        <div class="point">
+                            <i class="material-icons point-icon">check_circle</i>
+                            <span class="point-text">Hindari <span class="highlight">gerakan berlebih</span> saat merekam</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="image-container">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: KESIMPULAN & TIPS TAMBAHAN -->
+    <div class="slide" id="slide-kesimpulan">
+        <div class="header">
+            <h1 class="title"><i class="material-icons">lightbulb</i>Tips Tambahan dan Kesimpulan</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="tip-card" style="margin-bottom: 20px;">
+                    <div class="section-title">
+                        <i class="material-icons">lightbulb</i>Tips Praktis
+                    </div>
+                    <div class="steps-container">
+                        <div class="point">
+                            <i class="material-icons point-icon">check_circle</i>
+                            <span class="point-text">Monitor <span class="highlight">level audio</span> secara berkala</span>
+                        </div>
+                        <div class="point">
+                            <i class="material-icons point-icon">check_circle</i>
+                            <span class="point-text">Gunakan <span class="highlight">headphone</span> untuk monitoring real-time</span>
+                        </div>
+                        <div class="point">
+                            <i class="material-icons point-icon">check_circle</i>
+                            <span class="point-text">Lakukan <span class="highlight">sound check</span> sebelum merekam</span>
+                        </div>
+                        <div class="point">
+                            <i class="material-icons point-icon">check_circle</i>
+                            <span class="point-text">Simpan <span class="highlight">backup audio</span> untuk keamanan</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tip-card" style="margin-bottom: 20px;">
+                    <div class="section-title" style="color: #d32f2f;">
+                        <i class="material-icons" style="color: #d32f2f;">error_outline</i>Kesalahan Umum
+                    </div>
+                    <div class="steps-container">
+                        <div class="point">
+                            <i class="material-icons point-icon" style="color: #d32f2f;">cancel</i>
+                            <span class="point-text"><span class="highlight" style="color: #d32f2f;">Mengabaikan</span> kualitas audio</span>
+                        </div>
+                        <div class="point">
+                            <i class="material-icons point-icon" style="color: #d32f2f;">cancel</i>
+                            <span class="point-text">Merekam di lingkungan <span class="highlight" style="color: #d32f2f;">bising</span></span>
+                        </div>
+                        <div class="point">
+                            <i class="material-icons point-icon" style="color: #d32f2f;">cancel</i>
+                            <span class="point-text">Posisi mikrofon yang <span class="highlight" style="color: #d32f2f;">salah</span></span>
+                        </div>
+                        <div class="point">
+                            <i class="material-icons point-icon" style="color: #d32f2f;">cancel</i>
+                            <span class="point-text"><span class="highlight" style="color: #d32f2f;">Tidak melakukan</span> test sebelum merekam</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-content">
+                <div class="tip-card" style="margin-bottom: 20px;">
+                    <div class="section-title">
+                        <i class="material-icons">auto_awesome</i>Post-Production
+                    </div>
+                    <div class="steps-container">
+                        <div class="point">
+                            <i class="material-icons point-icon">check_circle</i>
+                            <span class="point-text">Gunakan <span class="highlight">software editing</span> yang tepat</span>
+                        </div>
+                        <div class="point">
+                            <i class="material-icons point-icon">check_circle</i>
+                            <span class="point-text">Terapkan <span class="highlight">noise reduction</span> dengan hati-hati</span>
+                        </div>
+                        <div class="point">
+                            <i class="material-icons point-icon">check_circle</i>
+                            <span class="point-text">Seimbangkan <span class="highlight">dialog, musik, dan efek</span></span>
+                        </div>
+                        <div class="point">
+                            <i class="material-icons point-icon">check_circle</i>
+                            <span class="point-text">Ekspor dengan <span class="highlight">format audio</span> berkualitas</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="summary-box">
+                    <h3 class="summary-title">
+                        <i class="material-icons">summarize</i>
+                        Ringkasan
+                    </h3>
+                    <div class="summary-points" style="display: flex; flex-direction: column; gap: 8px;">
+                        <div class="summary-point">
+                            <i class="material-icons">volume_up</i>
+                            <span class="summary-point-text">Audio 50% pengalaman menonton</span>
+                        </div>
+                        <div class="summary-point">
+                            <i class="material-icons">mic</i>
+                            <span class="summary-point-text">Pilih mikrofon sesuai kebutuhan</span>
+                        </div>
+                        <div class="summary-point">
+                            <i class="material-icons">room</i>
+                            <span class="summary-point-text">Persiapkan ruangan rekaman optimal</span>
+                        </div>
+                        <div class="summary-point">
+                            <i class="material-icons">settings</i>
+                            <span class="summary-point-text">Gunakan peralatan dengan benar</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="image-container" style="margin-top: 20px;">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

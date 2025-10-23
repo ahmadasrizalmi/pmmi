@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Lengkap Videografi: Final Export, Codec, Bitrate, dan Evaluasi Proyek</title>
+    <!-- Menggunakan Font Source Sans Pro dari Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Menggunakan Material Icons untuk ikon -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        /* ====================================
+           GLOBAL & MOBILE FIRST STYLES
+        ==================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f7fa; /* Warna latar belakang umum */
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* TEMA WARNA */
+        .primary-dark { background-color: #1a237e; color: white; } /* Biru Tua */
+        .accent-blue { color: #3949ab; } /* Biru Sedang */
+        .highlight { font-weight: 600; color: #3949ab; }
+        .text-white { color: white; }
+
+        /* BASE SECTION CONTAINER */
+        .slide {
+            width: 100%;
+            position: relative;
+            background-color: #f5f7fa;
+            padding: 0 0 25px 0; /* Padding bawah */
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            padding: 40px 20px 20px;
+            position: relative;
+        }
+
+        /* SLIDE 1: INTRO KHUSUS (Background Image) */
+        #slide-intro {
+            background: linear-gradient(rgba(20, 25, 40, 0.9), rgba(20, 25, 40, 0.9)), 
+                        url('https://sfile.chatglm.cn/images-ppt/a97e6c1a9253.jpg');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            padding: 80px 20px;
+        }
+        #slide-intro .header { padding: 0; }
+        #slide-intro .title {
+            font-size: 32px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+        #slide-intro .subtitle {
+            font-size: 18px;
+            max-width: 90%;
+            margin: 0 auto;
+            color: #e0e0e0;
+        }
+        .icon-container .material-icons {
+            font-size: 64px;
+            color: #64B5F6;
+        }
+
+        /* HEADER & TYPOGRAPHY UMUM */
+        .header .title {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+        }
+        
+        /* CONTENT LAYOUT - MOBILE (STACKED) */
+        .content {
+            display: flex;
+            flex-direction: column; 
+            padding: 20px 20px 0;
+            gap: 25px;
+        }
+        .section {
+            width: 100%;
+            padding: 0;
+        }
+
+        /* SLIDE 2 & 3: DUA KOLOM */
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a237e;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .material-icons {
+            margin-right: 10px;
+            font-size: 28px;
+        }
+        .bullet-list {
+            list-style: none;
+        }
+        .bullet-item {
+            font-size: 16px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .bullet-icon {
+            color: #5c6bc0;
+            margin-right: 10px;
+            font-size: 18px;
+            margin-top: 4px;
+            flex-shrink: 0;
+        }
+        
+        /* SLIDE 3: KONSEP DASAR CARD */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        .concept-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        .concept-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a237e;
+        }
+        .concept-content {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .key-point {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+        .key-point-icon {
+            color: #5c6bc0;
+            margin-right: 10px;
+            font-size: 18px;
+            margin-top: 4px;
+            flex-shrink: 0;
+        }
+
+        /* SLIDE 4, 5, 6: PLATFORM SETTINGS */
+        .settings-container, .client-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .settings-column, .client-column {
+            width: 100%;
+            gap: 20px;
+        }
+        .setting-card, .client-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+        }
+        .setting-title, .client-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a237e;
+            margin-bottom: 5px;
+        }
+        .setting-value, .client-value {
+            font-size: 16px;
+            line-height: 1.4;
+        }
+        .setting-icon, .client-icon {
+            font-size: 32px;
+            margin-right: 15px;
+            color: #3949ab;
+            min-width: 32px;
+        }
+        .platform-logo {
+            position: absolute;
+            top: 40px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+        .platform-icon {
+            font-size: 28px;
+            margin-right: 10px;
+        }
+        .platform-text {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        /* SLIDE 7: KRITERIA EVALUASI */
+        .criteria-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        .criteria-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        .criteria-title {
+            font-size: 20px;
+        }
+        .criteria-content {
+            font-size: 16px;
+        }
+
+        /* SLIDE 8: METODE EVALUASI */
+        .methods-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        .method-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        .method-title {
+            font-size: 20px;
+        }
+        .method-content {
+            font-size: 16px;
+        }
+
+
+        /* ====================================
+           TABLET STYLES (min-width: 768px)
+        ==================================== */
+        @media (min-width: 768px) {
+            .header {
+                padding: 40px 40px 20px;
+            }
+            .content {
+                padding: 25px 40px 0;
+                gap: 30px;
+            }
+            .title {
+                font-size: 34px;
+            }
+            .platform-logo {
+                right: 40px;
+            }
+
+            /* SLIDE 2: 2 KOLOM */
+            #slide-materi .content {
+                flex-direction: row;
+                gap: 20px;
+            }
+            #slide-materi .section {
+                padding: 0 10px;
+                border-right: 1px solid rgba(26, 35, 126, 0.1);
+            }
+            #slide-materi .section:last-child {
+                border-right: none;
+            }
+            
+            /* SLIDE 3: GRID 2 KOLOM */
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            .concept-content {
+                font-size: 18px;
+            }
+            
+            /* SLIDE 4, 5, 6: 2 KOLOM */
+            .settings-container, .client-container {
+                flex-direction: row;
+                gap: 20px;
+            }
+            .settings-column, .client-column {
+                width: 50%;
+                gap: 15px;
+            }
+            .setting-value, .client-value {
+                font-size: 18px;
+            }
+
+            /* SLIDE 7: GRID 2 KOLOM */
+            .criteria-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            .criteria-card:nth-child(7) {
+                grid-column: span 2;
+                max-width: 50%;
+                justify-self: center;
+            }
+            
+            /* SLIDE 8: GRID 2 KOLOM */
+            .methods-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+        }
+        
+        /* ====================================
+           DESKTOP STYLES (min-width: 1024px)
+        ==================================== */
+        @media (min-width: 1024px) {
+            .header {
+                padding: 40px 70px 20px;
+            }
+            .content {
+                padding: 30px 70px 0;
+                gap: 40px;
+            }
+            .title {
+                font-size: 40px;
+            }
+            #slide-intro .title { 
+                font-size: 60px; 
+            }
+            .platform-logo {
+                right: 70px;
+            }
+
+            /* SLIDE 2: 2 KOLOM */
+            #slide-materi .section {
+                padding: 0 20px;
+            }
+
+            /* SLIDE 7: GRID 3 KOLOM */
+            .criteria-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 30px;
+            }
+            .criteria-card:nth-child(7) {
+                grid-column: 2 / 3;
+            }
+
+            /* SLIDE 8: GRID 3 KOLOM */
+            .methods-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- SLIDE 1: JUDUL UTAMA -->
+    <div class="slide" id="slide-intro">
+        <div class="header">
+            <div class="content">
+                <div class="icon-container">
+                    <i class="material-icons">videocam</i>
+                </div>
+                <h1 class="title">Tutorial Videography: Final Export dan Evaluasi</h1>
+                <p class="subtitle">Format export yang tepat untuk berbagai platform dan evaluasi proyek akhir</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: MATERI TUTORIAL (OVERVIEW) -->
+    <div class="slide" id="slide-materi">
+        <div class="header primary-dark">
+            <h1 class="title">Materi Tutorial</h1>
+        </div>
+        <div class="content">
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="material-icons">settings</i>
+                    Format Export yang Tepat
+                </h2>
+                <ul class="bullet-list">
+                    <li class="bullet-item">
+                        <i class="material-icons bullet-icon">check_circle</i>
+                        <span><span class="highlight">Codec</span> - H.264, H.265, ProRes</span>
+                    </li>
+                    <li class="bullet-item">
+                        <i class="material-icons bullet-icon">check_circle</i>
+                        <span><span class="highlight">Bitrate</span> - YouTube, Instagram, TikTok</span>
+                    </li>
+                    <li class="bullet-item">
+                        <i class="material-icons bullet-icon">check_circle</i>
+                        <span><span class="highlight">Resolusi</span> - 1080p, 4K, vertikal</span>
+                    </li>
+                    <li class="bullet-item">
+                        <i class="material-icons bullet-icon">check_circle</i>
+                        <span><span class="highlight">Format</span> - MP4, MOV, AVI</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="material-icons">assessment</i>
+                    Presentasi dan Evaluasi Proyek
+                </h2>
+                <ul class="bullet-list">
+                    <li class="bullet-item">
+                        <i class="material-icons bullet-icon">check_circle</i>
+                        <span><span class="highlight">Kriteria Evaluasi</span> - Konten, teknis, kreativitas</span>
+                    </li>
+                    <li class="bullet-item">
+                        <i class="material-icons bullet-icon">check_circle</i>
+                        <span><span class="highlight">Metode Penilaian</span> - Rubrik, feedback</span>
+                    </li>
+                    <li class="bullet-item">
+                        <i class="material-icons bullet-icon">check_circle</i>
+                        <span><span class="highlight">Presentasi Proyek</span> - Struktur, tips</span>
+                    </li>
+                    <li class="bullet-item">
+                        <i class="material-icons bullet-icon">check_circle</i>
+                        <span><span class="highlight">Analisis Hasil</span> - Metrik, improvement</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: KONSEP DASAR EXPORT VIDEO -->
+    <div class="slide">
+        <div class="header primary-dark">
+            <h1 class="title">Konsep Dasar Export Video</h1>
+        </div>
+        <div class="content">
+            <div class="grid-container">
+                <div class="concept-card">
+                    <div class="concept-header">
+                        <i class="material-icons accent-blue">video_settings</i>
+                        <h2 class="concept-title">Codec</h2>
+                    </div>
+                    <div class="concept-content">
+                        <div class="key-point">
+                            <i class="material-icons key-point-icon">arrow_right</i>
+                            <span><span class="highlight">H.264:</span> Standar industri, kompatibilitas tinggi, MP4</span>
+                        </div>
+                        <div class="key-point">
+                            <i class="material-icons key-point-icon">arrow_right</i>
+                            <span><span class="highlight">H.265 (HEVC):</span> Efisiensi bitrate lebih baik, ukuran file lebih kecil</span>
+                        </div>
+                        <div class="key-point">
+                            <i class="material-icons key-point-icon">arrow_right</i>
+                            <span><span class="highlight">ProRes/DNxHD:</span> Kualitas tinggi untuk editing, ukuran file besar</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-header">
+                        <i class="material-icons accent-blue">folder</i>
+                        <h2 class="concept-title">Container (Format File)</h2>
+                    </div>
+                    <div class="concept-content">
+                        <div class="key-point">
+                            <i class="material-icons key-point-icon">arrow_right</i>
+                            <span><span class="highlight">MP4 (.mp4):</span> Paling umum, kompatibel dengan semua platform</span>
+                        </div>
+                        <div class="key-point">
+                            <i class="material-icons key-point-icon">arrow_right</i>
+                            <span><span class="highlight">MOV (.mov):</span> Format Apple, kualitas tinggi, ukuran besar</span>
+                        </div>
+                        <div class="key-point">
+                            <i class="material-icons key-point-icon">arrow_right</i>
+                            <span><span class="highlight">AVI (.avi):</span> Format lama, ukuran file sangat besar, tidak direkomendasikan</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-header">
+                        <i class="material-icons accent-blue">speed</i>
+                        <h2 class="concept-title">Bitrate (Kecepatan Data)</h2>
+                    </div>
+                    <div class="concept-content">
+                        <div class="key-point">
+                            <i class="material-icons key-point-icon">arrow_right</i>
+                            <span><span class="highlight">CBR (Constant):</span> Bitrate konstan, ukuran file dapat diprediksi</span>
+                        </div>
+                        <div class="key-point">
+                            <i class="material-icons key-point-icon">arrow_right</i>
+                            <span><span class="highlight">VBR (Variable):</span> Kualitas optimal, ukuran file lebih kecil, disarankan</span>
+                        </div>
+                        <div class="key-point">
+                            <i class="material-icons key-point-icon">arrow_right</i>
+                            <span><span class="highlight">2-pass encoding:</span> Analisis dua tahap untuk kualitas VBR maksimal</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-header">
+                        <i class="material-icons accent-blue">hd</i>
+                        <h2 class="concept-title">Resolusi</h2>
+                    </div>
+                    <div class="concept-content">
+                        <div class="key-point">
+                            <i class="material-icons key-point-icon">arrow_right</i>
+                            <span><span class="highlight">720p (HD):</span> 1280×720, ukuran file kecil, kualitas standar</span>
+                        </div>
+                        <div class="key-point">
+                            <i class="material-icons key-point-icon">arrow_right</i>
+                            <span><span class="highlight">1080p (Full HD):</span> 1920×1080, kualitas tinggi, kompatibilitas luas</span>
+                        </div>
+                        <div class="key-point">
+                            <i class="material-icons key-point-icon">arrow_right</i>
+                            <span><span class="highlight">4K (UHD):</span> 3840×2160, kualitas ultra tinggi, ukuran file besar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: EXPORT YOUTUBE -->
+    <div class="slide">
+        <div class="header primary-dark">
+            <h1 class="title">Export Settings untuk YouTube</h1>
+            <div class="platform-logo">
+                <i class="material-icons platform-icon">smart_display</i>
+                <span class="platform-text">YouTube</span>
+            </div>
+        </div>
+        <div class="content">
+            <div class="settings-container">
+                <div class="settings-column">
+                    <div class="setting-card">
+                        <i class="material-icons setting-icon">movie</i>
+                        <div class="setting-content">
+                            <h2 class="setting-title">Format & Codec</h2>
+                            <p class="setting-value"><span class="highlight">MP4 (H.264)</span> atau <span class="highlight">H.265</span> - Format standar YouTube dengan kompresi efisien</p>
+                        </div>
+                    </div>
+                    <div class="setting-card">
+                        <i class="material-icons setting-icon">aspect_ratio</i>
+                        <div class="setting-content">
+                            <h2 class="setting-title">Resolusi & Aspect Ratio</h2>
+                            <p class="setting-value"><span class="highlight">1920×1080 (Full HD)</span> atau <span class="highlight">3840×2160 (4K)</span></p>
+                            <p class="setting-value"><span class="highlight">16:9</span> (horizontal) adalah rasio aspek standar</p>
+                        </div>
+                    </div>
+                    <div class="setting-card">
+                        <i class="material-icons setting-icon">speed</i>
+                        <div class="setting-content">
+                            <h2 class="setting-title">Frame Rate</h2>
+                            <p class="setting-value"><span class="highlight">Sama dengan asli</span> (24, 25, 30, 48, 50, 60 fps)</p>
+                            <p class="setting-value">Jangan ubah frame rate asli video Anda</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-column">
+                    <div class="setting-card">
+                        <i class="material-icons setting-icon">data_usage</i>
+                        <div class="setting-content">
+                            <h2 class="setting-title">Bitrate Video (Target VBR)</h2>
+                            <p class="setting-value"><span class="highlight">1080p:</span> 8-12 Mbps</p>
+                            <p class="setting-value"><span class="highlight">4K:</span> 35-68 Mbps</p>
+                            <p class="setting-value">Gunakan <span class="highlight">VBR 2-pass</span> untuk kualitas maksimal</p>
+                        </div>
+                    </div>
+                    <div class="setting-card">
+                        <i class="material-icons setting-icon">graphic_eq</i>
+                        <div class="setting-content">
+                            <h2 class="setting-title">Audio</h2>
+                            <p class="setting-value"><span class="highlight">Codec:</span> AAC-LC, <span class="highlight">Channel:</span> Stereo</p>
+                            <p class="setting-value"><span class="highlight">Bitrate:</span> 384 kbps, <span class="highlight">Sample Rate:</span> 48 kHz</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: EXPORT INSTAGRAM -->
+    <div class="slide">
+        <div class="header primary-dark">
+            <h1 class="title">Export Settings untuk Instagram</h1>
+            <div class="platform-logo">
+                <i class="material-icons platform-icon">photo_camera</i>
+                <span class="platform-text">Instagram</span>
+            </div>
+        </div>
+        <div class="content">
+            <div class="settings-container">
+                <div class="settings-column">
+                    <div class="setting-card">
+                        <i class="material-icons setting-icon">movie</i>
+                        <div class="setting-content">
+                            <h2 class="setting-title">Format & Codec</h2>
+                            <p class="setting-value"><span class="highlight">MP4 (H.264)</span> - Format standar Instagram</p>
+                        </div>
+                    </div>
+                    <div class="setting-card">
+                        <i class="material-icons setting-icon">aspect_ratio</i>
+                        <div class="setting-content">
+                            <h2 class="setting-title">Resolusi & Aspect Ratio</h2>
+                            <p class="setting-value"><span class="highlight">Post (1:1):</span> 1080×1080</p>
+                            <p class="setting-value"><span class="highlight">Reels/Stories (9:16):</span> 1080×1920</p>
+                            <p class="setting-value"><span class="highlight">Landscape (1.91:1):</span> 1080×566</p>
+                        </div>
+                    </div>
+                    <div class="setting-card">
+                        <i class="material-icons setting-icon">speed</i>
+                        <div class="setting-content">
+                            <h2 class="setting-title">Frame Rate</h2>
+                            <p class="setting-value"><span class="highlight">30 fps</span> - Rekomendasi Instagram</p>
+                            <p class="setting-value">Pastikan tidak melebihi 60 fps</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-column">
+                    <div class="setting-card">
+                        <i class="material-icons setting-icon">data_usage</i>
+                        <div class="setting-content">
+                            <h2 class="setting-title">Bitrate Video (Target VBR)</h2>
+                            <p class="setting-value"><span class="highlight">8-16 Mbps</span> - Range optimal untuk kualitas dan ukuran file</p>
+                            <p class="setting-value">Maksimal yang diterima Instagram: <span class="highlight">25 Mbps</span></p>
+                        </div>
+                    </div>
+                    <div class="setting-card">
+                        <i class="material-icons setting-icon">graphic_eq</i>
+                        <div class="setting-content">
+                            <h2 class="setting-title">Audio</h2>
+                            <p class="setting-value"><span class="highlight">Codec:</span> AAC, <span class="highlight">Channel:</span> Stereo</p>
+                            <p class="setting-value"><span class="highlight">Bitrate:</span> 128-192 kbps, <span class="highlight">Sample Rate:</span> 48 kHz</p>
+                        </div>
+                    </div>
+                    <div class="setting-card">
+                        <i class="material-icons setting-icon">timer</i>
+                        <div class="setting-content">
+                            <h2 class="setting-title">Durasi Maksimal</h2>
+                            <p class="setting-value"><span class="highlight">Post:</span> 60 detik</p>
+                            <p class="setting-value"><span class="highlight">Reels:</span> Maksimal 90 detik</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: EXPORT KLIEN -->
+    <div class="slide">
+        <div class="header primary-dark">
+            <h1 class="title">Export Settings untuk Klien</h1>
+            <div class="platform-logo">
+                <i class="material-icons platform-icon">business</i>
+                <span class="platform-text">Klien</span>
+            </div>
+        </div>
+        <div class="content">
+            <div class="client-container">
+                <div class="client-column">
+                    <div class="client-card">
+                        <i class="material-icons client-icon">chat</i>
+                        <div class="client-content">
+                            <h2 class="client-title">Komunikasi & Kebutuhan</h2>
+                            <div class="client-value">
+                                <div class="bullet-point">
+                                    <i class="material-icons bullet-icon">check_circle</i>
+                                    <span><span class="highlight">Selalu diskusikan</span> format sebelum export</span>
+                                </div>
+                                <div class="bullet-point">
+                                    <i class="material-icons bullet-icon">check_circle</i>
+                                    <span>Tanyakan platform tujuan dan <span class="highlight">spesifikasi teknis</span></span>
+                                </div>
+                                <div class="bullet-point">
+                                    <i class="material-icons bullet-icon">check_circle</i>
+                                    <span>Tentukan deadline dan format delivery</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="client-card">
+                        <i class="material-icons client-icon">movie</i>
+                        <div class="client-content">
+                            <h2 class="client-title">Format Kualitas</h2>
+                            <div class="client-value">
+                                <div class="bullet-point">
+                                    <i class="material-icons bullet-icon">check_circle</i>
+                                    <span><span class="highlight">MP4 (H.264)</span> untuk file delivery umum</span>
+                                </div>
+                                <div class="bullet-point">
+                                    <i class="material-icons bullet-icon">check_circle</i>
+                                    <span><span class="highlight">ProRes</span> untuk master file/editing lanjutan</span>
+                                </div>
+                                <div class="bullet-point">
+                                    <i class="material-icons bullet-icon">check_circle</i>
+                                    <span>Resolusi sesuai kebutuhan (1080p, 4K)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="client-column">
+                    <div class="client-card">
+                        <i class="material-icons client-icon">data_usage</i>
+                        <div class="client-content">
+                            <h2 class="client-title">Bitrate Tinggi</h2>
+                            <div class="client-value">
+                                <div class="bullet-point">
+                                    <i class="material-icons bullet-icon">check_circle</i>
+                                    <span>Gunakan <span class="highlight">bitrate lebih tinggi</span> dari platform publik</span>
+                                </div>
+                                <div class="bullet-point">
+                                    <i class="material-icons bullet-icon">check_circle</i>
+                                    <span><span class="highlight">1080p:</span> 10-12 Mbps</span>
+                                </div>
+                                <div class="bullet-point">
+                                    <i class="material-icons bullet-icon">check_circle</i>
+                                    <span><span class="highlight">4K:</span> 40-50 Mbps</span>
+                                </div>
+                                <div class="bullet-point">
+                                    <i class="material-icons bullet-icon">check_circle</i>
+                                    <span>Selalu gunakan <span class="highlight">VBR 2-pass</span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="client-card">
+                        <i class="material-icons client-icon">verified</i>
+                        <div class="client-content">
+                            <h2 class="client-title">Watermark & Organisasi</h2>
+                            <div class="client-value">
+                                <div class="bullet-point">
+                                    <i class="material-icons bullet-icon">check_circle</i>
+                                    <span>Sediakan <span class="highlight">watermark</span> untuk file preview/draft</span>
+                                </div>
+                                <div class="bullet-point">
+                                    <i class="material-icons bullet-icon">check_circle</i>
+                                    <span>Nama file <span class="highlight">jelas dan deskriptif</span> (misal: v3_Final_Draft)</span>
+                                </div>
+                                <div class="bullet-point">
+                                    <i class="material-icons bullet-icon">check_circle</i>
+                                    <span>Sediakan <span class="highlight">multiple format</span> jika diminta</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: KRITERIA EVALUASI -->
+    <div class="slide">
+        <div class="header primary-dark">
+            <h1 class="title">Kriteria Evaluasi Proyek Video</h1>
+        </div>
+        <div class="content">
+            <div class="criteria-grid">
+                <div class="criteria-card">
+                    <div class="criteria-header">
+                        <i class="material-icons criteria-icon">description</i>
+                        <h2 class="criteria-title">Konten</h2>
+                    </div>
+                    <div class="criteria-content">
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span><span class="highlight">Kejelasan</span> pesan</span>
+                        </div>
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span><span class="highlight">Tingkat pemahaman</span> topik</span>
+                        </div>
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span><span class="highlight">Relevansi</span> dengan tujuan</span>
+                        </div>
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span><span class="highlight">Ketepatan</span> informasi</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="criteria-card">
+                    <div class="criteria-header">
+                        <i class="material-icons criteria-icon">lightbulb</i>
+                        <h2 class="criteria-title">Kreativitas</h2>
+                    </div>
+                    <div class="criteria-content">
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span><span class="highlight">Setting</span> yang menarik</span>
+                        </div>
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span>Penggunaan <span class="highlight">prop</span> yang efektif</span>
+                        </div>
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span><span class="highlight">Transisi</span> yang kreatif</span>
+                        </div>
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span><span class="highlight">Sudut pandang</span> yang unik</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="criteria-card">
+                    <div class="criteria-header">
+                        <i class="material-icons criteria-icon">swap_horiz</i>
+                        <h2 class="criteria-title">Alur & Pacing</h2>
+                    </div>
+                    <div class="criteria-content">
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span><span class="highlight">Alur informasi</span> yang konsisten</span>
+                        </div>
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span><span class="highlight">Transisi</span> yang halus</span>
+                        </div>
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span><span class="highlight">Keterlibatan</span> penonton</span>
+                        </div>
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span><span class="highlight">Pacing</span> yang tepat (tidak terlalu cepat/lambat)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="criteria-card">
+                    <div class="criteria-header">
+                        <i class="material-icons criteria-icon">groups</i>
+                        <h2 class="criteria-title">Kerja Tim</h2>
+                    </div>
+                    <div class="criteria-content">
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span><span class="highlight">Partisipasi</span> aktif</span>
+                        </div>
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span><span class="highlight">Kerjasama</span> yang efektif</span>
+                        </div>
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span><span class="highlight">Penyelesaian tugas</span> tepat waktu</span>
+                        </div>
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span><span class="highlight">Distribusi</span> peran yang adil</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="criteria-card">
+                    <div class="criteria-header">
+                        <i class="material-icons criteria-icon">record_voice_over</i>
+                        <h2 class="criteria-title">Komunikasi</h2>
+                    </div>
+                    <div class="criteria-content">
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span><span class="highlight">Ucapan</span> yang jelas</span>
+                        </div>
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span><span class="highlight">Bahasa tubuh</span> yang efektif</span>
+                        </div>
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span><span class="highlight">Kontak mata</span> dengan kamera</span>
+                        </div>
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span><span class="highlight">Intonasi</span> yang sesuai</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="criteria-card">
+                    <div class="criteria-header">
+                        <i class="material-icons criteria-icon">settings</i>
+                        <h2 class="criteria-title">Kualitas Teknis</h2>
+                    </div>
+                    <div class="criteria-content">
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span><span class="highlight">Resolusi</span> video yang tajam</span>
+                        </div>
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span><span class="highlight">Audio</span> yang jelas tanpa noise</span>
+                        </div>
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span><span class="highlight">Pencahayaan</span> dan warna yang tepat</span>
+                        </div>
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span><span class="highlight">Editing</span> dan efek yang profesional</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: METODE EVALUASI -->
+    <div class="slide">
+        <div class="header primary-dark">
+            <h1 class="title">Metode Evaluasi Proyek Video</h1>
+        </div>
+        <div class="content">
+            <div class="methods-grid">
+                <div class="method-card">
+                    <div class="method-header">
+                        <i class="material-icons method-icon">flag</i>
+                        <h2 class="method-title">Definisikan Tujuan</h2>
+                    </div>
+                    <div class="method-content">
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span>Tentukan <span class="highlight">tujuan utama</span> video</span>
+                        </div>
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span>Tentukan <span class="highlight">audiens target</span></span>
+                        </div>
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span>Tentukan <span class="highlight">metrik sukses</span> yang terukur (views, retention)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="method-card">
+                    <div class="method-header">
+                        <i class="material-icons method-icon">grading</i>
+                        <h2 class="method-title">Gunakan Rubrik Penilaian</h2>
+                    </div>
+                    <div class="method-content">
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span>Gunakan <span class="highlight">kriteria</span> yang jelas dan terukur</span>
+                        </div>
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span>Sediakan <span class="highlight">deskriptor</span> untuk setiap level nilai</span>
+                        </div>
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span>Pastikan <span class="highlight">bobot</span> sesuai untuk setiap kriteria</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="method-card">
+                    <div class="method-header">
+                        <i class="material-icons method-icon">forum</i>
+                        <h2 class="method-title">Dapatkan Feedback</h2>
+                    </div>
+                    <div class="method-content">
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span>Dari <span class="highlight">klien/stakeholder</span> dan tim produksi</span>
+                        </div>
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span>Dari <span class="highlight">audiens target</span> (uji coba)</span>
+                        </div>
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span>Gunakan <span class="highlight">formulir terstruktur</span> untuk umpan balik</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="method-card">
+                    <div class="method-header">
+                        <i class="material-icons method-icon">analytics</i>
+                        <h2 class="method-title">Analisis Hasil Publik</h2>
+                    </div>
+                    <div class="method-content">
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span>Monitor <span class="highlight">Views</span> dan reach</span>
+                        </div>
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span>Monitor <span class="highlight">Retention rate</span> dan watch time</span>
+                        </div>
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span>Monitor <span class="highlight">Engagement</span> (likes, shares, comments)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="method-card">
+                    <div class="method-header">
+                        <i class="material-icons method-icon">description</i>
+                        <h2 class="method-title">Review Konten & Teknis</h2>
+                    </div>
+                    <div class="method-content">
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span>Periksa <span class="highlight">skrip</span>, visual, dan audio</span>
+                        </div>
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span>Periksa <span class="highlight">resolusi</span>, frame rate, dan pencahayaan</span>
+                        </div>
+                        <div class="bullet-point">
+                            <i class="material-icons bullet-icon">check_circle</i>
+                            <span>Periksa <span class="highlight">editing</span> dan alur yang logis</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

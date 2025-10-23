@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Videografi: Pengantar, Peran, dan Alur Produksi</title>
+    <!-- Menggunakan Font Source Sans Pro dari Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Menggunakan Material Icons untuk ikon -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        /* ====================================
+           GLOBAL & MOBILE FIRST STYLES
+           (Default for screens < 768px)
+        ==================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #0d2a4a; /* Dark background for the whole page */
+            color: white;
+            padding: 20px 0;
+        }
+        
+        .slide {
+            width: 100%;
+            min-height: auto;
+            position: relative;
+            overflow: hidden;
+            background-color: #0a2342; /* Primary container background */
+            color: white;
+            padding: 30px 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border-radius: 8px;
+        }
+
+        .background { /* For intro slide only */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://sfile.chatglm.cn/images-ppt/198d3b88efed.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.2;
+            z-index: 1;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column; /* Stacking columns for mobile */
+            gap: 30px;
+            height: 100%;
+            text-align: center; /* Default text alignment for stacked content */
+        }
+        
+        /* Typography */
+        .title {
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            color: #ffffff;
+        }
+        .subtitle {
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1.5;
+            color: #4fc3f7;
+            margin-bottom: 15px;
+        }
+        .description, .definition-text, .characteristic-text, .example-text {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #e0e0e0;
+        }
+        .highlight {
+            color: #4fc3f7;
+            font-weight: 700;
+        }
+        
+        /* Layout & Components */
+        .header {
+            padding: 0 0 20px;
+            text-align: center;
+        }
+
+        .text-content, .left-content, .right-content, .image-content {
+            flex: 1 1 100%; /* Full width in mobile */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start; /* Reset text alignment for detail pages */
+            text-align: left;
+        }
+        
+        .image-content, .right-content {
+            order: -1; /* Image/Diagram above text on mobile for quick visibility */
+        }
+
+        .image-container {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+            margin: 10px 0;
+        }
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Cards, Grids, and Lists */
+        .role-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+            flex: 1 1 100%;
+        }
+        .role-card:hover {
+            transform: translateY(-5px);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .role-icon {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 15px;
+        }
+        .role-icon i {
+            font-size: 28px;
+        }
+
+        .process-steps, .example-grid, .types-grid, .process-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .step-item, .example-item, .type-item, .workflow-step {
+            flex: none;
+            width: 100%;
+        }
+
+        .definition {
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        /* Adjustments for first slide title */
+        .slide:first-child .content {
+            padding: 0 20px;
+            text-align: center;
+        }
+        .slide:first-child .title {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        .slide:first-child .subtitle {
+            font-size: 20px;
+        }
+
+        /* ====================================
+           TABLET STYLES
+           (min-width: 768px)
+        ==================================== */
+        @media (min-width: 768px) {
+            .slide {
+                padding: 40px;
+                margin: 20px auto;
+            }
+            
+            /* Two Column Layout (Side-by-Side) */
+            .content.two-column {
+                flex-direction: row; /* Switch to horizontal layout */
+                align-items: stretch;
+                text-align: left;
+            }
+
+            .image-content, .right-content {
+                order: initial; /* Restore natural order (Text on left, Image/Diagram on right) */
+            }
+
+            /* Component Grids (2 columns) */
+            .role-cards-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+            .role-card {
+                flex: 1 1 calc(50% - 10px);
+            }
+            .process-steps, .example-grid, .types-grid {
+                flex-direction: row;
+                flex-wrap: wrap;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            .step-item, .example-item, .type-item {
+                width: auto;
+            }
+            
+            /* Process Flow Diagram Layout */
+            .workflow-container .workflow-row {
+                flex-direction: row;
+            }
+            .workflow-container .workflow-arrow {
+                height: auto;
+                margin: 15px 0;
+            }
+        }
+        
+        /* ====================================
+           DESKTOP STYLES
+           (min-width: 1024px)
+        ==================================== */
+        @media (min-width: 1024px) {
+            .slide {
+                max-width: 1200px;
+                padding: 60px 70px;
+            }
+
+            /* Intro Slide Title */
+            .slide:first-child .title {
+                font-size: 60px;
+            }
+            .slide:first-child .subtitle {
+                font-size: 24px;
+            }
+
+            /* Main Typography */
+            .title {
+                font-size: 40px;
+            }
+            .subtitle {
+                font-size: 24px;
+            }
+            .description, .definition-text, .characteristic-text, .example-text {
+                font-size: 20px;
+            }
+            .image-container {
+                height: 400px;
+            }
+            
+            /* Three Column Layout (Roles) */
+            .content.roles-content {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 30px;
+            }
+            .role-cards-container {
+                display: contents; /* Allow cards to flow directly into the grid */
+            }
+            .role-card {
+                flex: initial;
+            }
+
+            /* Two Column Layout for detail sections (adjust ratios) */
+            .text-content, .left-content {
+                flex: 3;
+            }
+            .image-content, .right-content {
+                flex: 2;
+            }
+
+            /* Process Steps (3 or 2 columns) */
+            .process-steps {
+                 grid-template-columns: repeat(2, 1fr); /* 2 columns for steps is cleaner */
+            }
+            
+            .workflow-container .workflow-row {
+                display: flex;
+            }
+            .workflow-container .workflow-step {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- SLIDE 1: Judul Utama -->
+    <div class="slide" id="slide-intro">
+        <div class="background"></div>
+        <div class="content">
+            <h1 class="title">Tutorial Videografi Lengkap</h1>
+            <p class="subtitle">
+                <span class="highlight">Pengantar, Peran, Jenis Proyek, dan Alur Produksi</span>
+            </p>
+            <p class="description">Jelajahi langkah-langkah esensial untuk menguasai seni pembuatan video, mulai dari konsep hingga distribusi.</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: Pengantar Videografi -->
+    <div class="slide" id="slide-pengantar">
+        <div class="content two-column">
+            <div class="text-content">
+                <h1 class="title">Pengantar Videografi</h1>
+                <h2 class="subtitle">Apa itu Videografi?</h2>
+                <p class="description">Seni dan proses menciptakan, merekam, dan mengedit video dengan menggunakan berbagai elemen visual, pencahayaan, dan suara.</p>
+                
+                <h2 class="subtitle">Pentingnya Videografi di Era Digital</h2>
+                <div class="key-point" style="display: flex; align-items: center; margin-bottom: 15px;">
+                    <i class="material-icons" style="color: #4fc3f7; margin-right: 10px;">trending_up</i>
+                    <span class="key-point-text">Media komunikasi yang efektif dan powerful</span>
+                </div>
+                <div class="key-point" style="display: flex; align-items: center; margin-bottom: 15px;">
+                    <i class="material-icons" style="color: #4fc3f7; margin-right: 10px;">visibility</i>
+                    <span class="key-point-text">Meningkatkan engagement di platform digital</span>
+                </div>
+                <div class="key-point" style="display: flex; align-items: center; margin-bottom: 15px;">
+                    <i class="material-icons" style="color: #4fc3f7; margin-right: 10px;">devices</i>
+                    <span class="key-point-text">Konten video mendominasi konsumsi media</span>
+                </div>
+            </div>
+            <div class="image-content">
+                <div class="image-container">
+                    <img src="https://sfile.chatglm.cn/images-ppt/251f1a5d8319.jpg" alt="Videographer shooting with professional camera" onerror="this.onerror=null; this.src='https://placehold.co/800x450/0a2342/ffffff?text=Videografi+Era+Digital';">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: Peran Videografer -->
+    <div class="slide" id="slide-peran">
+        <div class="header">
+            <h1 class="title">Peran Penting Videografer</h1>
+        </div>
+        <div class="content roles-content">
+            <!-- Role Card 1: Perencana -->
+            <div class="role-card">
+                <div class="role-icon">
+                    <i class="material-icons">event_note</i>
+                </div>
+                <h2 class="role-title" style="font-size: 24px;">Perencana (Pra-produksi)</h2>
+                <p class="role-description">Merencanakan seluruh aspek produksi video sebelum shooting dimulai.</p>
+                <ul class="key-points" style="list-style-type: none;">
+                    <li class="key-point">
+                        <i class="material-icons">check_circle</i>
+                        <span class="key-point-text">Menentukan konsep & ide</span>
+                    </li>
+                    <li class="key-point">
+                        <i class="material-icons">check_circle</i>
+                        <span class="key-point-text">Menulis naskah & storyboard</span>
+                    </li>
+                    <li class="key-point">
+                        <i class="material-icons">check_circle</i>
+                        <span class="key-point-text">Menyusun jadwal & anggaran</span>
+                    </li>
+                    <li class="key-point">
+                        <i class="material-icons">check_circle</i>
+                        <span class="key-point-text">Memilih lokasi & casting</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Role Card 2: Pengambilan Gambar -->
+            <div class="role-card">
+                <div class="role-icon">
+                    <i class="material-icons">videocam</i>
+                </div>
+                <h2 class="role-title" style="font-size: 24px;">Pengambilan Gambar (Produksi)</h2>
+                <p class="role-description">Melakukan shooting video dengan teknik yang tepat untuk menghasilkan gambar berkualitas.</p>
+                <ul class="key-points" style="list-style-type: none;">
+                    <li class="key-point">
+                        <i class="material-icons">check_circle</i>
+                        <span class="key-point-text">Mengatur komposisi visual</span>
+                    </li>
+                    <li class="key-point">
+                        <i class="material-icons">check_circle</i>
+                        <span class="key-point-text">Mengatur pencahayaan</span>
+                    </li>
+                    <li class="key-point">
+                        <i class="material-icons">check_circle</i>
+                        <span class="key-point-text">Mengarahkan gerakan kamera</span>
+                    </li>
+                    <li class="key-point">
+                        <i class="material-icons">check_circle</i>
+                        <span class="key-point-text">Merekam audio berkualitas</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Role Card 3: Pengeditan -->
+            <div class="role-card">
+                <div class="role-icon">
+                    <i class="material-icons">movie_filter</i>
+                </div>
+                <h2 class="role-title" style="font-size: 24px;">Pengeditan (Pasca-produksi)</h2>
+                <p class="role-description">Menyusun dan memproses *footage* mentah menjadi video yang kohesif dan menarik.</p>
+                <ul class="key-points" style="list-style-type: none;">
+                    <li class="key-point">
+                        <i class="material-icons">check_circle</i>
+                        <span class="key-point-text">Memotong & menyusun adegan</span>
+                    </li>
+                    <li class="key-point">
+                        <i class="material-icons">check_circle</i>
+                        <span class="key-point-text">Color correction & grading</span>
+                    </li>
+                    <li class="key-point">
+                        <i class="material-icons">check_circle</i>
+                        <span class="key-point-text">Menambah efek visual</span>
+                    </li>
+                    <li class="key-point">
+                        <i class="material-icons">check_circle</i>
+                        <span class="key-point-text">Mixing audio & musik</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: Jenis-jenis Proyek Video - Fiksi -->
+    <div class="slide" id="slide-fiksi">
+        <div class="header">
+            <h1 class="title">Jenis-jenis Proyek Video: Fiksi</h1>
+        </div>
+        <div class="content two-column">
+            <div class="left-content">
+                <div class="definition">
+                    <h2 class="subtitle definition-title">
+                        <i class="material-icons" style="margin-right: 10px;">movie</i>
+                        Definisi
+                    </h2>
+                    <p class="definition-text">Video yang menceritakan kisah imajinatif dengan karakter, dialog, dan alur cerita yang dibuat berdasarkan skrip.</p>
+                </div>
+                
+                <div class="characteristics">
+                    <h2 class="subtitle characteristics-title">
+                        <i class="material-icons" style="margin-right: 10px;">stars</i>
+                        Karakteristik
+                    </h2>
+                    <div class="characteristic-item">
+                        <i class="material-icons">check_circle</i>
+                        <span class="characteristic-text">Cerita imajinatif dengan narasi terstruktur</span>
+                    </div>
+                    <div class="characteristic-item">
+                        <i class="material-icons">check_circle</i>
+                        <span class="characteristic-text">Pemeran profesional atau amatir yang memerankan karakter</span>
+                    </div>
+                    <div class="characteristic-item">
+                        <i class="material-icons">check_circle</i>
+                        <span class="characteristic-text">Efek visual dan suara untuk mendukung cerita</span>
+                    </div>
+                </div>
+                
+                <div class="examples">
+                    <h2 class="subtitle examples-title">
+                        <i class="material-icons" style="margin-right: 10px;">category</i>
+                        Contoh
+                    </h2>
+                    <div class="example-grid">
+                        <div class="example-item">
+                            <i class="material-icons">videocam</i>
+                            <span class="example-text">Film pendek</span>
+                        </div>
+                        <div class="example-item">
+                            <i class="material-icons">videocam</i>
+                            <span class="example-text">Iklan komersial</span>
+                        </div>
+                        <div class="example-item">
+                            <i class="material-icons">videocam</i>
+                            <span class="example-text">Video musik</span>
+                        </div>
+                        <div class="example-item">
+                            <i class="material-icons">videocam</i>
+                            <span class="example-text">Web series</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-content">
+                <div class="image-container">
+                    <img src="https://sfile.chatglm.cn/images-ppt/e1d06f54e35c.jpg" alt="Video Fiksi Production" onerror="this.onerror=null; this.src='https://placehold.co/800x450/0a2342/ffffff?text=Video+Fiksi';">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: Jenis-jenis Proyek Video - Dokumenter -->
+    <div class="slide" id="slide-dokumenter">
+        <div class="header">
+            <h1 class="title">Jenis-jenis Proyek Video: Dokumenter</h1>
+        </div>
+        <div class="content two-column">
+            <div class="left-content">
+                <div class="definition">
+                    <h2 class="subtitle definition-title">
+                        <i class="material-icons" style="margin-right: 10px;">video_library</i>
+                        Definisi
+                    </h2>
+                    <p class="definition-text">Video yang mendokumentasikan kejadian nyata tanpa unsur fiksi, bertujuan untuk menyajikan fakta dan informasi tentang subjek tertentu.</p>
+                </div>
+                
+                <div class="types">
+                    <h2 class="subtitle types-title">
+                        <i class="material-icons" style="margin-right: 10px;">category</i>
+                        Jenis-jenis Video Dokumenter
+                    </h2>
+                    <div class="types-grid">
+                        <div class="type-item">
+                            <i class="material-icons">explore</i>
+                            <div class="type-content">
+                                <h3 class="type-name">Laporan Perjalanan</h3>
+                                <p class="type-description">Dokumentasi antropologi dari para ahli etnografi</p>
+                            </div>
+                        </div>
+                        <div class="type-item">
+                            <i class="material-icons">history</i>
+                            <div class="type-content">
+                                <h3 class="type-name">Sejarah</h3>
+                                <p class="type-description">Fokus pada kejadian historis dengan akurasi data tinggi</p>
+                            </div>
+                        </div>
+                        <div class="type-item">
+                            <i class="material-icons">person</i>
+                            <div class="type-content">
+                                <h3 class="type-name">Biografi</h3>
+                                <p class="type-description">Menceritakan kehidupan seseorang atau tokoh masyarakat</p>
+                            </div>
+                        </div>
+                        <div class="type-item">
+                            <i class="material-icons">replay</i>
+                            <div class="type-content">
+                                <h3 class="type-name">Nostalgia</h3>
+                                <p class="type-description">Napak tilas atau kilas balik dari kejadian masa lalu</p>
+                            </div>
+                        </div>
+                        <div class="type-item">
+                            <i class="material-icons">restore</i>
+                            <div class="type-content">
+                                <h3 class="type-name">Rekonstruksi</h3>
+                                <p class="type-description">Memberikan gambaran ulang pada suatu kejadian</p>
+                            </div>
+                        </div>
+                        <div class="type-item">
+                            <i class="material-icons">search</i>
+                            <div class="type-content">
+                                <h3 class="type-name">Investigasi</h3>
+                                <p class="type-description">Kepanjangan dari investigasi jurnalistik</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-content">
+                <div class="image-container">
+                    <img src="https://sfile.chatglm.cn/images-ppt/93b0eb586baf.jpg" alt="Video Dokumenter Production" onerror="this.onerror=null; this.src='https://placehold.co/800x450/0a2342/ffffff?text=Video+Dokumenter';">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: Jenis-jenis Proyek Video - Korporat -->
+    <div class="slide" id="slide-korporat">
+        <div class="header">
+            <h1 class="title">Jenis-jenis Proyek Video: Korporat</h1>
+        </div>
+        <div class="content two-column">
+            <div class="left-content">
+                <div class="definition">
+                    <h2 class="subtitle definition-title">
+                        <i class="material-icons" style="margin-right: 10px;">business</i>
+                        Definisi
+                    </h2>
+                    <p class="definition-text">Video yang dibuat untuk keperluan bisnis atau organisasi dengan tujuan komunikasi internal maupun eksternal.</p>
+                </div>
+                
+                <div class="types">
+                    <h2 class="subtitle types-title">
+                        <i class="material-icons" style="margin-right: 10px;">category</i>
+                        Jenis-jenis Video Korporat
+                    </h2>
+                    <div class="types-grid">
+                        <div class="type-item">
+                            <i class="material-icons">account_balance</i>
+                            <div class="type-content">
+                                <h3 class="type-name">Company Profile</h3>
+                                <p class="type-description">Memperkenalkan identitas, sejarah, dan nilai perusahaan</p>
+                            </div>
+                        </div>
+                        <div class="type-item">
+                            <i class="material-icons">campaign</i>
+                            <div class="type-content">
+                                <h3 class="type-name">Promosi</h3>
+                                <p class="type-description">Mempromosikan produk, layanan, atau acara perusahaan</p>
+                            </div>
+                        </div>
+                        <div class="type-item">
+                            <i class="material-icons">school</i>
+                            <div class="type-content">
+                                <h3 class="type-name">Pelatihan</h3>
+                                <p class="type-description">Materi edukasi untuk karyawan atau pelanggan</p>
+                            </div>
+                        </div>
+                        <div class="type-item">
+                            <i class="material-icons">record_voice_over</i>
+                            <div class="type-content">
+                                <h3 class="type-name">Testimoni</h3>
+                                <p class="type-description">Pengalaman positif dari pelanggan atau mitra</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-content">
+                <div class="image-container">
+                    <img src="https://sfile.chatglm.cn/images-ppt/98c7963e4fb6.png" alt="Video Korporat Production" onerror="this.onerror=null; this.src='https://placehold.co/800x450/0a2342/ffffff?text=Video+Korporat';">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: Alur Kerja Produksi Video - Tahap Pra-produksi dan Produksi -->
+    <div class="slide" id="slide-pra-produksi">
+        <div class="header">
+            <h1 class="title">Alur Kerja Produksi Video: Pra-produksi dan Produksi</h1>
+        </div>
+        <div class="content two-column">
+            <div class="process-container left-content">
+                <div class="process-section">
+                    <div class="process-header" style="display: flex; align-items: center; margin-bottom: 20px;">
+                        <div class="process-icon" style="width: 50px; height: 50px;">
+                            <i class="material-icons">edit_note</i>
+                        </div>
+                        <h2 class="subtitle process-title" style="font-size: 24px; margin-bottom: 0;">Pra-produksi (Perencanaan)</h2>
+                    </div>
+                    <div class="process-steps">
+                        <div class="step-item">
+                            <i class="material-icons step-icon">lightbulb</i>
+                            <div class="step-content">
+                                <h3 class="step-name">Konsep</h3>
+                                <p class="step-description">Ide, tema, dan target audiens</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <i class="material-icons step-icon">description</i>
+                            <div class="step-content">
+                                <h3 class="step-name">Naskah</h3>
+                                <p class="step-description">Dialog dan alur cerita</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <i class="material-icons step-icon">grid_view</i>
+                            <div class="step-content">
+                                <h3 class="step-name">Storyboard</h3>
+                                <p class="step-description">Visualisasi adegan</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <i class="material-icons step-icon">place</i>
+                            <div class="step-content">
+                                <h3 class="step-name">Lokasi</h3>
+                                <p class="step-description">Pemilihan dan izin lokasi</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="process-section" style="margin-top: 20px;">
+                    <div class="process-header" style="display: flex; align-items: center; margin-bottom: 20px;">
+                        <div class="process-icon" style="width: 50px; height: 50px;">
+                            <i class="material-icons">videocam</i>
+                        </div>
+                        <h2 class="subtitle process-title" style="font-size: 24px; margin-bottom: 0;">Produksi (Shooting)</h2>
+                    </div>
+                    <div class="process-steps">
+                        <div class="step-item">
+                            <i class="material-icons step-icon">camera</i>
+                            <div class="step-content">
+                                <h3 class="step-name">Shooting</h3>
+                                <p class="step-description">Pengambilan gambar sesuai storyboard</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <i class="material-icons step-icon">theater_comedy</i>
+                            <div class="step-content">
+                                <h3 class="step-name">Acting</h3>
+                                <p class="step-description">Pemeranan karakter</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <i class="material-icons step-icon">mic</i>
+                            <div class="step-content">
+                                <h3 class="step-name">Recording Sound</h3>
+                                <p class="step-description">Perekaman suara on-set</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <i class="material-icons step-icon">wb_sunny</i>
+                            <div class="step-content">
+                                <h3 class="step-name">Lighting</h3>
+                                <p class="step-description">Penataan pencahayaan</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="diagram-container right-content">
+                <div class="process-section diagram" style="align-items: center; text-align: center;">
+                    <h2 class="subtitle diagram-title" style="font-size: 24px;">Ringkasan Alur Produksi</h2>
+                    <div class="process-flow">
+                        <div class="flow-step" style="display: flex; align-items: center;">
+                            <div class="process-icon flow-step-number" style="width: 40px; height: 40px; font-size: 20px;">1</div>
+                            <div class="flow-step-content" style="flex: 1; padding: 10px; text-align: left;">
+                                <h3 class="step-name flow-step-title">Pra-produksi</h3>
+                                <p class="step-description flow-step-description">Perencanaan dan persiapan</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flow-arrow"><i class="material-icons">arrow_downward</i></div>
+                        
+                        <div class="flow-step" style="display: flex; align-items: center;">
+                            <div class="process-icon flow-step-number" style="width: 40px; height: 40px; font-size: 20px;">2</div>
+                            <div class="flow-step-content" style="flex: 1; padding: 10px; text-align: left;">
+                                <h3 class="step-name flow-step-title">Produksi</h3>
+                                <p class="step-description flow-step-description">Pengambilan gambar dan suara</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flow-arrow"><i class="material-icons">arrow_downward</i></div>
+                        
+                        <div class="flow-step" style="display: flex; align-items: center;">
+                            <div class="process-icon flow-step-number" style="width: 40px; height: 40px; font-size: 20px;">3</div>
+                            <div class="flow-step-content" style="flex: 1; padding: 10px; text-align: left;">
+                                <h3 class="step-name flow-step-title">Pasca-produksi</h3>
+                                <p class="step-description flow-step-description">Editing dan finishing</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flow-arrow"><i class="material-icons">arrow_downward</i></div>
+                        
+                        <div class="flow-step" style="display: flex; align-items: center;">
+                            <div class="process-icon flow-step-number" style="width: 40px; height: 40px; font-size: 20px;">4</div>
+                            <div class="flow-step-content" style="flex: 1; padding: 10px; text-align: left;">
+                                <h3 class="step-name flow-step-title">Distribusi</h3>
+                                <p class="step-description flow-step-description">Penyebaran dan publikasi</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: Alur Kerja Produksi Video - Pasca-produksi -->
+    <div class="slide" id="slide-pasca-produksi">
+        <div class="header">
+            <h1 class="title">Alur Kerja Produksi Video: Pasca-produksi dan Distribusi</h1>
+        </div>
+        <div class="content two-column">
+            <div class="left-content">
+                <div class="process-section">
+                    <div class="process-header" style="display: flex; align-items: center; margin-bottom: 20px;">
+                        <div class="process-icon" style="width: 50px; height: 50px;">
+                            <i class="material-icons">movie_filter</i>
+                        </div>
+                        <h2 class="subtitle process-title" style="font-size: 24px; margin-bottom: 0;">Pasca-produksi (Finishing)</h2>
+                    </div>
+                    <div class="process-steps">
+                        <div class="step-item">
+                            <i class="material-icons step-icon">content_cut</i>
+                            <div class="step-content">
+                                <h3 class="step-name">Editing</h3>
+                                <p class="step-description">Memotong dan menyusun footage mentah</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <i class="material-icons step-icon">palette</i>
+                            <div class="step-content">
+                                <h3 class="step-name">Color Grading</h3>
+                                <p class="step-description">Koreksi dan penyesuaian warna visual</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <i class="material-icons step-icon">graphic_eq</i>
+                            <div class="step-content">
+                                <h3 class="step-name">Sound Mixing</h3>
+                                <p class="step-description">Penyempurnaan audio, musik, dan efek suara</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <i class="material-icons step-icon">auto_fix_high</i>
+                            <div class="step-content">
+                                <h3 class="step-name">Adding Effects</h3>
+                                <p class="step-description">Penambahan grafis, teks, dan transisi</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="image-container" style="height: 200px; margin-top: 30px;">
+                    <img src="https://sfile.chatglm.cn/images-ppt/9abcbef01ce7.jpg" alt="Video Production Process" onerror="this.onerror=null; this.src='https://placehold.co/800x450/0a2342/ffffff?text=Editing+Software';">
+                </div>
+            </div>
+            
+            <div class="diagram-container right-content">
+                <div class="process-section diagram" style="align-items: center; text-align: center;">
+                    <h2 class="subtitle diagram-title" style="font-size: 24px;">Fokus Pasca & Distribusi</h2>
+                    <div class="workflow-container">
+                        <div class="workflow">
+                            <div class="process-steps">
+                                <div class="workflow-step">
+                                    <div class="process-icon workflow-step-icon">
+                                        <i class="material-icons">movie_filter</i>
+                                    </div>
+                                    <h3 class="step-name workflow-step-title">Pasca-produksi</h3>
+                                    <p class="step-description workflow-step-description">Editing dan finishing</p>
+                                </div>
+                                <div class="workflow-step">
+                                    <div class="process-icon workflow-step-icon">
+                                        <i class="material-icons">share</i>
+                                    </div>
+                                    <h3 class="step-name workflow-step-title">Distribusi</h3>
+                                    <p class="step-description workflow-step-description">Publikasi dan penyebaran</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flow-arrow" style="margin: 20px 0;"><i class="material-icons">arrow_downward</i></div>
+                            
+                            <div class="process-steps">
+                                <div class="workflow-step">
+                                    <div class="process-icon workflow-step-icon">
+                                        <i class="material-icons">check_circle</i>
+                                    </div>
+                                    <h3 class="step-name workflow-step-title">Review & Feedback</h3>
+                                    <p class="step-description workflow-step-description">Mendapatkan masukan sebelum rilis</p>
+                                </div>
+                                <div class="workflow-step">
+                                    <div class="process-icon workflow-step-icon">
+                                        <i class="material-icons">public</i>
+                                    </div>
+                                    <h3 class="step-name workflow-step-title">Publikasi</h3>
+                                    <p class="step-description workflow-step-description">Unggah ke platform yang sesuai</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

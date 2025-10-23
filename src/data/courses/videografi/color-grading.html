@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Lengkap Videografi: Color Correction, Grading, Scopes, dan LUTs</title>
+    <!-- Menggunakan Font Source Sans Pro dari Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Menggunakan Material Icons untuk ikon -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        /* ====================================
+           GLOBAL & MOBILE FIRST STYLES
+        ==================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+        
+        /* TEMA WARNA */
+        .accent-blue { color: #64B5F6; } /* Warna Correction */
+        .accent-orange { color: #FF8A65; } /* Warna Grading */
+        .highlight { font-weight: 600; color: #64B5F6; }
+        .highlight2 { font-weight: 600; color: #FF8A65; }
+
+        /* BASE SECTION CONTAINER */
+        .slide {
+            width: 100%;
+            position: relative;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            padding: 40px 20px; /* Padding responsif */
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        /* SLIDE 1: INTRO KHUSUS (Background Image) */
+        #slide-intro {
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), 
+                        url('https://sfile.chatglm.cn/images-ppt/4b280e008843.jpg');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            padding: 80px 20px;
+        }
+        #slide-intro .title {
+            font-size: 36px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+        #slide-intro .subtitle {
+            font-size: 18px;
+            max-width: 90%;
+            margin: 0 auto;
+        }
+
+        /* HEADER & TYPOGRAPHY UMUM */
+        .header {
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .title {
+            font-size: 30px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        /* CONTENT LAYOUT - MOBILE (STACKED) */
+        .content {
+            display: flex;
+            flex-direction: column; 
+            gap: 30px;
+        }
+        .left-content, .right-content {
+            width: 100%;
+        }
+
+        /* CARD STYLING & COMPONENTS */
+        .concept, .purpose, .definition {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        .concept-title, .purpose-title, .definition-title, .key-point-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .concept-title i, .purpose-title i, .definition-title i, .key-point-title i {
+            margin-right: 10px;
+        }
+        .concept-desc, .purpose-desc, .definition-desc {
+            font-size: 16px;
+            color: #bdbdbd;
+        }
+
+        /* CORRECTION vs GRADING CONTAINER */
+        #slide-correction-grading .concept:nth-child(1) {
+            border-left: 4px solid #64B5F6;
+            background-color: rgba(100, 181, 246, 0.1);
+        }
+        #slide-correction-grading .concept:nth-child(2) {
+            border-left: 4px solid #FF8A65;
+            background-color: rgba(255, 138, 101, 0.1);
+        }
+
+        .key-point-container {
+            background-color: rgba(100, 181, 246, 0.1);
+            border-left: 4px solid #64B5F6;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 0 4px 4px 0;
+        }
+        .key-point-desc {
+            font-size: 16px;
+            color: #e0e0e0;
+        }
+        
+        /* VISUAL ELEMENTS (IMAGES) */
+        .comparison-image, .scope-image, .lut-image {
+            width: 100%;
+            height: auto;
+            max-height: 300px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            object-fit: cover;
+            margin: 0 auto;
+            display: block;
+        }
+        
+        /* STEP LISTS & TOOLS */
+        .steps-container, .tools-container, .mood-container, .scopes-container, .types-container {
+            margin-bottom: 20px;
+        }
+        .steps-title, .tools-title, .mood-title, .scopes-title, .types-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            color: #ffffff;
+        }
+
+        .steps-container .step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        .step-number {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 10px;
+            flex-shrink: 0;
+            font-size: 14px;
+        }
+        .slide-correction .step-number { background-color: #64B5F6; color: #121212; }
+        .slide-grading .step-number { background-color: #FF8A65; color: #121212; }
+        .step-text { font-size: 16px; color: #e0e0e0; padding-top: 2px; }
+
+        .tools-grid, .mood-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        .tool, .mood {
+            display: flex;
+            align-items: flex-start;
+            background-color: rgba(255, 255, 255, 0.08);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .tool i, .mood i {
+            margin-right: 10px;
+            font-size: 24px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .tool-name, .mood-name {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .tool-desc, .mood-desc {
+            font-size: 14px;
+            color: #bdbdbd;
+        }
+        
+        /* SCOPES */
+        .scope, .type {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        .scope-icon, .type-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+            font-size: 18px;
+        }
+        .scope-icon { background-color: #64B5F6; color: #121212; }
+        .type-icon { background-color: #FF8A65; color: #121212; }
+        .scope-name, .type-name { font-size: 18px; font-weight: 600; margin-bottom: 5px; }
+        .scope-desc, .type-desc { font-size: 16px; color: #bdbdbd; }
+        
+        .note, .application {
+            background-color: rgba(255, 138, 101, 0.1);
+            border-left: 4px solid #FF8A65;
+            padding: 15px;
+            border-radius: 0 4px 4px 0;
+        }
+        .application {
+            background-color: rgba(100, 181, 246, 0.1);
+            border-left: 4px solid #64B5F6;
+        }
+        .note-title, .application-title { font-size: 18px; font-weight: 600; margin-bottom: 5px; }
+
+        /* BEST PRACTICES & KESIMPULAN */
+        .intro-text {
+            font-size: 18px;
+            color: #e0e0e0;
+            margin: 0 auto 30px;
+            text-align: center;
+        }
+        .tips-grid, .summary-grid-final {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        .tip {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .tip-icon {
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+        }
+        .tip-title { font-size: 18px; margin-bottom: 5px; }
+        .tip-desc { font-size: 15px; }
+
+        .key-point { margin-bottom: 15px; }
+        .key-point-icon { width: 36px; height: 36px; font-size: 18px; }
+        .key-point-text { font-size: 16px; padding-top: 2px; }
+        .quote { font-size: 16px; padding: 0 10px; margin-top: 15px; }
+
+        .thank-you, .contact { padding: 15px; }
+        .thank-you-title { font-size: 20px; }
+        .contact-title { font-size: 18px; }
+        .contact-item { font-size: 16px; }
+
+
+        /* ====================================
+           TABLET STYLES (min-width: 768px)
+        ==================================== */
+        @media (min-width: 768px) {
+            .slide {
+                padding: 60px 40px;
+            }
+            .title { 
+                font-size: 36px; 
+            }
+            
+            .content {
+                flex-direction: row; 
+                gap: 40px;
+            }
+            .left-content, .right-content {
+                width: 50%;
+            }
+            
+            .tools-grid, .mood-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .tools-grid .tool, .mood-grid .mood {
+                padding: 15px;
+            }
+            .tips-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .summary-grid-final {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .tip-title { font-size: 20px; }
+            .key-point-text { font-size: 18px; }
+
+            /* KESIMPULAN LAYOUT */
+            .summary-container { flex-direction: row; }
+            .summary-left { flex: 3; padding-right: 20px; }
+            .summary-right { flex: 2; }
+        }
+        
+        /* ====================================
+           DESKTOP STYLES (min-width: 1024px)
+        ==================================== */
+        @media (min-width: 1024px) {
+            .slide {
+                padding: 70px 70px;
+            }
+            #slide-intro .title { 
+                font-size: 60px; 
+            }
+            .title { 
+                font-size: 40px; 
+            }
+            
+            .tips-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .summary-grid-final {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .image-container {
+                 max-height: 450px;
+            }
+            .summary-left { flex: 3; padding-right: 40px; }
+            .summary-right { flex: 2; }
+            .quote { font-size: 22px; }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- SLIDE 1: JUDUL UTAMA -->
+    <div class="slide" id="slide-intro">
+        <div class="content">
+            <h1 class="title">Tutorial Videography: <span class="accent-blue">Color Correction</span> dan <span class="accent-orange">Color Grading</span></h1>
+            <p class="subtitle">Pengertian Color Correction (menormalkan warna) vs Color Grading (memberi mood), menggunakan scope dan LUT.</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: CORRECTION VS GRADING -->
+    <div class="slide" id="slide-correction-grading">
+        <div class="header">
+            <h1 class="title">Color Correction vs Color Grading</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="concept">
+                    <h2 class="concept-title"><i class="material-icons" style="color: #64B5F6;">tune</i> Color Correction</h2>
+                    <p class="concept-desc">Proses <span class="highlight">menormalkan warna</span> video untuk memperbaiki masalah teknis dan membuat warna terlihat natural seperti mata manusia melihatnya.</p>
+                </div>
+                <div class="concept">
+                    <h2 class="concept-title"><i class="material-icons" style="color: #FF8A65;">palette</i> Color Grading</h2>
+                    <p class="concept-desc">Proses <span class="highlight2">memberi mood dan gaya</span> artistik pada video untuk menciptakan suasana tertentu dan meningkatkan narasi visual.</p>
+                </div>
+                <div class="key-point-container">
+                    <h3 class="key-point-title" style="color: #90CAF9;">Urutan Proses</h3>
+                    <p class="key-point-desc">Color Correction dilakukan <span class="highlight">terlebih dahulu</span> untuk menormalkan footage, kemudian Color Grading untuk menciptakan gaya visual yang diinginkan.</p>
+                </div>
+            </div>
+            <div class="right-content">
+                <img src="https://sfile.chatglm.cn/images-ppt/f39ac09a5db0.jpg" alt="Perbandingan original, color correction, dan color grading" class="comparison-image">
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: COLOR CORRECTION DETAIL -->
+    <div class="slide" id="slide-correction" class="slide-correction">
+        <div class="header">
+            <h1 class="title"><span class="accent-blue">Color Correction</span> (Menormalkan Warna)</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="purpose" style="border-left-color: #64B5F6; background-color: rgba(100, 181, 246, 0.1);">
+                    <h2 class="purpose-title" style="color: #64B5F6;"><i class="material-icons">lightbulb</i> Tujuan</h2>
+                    <p class="purpose-desc"><span class="highlight">Menormalkan warna</span> video untuk memperbaiki masalah teknis dan membuat warna terlihat natural.</p>
+                </div>
+                
+                <div class="steps-container">
+                    <h2 class="steps-title" style="color: #ffffff;"><i class="material-icons" style="color: #64B5F6;">format_list_numbered</i> 5 Langkah Proses Koreksi</h2>
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-text">Normalisasi footage (memastikan tidak ada *clipping*)</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-text">Perbaiki saturasi (memastikan warna tidak *oversaturated*)</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-text">Atur kecerahan dan kontras</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-text">Tetapkan *white balance* (menghilangkan *color cast*)</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-text">Periksa warna kulit (*skin tone*)</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-content">
+                <div class="tools-container" style="border-left-color: #FF8A65; background-color: rgba(255, 138, 101, 0.1);">
+                    <h2 class="tools-title" style="color: #FF8A65;"><i class="material-icons">build</i> Alat Utama Correction</h2>
+                    <div class="tools-grid">
+                        <div class="tool">
+                            <i class="material-icons" style="color: #FF8A65;">tune</i>
+                            <div>
+                                <div class="tool-name">Color Wheels</div>
+                                <div class="tool-desc">Mengatur warna di area bayangan, tengah, dan terang</div>
+                            </div>
+                        </div>
+                        <div class="tool">
+                            <i class="material-icons" style="color: #FF8A65;">show_chart</i>
+                            <div>
+                                <div class="tool-name">Curves (Luma & RGB)</div>
+                                <div class="tool-desc">Kontrol presisi kecerahan dan warna</div>
+                            </div>
+                        </div>
+                        <div class="tool">
+                            <i class="material-icons" style="color: #FF8A65;">invert_colors</i>
+                            <div>
+                                <div class="tool-name">HSL Controls</div>
+                                <div class="tool-desc">Mengatur Hue, Saturation, dan Luminance</div>
+                            </div>
+                        </div>
+                        <div class="tool">
+                            <i class="material-icons" style="color: #FF8A65;">settings</i>
+                            <div>
+                                <div class="tool-name">Primary Sliders</div>
+                                <div class="tool-desc">Mengatur nilai RGB, kecerahan, dan kontras global</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: COLOR GRADING DETAIL -->
+    <div class="slide" id="slide-grading" class="slide-grading">
+        <div class="header">
+            <h1 class="title"><span class="accent-orange">Color Grading</span> (Memberi Mood)</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="purpose" style="border-left-color: #FF8A65; background-color: rgba(255, 138, 101, 0.1);">
+                    <h2 class="purpose-title" style="color: #FF8A65;"><i class="material-icons">palette</i> Tujuan</h2>
+                    <p class="purpose-desc"><span class="highlight2">Memberi mood dan gaya</span> artistik pada video untuk menciptakan suasana tertentu dan meningkatkan narasi visual.</p>
+                </div>
+                
+                <div class="steps-container">
+                    <h2 class="steps-title" style="color: #ffffff;"><i class="material-icons" style="color: #FF8A65;">format_list_numbered</i> 5 Langkah Proses Grading</h2>
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-text">Pastikan footage telah dinormalisasi (*Color Corrected*)</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-text">Pilih tampilan (*look*) dan gaya yang diinginkan (misal: *teal and orange*)</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-text">Lakukan penyesuaian warna di area bayangan dan highlight</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-text">Gunakan LUT sebagai dasar atau *finishing touch*</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-text">Periksa Vectorscope dan *skin tone* untuk finalisasi</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-content">
+                <div class="mood-container" style="border-left-color: #64B5F6; background-color: rgba(100, 181, 246, 0.1);">
+                    <h2 class="mood-title" style="color: #64B5F6;"><i class="material-icons">mood</i> Menciptakan Mood Visual</h2>
+                    <div class="mood-grid">
+                        <div class="mood">
+                            <i class="material-icons" style="color: #64B5F6;">wb_sunny</i>
+                            <div>
+                                <div class="mood-name">Hangat (Warm)</div>
+                                <div class="mood-desc">Tone oranye/kuning untuk suasana ceria, romantis, atau nostalgia</div>
+                            </div>
+                        </div>
+                        <div class="mood">
+                            <i class="material-icons" style="color: #64B5F6;">ac_unit</i>
+                            <div>
+                                <div class="mood-name">Dingin (Cool)</div>
+                                <div class="mood-desc">Tone biru/hijau untuk suasana sedih, tegang, atau fiksi ilmiah</div>
+                            </div>
+                        </div>
+                        <div class="mood">
+                            <i class="material-icons" style="color: #64B5F6;">contrast</i>
+                            <div>
+                                <div class="mood-name">Kontras Tinggi</div>
+                                <div class="mood-desc">Untuk adegan dramatis, aksi, dan visual yang *punchy*</div>
+                            </div>
+                        </div>
+                        <div class="mood">
+                            <i class="material-icons" style="color: #64B5F6;">tonality</i>
+                            <div>
+                                <div class="mood-name">Desaturated</div>
+                                <div class="mood-desc">Untuk nuansa retrospektif, suram, atau *vintage*</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: USING SCOPES -->
+    <div class="slide" id="slide-scopes">
+        <div class="header">
+            <h1 class="title">Menggunakan Scopes (Analyzer Video)</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="importance" style="border-left-color: #64B5F6; background-color: rgba(100, 181, 246, 0.1);">
+                    <h2 class="importance-title" style="color: #64B5F6;"><i class="material-icons">insights</i> Mengapa Scopes Penting?</h2>
+                    <p class="importance-desc">Scopes <span class="highlight">tidak pernah berbohong</span> - memberikan data akurat tentang warna dan kecerahan, tidak seperti mata yang dapat menyesuaikan atau monitor yang mungkin tidak dikalibrasi.</p>
+                </div>
+                
+                <div class="scopes-container">
+                    <h2 class="scopes-title"><i class="material-icons" style="color: #64B5F6;">view_comfy</i> Jenis Scopes Utama</h2>
+                    <div class="scope">
+                        <div class="scope-icon">
+                            <i class="material-icons">show_chart</i>
+                        </div>
+                        <div class="scope-content">
+                            <div class="scope-name">Waveform (Luma & RGB Parade)</div>
+                            <div class="scope-desc">Menampilkan tingkat kecerahan dari kiri ke kanan. Memastikan level *exposure* antara 0-100.</div>
+                        </div>
+                    </div>
+                    <div class="scope">
+                        <div class="scope-icon">
+                            <i class="material-icons">blur_circular</i>
+                        </div>
+                        <div class="scope-content">
+                            <div class="scope-name">Vector Scope</div>
+                            <div class="scope-desc">Menampilkan informasi warna pada roda warna. Membantu identifikasi *color cast* dan tingkat saturasi.</div>
+                        </div>
+                    </div>
+                    <div class="scope">
+                        <div class="scope-icon">
+                            <i class="material-icons">bar_chart</i>
+                        </div>
+                        <div class="scope-content">
+                            <div class="scope-name">Histogram</div>
+                            <div class="scope-desc">Menampilkan distribusi tonal. Berguna untuk melihat jangkauan dinamis (*dynamic range*) gambar.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="note">
+                    <h3 class="note-title" style="color: #FF8A65;"><i class="material-icons">lightbulb</i> Tips Broadcast</h3>
+                    <p class="note-desc">Pastikan level berada dalam rentang 0-100 (atau 0-700mv) untuk menghindari *clipping* dan penolakan dari quality control.</p>
+                </div>
+            </div>
+            
+            <div class="right-content">
+                <img src="https://sfile.chatglm.cn/images-ppt/7f1f591a2c24.png" alt="Video Scopes in Action" class="scope-image">
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: USING LUTs -->
+    <div class="slide" id="slide-luts">
+        <div class="header">
+            <h1 class="title">Menggunakan LUTs (Look-Up Tables)</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="definition" style="border-left-color: #FF8A65; background-color: rgba(255, 138, 101, 0.1);">
+                    <h2 class="definition-title" style="color: #FF8A65;"><i class="material-icons">filter</i> Apa itu LUT?</h2>
+                    <p class="definition-desc"><span class="highlight2">Look-Up Tables</span> adalah filter warna yang menerapkan formula matematis yang telah ditentukan untuk mengubah warna video secara otomatis.</p>
+                </div>
+                
+                <div class="types-container">
+                    <h2 class="types-title"><i class="material-icons" style="color: #FF8A65;">category</i> Jenis LUT</h2>
+                    <div class="type">
+                        <div class="type-icon">
+                            <i class="material-icons">monitor</i>
+                        </div>
+                        <div class="type-content">
+                            <div class="type-name">Monitor LUTs</div>
+                            <div class="type-desc">Kalibrasi: memastikan monitor menampilkan warna akurat. Viewing: menyesuaikan tampilan LOG/RAW.</div>
+                        </div>
+                    </div>
+                    <div class="type">
+                        <div class="type-icon">
+                            <i class="material-icons">movie_filter</i>
+                        </div>
+                        <div class="type-content">
+                            <div class="type-name">Post-production LUTs</div>
+                            <div class="type-desc">Berfungsi sebagai *preset* untuk mengubah warna, kontras, saturasi, dan luminance.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="application" style="border-left-color: #64B5F6; background-color: rgba(100, 181, 246, 0.1);">
+                    <h3 class="application-title" style="color: #64B5F6;"><i class="material-icons">touch_app</i> Cara Menggunakan</h3>
+                    <p class="application-desc">1. Terapkan LUT setelah <span class="highlight">color correction</span> dasar.<br>2. Sesuaikan intensitas LUT sesuai kebutuhan (biasanya tidak 100%).<br>3. Buat LUT kustom dengan mengekspor pengaturan warna favorit Anda.</p>
+                </div>
+            </div>
+            
+            <div class="right-content">
+                <img src="https://sfile.chatglm.cn/images-ppt/c334a21fd7b5.jpg" alt="LUTs Application in Video Editing Software" class="lut-image">
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: BEST PRACTICES -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Best Practices dan Tips Profesional</h1>
+        </div>
+        <div class="content">
+            <div class="intro">
+                <p class="intro-text">Praktik terbaik untuk mencapai hasil <span class="highlight">color correction</span> dan <span class="highlight2">color grading</span> yang profesional.</p>
+            </div>
+            <div class="tips-grid">
+                <div class="tip">
+                    <div class="tip-icon" style="background: linear-gradient(135deg, #64B5F6 0%, #FF8A65 100%);">
+                        <i class="material-icons">filter_1</i>
+                    </div>
+                    <div class="tip-content">
+                        <h3 class="tip-title">Urutan Proses</h3>
+                        <p class="tip-desc">Lakukan <span class="highlight">correction</span> terlebih dahulu sebelum <span class="highlight2">grading</span> untuk memastikan warna dasar sudah benar.</p>
+                    </div>
+                </div>
+                <div class="tip">
+                    <div class="tip-icon" style="background: linear-gradient(135deg, #64B5F6 0%, #FF8A65 100%);">
+                        <i class="material-icons">insights</i>
+                    </div>
+                    <div class="tip-content">
+                        <h3 class="tip-title">Gunakan Scopes</h3>
+                        <p class="tip-desc">Selalu periksa waveform dan vectorscope untuk memastikan representasi warna yang akurat dan legal.</p>
+                    </div>
+                </div>
+                <div class="tip">
+                    <div class="tip-icon" style="background: linear-gradient(135deg, #64B5F6 0%, #FF8A65 100%);">
+                        <i class="material-icons">monitor</i>
+                    </div>
+                    <div class="tip-content">
+                        <h3 class="tip-title">Monitor Terkalibrasi</h3>
+                        <p class="tip-desc">Bekerja pada monitor yang dikalibrasi dengan benar untuk melihat warna seakurat mungkin.</p>
+                    </div>
+                </div>
+                <div class="tip">
+                    <div class="tip-icon" style="background: linear-gradient(135deg, #64B5F6 0%, #FF8A65 100%);">
+                        <i class="material-icons">opacity</i>
+                    </div>
+                    <div class="tip-content">
+                        <h3 class="tip-title">Subtilitas</h3>
+                        <p class="tip-desc">Kurang lebih baik - hindari color grading yang berlebihan yang dapat mengganggu narasi visual.</p>
+                    </div>
+                </div>
+                <div class="tip">
+                    <div class="tip-icon" style="background: linear-gradient(135deg, #64B5F6 0%, #FF8A65 100%);">
+                        <i class="material-icons">compare</i>
+                    </div>
+                    <div class="tip-content">
+                        <h3 class="tip-title">Konsistensi</h3>
+                        <p class="tip-desc">Pertahankan konsistensi warna di seluruh *shot* dalam adegan yang sama untuk kelancaran visual.</p>
+                    </div>
+                </div>
+                <div class="tip">
+                    <div class="tip-icon" style="background: linear-gradient(135deg, #64B5F6 0%, #FF8A65 100%);">
+                        <i class="material-icons">palette</i>
+                    </div>
+                    <div class="tip-content">
+                        <h3 class="tip-title">Teori Warna</h3>
+                        <p class="tip-desc">Pelajari teori warna untuk membuat keputusan grading yang lebih baik dan efektif.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: KESIMPULAN -->
+    <div class="slide" id="slide-kesimpulan">
+        <div class="header">
+            <h1 class="title">Kesimpulan</h1>
+        </div>
+        <div class="content summary-container">
+            <div class="summary-left">
+                <div class="key-points">
+                    <div class="key-point">
+                        <div class="key-point-icon">
+                            <i class="material-icons">compare</i>
+                        </div>
+                        <div class="key-point-text">
+                            <span class="highlight">Color correction</span> menormalkan warna, sementara <span class="highlight2">color grading</span> menciptakan mood visual.
+                        </div>
+                    </div>
+                    <div class="key-point">
+                        <div class="key-point-icon">
+                            <i class="material-icons">movie_filter</i>
+                        </div>
+                        <div class="key-point-text">
+                            Color correction harus dilakukan <span class="highlight">sebelum</span> color grading.
+                        </div>
+                    </div>
+                    <div class="key-point">
+                        <div class="key-point-icon">
+                            <i class="material-icons">insights</i>
+                        </div>
+                        <div class="key-point-text">
+                            Scopes (Waveform, Vectorscope) memberikan data objektif untuk penyesuaian warna yang akurat dan teknis.
+                        </div>
+                    </div>
+                    <div class="key-point">
+                        <div class="key-point-icon">
+                            <i class="material-icons">filter</i>
+                        </div>
+                        <div class="key-point-text">
+                            LUTs adalah alat powerful untuk mencapai tampilan yang konsisten dan cepat.
+                        </div>
+                    </div>
+                    <div class="key-point">
+                        <div class="key-point-icon">
+                            <i class="material-icons">psychology</i>
+                        </div>
+                        <div class="key-point-text">
+                            Latihan dan eksperimen adalah kunci untuk menguasai proses pewarnaan video.
+                        </div>
+                    </div>
+                </div>
+                <div class="quote">
+                    "Color is a power which directly influences the soul." - Wassily Kandinsky
+                </div>
+            </div>
+            <div class="summary-right">
+                <div class="thank-you">
+                    <h2 class="thank-you-title"><i class="material-icons">favorite</i> Terima Kasih</h2>
+                    <p class="thank-you-text">Semoga tutorial ini membantu Anda memahami dasar-dasar color correction dan color grading dalam videography. Jangan ragu untuk eksplorasi lebih jauh!</p>
+                </div>
+                <div class="contact">
+                    <h3 class="contact-title"><i class="material-icons">contact_mail</i> Hubungi Kami</h3>
+                    <div class="contact-item">
+                        <i class="material-icons">email</i>
+                        <div class="contact-text">info@videotutorial.com</div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="material-icons">phone</i>
+                        <div class="contact-text">+62 812-3456-7890</div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="material-icons">language</i>
+                        <div class="contact-text">www.videotutorial.com</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

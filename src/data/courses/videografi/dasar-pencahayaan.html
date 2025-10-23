@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Videografi: Dasar Pencahayaan</title>
+    <!-- Menggunakan Font Source Sans Pro dari Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Menggunakan Material Icons untuk ikon -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        /* ====================================
+           GLOBAL & MOBILE FIRST STYLES
+           (Default for screens < 768px)
+        ==================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #121212; /* Dark background for the whole page */
+            color: #ffffff;
+            padding: 0;
+        }
+
+        /* Base styling for all content sections (slides) */
+        .slide {
+            width: 100%;
+            min-height: auto;
+            position: relative;
+            overflow: hidden;
+            background-color: #121212;
+            color: #ffffff;
+            padding: 30px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        /* Styling specific to the dark intro slide */
+        #slide-intro {
+            background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), 
+                        url('https://sfile.chatglm.cn/images-ppt/7248dcd606f0.png');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        #slide-intro .title {
+            color: #ffffff;
+            font-size: 38px;
+            margin-bottom: 15px;
+        }
+        #slide-intro .subtitle {
+            font-size: 16px;
+            color: #FFD54F;
+        }
+        .highlight {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+        .highlight-text {
+            font-size: 14px;
+            color: #ffffff;
+        }
+        .accent {
+            color: #FFD54F;
+        }
+
+        /* General Layouts */
+        .header {
+            padding: 0 0 20px;
+            margin: -30px -20px 0;
+            padding: 30px 20px;
+            margin-bottom: 20px;
+            border-radius: 8px 8px 0 0;
+        }
+        .title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .content {
+            display: flex;
+            flex-direction: column; /* Stacked content on mobile */
+            gap: 30px;
+        }
+
+        /* Light Types (Alami vs Buatan) */
+        .light-type {
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            border-right: none !important; /* Remove separator on mobile */
+        }
+        .light-title {
+            font-size: 24px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .light-icon {
+            margin-right: 10px;
+            font-size: 28px;
+        }
+        .feature-item {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .feature-icon {
+            font-size: 18px;
+            margin-right: 8px;
+        }
+        .highlight-box {
+            margin-top: 15px;
+            padding: 15px;
+        }
+        .highlight-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .highlight-text {
+            font-size: 14px;
+        }
+        .natural {
+            color: #FFD54F;
+        }
+        .artificial {
+            color: #64B5F6;
+        }
+
+        /* Three-Point Lighting */
+        .diagram-container {
+            order: -1; /* Image above text on mobile */
+            padding: 0;
+        }
+        .diagram {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .light-points {
+            display: none; /* Hide absolute positioning on mobile for cleaner layout */
+        }
+        .info-container {
+            padding-left: 0;
+        }
+        .intro-text {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .light-title {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        .light-description {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .key-title { color: #FFD54F; }
+        .fill-title { color: #64B5F6; }
+        .back-title { color: #81C784; }
+
+        /* Color Temperature */
+        .temperature-scale {
+            max-width: 100%;
+            margin-bottom: 20px;
+        }
+        .scale-info, .mood-container {
+            width: 100%;
+            max-width: 100%;
+            margin: 10px 0;
+        }
+        .scale-point {
+            flex: 1;
+        }
+        .scale-value { font-size: 14px; }
+        .scale-label { font-size: 12px; }
+        .mood-box {
+            padding: 10px;
+            margin: 0 3px;
+        }
+        .mood-title { font-size: 16px; }
+        .mood-text { font-size: 14px; }
+        .key-text { font-size: 16px; }
+
+        /* White Balance */
+        .comparison-image {
+            max-width: 100%;
+        }
+        .settings-container {
+            width: 100%;
+            max-width: 100%;
+            margin-top: 10px;
+            justify-content: center;
+        }
+        .setting-box {
+            width: calc(100% - 10px);
+            margin-bottom: 10px;
+        }
+        .key-points {
+            margin-top: 10px;
+        }
+
+        /* Conclusion */
+        .intro-text {
+            font-size: 18px;
+        }
+        .summary-grid {
+            flex-direction: column;
+            gap: 20px;
+        }
+        .summary-card {
+            width: 100%;
+            margin-bottom: 0;
+            padding: 20px;
+        }
+        .card-title {
+            font-size: 20px;
+        }
+        .point-text {
+            font-size: 16px;
+        }
+        .final-note {
+            margin-top: 20px;
+        }
+        .final-text {
+            font-size: 18px;
+        }
+
+        /* ====================================
+           TABLET STYLES
+           (min-width: 768px)
+        ==================================== */
+        @media (min-width: 768px) {
+            .slide {
+                max-width: 90%;
+                margin: 20px auto;
+                padding: 40px;
+            }
+            .header {
+                padding: 40px 40px 20px;
+                margin: -40px -40px 0;
+                margin-bottom: 30px;
+            }
+            .title {
+                font-size: 36px;
+            }
+
+            /* Light Types (2 columns) */
+            .content {
+                flex-direction: row;
+                gap: 30px;
+            }
+            .light-type {
+                border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+                padding: 0 15px;
+            }
+            .light-type:last-child {
+                border-right: none !important;
+            }
+
+            /* Three-Point Lighting (2 columns) */
+            .diagram-container {
+                order: initial;
+                flex: 1;
+            }
+            .info-container {
+                flex: 1;
+                padding-left: 20px;
+            }
+            .light-points {
+                display: block; /* Show absolute points on image */
+                position: relative;
+                max-width: 500px;
+                height: 300px;
+                margin: 0 auto;
+            }
+            .diagram {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                max-width: 400px;
+            }
+
+            /* Color Temperature */
+            .left-content, .right-content {
+                flex: 1;
+            }
+
+            /* White Balance */
+            .settings-container {
+                width: 100%;
+                max-width: 100%;
+                justify-content: space-between;
+            }
+            .setting-box {
+                width: calc(50% - 10px);
+            }
+
+            /* Conclusion (2 columns) */
+            .summary-grid {
+                flex-direction: row;
+                gap: 30px;
+            }
+            .summary-card {
+                width: calc(50% - 15px);
+            }
+        }
+        
+        /* ====================================
+           DESKTOP STYLES
+           (min-width: 1024px)
+        ==================================== */
+        @media (min-width: 1024px) {
+            .slide {
+                max-width: 1280px;
+                padding: 60px 70px;
+            }
+            .header {
+                padding: 40px 70px 20px;
+                margin: -60px -70px 0;
+            }
+            .title {
+                font-size: 40px;
+            }
+            #slide-intro .title {
+                font-size: 64px;
+            }
+
+            /* Three-Point Lighting Ratio */
+            .diagram-container {
+                flex: 1.2;
+            }
+            .info-container {
+                flex: 0.8;
+                padding-left: 40px;
+            }
+
+            /* Conclusion (4 cards in one row) */
+            .summary-grid {
+                justify-content: space-between;
+                gap: 30px;
+            }
+            .summary-card {
+                width: calc(25% - 22.5px); /* 4 cards per row */
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- SLIDE 1: JUDUL UTAMA -->
+    <div class="slide" id="slide-intro">
+        <div class="content">
+            <h1 class="title">Tutorial Videografi: <span class="accent">Dasar Pencahayaan</span></h1>
+            <h2 class="subtitle">5 Dasar Pencahayaan (Teori)</h2>
+            
+            <div class="highlight">
+                <p class="highlight-text">Jenis-jenis cahaya • Three-Point Lighting • Color Temperature • White Balance</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: JENIS-JENIS CAHAYA -->
+    <div class="slide" id="slide-jenis-cahaya">
+        <div class="header">
+            <h1 class="title">Jenis-jenis Cahaya (Alami vs Buatan)</h1>
+        </div>
+        <div class="content">
+            <div class="light-type">
+                <h2 class="light-title natural">
+                    <i class="material-icons light-icon">wb_sunny</i>
+                    Cahaya Alami
+                </h2>
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <i class="material-icons feature-icon" style="color: #FFD54F;">check_circle</i>
+                        <span>Sumber: Matahari, bulan, cahaya lingkungan</span>
+                    </li>
+                    <li class="feature-item">
+                        <i class="material-icons feature-icon" style="color: #FFD54F;">check_circle</i>
+                        <span>Karakter: Dinamis, berubah sepanjang hari</span>
+                    </li>
+                    <li class="feature-item">
+                        <i class="material-icons feature-icon" style="color: #FFD54F;">check_circle</i>
+                        <span>Warna: Hangat (matahari terbit/terbenam) hingga netral (siang)</span>
+                    </li>
+                    <li class="feature-item">
+                        <i class="material-icons feature-icon" style="color: #FFD54F;">check_circle</i>
+                        <span>Keuntungan: Realistis, ekonomis, tampilan alami</span>
+                    </li>
+                </ul>
+                <div class="highlight-box natural-highlight">
+                    <h3 class="highlight-title natural">Aplikasi Terbaik</h3>
+                    <p class="highlight-text">Lokasi outdoor, dokumentasi, potret natural, adegan yang membutuhkan tampilan realistis</p>
+                </div>
+            </div>
+            <div class="light-type">
+                <h2 class="light-title artificial">
+                    <i class="material-icons light-icon">lightbulb</i>
+                    Cahaya Buatan
+                </h2>
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <i class="material-icons feature-icon" style="color: #64B5F6;">check_circle</i>
+                        <span>Sumber: Lampu studio, LED, flash, lampu sorot</span>
+                    </li>
+                    <li class="feature-item">
+                        <i class="material-icons feature-icon" style="color: #64B5F6;">check_circle</i>
+                        <span>Karakter: Konsisten, dapat dikontrol penuh</span>
+                    </li>
+                    <li class="feature-item">
+                        <i class="material-icons feature-icon" style="color: #64B5F6;">check_circle</i>
+                        <span>Warna: Dapat disesuaikan (hangat hingga dingin)</span>
+                    </li>
+                    <li class="feature-item">
+                        <i class="material-icons feature-icon" style="color: #64B5F6;">check_circle</i>
+                        <span>Keuntungan: Fleksibel, konsisten, kreatif tak terbatas</span>
+                    </li>
+                </ul>
+                <div class="highlight-box artificial-highlight">
+                    <h3 class="highlight-title artificial">Aplikasi Terbaik</h3>
+                    <p class="highlight-text">Studio, lokasi indoor, wawancara, produk, adegan yang membutuhkan kontrol pencahayaan presisi</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: TEORI THREE-POINT LIGHTING -->
+    <div class="slide" id="slide-three-point">
+        <div class="header">
+            <h1 class="title">Teori Three-Point Lighting</h1>
+        </div>
+        <div class="content">
+            <div class="diagram-container">
+                                <div class="light-points">
+                    <div class="light-point key-light" style="top: 15%; left: 15%; position: absolute;">
+                        <i class="material-icons light-icon">highlight</i>
+                        <span class="light-label">Key Light</span>
+                    </div>
+                    <div class="light-point fill-light" style="top: 15%; right: 15%; position: absolute;">
+                        <i class="material-icons light-icon">lightbulb</i>
+                        <span class="light-label">Fill Light</span>
+                    </div>
+                    <div class="light-point back-light" style="bottom: 15%; left: 50%; transform: translateX(-50%); position: absolute;">
+                        <i class="material-icons light-icon">wb_incandescent</i>
+                        <span class="light-label">Back Light</span>
+                    </div>
+                </div>
+            </div>
+            <div class="info-container">
+                <p class="intro-text">Metode standar pencahayaan yang digunakan dalam video, film, dan fotografi untuk menciptakan dimensi dan memisahkan subjek dari latar belakang.</p>
+                
+                <div class="light-info">
+                    <h3 class="light-title key-title">
+                        <i class="material-icons light-title-icon">highlight</i>
+                        Key Light
+                    </h3>
+                    <p class="light-description">Cahaya <span class="highlight">terkuat</span>, ditempatkan di samping subjek (45°) untuk menciptakan kontras dan bayangan</p>
+                </div>
+                
+                <div class="light-info">
+                    <h3 class="light-title fill-title">
+                        <i class="material-icons light-title-icon">lightbulb</i>
+                        Fill Light
+                    </h3>
+                    <p class="light-description">Cahaya <span class="highlight">lebih lembut</span>, ditempatkan di sisi berlawanan untuk mengisi bayangan dari key light</p>
+                </div>
+                
+                <div class="light-info">
+                    <h3 class="light-title back-title">
+                        <i class="material-icons light-title-icon">wb_incandescent</i>
+                        Back Light
+                    </h3>
+                    <p class="light-description">Ditempatkan <span class="highlight">di belakang</span> subjek untuk memberikan highlight dan memisahkan dari latar belakang</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: MEMAHAMI COLOR TEMPERATURE -->
+    <div class="slide" id="slide-color-temp">
+        <div class="header">
+            <h1 class="title">Memahami Color Temperature</h1>
+        </div>
+        <div class="content">
+            <div class="right-content">
+                                
+                <div class="scale-info">
+                    <div class="scale-point">
+                        <div class="scale-value warm">2000K</div>
+                        <div class="scale-label">Candlelight</div>
+                    </div>
+                    <div class="scale-point">
+                        <div class="scale-value warm">3200K</div>
+                        <div class="scale-label">Sunset</div>
+                    </div>
+                    <div class="scale-point">
+                        <div class="scale-value neutral">5500K</div>
+                        <div class="scale-label">Daylight</div>
+                    </div>
+                    <div class="scale-point">
+                        <div class="scale-value cool">6500K</div>
+                        <div class="scale-label">Overcast</div>
+                    </div>
+                    <div class="scale-point">
+                        <div class="scale-value cool">10000K</div>
+                        <div class="scale-label">Blue Sky</div>
+                    </div>
+                </div>
+                
+                <div class="mood-container">
+                    <div class="mood-box">
+                        <h3 class="mood-title warm">Efek Hangat</h3>
+                        <p class="mood-text">Romantis, nostalgia, kehangatan, kenyamanan</p>
+                    </div>
+                    <div class="mood-box">
+                        <h3 class="mood-title cool">Efek Dingin</h3>
+                        <p class="mood-text">Ketegangan, misteri, teknologi, isolasi</p>
+                    </div>
+                </div>
+            </div>
+            <div class="left-content">
+                <p class="intro-text">
+                    <span class="highlight">Color Temperature</span> adalah ukuran kehangatan atau kedinginan cahaya, diukur dalam <span class="highlight">skala Kelvin (K)</span>
+                </p>
+                
+                <div class="key-points">
+                    <div class="key-point">
+                        <i class="material-icons key-icon warm">wb_sunny</i>
+                        <p class="key-text"><span class="highlight">Cahaya Hangat</span> (2000-3500K): Menciptakan suasana nyaman, hangat, dan intim</p>
+                    </div>
+                    
+                    <div class="key-point">
+                        <i class="material-icons key-icon" style="color: #ffffff;">wb_twilight</i>
+                        <p class="key-text"><span class="highlight">Cahaya Netral</span> (4000-5500K): Memberikan tampilan alami dan seimbang</p>
+                    </div>
+                    
+                    <div class="key-point">
+                        <i class="material-icons key-icon cool">ac_unit</i>
+                        <p class="key-text"><span class="highlight">Cahaya Dingin</span> (6000K+): Menciptakan suasana klinis, teknis, atau misterius</p>
+                    </div>
+                </div>
+                
+                <p class="intro-text" style="margin-top: 20px;">
+                    Color temperature mempengaruhi <span class="highlight">mood</span> dan <span class="highlight">emosi</span> penonton, menjadi alat penting dalam bercerita visual
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: MEMAHAMI WHITE BALANCE -->
+    <div class="slide" id="slide-white-balance">
+        <div class="header">
+            <h1 class="title">Memahami White Balance</h1>
+        </div>
+        <div class="content">
+            <div class="right-content">
+                                
+                <div class="settings-container">
+                    <div class="setting-box">
+                        <h3 class="setting-title warm">
+                            <i class="material-icons setting-icon">tungsten</i>
+                            Tungsten
+                        </h3>
+                        <p class="setting-text">Mengkompensasi cahaya hangat, menambahkan biru ke gambar</p>
+                    </div>
+                    
+                    <div class="setting-box">
+                        <h3 class="setting-title" style="color: #ffffff;">
+                            <i class="material-icons setting-icon">light_mode</i>
+                            Daylight
+                        </h3>
+                        <p class="setting-text">Pengaturan netral untuk cahaya matahari siang</p>
+                    </div>
+                    
+                    <div class="setting-box">
+                        <h3 class="setting-title cool">
+                            <i class="material-icons setting-icon">cloud</i>
+                            Cloudy
+                        </h3>
+                        <p class="setting-text">Menambahkan sedikit kehangatan untuk kondisi mendung</p>
+                    </div>
+                    
+                    <div class="setting-box">
+                        <h3 class="setting-title" style="color: #ffffff;">
+                            <i class="material-icons setting-icon">auto_fix_high</i>
+                            Custom
+                        </h3>
+                        <p class="setting-text">Pengaturan manual untuk kontrol penuh warna</p>
+                    </div>
+                </div>
+            </div>
+            <div class="left-content">
+                <p class="intro-text">
+                    <span class="highlight">White Balance</span> adalah proses mengatur kamera untuk mereproduksi warna putih secara akurat dalam berbagai kondisi pencahayaan
+                </p>
+                
+                <div class="key-points">
+                    <div class="key-point">
+                        <i class="material-icons key-icon warm">wb_sunny</i>
+                        <p class="key-text"><span class="highlight">Tungsten/Incandescent</span> (3200K): Untuk cahaya lampu pijar hangat</p>
+                    </div>
+                    
+                    <div class="key-point">
+                        <i class="material-icons key-icon" style="color: #ffffff;">wb_twilight</i>
+                        <p class="key-text"><span class="highlight">Daylight</span> (5500K): Untuk cahaya matahari siang hari</p>
+                    </div>
+                    
+                    <div class="key-point">
+                        <i class="material-icons key-icon cool">ac_unit</i>
+                        <p class="key-text"><span class="highlight">Shade/Cloudy</span> (6500-7500K): Untuk cahaya teduh atau mendung</p>
+                    </div>
+                    
+                    <div class="key-point">
+                        <i class="material-icons key-icon" style="color: #ffffff;">auto_fix_high</i>
+                        <p class="key-text"><span class="highlight">Custom/K</span>: Untuk pengaturan manual dengan nilai Kelvin spesifik</p>
+                    </div>
+                </div>
+                
+                <div class="tips-container">
+                    <h3 class="tips-title">Tips Profesional</h3>
+                    <p class="tips-text">Set white balance secara manual untuk konsistensi warna antar shot. Gunakan gray card untuk akurasi maksimal dalam produksi profesional.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: KESIMPULAN -->
+    <div class="slide" id="slide-kesimpulan">
+        <div class="header">
+            <h1 class="title">Kesimpulan</h1>
+        </div>
+        <div class="content">
+            <p class="intro-text" style="text-align: center;">
+                Penguasaan <span class="highlight">dasar pencahayaan</span> adalah fondasi penting untuk menciptakan video berkualitas profesional
+            </p>
+            
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <div class="card-header">
+                        <i class="material-icons card-icon warm">wb_sunny</i>
+                        <h2 class="card-title warm">Jenis Cahaya</h2>
+                    </div>
+                    <div class="card-content">
+                        <div class="key-point">
+                            <i class="material-icons point-icon warm">check_circle</i>
+                            <p class="point-text"><span class="highlight">Alami:</span> Matahari, dinamis, realistis</p>
+                        </div>
+                        <div class="key-point">
+                            <i class="material-icons point-icon cool">check_circle</i>
+                            <p class="point-text"><span class="highlight">Buatan:</span> Lampu studio, konsisten, fleksibel</p>
+                        </div>
+                        <div class="key-point">
+                            <i class="material-icons point-icon" style="color: #ffffff;">check_circle</i>
+                            <p class="point-text"><span class="highlight">Posisi:</span> Front, side, backlighting</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="card-header">
+                        <i class="material-icons card-icon cool">highlight</i>
+                        <h2 class="card-title cool">Three-Point Lighting</h2>
+                    </div>
+                    <div class="card-content">
+                        <div class="key-point">
+                            <i class="material-icons point-icon warm">check_circle</i>
+                            <p class="point-text"><span class="highlight">Key Light:</span> Sumber utama, menciptakan kontras</p>
+                        </div>
+                        <div class="key-point">
+                            <i class="material-icons point-icon cool">check_circle</i>
+                            <p class="point-text"><span class="highlight">Fill Light:</span> Mengisi bayangan, melunakkan</p>
+                        </div>
+                        <div class="key-point">
+                            <i class="material-icons point-icon" style="color: #81C784;">check_circle</i>
+                            <p class="point-text"><span class="highlight">Back Light:</span> Memisahkan subjek dari latar</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="card-header">
+                        <i class="material-icons card-icon warm">thermostat</i>
+                        <h2 class="card-title warm">Color Temperature</h2>
+                    </div>
+                    <div class="card-content">
+                        <div class="key-point">
+                            <i class="material-icons point-icon warm">check_circle</i>
+                            <p class="point-text"><span class="highlight">Hangat (2000-3500K):</span> Nyaman, intim</p>
+                        </div>
+                        <div class="key-point">
+                            <i class="material-icons point-icon" style="color: #ffffff;">check_circle</i>
+                            <p class="point-text"><span class="highlight">Netral (4000-5500K):</span> Seimbang, alami</p>
+                        </div>
+                        <div class="key-point">
+                            <i class="material-icons point-icon cool">check_circle</i>
+                            <p class="point-text"><span class="highlight">Dingin (6000K+):</span> Klinis, misterius</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="card-header">
+                        <i class="material-icons card-icon" style="color: #ffffff;">balance</i>
+                        <h2 class="card-title" style="color: #ffffff;">White Balance</h2>
+                    </div>
+                    <div class="card-content">
+                        <div class="key-point">
+                            <i class="material-icons point-icon warm">check_circle</i>
+                            <p class="point-text"><span class="highlight">Tungsten:</span> Untuk cahaya lampu pijar</p>
+                        </div>
+                        <div class="key-point">
+                            <i class="material-icons point-icon" style="color: #ffffff;">check_circle</i>
+                            <p class="point-text"><span class="highlight">Daylight:</span> Untuk cahaya matahari siang</p>
+                        </div>
+                        <div class="key-point">
+                            <i class="material-icons point-icon cool">check_circle</i>
+                            <p class="point-text"><span class="highlight">Custom/K:</span> Kontrol manual penuh</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="final-note">
+                <p class="final-text">
+                    Pencahayaan yang tepat adalah kunci untuk menciptakan <span class="highlight">mood</span>, <span class="highlight">dimensi</span>, dan <span class="highlight">profesionalisme</span> dalam videografi
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

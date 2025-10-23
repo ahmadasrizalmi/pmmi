@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Praktik Produksi Videografi</title>
+    <!-- Menggunakan Font Source Sans Pro dari Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Menggunakan Material Icons untuk ikon -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        /* ====================================
+           GLOBAL & MOBILE FIRST STYLES
+        ==================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            padding: 10px; /* Padding luar untuk visualisasi di editor */
+        }
+        
+        /* Tema Warna */
+        .highlight { color: #1565C0; font-weight: 600; }
+        .accent-blue { color: #64B5F6; }
+        .primary-blue { color: #1565C0; }
+
+        /* BASE SLIDE CONTAINER */
+        .slide {
+            width: 100%;
+            position: relative;
+            background-color: #ffffff;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        /* INTRO SLIDE KHUSUS (TEMA GELAP) */
+        #slide-intro {
+            background: linear-gradient(rgba(0, 30, 60, 0.8), rgba(0, 30, 60, 0.8)), 
+                        url('https://sfile.chatglm.cn/images-ppt/d899ce8fec51.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #ffffff;
+            text-align: center;
+            padding: 80px 20px;
+            min-height: 350px;
+        }
+        #slide-intro .title {
+            font-size: 32px;
+            line-height: 1.2;
+            color: #ffffff;
+        }
+        #slide-intro .subtitle {
+            font-size: 16px;
+            color: #e0e0e0;
+        }
+
+        /* HEADER & TYPOGRAPHY */
+        .header {
+            background-color: #1565C0;
+            padding: 15px;
+            color: white;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        /* CONTENT LAYOUT - MOBILE (STACKED) */
+        .content {
+            display: flex;
+            flex-direction: column; 
+            gap: 25px;
+        }
+        .left-content, .right-content {
+            width: 100%;
+        }
+        .right-content {
+            order: -1; /* Gambar/diagram di atas teks di mobile */
+        }
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1565C0;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title .material-icons {
+            margin-right: 10px;
+            color: #1565C0;
+            font-size: 24px;
+        }
+        
+        /* POINTS & LISTS */
+        .point, .step, .key-point, .exercise-item, .equipment-item, .scenario-item, .mistake-item, .best-practice-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        .point:before {
+            content: "•";
+            color: #64B5F6;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .point-text, .step-content, .key-point-text {
+            font-size: 16px;
+            line-height: 1.4;
+        }
+
+        /* COMPONENTS */
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+        .step-number {
+            background-color: #1565C0;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        .step-content {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .component-item, .exercise-item, .equipment-item, .scenario-item {
+            background-color: #f5f9ff;
+            border-left: 3px solid #64B5F6;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 16px;
+            margin-right: 0;
+            flex: 1 1 100%;
+        }
+        .mistake-item {
+            background-color: #ffebee;
+            border-left: 4px solid #f44336;
+        }
+        .best-practice-item {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+        }
+        .mistake-item .material-icons, .best-practice-item .material-icons {
+            font-size: 20px;
+            flex-shrink: 0;
+            margin-right: 10px;
+        }
+        
+        /* INFO BOXES */
+        .tip-box {
+            background-color: #e3f2fd;
+            border-left: 4px solid #1565C0;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 15px;
+        }
+        .tip-title .material-icons {
+            font-size: 20px;
+            margin-right: 8px;
+        }
+        .tip-content {
+            font-size: 14px;
+        }
+        
+        /* TABLE STYLING */
+        .shot-list-example, .template-container {
+            overflow-x: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        .example-table, .template-table {
+            min-width: 450px; 
+            width: 100%;
+        }
+        .example-table th, .template-table th {
+            background-color: #1565C0;
+            color: white;
+            font-size: 14px;
+            padding: 8px;
+        }
+        .example-table td, .template-table td {
+            font-size: 14px;
+            padding: 8px;
+        }
+        
+        /* ====================================
+           TABLET STYLES (min-width: 768px)
+        ==================================== */
+        @media (min-width: 768px) {
+            .slide {
+                padding: 30px;
+            }
+            #slide-intro .title {
+                font-size: 40px;
+            }
+            .title {
+                font-size: 28px;
+            }
+
+            .content {
+                flex-direction: row; 
+                gap: 30px;
+            }
+            .right-content {
+                order: initial;
+                width: 40%;
+            }
+            .left-content {
+                width: 60%;
+            }
+            
+            /* Komponen Layout */
+            .component-grid, .exercise-grid, .equipment-grid, .scenario-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+        }
+        
+        /* ====================================
+           DESKTOP STYLES (min-width: 1024px)
+        ==================================== */
+        @media (min-width: 1024px) {
+            .slide {
+                padding: 50px 70px;
+            }
+            #slide-intro .title {
+                font-size: 60px;
+            }
+            .title {
+                font-size: 40px;
+            }
+
+            .left-content, .right-content {
+                width: 50%;
+            }
+            .image-container {
+                max-height: 400px;
+            }
+            
+            /* Komponen Layout */
+            .component-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- SLIDE 1: JUDUL UTAMA -->
+    <div class="slide" id="slide-intro">
+        <div class="content">
+            <h1 class="title">Tutorial Videografi: <span class="accent-blue">Praktek Produksi</span></h1>
+            <h2 class="subtitle">Skenario A: Praktik Pengambilan Gambar di Lokasi dengan Fokus pada Komposisi dan Shot List</h2>
+            <div class="icon-container">
+                <i class="material-icons accent-blue">videocam</i>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: PENGENALAN PRAKTEK PRODUKSI -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Pengenalan Praktek Produksi (Skenario A)</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="material-icons">movie</i>
+                        Overview Praktek Produksi
+                    </h2>
+                    <div class="point">Proses <span class="highlight">sistematis</span> dalam pembuatan video</div>
+                    <div class="point">Tiga fase utama: pra-produksi, produksi, pasca-produksi</div>
+                    <div class="point">Fokus pada <span class="highlight">pengambilan gambar di lokasi</span></div>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="material-icons">check_circle</i>
+                        Pentingnya Pendekatan Sistematis
+                    </h2>
+                    <div class="point">Menghemat waktu dan sumber daya</div>
+                    <div class="point">Meningkatkan kualitas hasil akhir</div>
+                    <div class="point">Meminimalkan kesalahan produksi</div>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="material-icons">lightbulb</i>
+                        Tujuan Tutorial
+                    </h2>
+                    <div class="point">Menguasai pembuatan <span class="highlight">shot list</span> yang efektif</div>
+                    <div class="point">Memahami teknik <span class="highlight">komposisi</span> videografi</div>
+                    <div class="point">Menerapkan praktik terbaik pengambilan gambar di lokasi</div>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="image-container">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: MEMAHAMI SHOT LIST -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Memahami Shot List</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="material-icons">description</i>
+                        Definisi & Tujuan
+                    </h2>
+                    <div class="point">Dokumen <span class="highlight">rinci</span> yang memetakan setiap shot kamera yang dibutuhkan</div>
+                    <div class="point">Memberikan <span class="highlight">instruksi teknis</span> untuk pengambilan gambar</div>
+                    <div class="point">Memastikan <span class="highlight">kelengkapan</span> dan efisiensi proses produksi</div>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="material-icons">view_module</i>
+                        Komponen Esensial
+                    </h2>
+                    <div class="component-grid">
+                        <div class="component-item">
+                            <div class="primary-blue">Shot Number</div>
+                            <div>Referensi organisasi</div>
+                        </div>
+                        <div class="component-item">
+                            <div class="primary-blue">Shot Size</div>
+                            <div>Wide, medium, close-up</div>
+                        </div>
+                        <div class="component-item">
+                            <div class="primary-blue">Camera Angle</div>
+                            <div>Eye level, low angle</div>
+                        </div>
+                        <div class="component-item">
+                            <div class="primary-blue">Camera Movement</div>
+                            <div>Pan, tilt, dolly</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="material-icons">format_list_numbered</i>
+                        Proses Pembuatan
+                    </h2>
+                    <div class="step"><div class="step-number">1</div><div class="step-content">Identifikasi scene dan referensi naskah</div></div>
+                    <div class="step"><div class="step-number">2</div><div class="step-content">Pilih jenis shot dan sudut kamera</div></div>
+                    <div class="step"><div class="step-number">3</div><div class="step-content">Tambahkan gerakan kamera dan timing</div></div>
+                    <div class="step"><div class="step-number">4</div><div class="step-content">Catat aksi dan detail audio</div></div>
+                    <div class="step"><div class="step-number">5</div><div class="step-content">Organisir berdasarkan lokasi dan jadwal</div></div>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="shot-list-example">
+                    <div class="example-title primary-blue">Contoh Shot List</div>
+                    <table class="example-table">
+                        <thead>
+                            <tr>
+                                <th>Shot</th>
+                                <th>Size/Angle</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1A</td>
+                                <td>Wide Shot</td>
+                                <td>Tokoh masuk ruangan</td>
+                            </tr>
+                            <tr>
+                                <td>1B</td>
+                                <td>Medium Shot</td>
+                                <td>Tokoh berjalan ke meja</td>
+                            </tr>
+                            <tr>
+                                <td>2A</td>
+                                <td>Close Up</td>
+                                <td>Ekspresi wajah tokoh</td>
+                            </tr>
+                            <tr>
+                                <td>2B</td>
+                                <td>Low Angle</td>
+                                <td>Tokoh membuka dokumen</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: CONTOH DAN TEMPLATE SHOT LIST -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Contoh dan Template Shot List</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="material-icons">format_list_bulleted</i>
+                        Template Standar
+                    </h2>
+                    <div class="template-container">
+                        <table class="template-table">
+                            <thead>
+                                <tr>
+                                    <th>Shot</th>
+                                    <th>Size/Angle</th>
+                                    <th>Movement</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>1A</td><td>Wide Shot</td><td>Static</td><td>Tokoh masuk ruangan</td></tr>
+                                <tr><td>1B</td><td>Medium Shot</td><td>Pan Right</td><td>Tokoh berjalan ke meja</td></tr>
+                                <tr><td>2A</td><td>Close Up</td><td>Static</td><td>Ekspresi wajah tokoh</td></tr>
+                                <tr><td>2B</td><td>Low Angle</td><td>Dolly In</td><td>Tokoh membuka dokumen</td></tr>
+                            </tbody>
+                        </table>
+                        
+                        <div class="tip-box">
+                            <div class="tip-title primary-blue">
+                                <i class="material-icons">lightbulb</i>
+                                Tips Penting
+                            </div>
+                            <div class="tip-content">
+                                Kelompokkan shot berdasarkan <span class="highlight">lokasi</span> dan <span class="highlight">setup kamera</span> untuk efisiensi produksi
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-content">
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="material-icons">check_circle</i>
+                        Komponen Esensial
+                    </h2>
+                    <div class="key-point"><i class="material-icons accent-blue">filter_1</i><div class="key-point-text"><span class="highlight">Shot Number</span> - Referensi unik untuk setiap shot</div></div>
+                    <div class="key-point"><i class="material-icons accent-blue">filter_2</i><div class="key-point-text"><span class="highlight">Scene Number</span> - Hubungkan shot dengan struktur cerita</div></div>
+                    <div class="key-point"><i class="material-icons accent-blue">filter_3</i><div class="key-point-text"><span class="highlight">Shot Size</span> - Wide, medium, close-up, extreme close-up</div></div>
+                    <div class="key-point"><i class="material-icons accent-blue">filter_4</i><div class="key-point-text"><span class="highlight">Camera Angle</span> - Eye level, low angle, high angle</div></div>
+                    <div class="key-point"><i class="material-icons accent-blue">filter_5</i><div class="key-point-text"><span class="highlight">Camera Movement</span> - Pan, tilt, dolly, crane</div></div>
+                    <div class="key-point"><i class="material-icons accent-blue">filter_6</i><div class="key-point-text"><span class="highlight">Subject/Action</span> - Deskripsi aksi dalam frame</div></div>
+                    <div class="key-point"><i class="material-icons accent-blue">filter_7</i><div class="key-point-text"><span class="highlight">Duration</span> - Estimasi panjang shot</div></div>
+                    <div class="key-point"><i class="material-icons accent-blue">filter_8</i><div class="key-point-text"><span class="highlight">Audio Notes</span> - Dialog, ambient sound, music</div></div>
+                    <div class="key-point"><i class="material-icons accent-blue">filter_9</i><div class="key-point-text"><span class="highlight">Equipment</span> - Tripod, slider, lighting</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- SLIDE 5: KOMPOSISI VISUAL DASAR (Bagian 1) -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Teknik Komposisi Videografi (Bagian 1)</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="section">
+                    <h2 class="section-title"><i class="material-icons">grid_on</i>Rule of Thirds</h2>
+                    <div class="image-container"></div>
+                    <div class="point-text">
+                        Posisikan elemen penting pada <span class="highlight">garis atau titik potong</span> grid 3x3.
+                    </div>
+                    <div class="point"><i class="material-icons accent-blue">check_circle</i><div class="point-text">Menciptakan keseimbangan visual yang lebih menarik</div></div>
+                    <div class="point"><i class="material-icons accent-blue">check_circle</i><div class="point-text">Mengarahkan pandangan penonton ke fokus utama</div></div>
+                    <div class="tip-box">
+                        <div class="tip-title primary-blue"><i class="material-icons">lightbulb</i>Aplikasi Praktis</div>
+                        <div class="tip-content">Untuk wawancara, posikan mata subjek pada <span class="highlight">titik potong atas</span> grid untuk menciptakan koneksi emosional</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-content">
+                <div class="section">
+                    <h2 class="section-title"><i class="material-icons">balance</i>Keseimbangan & Simetri</h2>
+                    <div class="image-container">[Image of Symmetrical Composition]</div>
+                    <div class="point-text">
+                        Posisikan elemen secara <span class="highlight">simetris</span> atau <span class="highlight">seimbang</span> dalam frame.
+                    </div>
+                    <div class="point"><i class="material-icons accent-blue">check_circle</i><div class="point-text">Menciptakan rasa stabilitas dan ketenangan</div></div>
+                    <div class="point"><i class="material-icons accent-blue">check_circle</i><div class="point-text">Efektif untuk arsitektur atau lanskap</div></div>
+                    <div class="tip-box">
+                        <div class="tip-title primary-blue"><i class="material-icons">lightbulb</i>Aplikasi Praktis</div>
+                        <div class="tip-content">Gunakan simetri sempurna untuk <span class="highlight">shot establishing</span> yang menciptakan kesan formal atau dramatis</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: KOMPOSISI VISUAL DASAR (Bagian 2) -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Teknik Komposisi Videografi (Bagian 2)</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="section">
+                    <h2 class="section-title"><i class="material-icons">show_chart</i>Leading Lines</h2>
+                    <div class="image-container"></div>
+                    <div class="point-text">
+                        Gunakan <span class="highlight">garis alami</span> untuk mengarahkan pandangan penonton ke subjek utama.
+                    </div>
+                    <div class="point"><i class="material-icons accent-blue">check_circle</i><div class="point-text">Menciptakan <span class="highlight">kedalaman</span> dalam frame</div></div>
+                    <div class="point"><i class="material-icons accent-blue">check_circle</i><div class="point-text">Menghubungkan subjek dengan lingkungan</div></div>
+                    <div class="tip-box">
+                        <div class="tip-title primary-blue"><i class="material-icons">lightbulb</i>Aplikasi Praktis</div>
+                        <div class="tip-content">Jalan, rel kereta, atau sungai dapat digunakan sebagai <span class="highlight">leading lines</span> untuk memandu mata penonton</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-content">
+                <div class="section">
+                    <h2 class="section-title"><i class="material-icons">visibility</i>Eye-level Framing</h2>
+                    <div class="image-container"></div>
+                    <div class="point-text">
+                        Posisikan kamera <span class="highlight">sejajar mata</span> subjek untuk menciptakan koneksi emosional.
+                    </div>
+                    <div class="point"><i class="material-icons accent-blue">check_circle</i><div class="point-text">Menciptakan perasaan <span class="highlight">kesetaraan</span> dengan subjek</div></div>
+                    <div class="point"><i class="material-icons accent-blue">check_circle</i><div class="point-text">Efektif untuk wawancara dan interaksi karakter</div></div>
+                    <div class="tip-box">
+                        <div class="tip-title primary-blue"><i class="material-icons">lightbulb</i>Aplikasi Praktis</div>
+                        <div class="tip-content">Untuk anak-anak, <span class="highlight">turunkan kamera</span> ke level mata mereka untuk menciptakan koneksi yang lebih baik</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: TEKNIK PENGAMBILAN GAMBAR DI LOKASI (Bagian 1) -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Teknik Pengambilan Gambar di Lokasi (Bagian 1)</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="section">
+                    <h2 class="section-title"><i class="material-icons">explore</i>Location Scouting</h2>
+                    <div class="image-container"></div>
+                    <div class="point"><i class="material-icons accent-blue">schedule</i><div class="point-text">Kunjungi lokasi pada <span class="highlight">waktu yang sama</span> dengan rencana shooting</div></div>
+                    <div class="point"><i class="material-icons accent-blue">wb_sunny</i><div class="point-text">Perhatikan <span class="highlight">perubahan cahaya</span> sepanjang hari</div></div>
+                    <div class="point"><i class="material-icons accent-blue">power</i><div class="point-text">Identifikasi <span class="highlight">sumber daya listrik</span> untuk peralatan</div></div>
+                    <div class="point"><i class="material-icons accent-blue">volume_off</i><div class="point-text">Uji <span class="highlight">kualitas audio</span> dengan headphone</div></div>
+                    <div class="tip-box">
+                        <div class="tip-title primary-blue"><i class="material-icons">lightbulb</i>Tips Penting</div>
+                        <div class="tip-content">Bawa <span class="highlight">kit scouting</span>: kamera, kompas, catatan, dan peta untuk dokumentasi lengkap</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-content">
+                <div class="section">
+                    <h2 class="section-title"><i class="material-icons">lightbulb</i>Pertimbangan Cahaya</h2>
+                    <div class="point"><i class="material-icons accent-blue">wb_twilight</i><div class="point-text"><span class="highlight">Golden hour</span> (matahari terbit/terbenam) untuk cahaya lembut</div></div>
+                    <div class="point"><i class="material-icons accent-blue">filter_drama</i><div class="point-text">Hari <span class="highlight">berawan</span> ideal untuk cahaya yang merata</div></div>
+                    <div class="point"><i class="material-icons accent-blue">highlight</i><div class="point-text">Siang hari: cari <span class="highlight">area teduh</span> untuk menghindari bayangan keras</div></div>
+                    <div class="point"><i class="material-icons accent-blue">flare</i><div class="point-text">Gunakan <span class="highlight">reflektor</span> untuk mengisi bayangan</div></div>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title"><i class="material-icons">mic</i>Pertimbangan Audio</h2>
+                    <div class="point"><i class="material-icons accent-blue">surround_sound</i><div class="point-text">Identifikasi sumber <span class="highlight">noise</span> (lalu lintas, AC, dll)</div></div>
+                    <div class="point"><i class="material-icons accent-blue">settings_voice</i><div class="point-text">Uji <span class="highlight">microphone</span> di lokasi untuk deteksi interferensi</div></div>
+                    <div class="point"><i class="material-icons accent-blue">music_note</i><div class="point-text">Rekam <span class="highlight">room tone</span> (30-60 detik) untuk editing</div></div>
+                    <div class="tip-box">
+                        <div class="tip-title primary-blue"><i class="material-icons">priority_high</i>Peringatan</div>
+                        <div class="tip-content">Lokasi dengan <span class="highlight">gema</span> (gereja, auditorium) memerlukan teknik audio khusus</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: TEKNIK PENGAMBILAN GAMBAR DI LOKASI (Bagian 2) -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Teknik Pengambilan Gambar di Lokasi (Bagian 2)</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="section">
+                    <h2 class="section-title"><i class="material-icons">videocam</i>Persiapan Peralatan</h2>
+                    <div class="image-container"></div>
+                    
+                    <div class="equipment-grid">
+                        <div class="equipment-item"><i class="material-icons primary-blue">battery_full</i><div class="primary-blue">Baterai Cadangan</div></div>
+                        <div class="equipment-item"><i class="material-icons primary-blue">sd_card</i><div class="primary-blue">Kartu Memori</div></div>
+                        <div class="equipment-item"><i class="material-icons primary-blue">tripod</i><div class="primary-blue">Tripod/Stabilizer</div></div>
+                        <div class="equipment-item"><i class="material-icons primary-blue">mic</i><div class="primary-blue">Microphone</div></div>
+                    </div>
+                        
+                    <div class="point"><i class="material-icons accent-blue">check_circle</i><div class="point-text">Periksa <span class="highlight">semua peralatan</span> sebelum shooting</div></div>
+                    <div class="point"><i class="material-icons accent-blue">check_circle</i><div class="point-text">Bawa <span class="highlight">peralatan cadangan</span> untuk item krusial</div></div>
+                    <div class="tip-box">
+                        <div class="tip-title primary-blue"><i class="material-icons">lightbulb</i>Tips Praktis</div>
+                        <div class="tip-content">
+                            Buat <span class="highlight">checklist peralatan</span> dan gunakan sebelum setiap shooting untuk memastikan tidak ada yang tertinggal
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-content">
+                <div class="section">
+                    <h2 class="section-title"><i class="material-icons">warning</i>Menghadapi Tantangan Lingkungan</h2>
+                    <div class="point"><i class="material-icons accent-blue">wb_sunny</i><div class="point-text"><span class="highlight">Cahaya terang</span>: gunakan ND filter, cari area teduh</div></div>
+                    <div class="point"><i class="material-icons accent-blue">opacity</i><div class="point-text"><span class="highlight">Hujan/kelembaban</span>: gunakan rain cover, bawa handuk</div></div>
+                    <div class="point"><i class="material-icons accent-blue">air</i><div class="point-text"><span class="highlight">Angin kencang</span>: gunakan windscreen, perkuat tripod</div></div>
+                    <div class="point"><i class="material-icons accent-blue">ac_unit</i><div class="point-text"><span class="highlight">Suhu dingin</span>: simpan baterai di saku tubuh</div></div>
+                    <div class="point"><i class="material-icons accent-blue">whatshot</i><div class="point-text"><span class="highlight">Suhu panas</span>: gunakan payung, hindari overheat</div></div>
+                    
+                    <div class="tip-box">
+                        <div class="tip-title primary-blue"><i class="material-icons">priority_high</i>Peringatan Penting</div>
+                        <div class="tip-content">
+                            Saat membawa kamera dari <span class="highlight">lingkungan dingin ke hangat</span>, biarkan peralatan menyesuaikan suhu secara bertahap untuk menghindari kondensasi
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 9: LATIHAN PRAKTIS DAN TIPS (Bagian 1) -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Latihan Praktis dan Tips (Bagian 1)</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="section">
+                    <h2 class="section-title"><i class="material-icons">format_list_numbered</i>Latihan Shot List</h2>
+                    <div class="exercise-container">
+                        <div class="exercise-title primary-blue"><i class="material-icons">assignment</i>Membuat Shot List Skenario A</div>
+                        
+                        <div class="step"><div class="step-number">1</div><div class="step-content">Pilih <span class="highlight">skenario sederhana</span> (misal: seseorang memasak)</div></div>
+                        <div class="step"><div class="step-number">2</div><div class="step-content">Tentukan <span class="highlight">lokasi</span> dan <span class="highlight">waktu</span> shooting</div></div>
+                        <div class="step"><div class="step-number">3</div><div class="step-content">Buat <span class="highlight">shot list</span> minimal 10 shot dengan variasi:</div></div>
+                        
+                        <div class="exercise-grid">
+                            <div class="exercise-item"><i class="material-icons primary-blue">photo_size_select_large</i><div class="primary-blue">Wide Shot</div></div>
+                            <div class="exercise-item"><i class="material-icons primary-blue">crop_original</i><div class="primary-blue">Medium Shot</div></div>
+                            <div class="exercise-item"><i class="material-icons primary-blue">zoom_in</i><div class="primary-blue">Close-up</div></div>
+                            <div class="exercise-item"><i class="material-icons primary-blue">pan_tool</i><div class="primary-blue">Camera Movement</div></div>
+                        </div>
+                        
+                        <div class="step"><div class="step-number">4</div><div class="step-content">Estimasi <span class="highlight">durasi</span> untuk setiap shot</div></div>
+                        <div class="step"><div class="step-number">5</div><div class="step-content">Catat <span class="highlight">kebutuhan audio</span> untuk setiap shot</div></div>
+                        
+                        <div class="tip-box">
+                            <div class="tip-title primary-blue"><i class="material-icons">lightbulb</i>Tips Efektif</div>
+                            <div class="tip-content">Kelompokkan shot berdasarkan <span class="highlight">setup kamera</span> yang sama untuk menghemat waktu produksi</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-content">
+                <div class="section">
+                    <h2 class="section-title"><i class="material-icons">filter</i>Latihan Komposisi</h2>
+                    <div class="exercise-container">
+                        <div class="exercise-title primary-blue"><i class="material-icons">photo_camera</i>Eksplorasi Teknik Komposisi</div>
+                        
+                        <div class="step"><div class="step-number">1</div><div class="step-content">Pilih <span class="highlight">subjek statis</span> (misal: bangunan, pohon)</div></div>
+                        <div class="step"><div class="step-number">2</div><div class="step-content">Ambil foto dengan <span class="highlight">5 teknik komposisi</span> berbeda:</div></div>
+                        
+                        <div class="exercise-grid">
+                            <div class="exercise-item"><i class="material-icons primary-blue">grid_on</i><div class="primary-blue">Rule of Thirds</div></div>
+                            <div class="exercise-item"><i class="material-icons primary-blue">balance</i><div class="primary-blue">Simetri</div></div>
+                            <div class="exercise-item"><i class="material-icons primary-blue">show_chart</i><div class="primary-blue">Leading Lines</div></div>
+                            <div class="exercise-item"><i class="material-icons primary-blue">visibility</i><div class="primary-blue">Eye-level</div></div>
+                        </div>
+                        
+                        <div class="step"><div class="step-number">3</div><div class="step-content">Analisis <span class="highlight">perbedaan dampak</span> visual setiap teknik</div></div>
+                        <div class="tip-box">
+                            <div class="tip-title primary-blue"><i class="material-icons">psychology</i>Tantangan Lanjutan</div>
+                            <div class="tip-content">Coba terapkan teknik yang sama pada <span class="highlight">subjek bergerak</span> dan perhatikan bagaimana komposisi memengaruhi persepsi gerakan</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 10: LATIHAN PRAKTIS DAN TIPS (Bagian 2) -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Latihan Praktis dan Tips (Bagian 2)</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="section">
+                    <h2 class="section-title"><i class="material-icons">location_on</i>Skenario Praktik Lokasi</h2>
+                    <div class="exercise-container">
+                        <div class="exercise-title primary-blue"><i class="material-icons">movie_filter</i>Simulasi Shooting di Lokasi</div>
+                        
+                        <div class="scenario-grid">
+                            <div class="scenario-item"><i class="material-icons primary-blue">store</i><div class="primary-blue">Toko/Kafe</div></div>
+                            <div class="scenario-item"><i class="material-icons primary-blue">park</i><div class="primary-blue">Taman Umum</div></div>
+                            <div class="scenario-item"><i class="material-icons primary-blue">apartment</i><div class="primary-blue">Gedung Kantor</div></div>
+                            <div class="scenario-item"><i class="material-icons primary-blue">directions_car</i><div class="primary-blue">Jalan Raya</div></div>
+                        </div>
+                        
+                        <div class="point"><i class="material-icons accent-blue">assignment</i><div class="point-text">Buat <span class="highlight">shot list</span> untuk setiap lokasi</div></div>
+                        <div class="point"><i class="material-icons accent-blue">wb_sunny</i><div class="point-text">Identifikasi <span class="highlight">tantangan cahaya</span> di setiap lokasi</div></div>
+                        <div class="point"><i class="material-icons accent-blue">mic</i><div class="point-text">Tentukan <span class="highlight">solusi audio</span> untuk mengatasi noise</div></div>
+                        
+                        <div class="tip-box">
+                            <div class="tip-title primary-blue"><i class="material-icons">timer</i>Time Management</div>
+                            <div class="tip-content">Alokasikan <span class="highlight">waktu ekstra 20%</span> untuk setiap lokasi untuk mengantisipasi masalah tak terduga</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-content">
+                <div class="section">
+                    <h2 class="section-title"><i class="material-icons">error_outline</i>Kesalahan Umum & Best Practices</h2>
+                    <div class="exercise-container">
+                        <div class="exercise-title primary-blue"><i class="material-icons">warning</i>Hindari Kesalahan Ini</div>
+                        
+                        <div class="mistake-item"><i class="material-icons">close</i><div class="point-text"><span class="highlight">Shot list terlalu detail</span> - fokus pada esensial</div></div>
+                        <div class="mistake-item"><i class="material-icons">close</i><div class="point-text"><span class="highlight">Mengabaikan audio</span> - uji kualitas suara di lokasi</div></div>
+                        
+                        <div class="exercise-title primary-blue" style="margin-top: 15px;"><i class="material-icons">stars</i>Best Practices</div>
+                        
+                        <div class="best-practice-item"><i class="material-icons">check</i><div class="point-text"><span class="highlight">Rehearsal</span> sebelum shooting untuk efisiensi</div></div>
+                        <div class="best-practice-item"><i class="material-icons">check</i><div class="point-text"><span class="highlight">Backup plan</span> untuk cuaca atau peralatan</div></div>
+                        <div class="best-practice-item"><i class="material-icons">check</i><div class="point-text"><span class="highlight">Review footage</span> setelah setup untuk memastikan kualitas</div></div>
+                        
+                        <div class="tip-box">
+                            <div class="tip-title primary-blue"><i class="material-icons">psychology</i>Mindset Produksi</div>
+                            <div class="tip-content">Fleksibilitas adalah kunci - <span class="highlight">adaptasi</span> dengan kondisi nyata tanpa mengorbankan kualitas</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

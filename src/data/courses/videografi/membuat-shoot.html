@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Membuat Shot List dan Storyboard</title>
+    <!-- Menggunakan Font Source Sans Pro dari Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Menggunakan Material Icons untuk ikon -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        /* ====================================
+           GLOBAL & MOBILE FIRST STYLES
+           (Default for screens < 768px)
+        ==================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            padding: 0;
+        }
+
+        /* TEMA WARNA */
+        .primary-dark { color: #0f172a; }
+        .accent-blue { color: #60a5fa; }
+        .highlight { color: #a5b4fc; font-weight: 600; }
+        
+        /* BASE SLIDE STYLING */
+        .slide {
+            width: 100%;
+            min-height: 200px;
+            position: relative;
+            overflow: hidden;
+            background-color: #ffffff;
+            padding: 30px 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+        }
+        
+        /* SLIDE INTRO - TEMA GELAP */
+        #slide-intro {
+            background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.85)), 
+                        url('https://sfile.chatglm.cn/images-ppt/6cb6b5bb409c.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #ffffff;
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 0;
+        }
+        #slide-intro .title {
+            font-size: 32px;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+        #slide-intro .subtitle {
+            font-size: 16px;
+            color: #a5b4fc;
+        }
+        #slide-intro .accent {
+            color: #60a5fa;
+        }
+
+        /* HEADER & LAYOUT */
+        .header {
+            padding: 0 0 15px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        .content {
+            display: flex;
+            flex-direction: column; 
+            gap: 20px;
+        }
+        .left-content, .right-content {
+            width: 100%;
+        }
+        .right-content {
+            order: -1; /* Gambar/Diagram di atas teks di mobile */
+        }
+
+        /* CARD STYLES (GENERAL) */
+        .card, .benefit-card, .component-item, .step-card, .shot-card, .storyboard-frame, .tip-card, .tool-card {
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        /* SLIDE 2 - DEFINISI */
+        #slide-definisi .card {
+            background: #e2e8f0;
+            padding: 15px;
+            margin: 0;
+            margin-bottom: 15px;
+        }
+        #slide-definisi .card-title {
+            font-size: 20px;
+            color: #0f172a;
+        }
+        #slide-definisi .card-content {
+            font-size: 15px;
+            line-height: 1.4;
+            color: #555;
+        }
+        #slide-definisi .key-point {
+            margin-top: 10px;
+            padding: 10px;
+            background: #cbd5e1;
+            border-left: 4px solid #60a5fa;
+            border-radius: 4px;
+        }
+        #slide-definisi .key-point-title {
+            font-weight: 600;
+            color: #0f172a;
+        }
+        
+        /* SLIDE 3 - PENTINGNYA */
+        .benefits-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .benefit-card {
+            padding: 15px;
+            display: flex;
+            align-items: flex-start;
+            border: 1px solid #f0f0f0;
+        }
+        .icon-container {
+            width: 40px;
+            height: 40px;
+            margin-right: 15px;
+        }
+        .benefit-icon {
+            font-size: 24px;
+            color: #60a5fa;
+        }
+        .benefit-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        .benefit-description {
+            font-size: 14px;
+            line-height: 1.3;
+            color: #555;
+        }
+        
+        /* SLIDE 4 - KOMPONEN SHOT LIST */
+        .components {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .component-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+        }
+        .component-icon {
+            font-size: 20px;
+            color: #60a5fa;
+            margin-right: 10px;
+        }
+        .component-text {
+            font-size: 15px;
+            font-weight: 600;
+        }
+        .template-container {
+            margin-top: 15px;
+        }
+        .template-image {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+        }
+        .template-caption {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* SLIDE 5 - LANGKAH MEMBUAT SHOT LIST */
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .step-card {
+            padding: 15px;
+            display: flex;
+            align-items: flex-start;
+            border-left: 4px solid #60a5fa;
+        }
+        .step-number {
+            background: #60a5fa;
+            color: #ffffff;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            font-size: 14px;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        .step-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 5px;
+        }
+        .step-description {
+            font-size: 14px;
+            line-height: 1.4;
+            color: #555;
+        }
+        .tip-container {
+            background: #e6f7ff;
+            border-left: 4px solid #60a5fa;
+            padding: 12px;
+            margin-top: 15px;
+        }
+        .tip-text {
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* SLIDE 6 - MERENCANAKAN ADEGAN */
+        .shots-container {
+            margin-top: 15px;
+        }
+        .shots-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 10px;
+        }
+        .shots-title .material-icons {
+            margin-right: 8px;
+            font-size: 22px;
+        }
+        .shots-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .shot-card {
+            border: 1px solid #e0e0e0;
+            overflow: hidden;
+            text-align: center;
+        }
+        .shot-image {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+        }
+        .shot-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #60a5fa;
+            margin-bottom: 2px;
+            padding: 5px 0 0;
+        }
+        .shot-description {
+            font-size: 12px;
+            padding: 0 5px 5px;
+        }
+
+        /* SLIDE 7 - STORYBOARD */
+        .example-container {
+            margin-top: 15px;
+        }
+        .example-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 10px;
+        }
+        .storyboard-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .storyboard-frame {
+            flex: 1;
+            border: 1px solid #e0e0e0;
+            overflow: hidden;
+            text-align: center;
+        }
+        .frame-image {
+            width: 100%;
+            height: 100px;
+            object-fit: contain;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .frame-number {
+            font-size: 12px;
+            font-weight: 700;
+            color: #60a5fa;
+            padding: 5px 0 2px;
+        }
+        .frame-description {
+            font-size: 10px;
+            padding-bottom: 5px;
+        }
+        .tools-container {
+            background: #e6f7ff;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        .tools-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 10px;
+        }
+        .tools-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .tool-item {
+            background: #ffffff;
+            border-radius: 4px;
+            padding: 6px 10px;
+            font-size: 12px;
+            color: #333;
+        }
+
+        /* SLIDE 8 - TIPS DAN TEMPLATE */
+        .tips-container {
+            margin-top: 15px;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 10px;
+        }
+        .tips-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .tip-card {
+            padding: 15px;
+            display: flex;
+            align-items: flex-start;
+            border-left: 4px solid #60a5fa;
+        }
+        .tip-icon {
+            font-size: 20px;
+            color: #60a5fa;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        .tip-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 5px;
+        }
+        .tip-description {
+            font-size: 14px;
+        }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+        .tool-card {
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+        }
+        .tool-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        .tool-description {
+            font-size: 12px;
+        }
+        .bottom-tip {
+            background: #e6f7ff;
+            border-left: 4px solid #60a5fa;
+            padding: 12px;
+            margin-top: 15px;
+        }
+
+
+        /* ====================================
+           TABLET STYLES
+           (min-width: 768px)
+        ==================================== */
+        @media (min-width: 768px) {
+            .slide {
+                max-width: 90%;
+                margin: 20px auto;
+                padding: 40px;
+            }
+            .title {
+                font-size: 32px;
+            }
+            #slide-intro .title {
+                font-size: 48px;
+            }
+            
+            .content {
+                flex-direction: row; 
+                flex-wrap: wrap;
+                gap: 30px;
+            }
+            .right-content {
+                order: initial;
+                width: 45%;
+                display: flex;
+                flex-direction: column;
+            }
+            .left-content {
+                width: 55%;
+            }
+
+            /* SLIDE 2 - DEFINISI */
+            #slide-definisi .content {
+                flex-wrap: nowrap;
+            }
+            
+            /* SLIDE 3 - PENTINGNYA */
+            .benefits-grid {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+            .benefit-card {
+                flex: 1 1 calc(50% - 15px);
+            }
+
+            /* SLIDE 4 - KOMPONEN */
+            .components, .template-container {
+                width: 100%;
+            }
+            .content {
+                flex-direction: column;
+            }
+            .template-container {
+                order: -1;
+                height: 350px;
+                display: flex;
+                align-items: center;
+            }
+            .template-image {
+                width: 70%;
+                height: auto;
+            }
+
+            /* SLIDE 5 - LANGKAH */
+            .steps-container {
+                flex-direction: row;
+            }
+            .steps-column {
+                flex: 1;
+            }
+            .step-card {
+                padding: 20px;
+            }
+
+            /* SLIDE 6 - MERENCANAKAN */
+            .shots-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .shot-image {
+                height: 100px;
+            }
+
+            /* SLIDE 7 - STORYBOARD */
+            .storyboard-row {
+                flex-wrap: nowrap;
+            }
+            .frame-image {
+                height: 150px;
+            }
+
+            /* SLIDE 8 - TIPS */
+            .tools-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* ====================================
+           DESKTOP STYLES
+           (min-width: 1024px)
+        ==================================== */
+        @media (min-width: 1024px) {
+            .slide {
+                max-width: 1280px;
+                padding: 60px 70px;
+            }
+            .title {
+                font-size: 40px;
+            }
+            #slide-intro .title {
+                font-size: 64px;
+            }
+            
+            .content {
+                flex-direction: row;
+            }
+            .left-content {
+                width: 50%;
+                padding-right: 40px;
+            }
+            .right-content {
+                width: 50%;
+                padding-left: 40px;
+            }
+
+            /* SLIDE 4 - KOMPONEN */
+            #slide-komponen .content {
+                flex-direction: row;
+            }
+            #slide-komponen .components {
+                width: 50%;
+            }
+            #slide-komponen .template-container {
+                width: 50%;
+                order: initial;
+            }
+            #slide-komponen .template-image {
+                width: 90%;
+            }
+
+            /* SLIDE 6 - MERENCANAKAN */
+            .planning-steps, .shots-container {
+                width: 50%;
+            }
+
+            /* SLIDE 7 - STORYBOARD */
+            .steps-container, .example-container {
+                width: 50%;
+            }
+            .storyboard-row {
+                height: 180px;
+            }
+            
+            /* SLIDE 8 - TIPS */
+            .tips-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            .tools-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- SLIDE 1: JUDUL UTAMA -->
+    <div class="slide" id="slide-intro">
+        <div class="content" style="width: 100%; max-width: 800px; margin: 0 auto; padding: 0;">
+            <h1 class="title">Tutorial Videography:<br><span class="accent">Membuat Shot List dan Storyboard</span></h1>
+            <p class="subtitle">Merencanakan adegan per adegan, membuat storyboard sederhana untuk urutan kunci</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: DEFINISI -->
+    <div class="slide" id="slide-definisi">
+        <div class="header">
+            <h1 class="title">Apa itu Shot List dan Storyboard?</h1>
+        </div>
+        <div class="content">
+            <div class="card left-content">
+                <h2 class="card-title accent-blue">
+                    <i class="material-icons accent-blue">list_alt</i>
+                    Shot List
+                </h2>
+                <div class="card-content">
+                    <p>Dokumen <span class="primary-dark" style="font-weight: 600;">rinci</span> yang memetakan setiap shot kamera yang akan diambil untuk video</p>
+                    <div class="key-point">
+                        <div class="primary-dark" style="font-weight: 700;">Fungsi Utama:</div>
+                        <p>Memberikan panduan <span class="accent-blue" style="font-weight: 600;">teknis</span> untuk setiap pengambilan gambar</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card right-content">
+                <h2 class="card-title accent-blue">
+                    <i class="material-icons accent-blue">dashboard</i>
+                    Storyboard
+                </h2>
+                <div class="card-content">
+                    <p>Rangkaian <span class="primary-dark" style="font-weight: 600;">sketsa visual</span> yang menggambarkan pengambilan gambar yang direncanakan</p>
+                    <div class="key-point">
+                        <div class="primary-dark" style="font-weight: 700;">Fungsi Utama:</div>
+                        <p>Memberikan <span class="accent-blue" style="font-weight: 600;">gambaran visual</span> tentang alur cerita dan komposisi adegan</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: PENTINGNYA -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Mengapa Shot List dan Storyboard Penting?</h1>
+        </div>
+        <div class="content">
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="icon-container">
+                        <i class="material-icons benefit-icon">schedule</i>
+                    </div>
+                    <div class="benefit-content">
+                        <h3 class="benefit-title">Efisiensi Waktu</h3>
+                        <p class="benefit-description">Menghemat waktu produksi dengan <span class="accent-blue" style="font-weight: 600;">perencanaan terstruktur</span> dan menghindari pengambilan ulang</p>
+                    </div>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon-container">
+                        <i class="material-icons benefit-icon">check_circle</i>
+                    </div>
+                    <div class="benefit-content">
+                        <h3 class="benefit-title">Kelengkapan Shot</h3>
+                        <p class="benefit-description">Memastikan <span class="accent-blue" style="font-weight: 600;">semua shot penting</span> terambil tanpa ada yang terlewat</p>
+                    </div>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon-container">
+                        <i class="material-icons benefit-icon">groups</i>
+                    </div>
+                    <div class="benefit-content">
+                        <h3 class="benefit-title">Komunikasi Tim</h3>
+                        <p class="benefit-description">Memfasilitasi <span class="accent-blue" style="font-weight: 600;">pemahaman bersama</span> antara sutradara, kru, dan klien</p>
+                    </div>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon-container">
+                        <i class="material-icons benefit-icon">account_balance_wallet</i>
+                    </div>
+                    <div class="benefit-content">
+                        <h3 class="benefit-title">Kontrol Anggaran</h3>
+                        <p class="benefit-description">Menghindari <span class="accent-blue" style="font-weight: 600;">biaya tambahan</span> akibat reshoot dan perpanjangan waktu produksi</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: KOMPONEN SHOT LIST -->
+    <div class="slide" id="slide-komponen">
+        <div class="header">
+            <h1 class="title">Komponen Shot List</h1>
+        </div>
+        <div class="content" style="flex-direction: column;">
+            <div class="components left-content">
+                <div class="component-item">
+                    <i class="material-icons component-icon">tag</i>
+                    <span class="component-text">Nomor <span class="accent-blue">Shot</span></span>
+                </div>
+                <div class="component-item">
+                    <i class="material-icons component-icon">movie</i>
+                    <span class="component-text">Nomor <span class="accent-blue">Adegan</span></span>
+                </div>
+                <div class="component-item">
+                    <i class="material-icons component-icon">crop_free</i>
+                    <span class="component-text"><span class="accent-blue">Ukuran</span> Shot</span>
+                </div>
+                <div class="component-item">
+                    <i class="material-icons component-icon">videocam</i>
+                    <span class="component-text">Sudut <span class="accent-blue">Kamera</span></span>
+                </div>
+                <div class="component-item">
+                    <i class="material-icons component-icon">sync</i>
+                    <span class="component-text"><span class="accent-blue">Pergerakan</span> Kamera</span>
+                </div>
+                <div class="component-item">
+                    <i class="material-icons component-icon">person</i>
+                    <span class="component-text"><span class="accent-blue">Subjek/Aksi</span></span>
+                </div>
+                <div class="component-item">
+                    <i class="material-icons component-icon">timer</i>
+                    <span class="component-text"><span class="accent-blue">Durasi</span></span>
+                </div>
+                <div class="component-item">
+                    <i class="material-icons component-icon">volume_up</i>
+                    <span class="component-text">Catatan <span class="accent-blue">Audio</span></span>
+                </div>
+                <div class="component-item">
+                    <i class="material-icons component-icon">settings</i>
+                    <span class="component-text"><span class="accent-blue">Peralatan</span></span>
+                </div>
+            </div>
+            <div class="template-container right-content">
+                                <p class="template-caption">Contoh Template Shot List</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: LANGKAH MEMBUAT SHOT LIST -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Langkah-langkah Membuat Shot List</h1>
+        </div>
+        <div class="content">
+            <div class="steps-container">
+                <div class="steps-column left-content">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <div>
+                            <h3 class="step-title">Identifikasi Adegan</h3>
+                            <p class="step-description">Bagi video menjadi <span class="accent-blue" style="font-weight: 600;">adegan utama</span> dan berikan kode referensi</p>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <div>
+                            <h3 class="step-title">Pilih Jenis Shot & Sudut</h3>
+                            <p class="step-description">Tentukan <span class="accent-blue" style="font-weight: 600;">ukuran shot</span> dan <span class="accent-blue" style="font-weight: 600;">sudut kamera</span></p>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <div>
+                            <h3 class="step-title">Tambah Pergerakan Kamera</h3>
+                            <p class="step-description">Tentukan <span class="accent-blue" style="font-weight: 600;">jenis pergerakan</span> dan <span class="accent-blue" style="font-weight: 600;">estimasi durasi</span> shot</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="steps-column right-content">
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <div>
+                            <h3 class="step-title">Catat Aksi & Audio</h3>
+                            <p class="step-description">Deskripsikan <span class="accent-blue" style="font-weight: 600;">aksi subjek</span> dan <span class="accent-blue" style="font-weight: 600;">kebutuhan audio</span></p>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">5</div>
+                        <div>
+                            <h3 class="step-title">Tentukan Peralatan</h3>
+                            <p class="step-description">Daftar <span class="accent-blue" style="font-weight: 600;">peralatan khusus</span> yang dibutuhkan (lensa, lighting)</p>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">6</div>
+                        <div>
+                            <h3 class="step-title">Organisir Berdasarkan Lokasi</h3>
+                            <p class="step-description">Kelompokkan shot berdasarkan <span class="accent-blue" style="font-weight: 600;">lokasi</span> untuk efisiensi produksi</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tip-container">
+                <i class="material-icons accent-blue">lightbulb</i>
+                <p class="tip-text"><span class="accent-blue" style="font-weight: 600;">Tips:</span> Bagikan shot list dengan tim produksi sebelum syuting untuk mendapatkan masukan dan memastikan semua orang memahami rencana</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: MERENCANAKAN ADEGAN PER ADEGAN -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Merencanakan Adegan per Adegan</h1>
+        </div>
+        <div class="content">
+            <div class="planning-steps left-content">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div>
+                        <h3 class="step-title">Susun Timeline</h3>
+                        <p class="step-description">Buat struktur <span class="accent-blue" style="font-weight: 600;">garis besar</span> dari pembuka, masalah, solusi, hingga penutup</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div>
+                        <h3 class="step-title">Tentukan Adegan Utama</h3>
+                        <p class="step-description">Identifikasi <span class="accent-blue" style="font-weight: 600;">poin penting</span> yang memberikan kesan menarik dan dorongan tindakan</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div>
+                        <h3 class="step-title">Tambah Detail Adegan</h3>
+                        <p class="step-description">Tentukan <span class="accent-blue" style="font-weight: 600;">pendekatan visual</span>, pencahayaan, dan sudut pandang kamera</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <div>
+                        <h3 class="step-title">Kelompokkan Shot</h3>
+                        <p class="step-description">Kelompokkan shot berdasarkan <span class="accent-blue" style="font-weight: 600;">lokasi</span> dan <span class="accent-blue" style="font-weight: 600;">setup kamera</span> untuk efisiensi</p>
+                    </div>
+                </div>
+            </div>
+            <div class="shots-container right-content">
+                <h3 class="shots-title primary-dark">
+                    <i class="material-icons accent-blue">videocam</i>
+                    Jenis Shot & Sudut Kamera
+                </h3>
+                <div class="shots-grid">
+                    <div class="shot-card">
+                                                <div class="shot-info">
+                            <h4 class="shot-name">Ukuran Shot</h4>
+                            <p class="shot-description">Wide, Medium, Close-up, Extreme Close-up</p>
+                        </div>
+                    </div>
+                    <div class="shot-card">
+                                                <div class="shot-info">
+                            <h4 class="shot-name">Sudut Kamera</h4>
+                            <p class="shot-description">Eye Level, Low Angle, High Angle, Dutch Angle</p>
+                        </div>
+                    </div>
+                    <div class="shot-card">
+                                                <div class="shot-info">
+                            <h4 class="shot-name">Pergerakan Kamera</h4>
+                            <p class="shot-description">Pan, Tilt, Dolly, Crane, Handheld</p>
+                        </div>
+                    </div>
+                    <div class="shot-card">
+                                                <div class="shot-info">
+                            <h4 class="shot-name">Komposisi</h4>
+                            <p class="shot-description">Rule of Thirds, Leading Lines, Framing</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tip-container">
+                    <i class="material-icons accent-blue">lightbulb</i>
+                    <p class="tip-text"><span class="accent-blue" style="font-weight: 600;">Tips:</span> Gunakan variasi shot untuk menjaga minat penonton dan menyampaikan emosi yang berbeda</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: MEMBUAT STORYBOARD SEDERHANA -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Membuat Storyboard Sederhana</h1>
+        </div>
+        <div class="content">
+            <div class="steps-container left-content">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div>
+                        <h3 class="step-title">Tentukan Adegan Utama</h3>
+                        <p class="step-description">Identifikasi <span class="accent-blue" style="font-weight: 600;">poin kunci</span> dalam video yang perlu divisualisasikan</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div>
+                        <h3 class="step-title">Buat Sketsa Sederhana</h3>
+                        <p class="step-description">Gambar <span class="accent-blue" style="font-weight: 600;">frame dasar</span>, fokus pada komposisi dan subjek</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div>
+                        <h3 class="step-title">Tambah Detail Adegan</h3>
+                        <p class="step-description">Sertakan <span class="accent-blue" style="font-weight: 600;">catatan</span> tentang dialog, pergerakan kamera, dan transisi</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <div>
+                        <h3 class="step-title">Pilih Alat yang Tepat</h3>
+                        <p class="step-description">Gunakan <span class="accent-blue" style="font-weight: 600;">aplikasi</span> atau alat fisik yang sesuai dengan kebutuhan</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">5</div>
+                    <div>
+                        <h3 class="step-title">Tambah Potongan Transisi</h3>
+                        <p class="step-description">Rencanakan <span class="accent-blue" style="font-weight: 600;">transisi</span> antar adegan untuk menjaga alur cerita</p>
+                    </div>
+                </div>
+            </div>
+            <div class="example-container right-content">
+                <h3 class="shots-title primary-dark">
+                    <i class="material-icons accent-blue">dashboard</i>
+                    Contoh Storyboard Sederhana
+                </h3>
+                <div class="storyboard-row">
+                    <div class="storyboard-frame">
+                                                <div class="frame-info">
+                            <div class="frame-number">Frame 1</div>
+                            <div class="frame-description">Pembuka: Karakter bangun pagi</div>
+                        </div>
+                    </div>
+                    <div class="storyboard-frame">
+                                                <div class="frame-info">
+                            <div class="frame-number">Frame 2</div>
+                            <div class="frame-description">Close-up: Ekspresi wajah</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="storyboard-row">
+                    <div class="storyboard-frame">
+                                                <div class="frame-info">
+                            <div class="frame-number">Frame 3</div>
+                            <div class="frame-description">Aksi: Karakter bergerak</div>
+                        </div>
+                    </div>
+                    <div class="storyboard-frame" style="background-color: #f0f0f0;">
+                        <div class="frame-info" style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;">
+                            <i class="material-icons" style="font-size: 30px; color: #60a5fa; margin-bottom: 5px;">add_circle</i>
+                            <div class="frame-description" style="font-size: 12px; color: #666;">Tambahkan frame sesuai kebutuhan</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tools-container">
+                    <h4 class="shots-title primary-dark" style="margin-bottom: 8px;">
+                        <i class="material-icons accent-blue">build</i>
+                        Alat yang Bisa Digunakan
+                    </h4>
+                    <div class="tools-list">
+                        <div class="tool-item">
+                            <i class="material-icons accent-blue">slideshow</i>
+                            PowerPoint
+                        </div>
+                        <div class="tool-item">
+                            <i class="material-icons accent-blue">brush</i>
+                            Adobe Illustrator
+                        </div>
+                        <div class="tool-item">
+                            <i class="material-icons accent-blue">tablet_mac</i>
+                            iPad Apps
+                        </div>
+                        <div class="tool-item">
+                            <i class="material-icons accent-blue">dashboard</i>
+                            Storyboard That
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: TIPS DAN TEMPLATE -->
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Tips dan Template</h1>
+        </div>
+        <div class="content">
+            <div class="tips-container left-content">
+                <h2 class="shots-title primary-dark">
+                    <i class="material-icons accent-blue">lightbulb</i>
+                    Tips Efektif
+                </h2>
+                <div class="tips-grid">
+                    <div class="tip-card">
+                        <i class="material-icons tip-icon">visibility</i>
+                        <div class="tip-content">
+                            <h3 class="tip-title">Visualisasi Jelas</h3>
+                            <p class="tip-description">Gunakan <span class="accent-blue" style="font-weight: 600;">gambar referensi</span> untuk memvisualisasikan shot yang diinginkan</p>
+                        </div>
+                    </div>
+                    <div class="tip-card">
+                        <i class="material-icons tip-icon">people</i>
+                        <div class="tip-content">
+                            <h3 class="tip-title">Kolaborasi Tim</h3>
+                            <p class="tip-description">Bagikan dengan <span class="accent-blue" style="font-weight: 600;">tim produksi</span> untuk mendapatkan masukan</p>
+                        </div>
+                    </div>
+                    <div class="tip-card">
+                        <i class="material-icons tip-icon">update</i>
+                        <div class="tip-content">
+                            <h3 class="tip-title">Realistis</h3>
+                            <p class="tip-description">Sesuaikan dengan <span class="accent-blue" style="font-weight: 600;">waktu dan anggaran</span> yang tersedia</p>
+                        </div>
+                    </div>
+                    <div class="tip-card">
+                        <i class="material-icons tip-icon">backup</i>
+                        <div class="tip-content">
+                            <h3 class="tip-title">Backup Plan</h3>
+                            <p class="tip-description">Sediakan <span class="accent-blue" style="font-weight: 600;">alternatif shot</span> untuk situasi tak terduga</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tools-container right-content">
+                <h2 class="shots-title primary-dark">
+                    <i class="material-icons accent-blue">build</i>
+                    Alat & Template
+                </h2>
+                <div class="tools-grid">
+                    <div class="tool-card">
+                        <div class="tool-header">
+                            <div class="tool-icon">
+                                <i class="material-icons">slideshow</i>
+                            </div>
+                            <h3 class="tool-name">PowerPoint/Google Slides</h3>
+                        </div>
+                        <p class="tool-description">Mudah digunakan, cocok untuk <span class="accent-blue" style="font-weight: 600;">storyboard sederhana</span></p>
+                    </div>
+                    <div class="tool-card">
+                        <div class="tool-header">
+                            <div class="tool-icon">
+                                <i class="material-icons">brush</i>
+                            </div>
+                            <h3 class="tool-name">Adobe Illustrator</h3>
+                        </div>
+                        <p class="tool-description">Fleksibel untuk <span class="accent-blue" style="font-weight: 600;">desain storyboard</span> yang detail</p>
+                    </div>
+                    <div class="tool-card">
+                        <div class="tool-header">
+                            <div class="tool-icon">
+                                <i class="material-icons">dashboard</i>
+                            </div>
+                            <h3 class="tool-name">Storyboard That</h3>
+                        </div>
+                        <p class="tool-description">Platform <span class="accent-blue" style="font-weight: 600;">khusus storyboard</span> dengan template siap pakai</p>
+                    </div>
+                    <div class="tool-card">
+                        <div class="tool-header">
+                            <div class="tool-icon">
+                                <i class="material-icons">table_chart</i>
+                            </div>
+                            <h3 class="tool-name">Google Sheets/Excel</h3>
+                        </div>
+                        <p class="tool-description">Ideal untuk <span class="accent-blue" style="font-weight: 600;">shot list terstruktur</span> dan mudah diedit</p>
+                    </div>
+                </div>
+                <div class="bottom-tip">
+                    <i class="material-icons accent-blue">stars</i>
+                    <p class="bottom-tip-text"><span class="accent-blue" style="font-weight: 600;">Pro Tip:</span> Mulai dengan template sederhana, lalu kembangkan sesuai kebutuhan proyek Anda</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

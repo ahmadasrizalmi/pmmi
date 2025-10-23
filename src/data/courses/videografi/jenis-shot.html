@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Videografi: Jenis-jenis Shot</title>
+    <!-- Menggunakan Font Source Sans Pro dari Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Menggunakan Material Icons untuk ikon -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        /* ====================================
+           GLOBAL & MOBILE FIRST STYLES
+           (Default for screens < 768px)
+        ==================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #121212; /* Dark background for the whole page */
+            color: #ffffff;
+            padding: 0;
+        }
+
+        /* Base styling for all content sections (slides) */
+        .slide {
+            width: 100%;
+            min-height: auto;
+            position: relative;
+            overflow: hidden;
+            background-color: #121212;
+            color: #ffffff;
+            padding: 30px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        /* Styling specific to the dark intro slide */
+        #slide-intro {
+            background-image: url('https://sfile.chatglm.cn/images-ppt/d1d1835d0b30.png');
+            background-size: cover;
+            background-position: center;
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+        }
+        #slide-intro .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(18, 18, 18, 0.75);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 80px 20px;
+        }
+        #slide-intro .title {
+            color: #ffffff;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        #slide-intro .subtitle {
+            font-size: 16px;
+            color: #e0e0e0;
+            max-width: 90%;
+            margin: 0 auto;
+        }
+        .accent {
+            color: #64B5F6;
+            font-weight: 700;
+        }
+
+        /* General Layouts */
+        .header {
+            padding: 0 0 20px;
+            margin: -30px -20px 0;
+            padding: 30px 20px;
+            margin-bottom: 20px;
+            border-radius: 8px 8px 0 0;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+        }
+        .title i {
+            color: #64B5F6;
+            margin-right: 10px;
+            font-size: 30px;
+            flex-shrink: 0;
+        }
+        .content {
+            display: flex;
+            flex-direction: column; /* Stacked content on mobile */
+            gap: 30px;
+        }
+
+        /* Content Columns (for alternating layouts) */
+        .left-content, .right-content {
+            flex: 1;
+            width: 100%;
+        }
+        .right-content {
+            order: -1; /* Image/Diagram above text on mobile */
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Text Points & Sections */
+        .definition {
+            background-color: rgba(100, 181, 246, 0.1);
+            border-left: 4px solid #64B5F6;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+        .definition-title, .importance-title, .shot-types-title, .info-title, .tip-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #64B5F6;
+            display: flex;
+            align-items: center;
+        }
+        .definition-text, .info-content {
+            font-size: 16px;
+            line-height: 1.4;
+        }
+        .importance-list, .key-points {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .importance-item, .key-point {
+            font-size: 16px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .importance-item i, .key-point i {
+            color: #64B5F6;
+            margin-right: 10px;
+            font-size: 18px;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+        .highlight {
+            color: #64B5F6;
+            font-weight: 700;
+        }
+
+        /* Shot Grid */
+        .shot-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .shot-item {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+        .shot-item i {
+            color: #64B5F6;
+            margin-right: 8px;
+            font-size: 16px;
+        }
+
+        /* Image Containers */
+        .image-container {
+            width: 100%;
+            height: 250px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .image-container img {
+            max-width: 100%;
+            max-height: 250px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
+        }
+        .image-caption {
+            font-size: 12px;
+            color: #e0e0e0;
+            text-align: center;
+            max-width: 100%;
+        }
+
+        /* Tips Section */
+        .tips-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+        }
+        .tip-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+        }
+        .tip-header {
+            margin-bottom: 10px;
+        }
+        .tip-icon {
+            width: 40px;
+            height: 40px;
+        }
+        .tip-icon i {
+            font-size: 20px;
+        }
+        .tip-title {
+            font-size: 16px;
+        }
+
+        /* ====================================
+           TABLET STYLES
+           (min-width: 768px)
+        ==================================== */
+        @media (min-width: 768px) {
+            .slide {
+                max-width: 90%;
+                margin: 20px auto;
+                padding: 40px;
+            }
+            .header {
+                padding: 40px 40px 20px;
+                margin: -40px -40px 0;
+                margin-bottom: 30px;
+            }
+            .title {
+                font-size: 36px;
+            }
+            .title i {
+                font-size: 36px;
+            }
+            #slide-intro .title {
+                font-size: 48px;
+            }
+            
+            .content {
+                flex-direction: row; /* Content side-by-side */
+                gap: 40px;
+            }
+            .right-content {
+                order: initial; /* Image on the right */
+            }
+            .left-content {
+                justify-content: center;
+            }
+
+            .definition-text, .info-content {
+                font-size: 18px;
+            }
+            .importance-item, .key-point {
+                font-size: 18px;
+            }
+            .shot-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .shot-item {
+                font-size: 16px;
+            }
+
+            .image-container {
+                height: 400px;
+            }
+            .image-container img {
+                max-height: 400px;
+            }
+            .image-caption {
+                font-size: 14px;
+            }
+
+            /* Tips Section Grid */
+            .tips-container {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            .tip-card {
+                padding: 20px;
+            }
+            .tip-header {
+                margin-bottom: 15px;
+            }
+            .tip-title {
+                font-size: 20px;
+            }
+            .key-point {
+                font-size: 16px;
+            }
+        }
+        
+        /* ====================================
+           DESKTOP STYLES
+           (min-width: 1024px)
+        ==================================== */
+        @media (min-width: 1024px) {
+            .slide {
+                max-width: 1280px;
+                padding: 60px 70px;
+            }
+            .header {
+                padding: 40px 70px 20px;
+                margin: -60px -70px 0;
+            }
+            .title {
+                font-size: 40px;
+            }
+            #slide-intro .title {
+                font-size: 60px;
+            }
+            
+            .left-content {
+                padding-right: 30px;
+            }
+            
+            .definition-text, .info-content {
+                font-size: 20px;
+            }
+            .importance-item, .key-point {
+                font-size: 20px;
+            }
+            .shot-item {
+                font-size: 18px;
+            }
+
+            .image-container {
+                height: 450px;
+            }
+            .image-container img {
+                max-height: 450px;
+            }
+
+            /* Tips Section Grid */
+            .tips-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- SLIDE 1: JUDUL UTAMA -->
+    <div class="slide" id="slide-intro">
+        <div class="overlay">
+            <div class="content">
+                <h1 class="title">Tutorial Videografi: <span class="accent">8 Jenis Shot</span> yang Perlu Anda Kuasai</h1>
+                <p class="subtitle">Memahami dan mempraktikkan Extreme Long Shot, Full Shot, Medium Shot, Close-up, dan Extreme Close-up</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: PENTINGNYA MEMAHAMI JENIS SHOT -->
+    <div class="slide" id="slide-pengenalan">
+        <div class="header">
+            <h1 class="title">Pentingnya Memahami Jenis Shot</h1>
+        </div>
+        <div class="content">
+            <div class="right-content">
+                <div class="image-container">
+                    <img src="https://sfile.chatglm.cn/images-ppt/69bacc6f4578.jpg" alt="Contoh establishing shot dalam film">
+                    <p class="image-caption">Contoh establishing shot dalam film</p>
+                </div>
+            </div>
+            <div class="left-content">
+                <div class="definition">
+                    <h2 class="definition-title">Apa itu Shot Size?</h2>
+                    <p class="definition-text">Shot size adalah seberapa banyak subjek atau latar yang ditampilkan dalam frame video, foto, atau animasi.</p>
+                </div>
+                
+                <div class="importance">
+                    <h2 class="importance-title">Mengapa Penting?</h2>
+                    <ul class="importance-list">
+                        <li class="importance-item">
+                            <i class="material-icons">visibility</i>
+                            <span>Mengatur persepsi penonton terhadap adegan</span>
+                        </li>
+                        <li class="importance-item">
+                            <i class="material-icons">psychology</i>
+                            <span>Menciptakan emosi dan suasana tertentu</span>
+                        </li>
+                        <li class="importance-item">
+                            <i class="material-icons">auto_stories</i>
+                            <span>Menyampaikan narasi visual yang efektif</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="shot-types">
+                    <h2 class="shot-types-title">8 Jenis Shot yang Akan Dibahas</h2>
+                    <div class="shot-grid">
+                        <div class="shot-item">
+                            <i class="material-icons">landscape</i>
+                            <span>Extreme Long Shot</span>
+                        </div>
+                        <div class="shot-item">
+                            <i class="material-icons">panorama</i>
+                            <span>Long Shot</span>
+                        </div>
+                        <div class="shot-item">
+                            <i class="material-icons">accessibility</i>
+                            <span>Full Shot</span>
+                        </div>
+                        <div class="shot-item">
+                            <i class="material-icons">accessibility_new</i>
+                            <span>Medium Shot</span>
+                        </div>
+                        <div class="shot-item">
+                            <i class="material-icons">face</i>
+                            <span>Close-up</span>
+                        </div>
+                        <div class="shot-item">
+                            <i class="material-icons">remove_red_eye</i>
+                            <span>Extreme Close-up</span>
+                        </div>
+                        <div class="shot-item">
+                            <i class="material-icons">person</i>
+                            <span>Medium Close-up</span>
+                        </div>
+                        <div class="shot-item">
+                            <i class="material-icons">straighten</i>
+                            <span>Cowboy Shot</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: EXTREME LONG SHOT -->
+    <div class="slide" id="slide-els">
+        <div class="header">
+            <h1 class="title"><i class="material-icons">landscape</i>Extreme Long Shot</h1>
+        </div>
+        <div class="content">
+            <div class="right-content">
+                <div class="image-container">
+                    <img src="https://sfile.chatglm.cn/images-ppt/b170107b89d5.jpg" alt="Contoh Extreme Long Shot dari film The Martian">
+                    <p class="image-caption">Contoh Extreme Long Shot dari film "The Martian" - menunjukkan karakter yang terisolasi di lingkungan Mars yang luas</p>
+                </div>
+            </div>
+            <div class="left-content">
+                <div class="info-block">
+                    <h2 class="info-title"><i class="material-icons">info</i>Definisi</h2>
+                    <p class="info-content">Shot yang diambil dari <span class="highlight">jarak jauh</span> untuk menunjukkan lokasi dan hubungan subjek dengan lingkungan. Subjek terlihat <span class="highlight">kecil</span> terhadap latar belakang.</p>
+                </div>
+                
+                <div class="info-block">
+                    <h2 class="info-title"><i class="material-icons">stars</i>Fungsi</h2>
+                    <ul class="key-points">
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Memberikan gambaran umum tentang <span class="highlight">tempat, waktu, dan situasi</span></span>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Menciptakan <span class="highlight">konteks</span> untuk adegan selanjutnya</span>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Menunjukkan <span class="highlight">skala</span> lokasi atau lingkungan</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="info-block">
+                    <h2 class="info-title"><i class="material-icons">schedule</i>Kapan Menggunakan</h2>
+                    <ul class="key-points">
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Di <span class="highlight">awal adegan</span> sebagai establishing shot</span>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Saat ingin menunjukkan <span class="highlight">perpindahan lokasi</span></span>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Untuk menciptakan perasaan <span class="highlight">kesepian</span> atau <span class="highlight">kebesaran</span></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: FULL SHOT -->
+    <div class="slide" id="slide-fs">
+        <div class="header">
+            <h1 class="title"><i class="material-icons">accessibility</i>Full Shot</h1>
+        </div>
+        <div class="content">
+            <div class="right-content">
+                <div class="image-container">
+                    <img src="https://sfile.chatglm.cn/images-ppt/200f0c1485c8.jpg" alt="Contoh Full Shot dari film">
+                    <p class="image-caption">Contoh Full Shot - menampilkan karakter secara utuh dari kepala hingga kaki dengan fokus pada aksi dan penampilan</p>
+                </div>
+            </div>
+            <div class="left-content">
+                <div class="info-block">
+                    <h2 class="info-title"><i class="material-icons">info</i>Definisi</h2>
+                    <p class="info-content">Shot yang menampilkan subjek secara <span class="highlight">utuh dari kepala hingga kaki</span>. Subjek mengisi frame sambil tetap memungkinkan beberapa fitur latar belakang terlihat.</p>
+                </div>
+                
+                <div class="info-block">
+                    <h2 class="info-title"><i class="material-icons">stars</i>Fungsi</h2>
+                    <ul class="key-points">
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Menonjolkan <span class="highlight">aksi atau pergerakan</span> karakter</span>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Menunjukkan <span class="highlight">penampilan dan pakaian</span> karakter</span>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Menciptakan <span class="highlight">hubungan</span> antara karakter dan lingkungan</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="info-block">
+                    <h2 class="info-title"><i class="material-icons">schedule</i>Kapan Menggunakan</h2>
+                    <ul class="key-points">
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Saat ingin menampilkan karakter <span class="highlight">secara utuh</span></span>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Untuk menampilkan <span class="highlight">beberapa karakter</span> dalam satu frame</span>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Saat <span class="highlight">gerakan tubuh</span> penting untuk cerita</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: MEDIUM SHOT -->
+    <div class="slide" id="slide-ms">
+        <div class="header">
+            <h1 class="title"><i class="material-icons">accessibility_new</i>Medium Shot</h1>
+        </div>
+        <div class="content">
+            <div class="right-content">
+                <div class="image-container">
+                    <img src="https://sfile.chatglm.cn/images-ppt/cc95eae2f324.jpeg" alt="Contoh Medium Shot dari film">
+                    <p class="image-caption">Contoh Medium Shot - menampilkan karakter dari pinggang ke atas, memungkinkan penonton melihat ekspresi wajah dan bahasa tubuh</p>
+                </div>
+            </div>
+            <div class="left-content">
+                <div class="info-block">
+                    <h2 class="info-title"><i class="material-icons">info</i>Definisi</h2>
+                    <p class="info-content">Shot yang membingkai subjek dari <span class="highlight">sekitar pinggang ke atas</span>. Berada di antara Full Shot dan Close-up, menyeimbangkan subjek dan lingkungan.</p>
+                </div>
+                
+                <div class="info-block">
+                    <h2 class="info-title"><i class="material-icons">stars</i>Fungsi</h2>
+                    <ul class="key-points">
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Menunjukkan <span class="highlight">perpaduan gerakan tubuh</span> dan ekspresi wajah</span>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Menciptakan keseimbangan antara <span class="highlight">subjek dan lingkungan</span></span>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Menjaga karakter tetap terlihat <span class="highlight">alami</span></span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="info-block">
+                    <h2 class="info-title"><i class="material-icons">schedule</i>Kapan Menggunakan</h2>
+                    <ul class="key-points">
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Saat <span class="highlight">dialog</span> antar karakter</span>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Untuk menunjukkan <span class="highlight">interaksi</span> dengan objek</span>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Sebagai <span class="highlight">transisi</span> antara Wide Shot dan Close-up</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: CLOSE-UP SHOT -->
+    <div class="slide" id="slide-cu">
+        <div class="header">
+            <h1 class="title"><i class="material-icons">face</i>Close-up Shot</h1>
+        </div>
+        <div class="content">
+            <div class="right-content">
+                <div class="image-container">
+                    <img src="https://sfile.chatglm.cn/images-ppt/7e6c3955774e.jpg" alt="Contoh Close-up Shot dari film The Shining">
+                    <p class="image-caption">Contoh Close-up Shot dari film "The Shining" - menunjukkan ekspresi wajah intens untuk mengungkapkan emosi karakter</p>
+                </div>
+            </div>
+            <div class="left-content">
+                <div class="info-block">
+                    <h2 class="info-title"><i class="material-icons">info</i>Definisi</h2>
+                    <p class="info-content">Shot yang <span class="highlight">mengisi frame dengan bagian subjek</span>, biasanya wajah. Fokus pada detail ekspresi atau objek tertentu untuk menunjukkan emosi.</p>
+                </div>
+                
+                <div class="info-block">
+                    <h2 class="info-title"><i class="material-icons">stars</i>Fungsi</h2>
+                    <ul class="key-points">
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Mengungkapkan <span class="highlight">emosi dan reaksi</span> subjek</span>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Menangkap <span class="highlight">detail halus</span> yang mungkin terlewat</span>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Menciptakan <span class="highlight">kedekatan emosional</span> dengan penonton</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="info-block">
+                    <h2 class="info-title"><i class="material-icons">schedule</i>Kapan Menggunakan</h2>
+                    <ul class="key-points">
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Saat ingin menunjukkan <span class="highlight">detail ekspresi</span> karakter</span>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Untuk <span class="highlight">menekankan momen penting</span> dalam cerita</span>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Saat <span class="highlight">monolog</span> atau dialog emosional</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: EXTREME CLOSE-UP SHOT -->
+    <div class="slide" id="slide-ecu">
+        <div class="header">
+            <h1 class="title"><i class="material-icons">remove_red_eye</i>Extreme Close-up Shot</h1>
+        </div>
+        <div class="content">
+            <div class="right-content">
+                <div class="image-container">
+                    <img src="https://sfile.chatglm.cn/images-ppt/b79ff99f6743.jpg" alt="Contoh Extreme Close-up Shot">
+                    <p class="image-caption">Contoh Extreme Close-up Shot - fokus pada detail mata untuk menciptakan intensitas emosional atau menekankan momen penting</p>
+                </div>
+            </div>
+            <div class="left-content">
+                <div class="info-block">
+                    <h2 class="info-title"><i class="material-icons">info</i>Definisi</h2>
+                    <p class="info-content">Shot yang membingkai subjek dengan <span class="highlight">sangat dekat</span>, seringkali hanya menampilkan bagian kecil seperti mata, mulut, atau detail objek. Bagian luar subjek terpotong oleh tepi frame.</p>
+                </div>
+                
+                <div class="info-block">
+                    <h2 class="info-title"><i class="material-icons">stars</i>Fungsi</h2>
+                    <ul class="key-points">
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Fokus pada <span class="highlight">detail khusus</span> subjek</span>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Memberikan sinyal <span class="highlight">momen sensorik penting</span></span>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Mengkomunikasikan <span class="highlight">detail kecil</span> yang sulit dilihat</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="info-block">
+                    <h2 class="info-title"><i class="material-icons">schedule</i>Kapan Menggunakan</h2>
+                    <ul class="key-points">
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Saat ingin menunjukkan <span class="highlight">detail penting</span> yang kecil</span>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Untuk menciptakan <span class="highlight">ketegangan</span> atau antisipasi</span>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Saat ingin <span class="highlight">menahan informasi</span> dari penonton</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: TIPS PRAKTIS -->
+    <div class="slide" id="slide-tips">
+        <div class="header">
+            <h1 class="title"><i class="material-icons">tips_and_updates</i>Tips Praktis</h1>
+        </div>
+        <div class="content">
+            <div class="tips-container">
+                <div class="tip-card">
+                    <div class="tip-header">
+                        <div class="tip-icon">
+                            <i class="material-icons">assignment</i>
+                        </div>
+                        <h2 class="tip-title">Perencanaan Shot</h2>
+                    </div>
+                    <ul class="key-points">
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Buat <span class="highlight">shot list</span> sebelum syuting</span>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Tentukan <span class="highlight">jenis shot</span> untuk setiap adegan</span>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Visualisasikan dengan <span class="highlight">storyboard</span></span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-header">
+                        <div class="tip-icon">
+                            <i class="material-icons">swap_horiz</i>
+                        </div>
+                        <h2 class="tip-title">Kombinasi Shot</h2>
+                    </div>
+                    <ul class="key-points">
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Gunakan <span class="highlight">kontras shot size</span> untuk efek dramatis</span>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Mulai dengan <span class="highlight">wide shot</span> untuk konteks</span>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Gunakan <span class="highlight">close-up</span> untuk emosi</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-header">
+                        <div class="tip-icon">
+                            <i class="material-icons">compare_arrows</i>
+                        </div>
+                        <h2 class="tip-title">Transisi Shot</h2>
+                    </div>
+                    <ul class="key-points">
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Gunakan <span class="highlight">medium shot</span> sebagai transisi</span>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Pertahankan <span class="highlight">eye line</span> yang konsisten</span>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Perhatikan <span class="highlight">axis of action</span> saat editing</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-header">
+                        <div class="tip-icon">
+                            <i class="material-icons">fitness_center</i>
+                        </div>
+                        <h2 class="tip-title">Latihan Praktis</h2>
+                    </div>
+                    <ul class="key-points">
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Filmkan <span class="highlight">satu adegan</span> dengan berbagai shot</span>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Analisis <span class="highlight">film favorit</span> untuk inspirasi</span>
+                        </li>
+                        <li class="key-point">
+                            <i class="material-icons">check_circle</i>
+                            <span>Latih <span class="highlight">pergerakan kamera</span> dengan setiap shot</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

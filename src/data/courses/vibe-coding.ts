@@ -8,4 +8,9 @@ export const vibeCodingMaterials: Material[] = [
     title: 'HTML5 Struktur & Semantik',
     content: htmlStrukturContent,
   },
+  {
+    id: 'html-struktur',
+    title: 'HTML5 Struktur & Semantik',
+    content: htmlStrukturContent,
+  },
 ];
