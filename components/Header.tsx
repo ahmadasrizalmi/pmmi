@@ -30,12 +30,10 @@ const Header: React.FC = () => {
         path: `/materials/${category.id}`
       }))
     },
-    { name: 'Admisi', path: '/admissions' },
-    { name: 'Daftar', path: '/daftar' },
+    { name: 'Pendaftaran', path: '/daftar' },
     { name: 'Portfolio', path: '/portfolio' },
     { name: 'Galeri', path: '/gallery' },
     { name: 'Kontak', path: '/contact' },
-    { name: 'Dashboard', path: (import.meta as unknown as { env?: Record<string, string> }).env?.VITE_DASHBOARD_URL || 'https://app.pondokmultimedia.id' },
   ];
 
   const linkClasses = "px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition-colors";
@@ -68,16 +66,14 @@ const Header: React.FC = () => {
         </div>
       );
     }
-    const isDashboard = link.name === 'Dashboard';
+
     return (
       <NavLink
         key={link.name}
         to={link.path}
-        className={({ isActive }) => isDashboard
-          ? `ml-2 px-4 py-2 rounded-md text-sm font-semibold text-white bg-fuchsia-600 hover:bg-fuchsia-500 transition-colors shadow-lg shadow-fuchsia-600/25 ${isActive ? 'bg-fuchsia-500' : ''}`
-          : `${linkClasses} ${isActive ? activeLinkClasses : ''}`}
+        className={({ isActive }) => `${linkClasses} ${isActive ? activeLinkClasses : ''}`}
       >
-        {isDashboard ? '🎓 Dashboard' : link.name}
+        {link.name}
       </NavLink>
     );
   };
@@ -156,12 +152,10 @@ const Header: React.FC = () => {
             <div className="ml-4 pl-4 border-l border-white/10">
               <a
                 href={DASHBOARD_URL}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-fuchsia-600 hover:bg-fuchsia-500 text-white text-sm font-semibold transition shadow-md shadow-fuchsia-600/20"
               >
-                <span className="material-icons text-sm">dashboard</span>
-                Dashboard
+                <span className="material-icons text-sm" aria-hidden="true">login</span>
+                Masuk
               </a>
             </div>
           </div>
@@ -183,13 +177,11 @@ const Header: React.FC = () => {
             {navLinks.map(renderMobileLink)}
             <a
               href={DASHBOARD_URL}
-              target="_blank"
-              rel="noopener noreferrer"
               onClick={() => setIsOpen(false)}
               className="flex items-center gap-1.5 px-3 py-2 rounded-md text-base font-medium bg-fuchsia-600 hover:bg-fuchsia-500 text-white transition mt-2"
             >
-              <span className="material-icons text-sm">dashboard</span>
-              Dashboard
+              <span className="material-icons text-sm" aria-hidden="true">login</span>
+              Masuk
             </a>
           </div>
         </div>
