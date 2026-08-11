@@ -4,7 +4,7 @@ export type User={id:string;email:string;fullName?:string;full_name?:string;role
 export type Session={token:string;user:User};
 
 export function getSession():Session|null{try{const raw=localStorage.getItem('pmmi-session');return raw?JSON.parse(raw):null;}catch{return null;}}
-export function setSession(session:Session|null){if(session)localStorage.setItem('pmmi-session',JSON.stringify(session));else localStorage.removeItem('pmmi-session');}
+export function setSession(session:Session|null){if(session)localStorage.setItem('pmmi-session',JSON.stringify(session));else localStorage.removeItem('pmmi-session');window.dispatchEvent(new Event('pmmi-session-changed'));}
 
 export async function api<T=any>(path:string,options:RequestInit={}){
   const session=getSession();const headers=new Headers(options.headers);if(options.body&&!headers.has('content-type'))headers.set('content-type','application/json');if(session?.token)headers.set('authorization',`Bearer ${session.token}`);
