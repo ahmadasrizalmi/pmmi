@@ -1,27 +1,32 @@
 # Phase 2 — Academic Core
 
-This phase adds the academic domain on top of the Phase 1 identity/admission foundation.
+Phase 2 implements the academic backend on top of the Phase 1 identity/admission foundation.
 
-## Scope
+## Implemented
 
-- Courses and classes
-- Class enrollments
-- Assignments and deadlines
-- Student submissions and MinIO object references
-- Grading, feedback, and revision requests
-- Certificate records
-- Portfolio projects sourced from submissions
-- Featured portfolio publishing without student approval
-- Initial REST route contracts for academic workflows
+- Courses and classes with Admin creation.
+- Class enrollment and role-aware class access.
+- Assignment creation by Admin or the assigned Ustadz.
+- Student assignment listing with enrollment checks.
+- MinIO presigned upload intents with 15-minute expiry.
+- MinIO object verification before a submission is accepted.
+- Initial submission and resubmission after revision requests.
+- Grading, feedback, revision-required state, and max-score validation.
+- Student grade retrieval.
+- Certificate records pointing to MinIO object keys.
+- Featured portfolio projects published immediately by Ustadz/Admin without student approval.
+- Public featured portfolio endpoint.
+- Audit records for critical submission/grading actions.
+- Integration test covering admission through published portfolio.
 
-## Important behavior
+## Storage rule
 
-A teacher/admin may feature a submission directly. The resulting portfolio project is public immediately once featured; no student approval state is required.
+Files stay in MinIO. PostgreSQL stores object keys and metadata. A client cannot register an arbitrary object key as a submission: it must use a server-issued upload intent and the API verifies that the object exists in MinIO before committing the submission.
 
-## Storage
+## Permission rule
 
-Submission files and certificate binaries are stored in MinIO. PostgreSQL stores metadata and object keys only.
+- Admin: global academic management.
+- Ustadz: may manage/grade only classes assigned to that user.
+- Santri: may access and submit only for actively enrolled classes.
 
-## Follow-up hardening
-
-The route handlers in this phase establish API contracts. Repository/database wiring, authenticated user context, RBAC enforcement, notification event emission, and MinIO presigned upload flows are implemented in subsequent hardening phases.
+Notification events are intentionally deferred to Phase 3; AI Gateway/9Router and Hermes provisioning are later phases.

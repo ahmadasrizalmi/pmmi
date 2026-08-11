@@ -1,27 +1,53 @@
+x-app-env: &app-env
+  DATABASE_URL: ${DATABASE_URL}
+  JWT_SECRET: ${JWT_SECRET}
+  BOOTSTRAP_ADMIN_TOKEN: ${BOOTSTRAP_ADMIN_TOKEN:-}
+  MINIO_ENDPOINT: ${MINIO_ENDPOINT:-http://host.docker.internal:9000}
+  MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+  MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
+  MINIO_BUCKET: ${MINIO_BUCKET:-pmmi}
+
 services:
+  migrate:
+    image: node:22-alpine
+    working_dir: /app
+    command: sh -c "npm install --no-audit --no-fund && npm run db:migrate"
+    volumes:
+      - ../..:/app
+    environment: *app-env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
   api:
     image: node:22-alpine
     working_dir: /app
-    command: sh -c "npm install && npm run dev:api"
+    command: sh -c "npm install --no-audit --no-fund && npm run dev:api"
     volumes:
       - ../..:/app
     environment:
+      <<: *app-env
       PORT: 3001
-      DATABASE_URL: ${DATABASE_URL}
-      MINIO_ENDPOINT: ${MINIO_ENDPOINT:-http://host.docker.internal:9000}
+      HOST: 0.0.0.0
     ports:
       - "3001:3001"
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
 
   worker:
     image: node:22-alpine
     working_dir: /app
-    command: sh -c "npm install && npm run dev:worker"
+    command: sh -c "npm install --no-audit --no-fund && npm run dev:worker"
     volumes:
       - ../..:/app
-    environment:
-      DATABASE_URL: ${DATABASE_URL}
+    environment: *app-env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
 
-# PostgreSQL and MinIO are intentionally not duplicated here.
-# PMMI connects to the existing home-server services.
+# PostgreSQL, MinIO, Immich and Tailscale are existing home-server services.
+# This compose file intentionally does not create duplicates.
