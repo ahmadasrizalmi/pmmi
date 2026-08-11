@@ -1,8 +1,12 @@
 FROM node:22-bookworm-slim AS build
 WORKDIR /app
 COPY package*.json ./
+COPY apps/api/package.json apps/api/package.json
+COPY apps/worker/package.json apps/worker/package.json
+COPY apps/dashboard/package.json apps/dashboard/package.json
 COPY apps/whatsapp/package.json apps/whatsapp/package.json
-RUN npm install --workspace @pmmi/whatsapp --include-workspace-root=false --no-audit --no-fund
+COPY packages/db/package.json packages/db/package.json
+RUN npm ci --no-audit --no-fund
 COPY apps/whatsapp apps/whatsapp
 RUN npm run build --workspace @pmmi/whatsapp
 
