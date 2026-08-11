@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { Readable, PassThrough } from 'node:stream';
-import type { FastifyInstance } from 'fastify';
+import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
 import { pool, withTransaction } from '../db.js';
 import { requireAuth, type SessionUser } from '../security/authz.js';
@@ -9,89 +9,52 @@ import { config } from '../config.js';
 const grantSchema=z.object({userId:z.string().uuid(),credits:z.number().int().positive(),reason:z.string().min(2).max(200)});
 const completionSchema=z.object({model:z.string().min(1),messages:z.array(z.unknown()).min(1),stream:z.boolean().optional(),max_tokens:z.number().int().positive().optional()}).passthrough();
 
-async function modelAllowed(user:SessionUser,model:string){
-  const r=await pool.query(`select enabled from ai_model_permissions where role=$1 and (model_pattern='*' or model_pattern=$2) order by case when model_pattern=$2 then 0 else 1 end limit 1`,[user.role,model]);
-  return r.rowCount ? Boolean(r.rows[0].enabled) : false;
+type ModelPolicy={allowed:boolean;maxRequestsPerHour:number|null};
+async function modelPolicy(user:SessionUser,model:string):Promise<ModelPolicy>{
+  const r=await pool.query(`select enabled,max_requests_per_hour from ai_model_permissions where role=$1 and (model_pattern=$2 or model_pattern='*') order by case when model_pattern=$2 then 0 else 1 end limit 1`,[user.role,model]);
+  if(!r.rowCount)return {allowed:false,maxRequestsPerHour:null};
+  return {allowed:Boolean(r.rows[0].enabled),maxRequestsPerHour:r.rows[0].max_requests_per_hour===null?null:Number(r.rows[0].max_requests_per_hour)};
 }
 
-function estimateReserve(body:any){
-  const text=JSON.stringify(body.messages??[]);const approximateInput=Math.ceil(text.length/4);const possibleOutput=Number(body.max_tokens??2000);
-  return Math.max(config.AI_REQUEST_RESERVE_CREDITS,Math.ceil((approximateInput+possibleOutput)/config.AI_TOKENS_PER_CREDIT));
+async function withinRateLimit(userId:string,limit:number|null){
+  if(limit===null)return {ok:true as const,count:0};
+  const r=await pool.query(`select count(*)::int count from ai_usage_logs where user_id=$1 and created_at>=now()-interval '1 hour'`,[userId]);
+  const count=Number(r.rows[0].count);return {ok:count<limit,count,limit};
 }
+
+function estimateReserve(body:any){const text=JSON.stringify(body.messages??[]);const approximateInput=Math.ceil(text.length/4);const possibleOutput=Number(body.max_tokens??2000);return Math.max(config.AI_REQUEST_RESERVE_CREDITS,Math.ceil((approximateInput+possibleOutput)/config.AI_TOKENS_PER_CREDIT));}
 
 async function reserveCredits(userId:string,requestId:string,model:string,reserve:number){
-  return withTransaction(async client=>{
-    const wallet=await client.query(`select balance from ai_credit_wallets where user_id=$1 for update`,[userId]);
-    if(!wallet.rowCount) return {ok:false as const,balance:0};
-    const balance=Number(wallet.rows[0].balance);if(balance<reserve)return {ok:false as const,balance};
-    const after=balance-reserve;
-    await client.query(`update ai_credit_wallets set balance=$1,updated_at=now() where user_id=$2`,[after,userId]);
-    await client.query(`update resource_entitlements set ai_credit_balance=$1,updated_at=now() where user_id=$2`,[after,userId]);
-    await client.query(`insert into ai_credit_ledger(user_id,delta,balance_after,reason,reference_type,reference_id,idempotency_key,metadata) values($1,$2,$3,'ai.request.reserve','ai_usage',$4,$5,$6::jsonb)`,[userId,-reserve,after,requestId,`ai-reserve:${requestId}`,JSON.stringify({model})]);
-    await client.query(`insert into ai_usage_logs(request_id,user_id,model,credits_charged,status) values($1,$2,$3,$4,'RESERVED')`,[requestId,userId,model,reserve]);
-    return {ok:true as const,balance:after};
-  });
+  return withTransaction(async client=>{const wallet=await client.query(`select balance from ai_credit_wallets where user_id=$1 for update`,[userId]);if(!wallet.rowCount)return {ok:false as const,balance:0};const balance=Number(wallet.rows[0].balance);if(balance<reserve)return {ok:false as const,balance};const after=balance-reserve;await client.query(`update ai_credit_wallets set balance=$1,updated_at=now() where user_id=$2`,[after,userId]);await client.query(`update resource_entitlements set ai_credit_balance=$1,updated_at=now() where user_id=$2`,[after,userId]);await client.query(`insert into ai_credit_ledger(user_id,delta,balance_after,reason,reference_type,reference_id,idempotency_key,metadata) values($1,$2,$3,'ai.request.reserve','ai_usage',$4,$5,$6::jsonb)`,[userId,-reserve,after,requestId,`ai-reserve:${requestId}`,JSON.stringify({model})]);await client.query(`insert into ai_usage_logs(request_id,user_id,model,credits_charged,status) values($1,$2,$3,$4,'RESERVED')`,[requestId,userId,model,reserve]);return {ok:true as const,balance:after};});
 }
 
 async function reconcileCredits(userId:string,requestId:string,reserved:number,totalTokens:number|undefined,status:'SUCCEEDED'|'FAILED',latencyMs:number,provider?:string){
-  await withTransaction(async client=>{
-    const usage=await client.query(`select status from ai_usage_logs where request_id=$1 for update`,[requestId]);if(!usage.rowCount||usage.rows[0].status!=='RESERVED')return;
-    const wallet=await client.query(`select balance from ai_credit_wallets where user_id=$1 for update`,[userId]);let balance=Number(wallet.rows[0]?.balance??0);
-    let charged=reserved;
-    if(status==='FAILED'){
-      balance+=reserved;charged=0;
-      await client.query(`update ai_credit_wallets set balance=$1,updated_at=now() where user_id=$2`,[balance,userId]);
-      await client.query(`update resource_entitlements set ai_credit_balance=$1,updated_at=now() where user_id=$2`,[balance,userId]);
-      await client.query(`insert into ai_credit_ledger(user_id,delta,balance_after,reason,reference_type,reference_id,idempotency_key) values($1,$2,$3,'ai.request.refund','ai_usage',$4,$5) on conflict(idempotency_key) do nothing`,[userId,reserved,balance,requestId,`ai-refund:${requestId}`]);
-    } else if(totalTokens!==undefined){
-      const actual=Math.max(1,Math.ceil(totalTokens/config.AI_TOKENS_PER_CREDIT));
-      if(actual<reserved){const refund=reserved-actual;balance+=refund;charged=actual;await client.query(`update ai_credit_wallets set balance=$1,updated_at=now() where user_id=$2`,[balance,userId]);await client.query(`update resource_entitlements set ai_credit_balance=$1,updated_at=now() where user_id=$2`,[balance,userId]);await client.query(`insert into ai_credit_ledger(user_id,delta,balance_after,reason,reference_type,reference_id,idempotency_key) values($1,$2,$3,'ai.request.reconcile_refund','ai_usage',$4,$5)`,[userId,refund,balance,requestId,`ai-reconcile:${requestId}`]);}
-      else if(actual>reserved){const extra=Math.min(balance,actual-reserved);balance-=extra;charged=reserved+extra;await client.query(`update ai_credit_wallets set balance=$1,updated_at=now() where user_id=$2`,[balance,userId]);await client.query(`update resource_entitlements set ai_credit_balance=$1,updated_at=now() where user_id=$2`,[balance,userId]);if(extra>0)await client.query(`insert into ai_credit_ledger(user_id,delta,balance_after,reason,reference_type,reference_id,idempotency_key) values($1,$2,$3,'ai.request.reconcile_charge','ai_usage',$4,$5)`,[userId,-extra,balance,requestId,`ai-reconcile:${requestId}`]);if(extra<actual-reserved)await client.query(`insert into ops_events(kind,severity,source,message,data) values('ai.credit_shortfall','WARN','ai-gateway','AI request exceeded reserved credits and wallet balance',$1::jsonb)`,[JSON.stringify({userId,requestId,actual,reserved,charged})]);}
-    }
-    await client.query(`update ai_usage_logs set total_tokens=$1,credits_charged=$2,status=$3,latency_ms=$4,provider=$5,completed_at=now() where request_id=$6`,[totalTokens??null,charged,status,latencyMs,provider??null,requestId]);
-  });
+  await withTransaction(async client=>{const usage=await client.query(`select status from ai_usage_logs where request_id=$1 for update`,[requestId]);if(!usage.rowCount||usage.rows[0].status!=='RESERVED')return;const wallet=await client.query(`select balance from ai_credit_wallets where user_id=$1 for update`,[userId]);let balance=Number(wallet.rows[0]?.balance??0);let charged=reserved;if(status==='FAILED'){balance+=reserved;charged=0;await client.query(`update ai_credit_wallets set balance=$1,updated_at=now() where user_id=$2`,[balance,userId]);await client.query(`update resource_entitlements set ai_credit_balance=$1,updated_at=now() where user_id=$2`,[balance,userId]);await client.query(`insert into ai_credit_ledger(user_id,delta,balance_after,reason,reference_type,reference_id,idempotency_key) values($1,$2,$3,'ai.request.refund','ai_usage',$4,$5) on conflict(idempotency_key) do nothing`,[userId,reserved,balance,requestId,`ai-refund:${requestId}`]);}else if(totalTokens!==undefined){const actual=Math.max(1,Math.ceil(totalTokens/config.AI_TOKENS_PER_CREDIT));if(actual<reserved){const refund=reserved-actual;balance+=refund;charged=actual;await client.query(`update ai_credit_wallets set balance=$1,updated_at=now() where user_id=$2`,[balance,userId]);await client.query(`update resource_entitlements set ai_credit_balance=$1,updated_at=now() where user_id=$2`,[balance,userId]);await client.query(`insert into ai_credit_ledger(user_id,delta,balance_after,reason,reference_type,reference_id,idempotency_key) values($1,$2,$3,'ai.request.reconcile_refund','ai_usage',$4,$5)`,[userId,refund,balance,requestId,`ai-reconcile:${requestId}`]);}else if(actual>reserved){const extra=Math.min(balance,actual-reserved);balance-=extra;charged=reserved+extra;await client.query(`update ai_credit_wallets set balance=$1,updated_at=now() where user_id=$2`,[balance,userId]);await client.query(`update resource_entitlements set ai_credit_balance=$1,updated_at=now() where user_id=$2`,[balance,userId]);if(extra>0)await client.query(`insert into ai_credit_ledger(user_id,delta,balance_after,reason,reference_type,reference_id,idempotency_key) values($1,$2,$3,'ai.request.reconcile_charge','ai_usage',$4,$5)`,[userId,-extra,balance,requestId,`ai-reconcile:${requestId}`]);if(extra<actual-reserved)await client.query(`insert into ops_events(kind,severity,source,message,data) values('ai.credit_shortfall','WARN','ai-gateway','AI request exceeded reserved credits and wallet balance',$1::jsonb)`,[JSON.stringify({userId,requestId,actual,reserved,charged})]);}}await client.query(`update ai_usage_logs set total_tokens=$1,credits_charged=$2,status=$3,latency_ms=$4,provider=$5,completed_at=now() where request_id=$6`,[totalTokens??null,charged,status,latencyMs,provider??null,requestId]);});
 }
 
 function routerHeaders(){const h:Record<string,string>={'content-type':'application/json'};if(config.NINE_ROUTER_API_KEY)h.authorization=`Bearer ${config.NINE_ROUTER_API_KEY}`;return h;}
+
+async function modelsHandler(request:FastifyRequest,reply:FastifyReply){
+  const user=await requireAuth(request,reply);if(!user)return;
+  let upstream:Response;try{upstream=await fetch(`${config.NINE_ROUTER_URL.replace(/\/$/,'')}/v1/models`,{headers:routerHeaders()});}catch{return reply.code(502).send({error:'9Router unavailable'});}
+  if(!upstream.ok)return reply.code(502).send({error:'9Router unavailable',status:upstream.status});const body=await upstream.json() as any;const models=Array.isArray(body?.data)?body.data:[];const permission=await pool.query(`select model_pattern,enabled from ai_model_permissions where role=$1`,[user.role]);const all=permission.rows.some(r=>r.model_pattern==='*'&&r.enabled);return {...body,data:all?models:models.filter((m:any)=>permission.rows.some(r=>r.enabled&&r.model_pattern===m.id))};
+}
+
+async function chatHandler(request:FastifyRequest,reply:FastifyReply){
+  const user=await requireAuth(request,reply);if(!user)return;const parsed=completionSchema.safeParse(request.body);if(!parsed.success)return reply.code(400).send({error:'invalid OpenAI-compatible payload',issues:parsed.error.flatten()});const body:any=parsed.data;
+  const policy=await modelPolicy(user,body.model);if(!policy.allowed)return reply.code(403).send({error:'model not allowed'});const rate=await withinRateLimit(user.sub,policy.maxRequestsPerHour);if(!rate.ok){reply.header('retry-after','3600');return reply.code(429).send({error:'AI hourly rate limit reached',limit:rate.limit,count:rate.count});}
+  const requestId=randomUUID();const reserve=estimateReserve(body);const reserved=await reserveCredits(user.sub,requestId,body.model,reserve);if(!reserved.ok)return reply.code(402).send({error:'insufficient AI credits',required:reserve,balance:reserved.balance});const started=Date.now();let upstream:Response;
+  try{const payload=body.stream?{...body,stream_options:{...(body.stream_options??{}),include_usage:true}}:body;upstream=await fetch(`${config.NINE_ROUTER_URL.replace(/\/$/,'')}/v1/chat/completions`,{method:'POST',headers:routerHeaders(),body:JSON.stringify(payload)});}catch{await reconcileCredits(user.sub,requestId,reserve,undefined,'FAILED',Date.now()-started);return reply.code(502).send({error:'9Router connection failed',requestId});}
+  if(!upstream.ok){await reconcileCredits(user.sub,requestId,reserve,undefined,'FAILED',Date.now()-started);const text=await upstream.text();return reply.code(502).send({error:'9Router request failed',upstreamStatus:upstream.status,requestId,detail:text.slice(0,1000)});}reply.header('x-pmmi-request-id',requestId).header('x-pmmi-credits-reserved',String(reserve));
+  if(!body.stream){const data:any=await upstream.json();const usage=data?.usage;const total=Number(usage?.total_tokens??((usage?.prompt_tokens??0)+(usage?.completion_tokens??0)))||undefined;await reconcileCredits(user.sub,requestId,reserve,total,'SUCCEEDED',Date.now()-started,data?.provider);if(usage)await pool.query(`update ai_usage_logs set input_tokens=$1,output_tokens=$2 where request_id=$3`,[usage.prompt_tokens??null,usage.completion_tokens??null,requestId]);return data;}
+  if(!upstream.body){await reconcileCredits(user.sub,requestId,reserve,undefined,'FAILED',Date.now()-started);return reply.code(502).send({error:'upstream stream missing'});}reply.header('content-type',upstream.headers.get('content-type')??'text/event-stream');const pass=new PassThrough();const decoder=new TextDecoder();let buffer='';let totalTokens:number|undefined;void(async()=>{try{for await(const chunk of Readable.fromWeb(upstream.body as any)){pass.write(chunk);buffer+=decoder.decode(chunk as Buffer,{stream:true});const lines=buffer.split('\n');buffer=lines.pop()??'';for(const line of lines){if(!line.startsWith('data:'))continue;const raw=line.slice(5).trim();if(!raw||raw==='[DONE]')continue;try{const event=JSON.parse(raw);if(event?.usage?.total_tokens)totalTokens=Number(event.usage.total_tokens);}catch{}}}pass.end();await reconcileCredits(user.sub,requestId,reserve,totalTokens,'SUCCEEDED',Date.now()-started);}catch(error){pass.destroy(error as Error);await reconcileCredits(user.sub,requestId,reserve,totalTokens,'FAILED',Date.now()-started);}})();return reply.send(pass);
+}
 
 export async function registerAiRoutes(app:FastifyInstance){
   app.get('/v1/ai/wallet',async(request,reply)=>{const user=await requireAuth(request,reply);if(!user)return;const wallet=await pool.query(`select balance,updated_at from ai_credit_wallets where user_id=$1`,[user.sub]);return wallet.rows[0]??{balance:0};});
   app.get('/v1/ai/ledger',async(request,reply)=>{const user=await requireAuth(request,reply);if(!user)return;return {items:(await pool.query(`select id,delta,balance_after,reason,reference_type,reference_id,metadata,created_at from ai_credit_ledger where user_id=$1 order by id desc limit 100`,[user.sub])).rows};});
   app.get('/v1/ai/usage',async(request,reply)=>{const user=await requireAuth(request,reply);if(!user)return;return {items:(await pool.query(`select request_id,model,provider,input_tokens,output_tokens,total_tokens,credits_charged,status,latency_ms,created_at,completed_at from ai_usage_logs where user_id=$1 order by created_at desc limit 100`,[user.sub])).rows};});
-
-  app.post('/v1/ai/credits/grant',async(request,reply)=>{
-    const admin=await requireAuth(request,reply,['ADMIN']);if(!admin)return;const parsed=grantSchema.safeParse(request.body);if(!parsed.success)return reply.code(400).send({error:'invalid grant'});const d=parsed.data;
-    const result=await withTransaction(async client=>{const w=await client.query(`insert into ai_credit_wallets(user_id,balance) values($1,$2) on conflict(user_id) do update set balance=ai_credit_wallets.balance+excluded.balance,updated_at=now() returning balance`,[d.userId,d.credits]);const balance=Number(w.rows[0].balance);await client.query(`update resource_entitlements set ai_credit_balance=$1,updated_at=now() where user_id=$2`,[balance,d.userId]);await client.query(`insert into ai_credit_ledger(user_id,delta,balance_after,reason,reference_type,reference_id,idempotency_key,actor_user_id) values($1,$2,$3,$4,'manual',null,$5,$6)`,[d.userId,d.credits,balance,d.reason,`manual:${randomUUID()}`,admin.sub]);return {balance};});return reply.code(201).send(result);
-  });
-
-  app.get('/v1/ai/models',async(request,reply)=>{
-    const user=await requireAuth(request,reply);if(!user)return;
-    const upstream=await fetch(`${config.NINE_ROUTER_URL.replace(/\/$/,'')}/v1/models`,{headers:routerHeaders()});
-    if(!upstream.ok)return reply.code(502).send({error:'9Router unavailable',status:upstream.status});
-    const body=await upstream.json() as any;const models=Array.isArray(body?.data)?body.data:[];
-    if(user.role==='ADMIN'||user.role==='USTADZ')return body;
-    const permission=await pool.query(`select model_pattern,enabled from ai_model_permissions where role=$1`,[user.role]);
-    const all=permission.rows.some(r=>r.model_pattern==='*'&&r.enabled);return {...body,data:all?models:models.filter((m:any)=>permission.rows.some(r=>r.enabled&&r.model_pattern===m.id))};
-  });
-
-  app.post('/v1/ai/chat/completions',async(request,reply)=>{
-    const user=await requireAuth(request,reply);if(!user)return;const parsed=completionSchema.safeParse(request.body);if(!parsed.success)return reply.code(400).send({error:'invalid OpenAI-compatible payload',issues:parsed.error.flatten()});
-    const body:any=parsed.data;if(!(await modelAllowed(user,body.model)))return reply.code(403).send({error:'model not allowed'});
-    const requestId=randomUUID();const reserve=estimateReserve(body);const reserved=await reserveCredits(user.sub,requestId,body.model,reserve);if(!reserved.ok)return reply.code(402).send({error:'insufficient AI credits',required:reserve,balance:reserved.balance});
-    const started=Date.now();let upstream:Response;
-    try{const payload=body.stream?{...body,stream_options:{...(body.stream_options??{}),include_usage:true}}:body;upstream=await fetch(`${config.NINE_ROUTER_URL.replace(/\/$/,'')}/v1/chat/completions`,{method:'POST',headers:routerHeaders(),body:JSON.stringify(payload)});}catch(error:any){await reconcileCredits(user.sub,requestId,reserve,undefined,'FAILED',Date.now()-started);return reply.code(502).send({error:'9Router connection failed',requestId});}
-    if(!upstream.ok){await reconcileCredits(user.sub,requestId,reserve,undefined,'FAILED',Date.now()-started);const text=await upstream.text();return reply.code(502).send({error:'9Router request failed',upstreamStatus:upstream.status,requestId,detail:text.slice(0,1000)});}
-    reply.header('x-pmmi-request-id',requestId).header('x-pmmi-credits-reserved',String(reserve));
-    if(!body.stream){
-      const data:any=await upstream.json();const usage=data?.usage;const total=Number(usage?.total_tokens??((usage?.prompt_tokens??0)+(usage?.completion_tokens??0)))||undefined;
-      await reconcileCredits(user.sub,requestId,reserve,total,'SUCCEEDED',Date.now()-started,data?.provider);
-      if(usage){await pool.query(`update ai_usage_logs set input_tokens=$1,output_tokens=$2 where request_id=$3`,[usage.prompt_tokens??null,usage.completion_tokens??null,requestId]);}
-      return data;
-    }
-    if(!upstream.body){await reconcileCredits(user.sub,requestId,reserve,undefined,'FAILED',Date.now()-started);return reply.code(502).send({error:'upstream stream missing'});}
-    reply.header('content-type',upstream.headers.get('content-type')??'text/event-stream');
-    const pass=new PassThrough();const decoder=new TextDecoder();let buffer='';let totalTokens: number|undefined;
-    void (async()=>{try{for await(const chunk of Readable.fromWeb(upstream.body as any)){pass.write(chunk);buffer+=decoder.decode(chunk as Buffer,{stream:true});const lines=buffer.split('\n');buffer=lines.pop()??'';for(const line of lines){if(!line.startsWith('data:'))continue;const raw=line.slice(5).trim();if(!raw||raw==='[DONE]')continue;try{const event=JSON.parse(raw);if(event?.usage?.total_tokens)totalTokens=Number(event.usage.total_tokens);}catch{}}}pass.end();await reconcileCredits(user.sub,requestId,reserve,totalTokens,'SUCCEEDED',Date.now()-started);}catch(error){pass.destroy(error as Error);await reconcileCredits(user.sub,requestId,reserve,totalTokens,'FAILED',Date.now()-started);}})();
-    return reply.send(pass);
-  });
+  app.post('/v1/ai/credits/grant',async(request,reply)=>{const admin=await requireAuth(request,reply,['ADMIN']);if(!admin)return;const parsed=grantSchema.safeParse(request.body);if(!parsed.success)return reply.code(400).send({error:'invalid grant'});const d=parsed.data;const result=await withTransaction(async client=>{const w=await client.query(`insert into ai_credit_wallets(user_id,balance) values($1,$2) on conflict(user_id) do update set balance=ai_credit_wallets.balance+excluded.balance,updated_at=now() returning balance`,[d.userId,d.credits]);const balance=Number(w.rows[0].balance);await client.query(`update resource_entitlements set ai_credit_balance=$1,updated_at=now() where user_id=$2`,[balance,d.userId]);await client.query(`insert into ai_credit_ledger(user_id,delta,balance_after,reason,reference_type,reference_id,idempotency_key,actor_user_id) values($1,$2,$3,$4,'manual',null,$5,$6)`,[d.userId,d.credits,balance,d.reason,`manual:${randomUUID()}`,admin.sub]);return {balance};});return reply.code(201).send(result);});
+  app.get('/v1/ai/models',modelsHandler);app.get('/v1/models',modelsHandler);
+  app.post('/v1/ai/chat/completions',chatHandler);app.post('/v1/chat/completions',chatHandler);
 }
