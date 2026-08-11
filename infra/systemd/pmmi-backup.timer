@@ -1,0 +1,11 @@
+[Unit]
+Description=Run PMMI backup every night
+
+[Timer]
+OnCalendar=*-*-* 02:30:00 Asia/Jakarta
+Persistent=true
+RandomizedDelaySec=900
+Unit=pmmi-backup.service
+
+[Install]
+WantedBy=timers.target
