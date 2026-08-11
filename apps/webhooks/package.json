@@ -1,0 +1,9 @@
+{
+  "name":"@pmmi/webhooks",
+  "private":true,
+  "version":"0.1.0",
+  "type":"module",
+  "scripts":{"dev":"tsx watch src/index.ts","build":"tsc -p tsconfig.json","start":"node dist/index.js"},
+  "dependencies":{"fastify":"^5.2.1","pg":"^8.13.3","svix":"^1.95.0"},
+  "devDependencies":{"tsx":"^4.19.3","typescript":"~5.8.2","@types/node":"^22.14.0","@types/pg":"^8.11.11"}
+}
