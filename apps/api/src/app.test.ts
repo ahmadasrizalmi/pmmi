@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { buildApp } from './app.js';
-import { pool } from './db.js';
+import { closeDatabase, pool } from './db.js';
 
 const json = (response: any) => response.json() as any;
 
@@ -77,5 +77,6 @@ test('phase 1+2 end-to-end lifecycle and academic flow', async () => {
     assert.ok(audit.rows[0].count>=3);
   } finally {
     await app.close();
+    await closeDatabase();
   }
 });
