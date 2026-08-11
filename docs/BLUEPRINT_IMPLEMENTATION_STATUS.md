@@ -1,141 +1,173 @@
 # PMMI Digital Campus — Blueprint Implementation Contract
 
-This document defines what "blueprint code-complete + CI-verified" means for the PMMI repository. It does **not** claim that the physical Ubuntu home server has already been deployed or smoke-tested.
+Dokumen ini mendefinisikan arti **blueprint code-complete + CI-verified** untuk repository PMMI. Status ini tidak sama dengan production deployment: Ubuntu home server, DNS/TLS, Tailscale, provider nyata, 9Router nyata, Hermes nyata, dan restore drill tetap harus diverifikasi saat deployment.
 
 ## Product surfaces
 
 - Public website: `pondokmultimedia.id`
-- Public application: `/daftar`
-- Public featured portfolio API/page surface
+- Public admission: `/daftar`
+- Applicant portal: `/daftar/:applicationId`
+- Public featured portfolio: `/portfolio` dan `/portfolio/:slug`
 - Role dashboard: `app.pondokmultimedia.id`
 - PMMI API + AI Gateway: `ai.pondokmultimedia.id`
-- Worker: PostgreSQL transactional outbox, notifications, reminders, rewards, lifecycle jobs and Hermes provisioning commands
+- PostgreSQL worker: transactional outbox, notifications, schedules, rewards, lifecycle, dan Hermes provisioning jobs
 
-## Implemented domains
+## Identity, RBAC, lifecycle
 
-### Identity, RBAC and lifecycle
+- Role `ADMIN`, `USTADZ`, `SANTRI`
+- scrypt password hashing, JWT login, account activation tokens
+- Staff provisioning dan activation oleh admin
+- Student lifecycle: `ACTIVE`, `GRADUATED`, `ALUMNI`, `DROPOUT`, `SUSPENDED`, `INACTIVE`
+- Lifecycle access dijaga di DB; suspended/dropout/inactive tidak dapat memiliki login aktif
+- Academic write dijaga di DB: upload/submission hanya legal untuk santri `ACTIVE`
+- Alumni/graduated resource policy mematikan AI credits/agent entitlement sesuai lifecycle policy
+- Perpindahan ke lifecycle nonaktif mengantrekan Hermes archive/stop
+- Komunikasi sensitif untuk DO/SUSPENDED/INACTIVE membutuhkan pesan formal yang di-approve admin sebelum masuk outbox
+- Audit log untuk security/admission/academic/Hermes/lifecycle actions
 
-- ADMIN / USTADZ / SANTRI roles
-- Password hashing, JWT login, activation tokens
-- Admin user provisioning for staff
-- Student lifecycle: ACTIVE, GRADUATED, ALUMNI, DROPOUT, SUSPENDED, INACTIVE
-- Resource shutdown policy for alumni/dropout/inactive states
-- Sensitive lifecycle communication requires an explicit admin-approved message before external delivery
-- Audit log for security, admission, submission, Hermes and lifecycle actions
+## Admissions
 
-### Admissions
+- Admission periods + capacity
+- Public application + applicant access token yang disimpan sebagai hash
+- Admin token recovery dengan revoke token lama
+- Applicant self-service status API
+- MinIO-backed application documents, max durable document size 50 MiB
+- Admin review, selection scoring, interview, decision
+- Programs dan cohorts
+- Registration/daftar ulang
+- PostgreSQL state-machine guard menolak transisi admission ilegal
+- PostgreSQL guard mewajibkan registration + program + cohort sebelum `ENROLLED`
+- Capacity admission period ditegakkan saat enrollment
+- `ENROLLED` provisions SANTRI identity, student profile, program/cohort, AI wallet, initial credits, agent slots, storage quota, activation token
+- Cohort/program scoped classes dapat auto-enroll saat student/class diprovisioning
+- Hermes profile **tidak** dibuat saat enrollment; profile dibuat hanya melalui Build AI Agent
 
-- Admission periods
-- Public application and applicant access token
-- MinIO-backed application documents
-- Admin review, selection scoring, interviews, decision and registration
-- Program/cohort assignment
-- Accepted -> Enrolled provisioning creates SANTRI identity, student profile, resource entitlements, AI wallet and activation token
-- Hermes profile is **not** created during enrollment; it is only requested by Build AI Agent
+## Academic
 
-### Academic
-
-- Courses, classes and enrollments
-- Class sessions/schedule and attendance
+- Courses, classes, enrollments
+- Cohort/program class scope dan automatic class enrollment
+- Class sessions/schedules + attendance
 - Assignments/deadlines
-- MinIO presigned uploads
+- MinIO presigned upload intents
 - Submission/resubmission
-- Grading, feedback and revision requests
-- Certificates
-- Featured portfolio publication without a student approval state
+- Grading, feedback, revision request/deadline
+- DB storage quota guard untuk submission files
+- Certificates + certificate metadata/object references
+- Featured portfolio publication
+- `portfolio_assets` snapshots submission-file references tanpa menduplikasi blob MinIO
+- Rule PMMI terkunci: Ustadz/Admin `Featured` => langsung public, **tanpa approval state santri**
 
-### Notification engine
+## Notification engine
 
 - In-App source of truth
 - PostgreSQL transactional outbox
-- Delivery records, retry/backoff and dedupe
-- Preferences and user channels
-- Resend email provider adapter
-- Telegram Bot provider + account link token/webhook
-- WhatsApp provider abstraction with Baileys sidecar and Meta-compatible adapter options
-- Per-event fallback routes rather than one global fallback chain
-- Assignment reminders, missing work, class reminders, AI credit thresholds and ustadz digest scheduler
-- Sensitive lifecycle states notify admins for review instead of sending a blunt automated message to students
+- Delivery records, retry, exponential backoff, poison-event ops alert
+- Dedupe bekerja juga untuk applicant yang belum mempunyai `users.id`
+- Per-event route + per-parent fallback guard
+- Preferences dan user channels
+- Mandatory categories: ops/security/lifecycle tidak dapat dinonaktifkan
+- Resend email adapter + signed webhook handling
+- Telegram Bot provider + one-time account linking token/webhook
+- WhatsApp provider abstraction: Baileys sidecar atau Meta-compatible adapter
+- Provider circuit breaker
+- Assignment reminders pada window threshold, missing work, class reminder, AI-credit threshold, ustadz digest
+- Anti-spam guard mencegah semua deadline/credit thresholds terkirim sekaligus
+- Sensitive lifecycle state hanya mengirim admin alert sampai komunikasi formal disetujui
 
-External channels require their real production credentials before live delivery. CI uses the provider mock transport so routing and persistence can be verified without leaking secrets.
+External channels membutuhkan credential production. CI memakai mock transport sehingga routing/persistence dapat diverifikasi tanpa secret nyata.
 
-### AI Gateway / 9Router
+## AI Gateway / 9Router
 
-- PMMI credit wallet and immutable ledger
-- Model permission records
+- PMMI AI credit wallet + immutable ledger
+- Model permission + hourly request limit
 - Usage logs
-- Reserve credits before upstream request
-- Reconcile/refund after completion or failure
-- OpenAI-compatible chat-completions proxy to 9Router
-- Model-list proxy
-- Streaming passthrough supported; PMMI uses final upstream usage when available
+- Credit reservation sebelum upstream request
+- Reconcile/refund setelah success/failure
+- OpenAI-compatible canonical `GET /v1/models` dan `POST /v1/chat/completions`
+- Compatibility aliases di `/v1/ai/*`
+- Streaming passthrough; final upstream usage dipakai saat tersedia
+- PMMI tetap accounting source of truth; 9Router hanya routing/provider engine
 
-PMMI remains the accounting source of truth. 9Router remains the routing/provider engine.
-
-### Hermes Agent
+## Hermes Agent
 
 - Agent-slot entitlement
-- Build Agent API creates a PMMI profile record, workspace record and build job only after lifecycle/slot checks
-- Worker command contract creates a profile from the one shared Hermes installation and sets a per-profile `terminal.cwd`
-- Workspace layout: `/srv/pmmi/workspaces/<user-id>/<profile-id>`
-- Archive jobs stop profile gateway where available and archive PMMI workspace/profile state
+- Build Agent hanya untuk lifecycle/slot yang valid
+- PMMI profile/workspace/build-job state
+- Workspace layout `/srv/pmmi/workspaces/<user-id>/<profile-id>`
+- Worker memakai **satu shared Hermes installation**, bukan install ulang per santri
+- Profile create/config menggunakan profile terpisah dan `terminal.cwd`
+- Archive jobs stop gateway bila tersedia dan mengarsipkan state PMMI
+- Admin Hermes status/retry/archive surface
 
-Profiles/workspaces are **not** treated as an OS security sandbox. Production deployment must still enforce filesystem/credential/process isolation on the host.
+Hermes profile/workspace bukan OS sandbox. Production tidak boleh mengaktifkan agent execution sampai host/container sandbox policy membuktikan agent tidak dapat membaca credential, `/etc`, admin home, atau workspace user lain.
 
-### Rewards
+## Rewards
 
 - Configurable reward rules
-- Manual grants
+- Manual grant
 - Automatic event-triggered achievements
 - AI-credit rewards
-- Hermes-slot rewards
+- Hermes agent-slot rewards
 - Achievement notifications
 
-### Operations
+## Operations
 
-- Readiness health endpoint
-- PostgreSQL / MinIO / 9Router / Hermes / outbox admin health summary
-- Ops events and resolution
+- API liveness/readiness
+- Admin health: PostgreSQL, MinIO, 9Router, Hermes/outbox state
+- Ops events + resolution
+- DB-triggered ops notification outbox
+- Disk + 9Router host monitor script
 - Backup run records
-- PostgreSQL + MinIO backup script
-- Guarded restore script with checksum verification
-- systemd nightly backup timer example
+- PostgreSQL + MinIO backup script + checksum
+- Backup failure creates CRITICAL ops event
+- Guarded restore script (`CONFIRM_RESTORE=YES`) + checksum verification
+- systemd timer examples for backup/ops monitor
+- hardened systemd example for shared Hermes worker
 
 ## Dashboard coverage
 
-Admin dashboard includes operational overview, admissions, staff users, academic management, AI credits, rewards, ops and notifications.
+### Admin
 
-Ustadz dashboard includes classes/pending submissions, grading/revision and notification center.
+Overview, admission review, enrollment queue, students/lifecycle, staff users, courses/classes/certificates, AI credits, rewards, Hermes/admin audit, ops/backup health, notification center.
 
-Santri dashboard includes assignments/upload/submission, grades summary, AI credits/chat, Build AI Agent, certificates summary and notification center.
+### Ustadz
+
+Classes, assignment creation, schedule creation, pending submission review, grading, feedback, revision, `Feature -> public portfolio`, notifications.
+
+### Santri
+
+Assignments + MinIO upload/submit, schedule, grades/feedback/revision, certificates, achievements, AI credits/chat, Build/Archive AI Agent, notification center.
 
 ## CI completion gate
 
-`PMMI Blueprint CI` must pass all of the following on the blueprint branch before this implementation is called CI-verified:
+`PMMI Blueprint CI` harus hijau pada **commit head terakhir** sebelum repository disebut CI-verified:
 
 1. dependency installation
-2. PostgreSQL migrations
+2. PostgreSQL migrations (seluruh migration yang ada di `packages/db/migrations`)
 3. real MinIO startup
-4. end-to-end API integration test covering admissions -> enrollment -> academic -> AI -> Hermes request -> lifecycle
-5. worker/outbox integration test covering notifications, automatic rewards and Hermes job handling
+4. canonical end-to-end API integration test: applicant -> registration -> enrollment -> academic -> portfolio/certificate -> AI -> Hermes request -> lifecycle
+5. worker/outbox integration test: notification delivery, fallback/persistence, automatic reward, Hermes result, lifecycle communication, ops alerts
 6. TypeScript API build
 7. TypeScript worker build
 8. public React/Vite website build
 9. role dashboard build
-10. shell syntax validation for operational scripts
-11. Docker Compose configuration validation
+10. shell syntax validation: backup/restore/health/ops monitor
+11. Docker Compose validation
+12. production image builds: API, worker, public web, dashboard
 
-## Explicitly outside the code-complete claim
+## Explicitly outside the repository-complete claim
 
-These require the physical PMMI server or real third-party credentials and therefore are deployment verification, not repository code completion:
+Hal berikut membutuhkan server/credential nyata dan baru dinilai saat deployment:
 
-- DNS/reverse-proxy TLS on the home server
-- real Resend delivery and webhook receipt
+- DNS/reverse proxy/TLS pada home server
+- Tailscale/firewall policy
+- real Resend delivery + webhook
 - real WhatsApp session/account
-- real Telegram bot token and webhook
-- installed/running 9Router with real providers
-- installed/running shared Hermes runtime and host filesystem sandbox policy
-- production backup/restore drill on the actual disks
-- Tailscale/firewall policy and real server smoke tests
+- real Telegram bot + webhook
+- installed/running 9Router dengan provider nyata
+- installed/running shared Hermes runtime + **verified per-agent host/container isolation**
+- production disk mounts/quotas
+- backup + restore drill di disk/bucket nyata
+- end-to-end smoke test melalui domain production
 
-Until those are executed on the home server, the correct status is **code-complete + CI-verified, deployment-not-yet-verified**.
+Sebelum poin deployment tersebut dilakukan, status yang benar adalah **code-complete + CI-verified, deployment-not-yet-verified**.
