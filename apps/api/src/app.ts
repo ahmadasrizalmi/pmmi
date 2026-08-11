@@ -4,6 +4,7 @@ import jwt from '@fastify/jwt';
 import { config } from './config.js';
 import { registerAuthRoutes } from './routes/auth.js';
 import { registerUserRoutes } from './routes/users.js';
+import { registerApplicantRoutes } from './routes/applicant.js';
 import { registerAdmissionRoutes } from './routes/admissions.js';
 import { registerAcademicRoutes } from './routes/academic.js';
 import { registerAcademicExtraRoutes } from './routes/academic-extra.js';
@@ -15,6 +16,7 @@ import { registerRewardRoutes } from './routes/rewards.js';
 import { registerDashboardRoutes } from './routes/dashboard.js';
 import { registerOpsRoutes } from './routes/ops.js';
 import { registerLifecycleRoutes } from './routes/lifecycle.js';
+import { registerAdminExtraRoutes } from './routes/admin-extra.js';
 
 export async function buildApp() {
   const app = Fastify({ logger: true, bodyLimit: 2 * 1024 * 1024 });
@@ -24,7 +26,9 @@ export async function buildApp() {
   app.get('/v1', async () => ({ name: 'PMMI Digital Campus API', phases: 'blueprint-complete', status: 'hardened' }));
   await registerAuthRoutes(app);
   await registerUserRoutes(app);
+  await registerAdminExtraRoutes(app);
   await registerCatalogRoutes(app);
+  await registerApplicantRoutes(app);
   await registerAdmissionRoutes(app);
   await registerAcademicRoutes(app);
   await registerAcademicExtraRoutes(app);
