@@ -16,7 +16,10 @@ mkdir -p "$dir/minio"
 run_id="$(psql "$DATABASE_URL" -Atc "insert into backup_runs(kind,status) values('FULL','RUNNING') returning id" | tail -n1)"
 
 fail() {
-  psql "$DATABASE_URL" -c "update backup_runs set status='FAILED',finished_at=now(),last_error='backup command failed' where id='${run_id}'" >/dev/null 2>&1 || true
+  local code=$?
+  psql "$DATABASE_URL" -c "update backup_runs set status='FAILED',finished_at=now(),last_error='backup command failed with exit ${code}' where id='${run_id}'" >/dev/null 2>&1 || true
+  psql "$DATABASE_URL" -c "insert into ops_events(kind,severity,source,message,data) values('backup.failed','CRITICAL','backup','PMMI full backup failed',jsonb_build_object('backupRunId','${run_id}','exitCode',${code}))" >/dev/null 2>&1 || true
+  exit "$code"
 }
 trap fail ERR
 
