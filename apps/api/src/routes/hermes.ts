@@ -45,6 +45,35 @@ export async function registerHermesRoutes(app:FastifyInstance){
     return reply.code(202).send(result);
   });
 
+  async function queueRuntimeAction(request:any,reply:any,action:'start'|'stop'){
+    const user=await requireAuth(request,reply);if(!user)return;
+    const {id}=request.params as {id:string};
+    const result=await withTransaction(async client=>{
+      const p=await client.query(`select id,user_id,status,updated_at from hermes_profiles where id=$1 for update`,[id]);
+      if(!p.rowCount)return {kind:'missing' as const};
+      const profile=p.rows[0];
+      if(user.role!=='ADMIN'&&profile.user_id!==user.sub)return {kind:'forbidden' as const};
+      if(action==='start'&&user.role==='SANTRI'){
+        const student=await client.query(`select status from students where user_id=$1`,[user.sub]);
+        if(!student.rowCount||student.rows[0].status!=='ACTIVE')return {kind:'inactive' as const};
+      }
+      const allowed=action==='start'?['READY','STOPPED']:['READY','RUNNING'];
+      if(!allowed.includes(profile.status))return {kind:'invalid' as const,status:profile.status};
+      const version=new Date(profile.updated_at).getTime();
+      await enqueueOutbox(client,`hermes.profile.${action}`,'hermes_profile',id,{profileId:id,userId:profile.user_id},`hermes-${action}:${id}:${version}`);
+      await writeAudit(client,user.sub,`hermes.${action}_requested`,'hermes_profile',id,{status:profile.status});
+      return {kind:'ok' as const,id,status:`${action.toUpperCase()}_QUEUED`};
+    });
+    if(result?.kind==='missing')return reply.code(404).send({error:'agent not found'});
+    if(result?.kind==='forbidden')return reply.code(403).send({error:'forbidden'});
+    if(result?.kind==='inactive')return reply.code(403).send({error:'student must be ACTIVE'});
+    if(result?.kind==='invalid')return reply.code(409).send({error:`cannot ${action} agent from ${result.status}`,status:result.status});
+    return reply.code(202).send(result);
+  }
+
+  app.post('/v1/hermes/agents/:id/start',async(request,reply)=>queueRuntimeAction(request,reply,'start'));
+  app.post('/v1/hermes/agents/:id/stop',async(request,reply)=>queueRuntimeAction(request,reply,'stop'));
+
   app.post('/v1/hermes/agents/:id/archive',async(request,reply)=>{
     const user=await requireAuth(request,reply);if(!user)return;const {id}=request.params as {id:string};
     const result=await withTransaction(async client=>{
