@@ -1,6 +1,7 @@
 import { workerConfig } from './config.js';
 import { workerPool, workerTx } from './db.js';
 import { materializeNotifications, processDeliveries, type OutboxEvent } from './notifications.js';
+import { materializeSpecialNotifications } from './special-notifications.js';
 import { handleHermesEvent } from './hermes.js';
 import { applyAutomaticRewards } from './rewards.js';
 import { runSchedulers } from './scheduler.js';
@@ -28,6 +29,7 @@ export async function runWorkerCycle(){
       if(event.topic.startsWith('hermes.'))await handleHermesEvent(event);
       await applyAutomaticRewards(event);
       await materializeNotifications(event);
+      await materializeSpecialNotifications(event);
       await complete(event.id);
     }catch(error){await fail(event,error);}
   }
