@@ -10,6 +10,7 @@ const communicationSchema=z.object({
   body:z.string().min(10).max(10000),
   channels:z.array(z.enum(['EMAIL','WHATSAPP','TELEGRAM'])).min(1).max(3).default(['EMAIL']),
 });
+const portfolioPolicySchema=z.object({featured:z.boolean(),reason:z.string().max(1000).optional()});
 
 export async function registerLifecycleRoutes(app:FastifyInstance){
   app.get('/v1/students/:id/lifecycle-communications',async(request,reply)=>{
@@ -33,5 +34,17 @@ export async function registerLifecycleRoutes(app:FastifyInstance){
     if(result.kind==='missing')return reply.code(404).send({error:'student not found'});
     if(result.kind==='not_sensitive')return reply.code(409).send({error:`formal review flow is only required for sensitive states; current status ${result.status}`});
     return reply.code(201).send(result.communication);
+  });
+
+  app.get('/v1/admin/portfolio',async(request,reply)=>{
+    const admin=await requireAuth(request,reply,['ADMIN']);if(!admin)return;
+    const result=await pool.query(`select p.*,u.full_name student_name,u.email student_email,s.status student_status,(select count(*)::int from portfolio_assets a where a.portfolio_project_id=p.id) asset_count from portfolio_projects p join users u on u.id=p.student_user_id left join students s on s.user_id=p.student_user_id order by p.created_at desc`);
+    return {items:result.rows};
+  });
+
+  app.patch('/v1/admin/portfolio/:id',async(request,reply)=>{
+    const admin=await requireAuth(request,reply,['ADMIN']);if(!admin)return;const {id}=request.params as {id:string};const parsed=portfolioPolicySchema.safeParse(request.body);if(!parsed.success)return reply.code(400).send({error:'invalid portfolio policy'});
+    const result=await withTransaction(async client=>{const p=await client.query(`update portfolio_projects set featured=$1,published_at=case when $1 then coalesce(published_at,now()) else null end where id=$2 returning *`,[parsed.data.featured,id]);if(!p.rowCount)return null;await writeAudit(client,admin.sub,parsed.data.featured?'portfolio.published':'portfolio.unpublished','portfolio_project',id,{reason:parsed.data.reason??null});return p.rows[0];});
+    if(!result)return reply.code(404).send({error:'portfolio project not found'});return result;
   });
 }
