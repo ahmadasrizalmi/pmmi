@@ -1,34 +1,54 @@
 # PMMI Digital Campus
 
-PMMI is evolving from the public Pondok Multimedia website into a self-hosted digital campus for `pondokmultimedia.id`.
+PMMI (Pondok Multimedia Munzalan Indonesia) is evolving from a public multimedia-pondok website into a self-hosted Digital Campus for admissions, academics, AI access, student portfolios, notifications, rewards, and per-user AI agents.
 
-## Phase 1 foundation
+## Product surfaces
 
-This branch introduces the first backend foundation while preserving the existing public React/Vite site at the repository root.
+- `pondokmultimedia.id` — public website, admissions, featured portfolio
+- `app.pondokmultimedia.id` — Admin / Ustadz / Santri dashboard
+- `ai.pondokmultimedia.id` — PMMI API + OpenAI-compatible AI Gateway
 
-- `apps/api` — Fastify API service and health endpoint.
-- `apps/worker` — lightweight background worker foundation.
-- `packages/db/migrations` — PostgreSQL schema for identity, admission, student lifecycle, resource entitlements, and audit logs.
-- `infra/docker` — application containers that connect to the home server's existing PostgreSQL and MinIO services.
+## Repository
 
-### Planned product boundaries
+```text
+apps/
+  api/        Fastify API, auth/RBAC, admissions, academic, AI/Hermes/ops
+  worker/     PostgreSQL outbox, notifications, reminders, rewards, Hermes jobs
+  dashboard/  role-based Digital Campus dashboard
+packages/
+  db/         tracked PostgreSQL migrations
+infra/
+  docker/     production images + Compose
+  scripts/    backup, restore, health and ops monitoring
+  systemd/    backup/ops/Hermes worker service examples
+docs/
+  BLUEPRINT_IMPLEMENTATION_STATUS.md
+  DEPLOYMENT.md
+```
 
-- Public web: `pondokmultimedia.id`
-- Dashboard: `app.pondokmultimedia.id`
-- AI gateway: `ai.pondokmultimedia.id`
-
-Hermes Agent and 9Router are intentionally not installed in Phase 1. Their integrations will sit behind PMMI services after identity, lifecycle, resource policy, and audit foundations are stable.
+The existing React/Vite public website remains at the repository root.
 
 ## Local development
 
-Requirements: Node.js 22+, PostgreSQL.
+Requirements: Node.js 22+, PostgreSQL, and MinIO.
 
 ```bash
 npm install
+npm run db:migrate
 npm run dev:web
+npm run dev:dashboard
 npm run dev:api
+npm run dev:worker
 ```
 
-API health check: `GET http://localhost:3001/health`.
+Use `infra/docker/.env.example` as the configuration inventory. Never commit production secrets.
 
-For the home-server deployment, copy `infra/docker/.env.example` to `.env` and point `DATABASE_URL` and MinIO settings at the existing services.
+## Validation
+
+The `PMMI Blueprint CI` workflow runs PostgreSQL + MinIO integration tests, the canonical Digital Campus API journey, worker/outbox tests, TypeScript builds, public/dashboard builds, operational-script checks, Compose validation, and production Docker image builds.
+
+See [`docs/BLUEPRINT_IMPLEMENTATION_STATUS.md`](docs/BLUEPRINT_IMPLEMENTATION_STATUS.md) for the exact code-complete contract and [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) for the home-server runbook.
+
+## External runtimes
+
+9Router and Hermes are intentionally external runtimes. PMMI sits in front of 9Router for auth/credits/accounting. Hermes is installed once; Build AI Agent creates PMMI profile/workspace/job state and uses the shared runtime only after host isolation is verified.
