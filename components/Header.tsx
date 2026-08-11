@@ -20,6 +20,7 @@ const Header: React.FC = () => {
         { name: 'Program', path: '/program' },
         { name: 'Fasilitas', path: '/facilities' },
         { name: 'Pengajar', path: '/teachers' },
+        { name: 'Galeri Kegiatan', path: '/gallery' },
       ]
     },
     {
@@ -30,11 +31,9 @@ const Header: React.FC = () => {
         path: `/materials/${category.id}`
       }))
     },
+    { name: 'Pendaftaran', path: '/daftar' },
     { name: 'Portfolio', path: '/portfolio' },
-    { name: 'Galeri', path: '/gallery' },
-    { name: 'Daftar', path: '/daftar' },
     { name: 'Kontak', path: '/contact' },
-    { name: 'Dashboard', path: (import.meta as unknown as { env?: Record<string, string> }).env?.VITE_DASHBOARD_URL || 'https://app.pondokmultimedia.id' },
   ];
 
   const linkClasses = "px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition-colors";
@@ -67,16 +66,13 @@ const Header: React.FC = () => {
         </div>
       );
     }
-    const isDashboard = link.name === 'Dashboard';
     return (
       <NavLink
         key={link.name}
         to={link.path}
-        className={({ isActive }) => isDashboard
-          ? `ml-2 px-4 py-2 rounded-md text-sm font-semibold text-white bg-fuchsia-600 hover:bg-fuchsia-500 transition-colors shadow-lg shadow-fuchsia-600/25 ${isActive ? 'bg-fuchsia-500' : ''}`
-          : `${linkClasses} ${isActive ? activeLinkClasses : ''}`}
+        className={({ isActive }) => `${linkClasses} ${isActive ? activeLinkClasses : ''}`}
       >
-        {isDashboard ? '🎓 Dashboard' : link.name}
+        {link.name}
       </NavLink>
     );
   };
@@ -117,7 +113,7 @@ const Header: React.FC = () => {
             aria-expanded={isSubmenuOpen}
             aria-controls={`submenu-${link.name}`}
           >
-            <span className="sr-only">Toggle submenu</span>
+            <span className="sr-only">Buka submenu {link.name}</span>
             <ChevronDownIcon className={`w-5 h-5 transition-transform ${isSubmenuOpen ? 'rotate-180' : ''}`} />
           </button>
         </div>
@@ -139,6 +135,22 @@ const Header: React.FC = () => {
     );
   };
 
+  const LoginButton = ({ mobile = false }: { mobile?: boolean }) => (
+    <a
+      href={DASHBOARD_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={() => mobile && setIsOpen(false)}
+      className={mobile
+        ? "flex items-center gap-2 px-3 py-2 rounded-md text-base font-semibold bg-fuchsia-600 hover:bg-fuchsia-500 text-white transition mt-2"
+        : "inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-fuchsia-600 hover:bg-fuchsia-500 text-white text-sm font-semibold transition shadow-md shadow-fuchsia-600/20"
+      }
+    >
+      <span className="material-icons text-[18px]" aria-hidden="true">login</span>
+      Masuk
+    </a>
+  );
+
   return (
     <header className="sticky top-0 z-50 bg-black/50 backdrop-blur-lg">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -153,15 +165,7 @@ const Header: React.FC = () => {
               {navLinks.map(renderDesktopLink)}
             </div>
             <div className="ml-4 pl-4 border-l border-white/10">
-              <a
-                href={DASHBOARD_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-fuchsia-600 hover:bg-fuchsia-500 text-white text-sm font-semibold transition shadow-md shadow-fuchsia-600/20"
-              >
-                <span className="material-icons text-sm">dashboard</span>
-                Dashboard
-              </a>
+              <LoginButton />
             </div>
           </div>
           <div className="md:hidden">
@@ -169,7 +173,7 @@ const Header: React.FC = () => {
               onClick={() => setIsOpen(!isOpen)}
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
             >
-              <span className="sr-only">Open main menu</span>
+              <span className="sr-only">Buka menu utama</span>
               {isOpen ? <XIcon className="block h-6 w-6" /> : <MenuIcon className="block h-6 w-6" />}
             </button>
           </div>
@@ -180,16 +184,7 @@ const Header: React.FC = () => {
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             {navLinks.map(renderMobileLink)}
-            <a
-              href={DASHBOARD_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => setIsOpen(false)}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-md text-base font-medium bg-fuchsia-600 hover:bg-fuchsia-500 text-white transition mt-2"
-            >
-              <span className="material-icons text-sm">dashboard</span>
-              Dashboard
-            </a>
+            <LoginButton mobile />
           </div>
         </div>
       )}
