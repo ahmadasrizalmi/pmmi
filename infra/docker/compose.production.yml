@@ -1,0 +1,106 @@
+x-core-env: &core-env
+  DATABASE_URL: ${DATABASE_URL}
+  JWT_SECRET: ${JWT_SECRET}
+  BOOTSTRAP_ADMIN_TOKEN: ${BOOTSTRAP_ADMIN_TOKEN:-}
+  MINIO_ENDPOINT: ${MINIO_ENDPOINT:-http://host.docker.internal:9000}
+  MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+  MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
+  MINIO_BUCKET: ${MINIO_BUCKET:-pmmi}
+  PUBLIC_APP_URL: ${PUBLIC_APP_URL:-https://app.pondokmultimedia.id}
+  NINEROUTER_BASE_URL: ${NINEROUTER_BASE_URL:-http://host.docker.internal:20128}
+  NINEROUTER_API_KEY: ${NINEROUTER_API_KEY:-}
+  AI_REQUESTS_PER_MINUTE: ${AI_REQUESTS_PER_MINUTE:-20}
+  HERMES_WORKSPACE_BASE: ${HERMES_WORKSPACE_BASE:-/srv/pmmi/workspaces}
+  TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+  TELEGRAM_BOT_USERNAME: ${TELEGRAM_BOT_USERNAME:-}
+  TELEGRAM_WEBHOOK_SECRET: ${TELEGRAM_WEBHOOK_SECRET:-}
+
+services:
+  migrate:
+    image: node:22-alpine
+    working_dir: /app
+    command: sh -c "npm install --no-audit --no-fund && npm run db:migrate"
+    volumes: ["../..:/app"]
+    environment: *core-env
+    extra_hosts: ["host.docker.internal:host-gateway"]
+
+  api:
+    image: node:22-alpine
+    working_dir: /app
+    command: sh -c "npm install --no-audit --no-fund && npm run build --workspace @pmmi/api && node apps/api/dist/completeIndex.js"
+    volumes: ["../..:/app"]
+    environment:
+      <<: *core-env
+      PORT: 3001
+      HOST: 0.0.0.0
+    ports: ["127.0.0.1:3001:3001"]
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+    restart: unless-stopped
+
+  public-site:
+    image: node:22-alpine
+    working_dir: /app
+    command: sh -c "npm install --no-audit --no-fund && npm run build && npm run preview -- --host 0.0.0.0 --port 3000"
+    volumes: ["../..:/app"]
+    ports: ["127.0.0.1:3000:3000"]
+    restart: unless-stopped
+
+  public-extensions:
+    image: node:22-alpine
+    working_dir: /app
+    command: sh -c "npm install --no-audit --no-fund && npm run build --workspace @pmmi/public && npm run preview --workspace @pmmi/public"
+    volumes: ["../..:/app"]
+    environment:
+      VITE_API_URL: ${PUBLIC_API_URL:-https://app.pondokmultimedia.id/api}
+    ports: ["127.0.0.1:3003:3003"]
+    restart: unless-stopped
+
+  dashboard:
+    image: node:22-alpine
+    working_dir: /app
+    command: sh -c "npm install --no-audit --no-fund && npm run build --workspace @pmmi/dashboard && npm run preview --workspace @pmmi/dashboard"
+    volumes: ["../..:/app"]
+    environment:
+      VITE_API_URL: ${PUBLIC_API_URL:-https://app.pondokmultimedia.id/api}
+    ports: ["127.0.0.1:3002:3002"]
+    restart: unless-stopped
+
+  whatsapp:
+    image: node:22-bookworm-slim
+    working_dir: /app
+    command: sh -c "npm install --no-audit --no-fund && npm run build --workspace @pmmi/whatsapp && npm run start --workspace @pmmi/whatsapp"
+    volumes:
+      - ../..:/app
+      - whatsapp-auth:/data/auth
+    environment:
+      PORT: 3010
+      HOST: 0.0.0.0
+      WHATSAPP_PROVIDER_TOKEN: ${WHATSAPP_PROVIDER_TOKEN}
+      WHATSAPP_PAIRING_PHONE: ${WHATSAPP_PAIRING_PHONE:-}
+      WHATSAPP_AUTH_DIR: /data/auth
+    ports: ["127.0.0.1:3010:3010"]
+    restart: unless-stopped
+
+  webhooks:
+    image: node:22-alpine
+    working_dir: /app
+    command: sh -c "npm install --no-audit --no-fund && npm run build --workspace @pmmi/webhooks && npm run start --workspace @pmmi/webhooks"
+    volumes: ["../..:/app"]
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      RESEND_WEBHOOK_SECRET: ${RESEND_WEBHOOK_SECRET}
+      PORT: 3011
+      HOST: 0.0.0.0
+    ports: ["127.0.0.1:3011:3011"]
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+    restart: unless-stopped
+
+volumes:
+  whatsapp-auth:
+
+# Run @pmmi/jobs on the Ubuntu host with infra/systemd/pmmi-jobs.service so the worker can
+# control the single host Hermes installation. PostgreSQL, MinIO, 9Router, Immich and Tailscale
+# remain host/existing services and are not duplicated here.
