@@ -1,7 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import { z } from 'zod';
 import { pool, withTransaction } from '../db.js';
-import { requireAuth, type SessionUser } from '../security/authz.js';
+import { requireAuth } from '../security/authz.js';
 import { writeAudit } from '../audit.js';
 import { createActivationToken } from './auth.js';
 
@@ -80,7 +80,15 @@ export async function registerAdmissionRoutes(app: FastifyInstance) {
       if (!allowed[current.status]?.includes(target)) return { kind: 'invalid' as const, current: current.status };
 
       if (target !== 'ENROLLED') {
-        await client.query(`update applications set status=$1, decision_at=case when $1 in ('ACCEPTED','WAITLISTED','REJECTED') then now() else decision_at end, updated_at=now() where id=$2`, [target,id]);
+        const isDecision = ['ACCEPTED','WAITLISTED','REJECTED'].includes(target);
+        await client.query(
+          `update applications
+           set status=$1::application_status,
+               decision_at=case when $2::boolean then now() else decision_at end,
+               updated_at=now()
+           where id=$3`,
+          [target,isDecision,id],
+        );
         await writeAudit(client, session.sub, `admission.${target.toLowerCase()}`, 'application', id);
         return { kind: 'ok' as const, status: target };
       }
@@ -124,8 +132,15 @@ export async function registerAdmissionRoutes(app: FastifyInstance) {
       const student = await client.query(`select id,user_id,status from students where id=$1 for update`, [id]);
       if (!student.rowCount) return null;
       const s = student.rows[0];
+      const isGraduated = target === 'GRADUATED';
+      const isEnded = ['DROPOUT','INACTIVE'].includes(target);
       await client.query(
-        `update students set status=$1, graduated_at=case when $1='GRADUATED' then now() else graduated_at end, ended_at=case when $1 in ('DROPOUT','INACTIVE') then now() else ended_at end where id=$2`, [target,id],
+        `update students
+         set status=$1::student_status,
+             graduated_at=case when $2::boolean then now() else graduated_at end,
+             ended_at=case when $3::boolean then now() else ended_at end
+         where id=$4`,
+        [target,isGraduated,isEnded,id],
       );
       const disableLogin = ['DROPOUT','INACTIVE'].includes(target);
       await client.query(`update users set is_active=$1, updated_at=now() where id=$2`, [!disableLogin,s.user_id]);
