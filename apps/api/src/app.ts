@@ -30,7 +30,7 @@ export async function buildApp() {
   await app.register(cors, {
     origin(origin,callback){
       if(!origin || origins.has(origin.replace(/\/$/,'')))return callback(null,true);
-      return callback(new Error('origin not allowed'),false);
+      return callback(null,false);
     },
     credentials:true,
   });
