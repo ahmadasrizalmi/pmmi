@@ -1,0 +1,100 @@
+name: PMMI Final Blueprint CI
+
+on:
+  pull_request:
+  push:
+    branches: [main, 'agent/**']
+
+jobs:
+  final-blueprint:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: pmmi
+          POSTGRES_USER: pmmi
+          POSTGRES_PASSWORD: pmmi_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U pmmi -d pmmi"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql://pmmi:pmmi_test@127.0.0.1:5432/pmmi
+      JWT_SECRET: ci-only-jwt-secret-at-least-thirty-two-characters
+      BOOTSTRAP_ADMIN_TOKEN: ci-bootstrap-token-1234567890
+      MINIO_ENDPOINT: http://127.0.0.1:9000
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin123
+      MINIO_BUCKET: pmmi-test
+      PUBLIC_APP_URL: http://127.0.0.1:3002
+      NINEROUTER_BASE_URL: http://127.0.0.1:20128
+      AI_REQUESTS_PER_MINUTE: 50
+      HERMES_WORKSPACE_BASE: /tmp/pmmi-workspaces
+      NOTIFICATION_MODE: mock
+      HERMES_EXECUTION_MODE: mock
+      PMMI_AI_GATEWAY_URL: http://127.0.0.1:3001/v1
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+
+      - name: Install monorepo dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Start MinIO
+        run: |
+          docker run -d --name pmmi-minio -p 9000:9000 \
+            -e MINIO_ROOT_USER=minioadmin \
+            -e MINIO_ROOT_PASSWORD=minioadmin123 \
+            minio/minio:latest server /data
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:9000/minio/health/live; then break; fi
+            sleep 2
+          done
+          curl -fsS http://127.0.0.1:9000/minio/health/live
+
+      - name: Apply all migrations
+        run: npm run db:migrate
+
+      - name: Phase 1-2 regression
+        run: node --import tsx --test --test-concurrency=1 apps/api/src/app.test.ts
+
+      - name: Cross-domain blueprint journey
+        run: node --import tsx --test --test-concurrency=1 apps/api/src/blueprint.test.ts
+
+      - name: Final routing invariants
+        run: node --import tsx --test --test-concurrency=1 apps/api/src/complete.invariants.test.ts
+
+      - name: Jobs integration tests
+        run: npm test --workspace @pmmi/jobs
+
+      - name: Build API final runtime
+        run: npm run build --workspace @pmmi/api
+
+      - name: Build jobs worker
+        run: npm run build --workspace @pmmi/jobs
+
+      - name: Build WhatsApp adapter
+        run: npm run build --workspace @pmmi/whatsapp
+
+      - name: Build signed provider webhooks
+        run: npm run build --workspace @pmmi/webhooks
+
+      - name: Build Admin Ustadz Santri dashboard
+        run: npm run build --workspace @pmmi/dashboard
+
+      - name: Build isolated public registration and portfolio app
+        run: npm run build --workspace @pmmi/public
+
+      - name: Regression build existing public website
+        run: npm run build
+
+      - name: Validate production Compose
+        run: docker compose --env-file infra/docker/.env.blueprint.ci -f infra/docker/compose.production.yml config >/dev/null
+
+      - name: Validate shell scripts
+        run: bash -n infra/scripts/backup-pmmi.sh infra/scripts/smoke-test.sh
