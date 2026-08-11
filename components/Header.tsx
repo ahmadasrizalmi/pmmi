@@ -5,13 +5,13 @@ import { courseData } from '../src/data/courses';
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isTentangOpen, setIsTentangOpen] = useState(false); // For mobile submenu
+  const [isTentangOpen, setIsTentangOpen] = useState(false);
   const [isMateriOpen, setIsMateriOpen] = useState(false);
 
   const navLinks = [
     { name: 'Home', path: '/' },
-    { 
-      name: 'Profil Pondok', 
+    {
+      name: 'Profil Pondok',
       path: '/about',
       children: [
         { name: 'Tentang Kami', path: '/about' },
@@ -29,6 +29,7 @@ const Header: React.FC = () => {
       }))
     },
     { name: 'Admisi', path: '/admissions' },
+    { name: 'Portfolio', path: '/portfolio' },
     { name: 'Galeri', path: '/gallery' },
     { name: 'Kontak', path: '/contact' },
   ];
@@ -111,31 +112,32 @@ const Header: React.FC = () => {
                   </NavLink>
                 );
               }
-              
+
               const isSubmenuOpen = link.name === 'Profil Pondok' ? isTentangOpen : isMateriOpen;
               const toggleSubmenu = link.name === 'Profil Pondok' ? setIsTentangOpen : setIsMateriOpen;
 
               return (
                 <div key={link.name}>
-                   <div className={`flex items-center justify-between rounded-md ${linkClasses} !p-0`}>
-                      <NavLink
-                          to={link.path === '#' ? '' : link.path}
-                          onClick={() => {
-                            if (link.path !== '#') setIsOpen(false);
-                          }}
-                          className={({ isActive }) => `flex-grow px-3 py-2 ${isActive && !isSubmenuOpen ? activeLinkClasses : ''}`}
-                      >
-                          {link.name}
-                      </NavLink>
-                      <button
-                          onClick={() => toggleSubmenu(!isSubmenuOpen)}
-                          className="p-2 rounded-md text-gray-400 hover:text-white hover:bg-white/10"
-                          aria-expanded={isSubmenuOpen}
-                          aria-controls={`submenu-${link.name}`}
-                      >
-                          <span className="sr-only">Toggle submenu</span>
-                          <ChevronDownIcon className={`w-5 h-5 transition-transform ${isSubmenuOpen ? 'rotate-180' : ''}`} />
-                      </button>
+                  <div className={`flex items-center justify-between rounded-md ${linkClasses} !p-0`}>
+                    <NavLink
+                      to={link.path === '#' ? '/' : link.path}
+                      onClick={(event) => {
+                        if (link.path === '#') event.preventDefault();
+                        else setIsOpen(false);
+                      }}
+                      className={({ isActive }) => `flex-grow px-3 py-2 ${isActive && !isSubmenuOpen ? activeLinkClasses : ''}`}
+                    >
+                      {link.name}
+                    </NavLink>
+                    <button
+                      onClick={() => toggleSubmenu(!isSubmenuOpen)}
+                      className="p-2 rounded-md text-gray-400 hover:text-white hover:bg-white/10"
+                      aria-expanded={isSubmenuOpen}
+                      aria-controls={`submenu-${link.name}`}
+                    >
+                      <span className="sr-only">Toggle submenu</span>
+                      <ChevronDownIcon className={`w-5 h-5 transition-transform ${isSubmenuOpen ? 'rotate-180' : ''}`} />
+                    </button>
                   </div>
                   {isSubmenuOpen && (
                     <div className="pl-5 mt-1 space-y-1 border-l-2 border-white/20 ml-2" id={`submenu-${link.name}`}>
