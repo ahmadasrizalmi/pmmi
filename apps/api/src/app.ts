@@ -19,9 +19,21 @@ import { registerOpsRoutes } from './routes/ops.js';
 import { registerLifecycleRoutes } from './routes/lifecycle.js';
 import { registerAdminExtraRoutes } from './routes/admin-extra.js';
 
+function allowedOrigins(){
+  const configured=config.CORS_ORIGINS.split(',').map(value=>value.trim()).filter(Boolean);
+  return new Set([config.PUBLIC_WEB_URL,config.DASHBOARD_URL,...configured].map(value=>value.replace(/\/$/,'')));
+}
+
 export async function buildApp() {
   const app = Fastify({ logger: true, bodyLimit: 2 * 1024 * 1024 });
-  await app.register(cors, { origin: true });
+  const origins=allowedOrigins();
+  await app.register(cors, {
+    origin(origin,callback){
+      if(!origin || origins.has(origin.replace(/\/$/,'')))return callback(null,true);
+      return callback(new Error('origin not allowed'),false);
+    },
+    credentials:true,
+  });
   await app.register(jwt, { secret: config.JWT_SECRET });
   app.get('/health', async () => ({ status: 'ok', service: 'pmmi-api' }));
   app.get('/v1', async () => ({ name: 'PMMI Digital Campus API', phases: 'blueprint-complete', status: 'hardened' }));
