@@ -1,20 +1,34 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# PMMI Digital Campus
 
-# Run and deploy your AI Studio app
+PMMI is evolving from the public Pondok Multimedia website into a self-hosted digital campus for `pondokmultimedia.id`.
 
-This contains everything you need to run your app locally.
+## Phase 1 foundation
 
-View your app in AI Studio: https://ai.studio/apps/drive/1u3UjboJePsQAAt2VbjRor47xxflYrfXd
+This branch introduces the first backend foundation while preserving the existing public React/Vite site at the repository root.
 
-## Run Locally
+- `apps/api` — Fastify API service and health endpoint.
+- `apps/worker` — lightweight background worker foundation.
+- `packages/db/migrations` — PostgreSQL schema for identity, admission, student lifecycle, resource entitlements, and audit logs.
+- `infra/docker` — application containers that connect to the home server's existing PostgreSQL and MinIO services.
 
-**Prerequisites:**  Node.js
+### Planned product boundaries
 
+- Public web: `pondokmultimedia.id`
+- Dashboard: `app.pondokmultimedia.id`
+- AI gateway: `ai.pondokmultimedia.id`
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+Hermes Agent and 9Router are intentionally not installed in Phase 1. Their integrations will sit behind PMMI services after identity, lifecycle, resource policy, and audit foundations are stable.
+
+## Local development
+
+Requirements: Node.js 22+, PostgreSQL.
+
+```bash
+npm install
+npm run dev:web
+npm run dev:api
+```
+
+API health check: `GET http://localhost:3001/health`.
+
+For the home-server deployment, copy `infra/docker/.env.example` to `.env` and point `DATABASE_URL` and MinIO settings at the existing services.
