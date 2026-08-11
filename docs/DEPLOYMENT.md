@@ -1,11 +1,11 @@
 # PMMI Home Server Deployment
 
-Runbook ini dipakai **setelah** repository blueprint sudah code-complete + CI-verified. Keep Tailscale enabled; PMMI tidak membutuhkan PostgreSQL, MinIO admin, atau SSH dibuka ke internet untuk menjalankan aplikasi.
+Runbook ini dipakai **setelah** repository blueprint code-complete + CI-verified. Keep Tailscale enabled; PMMI tidak membutuhkan PostgreSQL, MinIO admin, atau SSH dibuka ke internet.
 
 ## Required host services/tools
 
 - Ubuntu Server + Docker + Docker Compose
-- Existing PostgreSQL
+- Existing PostgreSQL 15+ (16 recommended)
 - Existing MinIO
 - Reverse proxy / TLS termination
 - Tailscale untuk maintenance/private operations
@@ -53,7 +53,9 @@ Reverse proxy mapping:
 - `app.pondokmultimedia.id` -> `127.0.0.1:8081`
 - `ai.pondokmultimedia.id` -> `127.0.0.1:3001`
 
-Public website memakai BrowserRouter dan SPA fallback sudah disediakan untuk Docker nginx/Vercel. Jangan expose PostgreSQL, MinIO admin, Docker socket, atau host-management ports ke public internet.
+Public website memakai BrowserRouter dan SPA fallback sudah disediakan. Jangan expose PostgreSQL, MinIO admin, Docker socket, Baileys service port, atau host-management ports ke public internet.
+
+Set `CORS_ORIGINS=https://pondokmultimedia.id,https://app.pondokmultimedia.id` (tambahkan origin lain hanya bila memang dibutuhkan). Konfigurasikan MinIO bucket CORS secara terpisah agar presigned upload hanya dapat dipakai dari origin PMMI yang diperlukan.
 
 ## Bootstrap admin
 
@@ -61,41 +63,44 @@ Set `BOOTSTRAP_ADMIN_TOKEN`, buat admin pertama melalui `POST /v1/auth/bootstrap
 
 ## Programs, cohorts, and enrollment
 
-Sebelum enrollment production:
+Semua setup ini tersedia dari Admin Role Tools:
 
-1. buat program dan cohort;
-2. buat/scoping class sesuai cohort/program bila ingin automatic class enrollment;
-3. applicant harus Accepted;
-4. applicant menyelesaikan registration dengan program + cohort;
-5. baru admin menjalankan Enrollment.
+1. buat admission period;
+2. buat program dan cohort;
+3. buat/scoping class sesuai cohort/program bila ingin automatic enrollment;
+4. applicant harus Accepted;
+5. applicant menyelesaikan registration dengan program + cohort;
+6. admin menjalankan Enrollment Queue -> Enroll & Provision.
 
-PostgreSQL menolak enrollment tanpa registration/program/cohort dan menolak admission transition ilegal/capacity overflow.
+PostgreSQL menolak enrollment tanpa registration/program/cohort dan menolak transition ilegal/capacity overflow.
+
+Akun staff/santri dapat diaktifkan melalui public `/activate?token=...`.
 
 ## 9Router
 
 Set `NINE_ROUTER_URL` ke endpoint OpenAI-compatible 9Router yang hanya dapat dijangkau PMMI/trusted network. Provider credentials tetap berada di 9Router, bukan account santri.
 
-PMMI API adalah gateway/auth/accounting layer. Client memakai PMMI `/v1/models` dan `/v1/chat/completions`, bukan mengakses 9Router langsung.
+PMMI API adalah auth/accounting gateway. Client memakai PMMI `/v1/models` dan `/v1/chat/completions`, bukan mengakses 9Router langsung.
 
-Gunakan release 9Router yang current dan memiliki seluruh security fix yang tersedia saat deployment.
+Gunakan release 9Router current dan seluruh security fix yang tersedia saat deployment.
 
 ## Hermes
 
 Keep `HERMES_ENABLED=false` sampai shared Hermes runtime dan isolation policy selesai diuji di host.
 
-Build Agent **tidak meng-install Hermes**. API hanya membuat profile/workspace/build-job PMMI; worker memakai Hermes CLI yang sudah terpasang sekali.
+Build Agent **tidak meng-install Hermes**. API hanya membuat profile/workspace/job PMMI; worker memakai Hermes CLI yang sudah terpasang sekali. Dashboard menyediakan Build/Start/Stop/Archive, tetapi command baru boleh dieksekusi setelah sandbox policy lolos.
 
 Saat mengaktifkan Hermes:
 
 1. buat `/srv/pmmi/workspaces` dan `/srv/pmmi/hermes-home` milik service account `pmmi`;
 2. install/test official Hermes CLI sekali;
-3. build worker pada host (`npm install && npm run build:worker`) atau siapkan image/runtime yang memiliki Hermes CLI;
-4. **stop/disable Docker `worker`** sebelum mengaktifkan host `pmmi-worker-hermes.service`; jangan biarkan worker Docker tanpa Hermes mengambil `hermes.profile.build` jobs;
+3. build worker pada host (`npm install && npm run build:worker`) atau siapkan runtime yang memiliki Hermes CLI;
+4. **stop/disable Docker `worker`** sebelum mengaktifkan host `pmmi-worker-hermes.service`; jangan biarkan worker Docker tanpa Hermes mengambil job Hermes;
 5. install/enable `infra/systemd/pmmi-worker-hermes.service` atau equivalent hardened runtime;
 6. set `HERMES_ENABLED=true`, `HERMES_WORKSPACE_ROOT=/srv/pmmi/workspaces`;
 7. lakukan adversarial isolation test sebelum memberi akses agent ke santri.
 
-Profile + `terminal.cwd` **bukan OS sandbox**. Hardened service contoh membatasi service secara umum, tetapi production harus membuktikan agent tidak dapat membaca `/etc`, admin/root home, database/provider secrets, atau workspace santri lain. Bila host-level per-profile isolation tidak cukup, gunakan container/process sandbox per running agent dengan shared image/runtime—tetap bukan install Hermes baru per santri.
+Profile + `terminal.cwd` **bukan OS sandbox**. Production harus membuktikan agent tidak dapat membaca `/etc`, admin/root home, database/provider secrets, atau workspace santri lain. Bila perlu, gunakan container/process sandbox per running agent dengan shared image/runtime—tetap bukan install Hermes baru per santri.
 
 ## Notifications
 
@@ -103,10 +108,30 @@ Set `NOTIFICATION_TRANSPORT=live` hanya setelah provider production siap.
 
 - Resend: `RESEND_API_KEY`, `EMAIL_FROM`, `RESEND_WEBHOOK_SECRET`
 - Telegram: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_BOT_USERNAME`, `TELEGRAM_WEBHOOK_SECRET`
-- WhatsApp/Baileys sidecar: `WHATSAPP_PROVIDER=baileys`, `BAILEYS_GATEWAY_URL`
-- Meta-compatible adapter: `WHATSAPP_PROVIDER=meta`, URL/token
+- Meta-compatible WhatsApp: `WHATSAPP_PROVIDER=meta`, URL/token
+- Baileys: `WHATSAPP_PROVIDER=baileys`, `BAILEYS_SERVICE_TOKEN`, persistent auth volume
 
-Provider outage tidak membatalkan transaksi akademik; delivery tetap berada di PostgreSQL dengan retry/fallback/circuit-breaker policy.
+### Baileys pairing
+
+Baileys adalah optional isolated Compose profile. Gunakan satu akun WhatsApp PMMI khusus; jangan gunakan untuk spam/bulk unsolicited messaging.
+
+```bash
+# generate a strong BAILEYS_SERVICE_TOKEN first, then:
+docker compose --profile baileys --env-file /srv/pmmi/.env -f infra/docker/compose.yml up -d whatsapp
+
+curl -sS -H "Authorization: Bearer $BAILEYS_SERVICE_TOKEN" \
+  http://127.0.0.1:3010/session | jq
+
+curl -sS -X POST \
+  -H "Authorization: Bearer $BAILEYS_SERVICE_TOKEN" \
+  -H 'Content-Type: application/json' \
+  -d '{"phone":"628123456789"}' \
+  http://127.0.0.1:3010/pairing-code | jq
+```
+
+Masukkan pairing code pada WhatsApp account PMMI. Setelah `/session` menunjukkan `open`, worker dapat memakai `BAILEYS_GATEWAY_URL=http://whatsapp:3010`. Port `3010` tetap loopback/internal dan tidak boleh dipublish melalui reverse proxy.
+
+Provider outage tidak membatalkan transaksi akademik; delivery tetap di PostgreSQL dengan retry/fallback/circuit-breaker policy.
 
 ## Operations monitor
 
@@ -129,6 +154,8 @@ MINIO_SECRET_KEY='...' \
 infra/scripts/restore.sh /srv/pmmi/backups/<timestamp>
 ```
 
+Backup Baileys auth volume juga perlu dilindungi sebagai secret; jangan commit atau menaruhnya di storage publik.
+
 ## Upgrade
 
 ```bash
@@ -142,6 +169,9 @@ docker compose --env-file /srv/pmmi/.env -f infra/docker/compose.yml up -d api w
 # Start exactly one worker strategy:
 # A) Docker worker while Hermes is disabled, OR
 # B) hardened host/custom worker with shared Hermes runtime.
+
+# If Baileys is used:
+docker compose --profile baileys --env-file /srv/pmmi/.env -f infra/docker/compose.yml up -d whatsapp
 
 infra/scripts/health-check.sh
 ```
