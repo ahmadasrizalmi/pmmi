@@ -15,6 +15,7 @@ const schema=z.object({
   TELEGRAM_BOT_TOKEN:optionalString(),
   WHATSAPP_PROVIDER:z.enum(['disabled','baileys','meta']).default('disabled'),
   BAILEYS_GATEWAY_URL:optionalString(z.string().url()),
+  BAILEYS_SERVICE_TOKEN:optionalString(z.string().min(24)),
   META_WHATSAPP_URL:optionalString(z.string().url()),
   META_WHATSAPP_TOKEN:optionalString(),
   HERMES_ENABLED:bool.default(false),
