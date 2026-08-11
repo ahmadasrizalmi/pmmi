@@ -32,6 +32,14 @@ export async function registerAcademicExtraRoutes(app:FastifyInstance){
     return {items:(await pool.query(sql,params)).rows};
   });
 
+  app.get('/v1/academic/classes/:classId/roster',async(request,reply)=>{
+    const user=await requireAuth(request,reply,['ADMIN','USTADZ']);if(!user)return;
+    const {classId}=request.params as {classId:string};
+    if(!(await teacherCanManage(user,classId)))return reply.code(403).send({error:'cannot manage class'});
+    const result=await pool.query(`select u.id user_id,u.full_name,u.email,s.student_number,s.status student_status,e.status enrollment_status from enrollments e join users u on u.id=e.student_user_id left join students s on s.user_id=u.id where e.class_id=$1 and e.status='active' order by u.full_name`,[classId]);
+    return {items:result.rows};
+  });
+
   app.put('/v1/academic/sessions/:sessionId/attendance',async(request,reply)=>{
     const user=await requireAuth(request,reply,['ADMIN','USTADZ']);if(!user)return;
     const {sessionId}=request.params as {sessionId:string};
