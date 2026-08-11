@@ -8,6 +8,7 @@ x-api-env: &api-env
   MINIO_BUCKET: ${MINIO_BUCKET:-pmmi}
   PUBLIC_WEB_URL: ${PUBLIC_WEB_URL:-https://pondokmultimedia.id}
   DASHBOARD_URL: ${DASHBOARD_URL:-https://app.pondokmultimedia.id}
+  CORS_ORIGINS: ${CORS_ORIGINS:-https://pondokmultimedia.id,https://app.pondokmultimedia.id}
   INITIAL_AI_CREDITS: ${INITIAL_AI_CREDITS:-100}
   INITIAL_HERMES_SLOTS: ${INITIAL_HERMES_SLOTS:-1}
   INITIAL_STORAGE_QUOTA_BYTES: ${INITIAL_STORAGE_QUOTA_BYTES:-1073741824}
@@ -34,7 +35,8 @@ x-worker-env: &worker-env
   EMAIL_FROM: ${EMAIL_FROM:-PMMI <noreply@pondokmultimedia.id>}
   TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
   WHATSAPP_PROVIDER: ${WHATSAPP_PROVIDER:-disabled}
-  BAILEYS_GATEWAY_URL: ${BAILEYS_GATEWAY_URL:-}
+  BAILEYS_GATEWAY_URL: ${BAILEYS_GATEWAY_URL:-http://whatsapp:3010}
+  BAILEYS_SERVICE_TOKEN: ${BAILEYS_SERVICE_TOKEN:-}
   META_WHATSAPP_URL: ${META_WHATSAPP_URL:-}
   META_WHATSAPP_TOKEN: ${META_WHATSAPP_TOKEN:-}
   HERMES_ENABLED: ${HERMES_ENABLED:-false}
@@ -92,6 +94,27 @@ services:
         condition: service_completed_successfully
     restart: unless-stopped
 
+  whatsapp:
+    profiles: ["baileys"]
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.whatsapp
+    environment:
+      PORT: 3010
+      HOST: 0.0.0.0
+      BAILEYS_AUTH_DIR: ${BAILEYS_AUTH_DIR:-/data/auth}
+      BAILEYS_SERVICE_TOKEN: ${BAILEYS_SERVICE_TOKEN}
+    volumes:
+      - pmmi-whatsapp-auth:/data/auth
+    ports:
+      - "127.0.0.1:3010:3010"
+    healthcheck:
+      test: ["CMD","node","-e","fetch('http://127.0.0.1:3010/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
   web:
     build:
       context: ../..
@@ -122,7 +145,11 @@ services:
       retries: 3
     restart: unless-stopped
 
+volumes:
+  pmmi-whatsapp-auth:
+
 # PostgreSQL, MinIO, Immich, Tailscale, 9Router and the single shared Hermes runtime
-# are external home-server services. This compose intentionally does not duplicate them.
+# remain external home-server services. The optional `baileys` Compose profile runs the
+# isolated PMMI WhatsApp sidecar with persistent auth state; use only one paired PMMI account.
 # When Hermes is enabled, disable this Docker worker and use the hardened host/custom worker
 # that has access to the shared Hermes runtime; never install Hermes per user.
