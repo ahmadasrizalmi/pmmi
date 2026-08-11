@@ -1,0 +1,18 @@
+[Unit]
+Description=PMMI operations health monitor
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=pmmi
+Group=pmmi
+EnvironmentFile=/srv/pmmi/.env
+Environment=API_URL=http://127.0.0.1:3001
+Environment=DISK_PATH=/srv/pmmi
+ExecStart=/srv/pmmi/current/infra/scripts/ops-monitor.sh
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadOnlyPaths=/srv/pmmi/current
