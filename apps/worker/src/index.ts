@@ -1,14 +1,26 @@
 import { workerConfig } from './config.js';
 import { workerPool } from './db.js';
 import { runWorkerCycle } from './outbox.js';
+import { cleanupExpiredUploads } from './storage-cleanup.js';
 
 let stopping=false;
-async function tick(){if(stopping)return;try{await runWorkerCycle();}catch(error){console.error('PMMI worker cycle failed',error);}}
+const sleep=(ms:number)=>new Promise(resolve=>setTimeout(resolve,ms));
 
-console.log(`PMMI worker started, interval=${workerConfig.WORKER_INTERVAL_MS}ms`);
-await tick();
-const timer=setInterval(()=>{void tick();},workerConfig.WORKER_INTERVAL_MS);
+async function tick(){
+  try{
+    const result=await runWorkerCycle();
+    const cleanup=await cleanupExpiredUploads();
+    if(result.events||cleanup.removed)console.log('PMMI worker cycle', {...result,expiredUploadsRemoved:cleanup.removed});
+  }catch(error){console.error('PMMI worker cycle failed',error);}
+}
 
-async function shutdown(){stopping=true;clearInterval(timer);await workerPool.end();process.exit(0);}
-process.on('SIGINT',()=>{void shutdown();});
-process.on('SIGTERM',()=>{void shutdown();});
+process.on('SIGTERM',()=>{stopping=true;});
+process.on('SIGINT',()=>{stopping=true;});
+
+console.log('PMMI worker started');
+try{
+  while(!stopping){await tick();await sleep(workerConfig.WORKER_INTERVAL_MS);}
+}finally{
+  await workerPool.end();
+  console.log('PMMI worker stopped');
+}
