@@ -1,4 +1,4 @@
-x-app-env: &app-env
+x-api-env: &api-env
   DATABASE_URL: ${DATABASE_URL}
   JWT_SECRET: ${JWT_SECRET}
   BOOTSTRAP_ADMIN_TOKEN: ${BOOTSTRAP_ADMIN_TOKEN:-}
@@ -6,48 +6,119 @@ x-app-env: &app-env
   MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
   MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
   MINIO_BUCKET: ${MINIO_BUCKET:-pmmi}
+  PUBLIC_WEB_URL: ${PUBLIC_WEB_URL:-https://pondokmultimedia.id}
+  DASHBOARD_URL: ${DASHBOARD_URL:-https://app.pondokmultimedia.id}
+  INITIAL_AI_CREDITS: ${INITIAL_AI_CREDITS:-100}
+  INITIAL_HERMES_SLOTS: ${INITIAL_HERMES_SLOTS:-1}
+  INITIAL_STORAGE_QUOTA_BYTES: ${INITIAL_STORAGE_QUOTA_BYTES:-1073741824}
+  NINE_ROUTER_URL: ${NINE_ROUTER_URL:-http://host.docker.internal:20128}
+  NINE_ROUTER_API_KEY: ${NINE_ROUTER_API_KEY:-}
+  AI_REQUEST_RESERVE_CREDITS: ${AI_REQUEST_RESERVE_CREDITS:-5}
+  AI_TOKENS_PER_CREDIT: ${AI_TOKENS_PER_CREDIT:-1000}
+  HERMES_WORKSPACE_ROOT: ${HERMES_WORKSPACE_ROOT:-/srv/pmmi/workspaces}
+  TELEGRAM_BOT_USERNAME: ${TELEGRAM_BOT_USERNAME:-}
+  TELEGRAM_WEBHOOK_SECRET: ${TELEGRAM_WEBHOOK_SECRET:-}
+  RESEND_WEBHOOK_SECRET: ${RESEND_WEBHOOK_SECRET:-}
+  OPS_TOKEN: ${OPS_TOKEN:-}
+
+x-worker-env: &worker-env
+  DATABASE_URL: ${DATABASE_URL}
+  WORKER_INTERVAL_MS: ${WORKER_INTERVAL_MS:-3000}
+  WORKER_BATCH_SIZE: ${WORKER_BATCH_SIZE:-20}
+  NOTIFICATION_TRANSPORT: ${NOTIFICATION_TRANSPORT:-live}
+  RESEND_API_KEY: ${RESEND_API_KEY:-}
+  EMAIL_FROM: ${EMAIL_FROM:-PMMI <noreply@pondokmultimedia.id>}
+  TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+  WHATSAPP_PROVIDER: ${WHATSAPP_PROVIDER:-disabled}
+  BAILEYS_GATEWAY_URL: ${BAILEYS_GATEWAY_URL:-}
+  META_WHATSAPP_URL: ${META_WHATSAPP_URL:-}
+  META_WHATSAPP_TOKEN: ${META_WHATSAPP_TOKEN:-}
+  HERMES_ENABLED: ${HERMES_ENABLED:-false}
+  HERMES_BIN: ${HERMES_BIN:-hermes}
+  HERMES_TEMPLATE_PROFILE: ${HERMES_TEMPLATE_PROFILE:-}
+  HERMES_START_GATEWAY: ${HERMES_START_GATEWAY:-false}
+  MAX_DELIVERY_ATTEMPTS: ${MAX_DELIVERY_ATTEMPTS:-5}
+  ASSIGNMENT_REMINDER_HOURS: ${ASSIGNMENT_REMINDER_HOURS:-72,24,3}
+  CLASS_REMINDER_MINUTES: ${CLASS_REMINDER_MINUTES:-60}
+  AI_CREDIT_THRESHOLDS: ${AI_CREDIT_THRESHOLDS:-50,20,5,0}
 
 services:
   migrate:
-    image: node:22-alpine
-    working_dir: /app
-    command: sh -c "npm install --no-audit --no-fund && npm run db:migrate"
-    volumes:
-      - ../..:/app
-    environment: *app-env
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.api
+    command: ["npm","run","db:migrate"]
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    restart: "no"
 
   api:
-    image: node:22-alpine
-    working_dir: /app
-    command: sh -c "npm install --no-audit --no-fund && npm run dev:api"
-    volumes:
-      - ../..:/app
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.api
     environment:
-      <<: *app-env
+      <<: *api-env
       PORT: 3001
       HOST: 0.0.0.0
     ports:
-      - "3001:3001"
+      - "127.0.0.1:3001:3001"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
       migrate:
         condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD","wget","-qO-","http://127.0.0.1:3001/health/ready"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
 
   worker:
-    image: node:22-alpine
-    working_dir: /app
-    command: sh -c "npm install --no-audit --no-fund && npm run dev:worker"
-    volumes:
-      - ../..:/app
-    environment: *app-env
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.worker
+    environment: *worker-env
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
       migrate:
         condition: service_completed_successfully
+    restart: unless-stopped
 
-# PostgreSQL, MinIO, Immich and Tailscale are existing home-server services.
-# This compose file intentionally does not create duplicates.
+  web:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.web
+      args:
+        VITE_API_URL: ${PUBLIC_API_URL:-https://ai.pondokmultimedia.id}
+    ports:
+      - "127.0.0.1:8080:80"
+    healthcheck:
+      test: ["CMD","wget","-qO-","http://127.0.0.1/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+  dashboard:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.dashboard
+      args:
+        VITE_API_URL: ${PUBLIC_API_URL:-https://ai.pondokmultimedia.id}
+    ports:
+      - "127.0.0.1:8081:80"
+    healthcheck:
+      test: ["CMD","wget","-qO-","http://127.0.0.1/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+# PostgreSQL, MinIO, Immich, Tailscale, 9Router and the single shared Hermes runtime
+# are external home-server services. This compose intentionally does not duplicate them.
+# If Hermes is enabled, run the PMMI worker in an environment where the official Hermes CLI
+# is already installed and HERMES_WORKSPACE_ROOT is mounted/writable. Never install Hermes per user.

@@ -1,4 +1,4 @@
-name: PMMI Core CI
+name: PMMI Blueprint CI
 
 on:
   pull_request:
@@ -6,8 +6,9 @@ on:
     branches: [main, 'agent/**']
 
 jobs:
-  core:
+  blueprint:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     services:
       postgres:
         image: postgres:16-alpine
@@ -30,6 +31,17 @@ jobs:
       MINIO_ACCESS_KEY: minioadmin
       MINIO_SECRET_KEY: minioadmin123
       MINIO_BUCKET: pmmi-test
+      NINE_ROUTER_URL: http://127.0.0.1:20129
+      INITIAL_AI_CREDITS: 100
+      INITIAL_HERMES_SLOTS: 1
+      NOTIFICATION_TRANSPORT: mock
+      WHATSAPP_PROVIDER: disabled
+      HERMES_ENABLED: false
+      HERMES_BIN: hermes
+      ASSIGNMENT_REMINDER_HOURS: 72,24,3
+      CLASS_REMINDER_MINUTES: 60
+      AI_CREDIT_THRESHOLDS: 50,20,5,0
+      VITE_API_URL: http://localhost:3001
 
     steps:
       - uses: actions/checkout@v4
@@ -55,11 +67,33 @@ jobs:
       - name: Run migrations
         run: npm run db:migrate
 
-      - name: API integration tests
-        run: npm test --workspace @pmmi/api
+      - name: API blueprint integration tests
+        run: npm run test:api
+
+      - name: Worker/outbox integration tests
+        run: npm run test:worker
 
       - name: Build API
-        run: npm run build --workspace @pmmi/api
+        run: npm run build:api
 
-      - name: Build public web
+      - name: Build worker
+        run: npm run build:worker
+
+      - name: Build public website
         run: npm run build:web
+
+      - name: Build role dashboard
+        run: npm run build:dashboard
+
+      - name: Validate operational scripts
+        run: bash -n infra/scripts/backup.sh infra/scripts/restore.sh infra/scripts/health-check.sh
+
+      - name: Validate Docker Compose
+        run: docker compose --env-file infra/docker/.env.example -f infra/docker/compose.yml config >/dev/null
+
+      - name: Build production images
+        run: |
+          docker build -f infra/docker/Dockerfile.api -t pmmi-api:ci .
+          docker build -f infra/docker/Dockerfile.worker -t pmmi-worker:ci .
+          docker build --build-arg VITE_API_URL=http://localhost:3001 -f infra/docker/Dockerfile.web -t pmmi-web:ci .
+          docker build --build-arg VITE_API_URL=http://localhost:3001 -f infra/docker/Dockerfile.dashboard -t pmmi-dashboard:ci .

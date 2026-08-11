@@ -1,27 +1,22 @@
 {
-  "name": "pmmi-digital-campus",
-  "private": true,
-  "version": "0.1.0",
-  "type": "module",
-  "workspaces": ["apps/*", "packages/*"],
-  "scripts": {
-    "dev:web": "vite",
-    "build:web": "vite build",
-    "dev:api": "npm run dev --workspace @pmmi/api",
-    "dev:worker": "npm run dev --workspace @pmmi/worker",
-    "db:migrate": "npm run migrate --workspace @pmmi/db"
+  "name":"pmmi-digital-campus",
+  "private":true,
+  "version":"1.0.0",
+  "type":"module",
+  "workspaces":["apps/*","packages/*"],
+  "scripts":{
+    "dev:web":"vite",
+    "build:web":"vite build",
+    "dev:dashboard":"npm run dev --workspace @pmmi/dashboard",
+    "build:dashboard":"npm run build --workspace @pmmi/dashboard",
+    "dev:api":"npm run dev --workspace @pmmi/api",
+    "dev:worker":"npm run dev --workspace @pmmi/worker",
+    "build:api":"npm run build --workspace @pmmi/api",
+    "build:worker":"npm run build --workspace @pmmi/worker",
+    "test:api":"npm test --workspace @pmmi/api",
+    "test:worker":"npm test --workspace @pmmi/worker",
+    "db:migrate":"npm run migrate --workspace @pmmi/db"
   },
-  "dependencies": {
-    "@splinetool/react-spline": "^4.1.0",
-    "framer-motion": "^11.3.11",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
-    "react-router-dom": "^7.9.2"
-  },
-  "devDependencies": {
-    "@types/node": "^22.14.0",
-    "@vitejs/plugin-react": "^5.0.0",
-    "typescript": "~5.8.2",
-    "vite": "^6.2.0"
-  }
+  "dependencies":{"@splinetool/react-spline":"^4.1.0","framer-motion":"^11.3.11","react":"^19.1.1","react-dom":"^19.1.1","react-router-dom":"^7.9.2"},
+  "devDependencies":{"@types/node":"^22.14.0","@vitejs/plugin-react":"^5.0.0","typescript":"~5.8.2","vite":"^6.2.0"}
 }
