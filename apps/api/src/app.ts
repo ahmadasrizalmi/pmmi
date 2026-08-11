@@ -11,6 +11,7 @@ import { registerAcademicRoutes } from './routes/academic.js';
 import { registerAcademicExtraRoutes } from './routes/academic-extra.js';
 import { registerCatalogRoutes } from './routes/catalog.js';
 import { registerNotificationRoutes } from './routes/notifications.js';
+import { registerApiKeyRoutes } from './routes/api-keys.js';
 import { registerAiRoutes } from './routes/ai.js';
 import { registerHermesRoutes } from './routes/hermes.js';
 import { registerRewardRoutes } from './routes/rewards.js';
@@ -48,6 +49,7 @@ export async function buildApp() {
   await registerAcademicExtraRoutes(app);
   await registerLifecycleRoutes(app);
   await registerNotificationRoutes(app);
+  await registerApiKeyRoutes(app);
   await registerAiRoutes(app);
   await registerHermesRoutes(app);
   await registerRewardRoutes(app);
