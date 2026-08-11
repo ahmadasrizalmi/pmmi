@@ -10,6 +10,7 @@ import TeachersPage from './pages/TeachersPage';
 import AdmissionsPage from './pages/AdmissionsPage';
 import ApplyPage from './pages/ApplyPage';
 import ApplicationPortalPage from './pages/ApplicationPortalPage';
+import ActivationPage from './pages/ActivationPage';
 import PortfolioPage from './pages/PortfolioPage';
 import PortfolioDetailPage from './pages/PortfolioDetailPage';
 import GalleryPage from './pages/GalleryPage';
@@ -38,6 +39,7 @@ const App: React.FC = () => (
           <Route path="/admissions" element={<AdmissionsPage />} />
           <Route path="/daftar" element={<ApplyPage />} />
           <Route path="/daftar/:applicationId" element={<ApplicationPortalPage />} />
+          <Route path="/activate" element={<ActivationPage />} />
           <Route path="/portfolio" element={<PortfolioPage />} />
           <Route path="/portfolio/:slug" element={<PortfolioDetailPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
