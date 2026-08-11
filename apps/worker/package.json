@@ -10,13 +10,14 @@
     "test":"node --import tsx --test src/**/*.test.ts"
   },
   "dependencies":{
+    "minio":"^8.0.5",
     "pg":"^8.13.3",
     "zod":"^3.24.2"
   },
   "devDependencies":{
-    "tsx":"^4.19.3",
-    "typescript":"~5.8.2",
     "@types/node":"^22.14.0",
-    "@types/pg":"^8.11.11"
+    "@types/pg":"^8.11.11",
+    "tsx":"^4.19.3",
+    "typescript":"~5.8.2"
   }
 }
