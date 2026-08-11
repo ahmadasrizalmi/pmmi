@@ -1,0 +1,24 @@
+[Unit]
+Description=PMMI Digital Campus Jobs Worker
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pmmi
+Group=pmmi
+WorkingDirectory=/srv/pmmi/current
+EnvironmentFile=/etc/pmmi/pmmi.env
+Environment=HERMES_EXECUTION_MODE=real
+Environment=HERMES_HOME=/srv/pmmi/hermes
+ExecStart=/usr/bin/npm run start --workspace @pmmi/jobs
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/srv/pmmi/workspaces /srv/pmmi/hermes /srv/pmmi/current /var/lib/pmmi
+
+[Install]
+WantedBy=multi-user.target
