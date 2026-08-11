@@ -1,0 +1,3 @@
+services:
+  api:
+    command: sh -c "npm install --no-audit --no-fund && npm run build --workspace @pmmi/api && node apps/api/dist/releaseIndex.js"
