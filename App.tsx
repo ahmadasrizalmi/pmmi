@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import LandingPage from './pages/LandingPage';
@@ -9,6 +9,9 @@ import FacilitiesPage from './pages/FacilitiesPage';
 import TeachersPage from './pages/TeachersPage';
 import AdmissionsPage from './pages/AdmissionsPage';
 import ApplyPage from './pages/ApplyPage';
+import ApplicationPortalPage from './pages/ApplicationPortalPage';
+import PortfolioPage from './pages/PortfolioPage';
+import PortfolioDetailPage from './pages/PortfolioDetailPage';
 import GalleryPage from './pages/GalleryPage';
 import ContactPage from './pages/ContactPage';
 import MaterialsPage from './src/pages/MaterialsPage';
@@ -34,6 +37,9 @@ const App: React.FC = () => (
           <Route path="/teachers" element={<TeachersPage />} />
           <Route path="/admissions" element={<AdmissionsPage />} />
           <Route path="/daftar" element={<ApplyPage />} />
+          <Route path="/daftar/:applicationId" element={<ApplicationPortalPage />} />
+          <Route path="/portfolio" element={<PortfolioPage />} />
+          <Route path="/portfolio/:slug" element={<PortfolioDetailPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/materials/:categoryId" element={<MaterialsPage />} />
