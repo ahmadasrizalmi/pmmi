@@ -13,7 +13,7 @@
     "dev:worker":"npm run dev --workspace @pmmi/worker",
     "build:api":"npm run build --workspace @pmmi/api",
     "build:worker":"npm run build --workspace @pmmi/worker",
-    "test:api":"npm test --workspace @pmmi/api",
+    "test:api":"node --import tsx --test apps/api/src/blueprint.test.ts",
     "test:worker":"npm test --workspace @pmmi/worker",
     "db:migrate":"npm run migrate --workspace @pmmi/db"
   },
