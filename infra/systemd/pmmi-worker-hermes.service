@@ -1,0 +1,33 @@
+[Unit]
+Description=PMMI worker with shared Hermes runtime
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pmmi
+Group=pmmi
+WorkingDirectory=/srv/pmmi/current
+EnvironmentFile=/srv/pmmi/.env
+Environment=HERMES_ENABLED=true
+Environment=HOME=/srv/pmmi/hermes-home
+ExecStart=/usr/bin/node /srv/pmmi/current/apps/worker/dist/index.js
+Restart=on-failure
+RestartSec=5s
+
+# The Hermes profile/workspace model is application isolation, not an OS sandbox.
+# This service limits the worker/Hermes process to PMMI-owned writable paths.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/srv/pmmi/workspaces /srv/pmmi/hermes-home
+ReadOnlyPaths=/srv/pmmi/current
+RestrictSUIDSGID=true
+LockPersonality=true
+RestrictRealtime=true
+SystemCallArchitectures=native
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

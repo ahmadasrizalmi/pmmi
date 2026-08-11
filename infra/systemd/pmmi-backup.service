@@ -1,0 +1,15 @@
+[Unit]
+Description=PMMI Digital Campus full backup
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=pmmi
+Group=pmmi
+EnvironmentFile=/srv/pmmi/.env
+Environment=BACKUP_ROOT=/srv/pmmi/backups
+ExecStart=/srv/pmmi/current/infra/scripts/backup.sh
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
