@@ -4,8 +4,9 @@ COPY package*.json ./
 COPY apps/api/package.json apps/api/package.json
 COPY apps/worker/package.json apps/worker/package.json
 COPY apps/dashboard/package.json apps/dashboard/package.json
+COPY apps/whatsapp/package.json apps/whatsapp/package.json
 COPY packages/db/package.json packages/db/package.json
-RUN npm install --no-audit --no-fund
+RUN npm ci --no-audit --no-fund
 COPY . .
 RUN npm run build:api
 
