@@ -1,0 +1,10 @@
+import React,{useEffect,useState} from 'react';
+import { api } from './api';
+
+export default function AdminEnrollmentPanel(){
+  const [items,setItems]=useState<any[]>([]);const [details,setDetails]=useState<Record<string,any>>({});const [message,setMessage]=useState('');
+  async function load(){try{const data=await api('/v1/admissions/applications');const accepted=(data.items??[]).filter((a:any)=>a.status==='ACCEPTED');setItems(accepted);const next:Record<string,any>={};for(const a of accepted){try{next[a.id]=await api(`/v1/admissions/applications/${a.id}`);}catch{next[a.id]=null;}}setDetails(next);}catch(e:any){setMessage(e.message);}}
+  useEffect(()=>{void load();},[]);
+  async function enroll(id:string){try{const d=details[id];if(!d?.registration?.program_id||!d?.registration?.cohort_id){setMessage('Daftar ulang belum lengkap: program dan cohort wajib dipilih sebelum enrollment.');return;}const out=await api(`/v1/admissions/applications/${id}/status`,{method:'PATCH',body:JSON.stringify({status:'ENROLLED'})});setMessage(`Enrollment berhasil. Student number ${out.studentNumber}. Activation token: ${out.activationToken}`);await load();}catch(e:any){setMessage(e.message);}}
+  return <div className="stack"><h2>Enrollment Queue</h2>{message&&<div className="notice">{message}</div>}{items.length===0&&<div className="card">Tidak ada applicant ACCEPTED yang menunggu enrollment.</div>}{items.map((a:any)=>{const d=details[a.id];const ready=Boolean(d?.registration?.program_id&&d?.registration?.cohort_id);return <div className="card" key={a.id}><div className="sectionTitle"><div><h3>{a.applicant_name}</h3><div className="muted">{a.email} · {a.period_name}</div></div><span className="pill">{ready?'REGISTRATION READY':'WAITING REGISTRATION'}</span></div>{d?.registration&&<div className="muted">Program: {d.registration.program_id??'-'} · Cohort: {d.registration.cohort_id??'-'} · Status: {d.registration.status}</div>}<div style={{marginTop:12}}><button className="btn" disabled={!ready} onClick={()=>void enroll(a.id)}>Enroll & Provision Santri</button></div></div>})}</div>;
+}
