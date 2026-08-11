@@ -1,0 +1,9 @@
+{
+  "name":"@pmmi/whatsapp",
+  "private":true,
+  "version":"0.1.0",
+  "type":"module",
+  "scripts":{"dev":"tsx watch src/index.ts","build":"tsc -p tsconfig.json","start":"node dist/index.js"},
+  "dependencies":{"fastify":"^5.2.1","baileys":"7.0.0-rc13","pino":"^9.6.0"},
+  "devDependencies":{"tsx":"^4.19.3","typescript":"~5.8.2","@types/node":"^22.14.0"}
+}
