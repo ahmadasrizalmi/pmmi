@@ -49,8 +49,16 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install dependencies
+      - name: Install dependencies and regenerate lock
         run: npm install --no-audit --no-fund
+
+      - name: Export regenerated dependency lock
+        uses: actions/upload-artifact@v4
+        with:
+          name: pmmi-package-lock
+          path: package-lock.json
+          if-no-files-found: error
+          retention-days: 1
 
       - name: Start MinIO
         run: |
