@@ -17,7 +17,7 @@ for(const [needle,label] of [
   ['AdminSetupPanel','Admin setup mounted'],['UstadzAttendancePanel','Ustadz attendance mounted'],['AgentRuntimePanel','Santri agent runtime mounted'],['NotificationSettingsPanel','notification settings mounted'],['AdminPortfolioPanel','Admin portfolio manager mounted'],
 ])requireText(appV2,needle,label);
 for(const [needle,label] of [
-  ['/v1/admissions/periods','admission period UI'],['/v1/catalog/programs','program UI'],['/v1/catalog/cohorts','cohort UI'],['AdminEnrollmentPanel','enrollment queue UI'],['/roster','teacher roster UI'],['/attendance','attendance write UI'],['/v1/notifications/preferences','notification preference UI'],['/v1/notifications/channels','notification channel UI'],['/start','Hermes start UI'],['/stop','Hermes stop UI'],
+  ['/v1/admissions/periods','admission period UI'],['/v1/catalog/programs','program UI'],['/v1/catalog/cohorts','cohort UI'],['AdminEnrollmentPanel','enrollment queue UI'],['/roster','teacher roster UI'],['/attendance','attendance write UI'],['/v1/notifications/preferences','notification preference UI'],['/v1/notifications/channels','notification channel UI'],["kind:'start'|'stop'",'Hermes runtime action type'],['/v1/hermes/agents/${id}/${kind}','Hermes runtime endpoint'],["action(a.id,'start')",'Hermes start UI'],["action(a.id,'stop')",'Hermes stop UI'],
 ])requireText(panels,needle,label);
 for(const [needle,label] of [['path="/activate"','activation route'],['path="/daftar"','public registration route'],['path="/portfolio"','public portfolio route']])requireText(publicApp,needle,label);
 requireText(apiApp,'config.CORS_ORIGINS','CORS configured allowlist');
