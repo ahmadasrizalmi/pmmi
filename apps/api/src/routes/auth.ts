@@ -1,3 +1,5 @@
+import type { PoolClient } from 'pg';
+
 import { createHash, randomBytes } from 'node:crypto';
 import type { FastifyInstance } from 'fastify';
 import { z } from 'zod';
@@ -6,10 +8,13 @@ import { pool, withTransaction } from '../db.js';
 import { hashPassword, verifyPassword } from '../security/password.js';
 import { requireAuth } from '../security/authz.js';
 import { writeAudit } from '../audit.js';
+import { enqueueOutbox } from '../events.js';
 
 const loginSchema = z.object({ email: z.string().email(), password: z.string().min(8) });
 const bootstrapSchema = loginSchema.extend({ fullName: z.string().min(2) });
 const activateSchema = z.object({ token: z.string().min(32), password: z.string().min(8) });
+const forgotPasswordSchema = z.object({ email: z.string().email() });
+const resetPasswordSchema = z.object({ token: z.string().min(32), password: z.string().min(8) });
 const tokenHash = (token: string) => createHash('sha256').update(token).digest('hex');
 
 export async function registerAuthRoutes(app: FastifyInstance) {
@@ -72,6 +77,54 @@ export async function registerAuthRoutes(app: FastifyInstance) {
     return { activated: true };
   });
 
+  app.post('/v1/auth/forgot-password', async (request, reply) => {
+    const parsed = forgotPasswordSchema.safeParse(request.body);
+    if (!parsed.success) return reply.code(400).send({ error: 'invalid payload' });
+
+    const userResult = await pool.query(
+      `select id, email, full_name from users where email = lower($1) and is_active = true limit 1`,
+      [parsed.data.email],
+    );
+    if (!userResult.rowCount) return { ok: true };
+
+    const user = userResult.rows[0];
+    await withTransaction(async (client) => {
+      const token = randomBytes(32).toString('hex');
+      await client.query(
+        `insert into password_reset_tokens(user_id, token_hash, expires_at)
+         values ($1, $2, now() + interval '1 hour')`,
+        [user.id, tokenHash(token)],
+      );
+      await enqueueOutbox(client, 'auth.password_reset_requested', 'user', user.id,
+        { userId: user.id, email: user.email, fullName: user.full_name, token },
+        `password-reset:${user.id}:${Math.floor(Date.now() / 60000)}`);
+    });
+    return { ok: true };
+  });
+
+  app.post('/v1/auth/reset-password', async (request, reply) => {
+    const parsed = resetPasswordSchema.safeParse(request.body);
+    if (!parsed.success) return reply.code(400).send({ error: 'invalid payload' });
+    const passwordHash = await hashPassword(parsed.data.password);
+
+    const reset = await withTransaction(async (client) => {
+      const tokenResult = await client.query(
+        `select id, user_id from password_reset_tokens
+         where token_hash = $1 and used_at is null and expires_at > now()
+         for update`,
+        [tokenHash(parsed.data.token)],
+      );
+      if (!tokenResult.rowCount) return null;
+      const record = tokenResult.rows[0];
+      await client.query(`update users set password_hash = $1, updated_at = now() where id = $2`, [passwordHash, record.user_id]);
+      await client.query(`update password_reset_tokens set used_at = now() where id = $1`, [record.id]);
+      await writeAudit(client, record.user_id, 'account.password_reset', 'user', record.user_id);
+      return record.user_id as string;
+    });
+    if (!reset) return reply.code(400).send({ error: 'reset token invalid or expired' });
+    return { reset: true };
+  });
+
   app.get('/v1/auth/me', async (request, reply) => {
     const session = await requireAuth(request, reply);
     if (!session) return;
@@ -84,7 +137,7 @@ export async function registerAuthRoutes(app: FastifyInstance) {
   });
 }
 
-export async function createActivationToken(client: import('pg').PoolClient, userId: string) {
+export async function createActivationToken(client: PoolClient, userId: string) {
   const token = randomBytes(32).toString('hex');
   await client.query(
     `insert into account_activation_tokens(user_id, token_hash, expires_at)

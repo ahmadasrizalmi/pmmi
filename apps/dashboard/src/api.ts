@@ -1,6 +1,6 @@
 export const API_URL=(import.meta as any).env?.VITE_API_URL??'http://localhost:3001';
 
-export type User={id:string;email:string;fullName?:string;full_name?:string;role:'ADMIN'|'USTADZ'|'SANTRI'};
+export type User={id:string;email:string;fullName?:string;full_name?:string;role:'ADMIN'|'USTADZ'|'SANTRI'|'ALUMNI'};
 export type Session={token:string;user:User};
 
 export function getSession():Session|null{try{const raw=localStorage.getItem('pmmi-session');return raw?JSON.parse(raw):null;}catch{return null;}}

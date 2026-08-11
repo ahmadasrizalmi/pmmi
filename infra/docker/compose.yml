@@ -121,6 +121,7 @@ services:
       dockerfile: infra/docker/Dockerfile.web
       args:
         VITE_API_URL: ${PUBLIC_API_URL:-https://ai.pondokmultimedia.id}
+        VITE_DASHBOARD_URL: ${DASHBOARD_URL:-https://app.pondokmultimedia.id}
     ports:
       - "127.0.0.1:8080:80"
     healthcheck:
@@ -136,20 +137,29 @@ services:
       dockerfile: infra/docker/Dockerfile.dashboard
       args:
         VITE_API_URL: ${PUBLIC_API_URL:-https://ai.pondokmultimedia.id}
+        VITE_DASHBOARD_URL: ${DASHBOARD_URL:-https://app.pondokmultimedia.id}
     ports:
       - "127.0.0.1:8081:80"
     healthcheck:
       test: ["CMD","wget","-qO-","http://127.0.0.1/healthz"]
-      interval: 30s
       timeout: 5s
       retries: 3
     restart: unless-stopped
 
+  9router:
+    image: decolua/9router:latest
+    ports:
+      - "127.0.0.1:20128:20128"
+    volumes:
+      - 9router-data:/data
+    restart: unless-stopped
+
 volumes:
   pmmi-whatsapp-auth:
+  9router-data:
 
 # PostgreSQL, MinIO, Immich, Tailscale, 9Router and the single shared Hermes runtime
-# remain external home-server services. The optional `baileys` Compose profile runs the
+# remain external home-server services. The optional \`baileys\` Compose profile runs the
 # isolated PMMI WhatsApp sidecar with persistent auth state; use only one paired PMMI account.
 # When Hermes is enabled, disable this Docker worker and use the hardened host/custom worker
 # that has access to the shared Hermes runtime; never install Hermes per user.

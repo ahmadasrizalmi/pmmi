@@ -19,7 +19,7 @@ const applicationSchema = z.object({
   email: z.string().email(), phone: z.string().min(8).optional(),
 });
 const statusSchema = z.object({ status: z.enum(['ADMIN_VERIFIED','SCREENING','INTERVIEW','ACCEPTED','WAITLISTED','REJECTED','ENROLLED']) });
-const studentStatusSchema = z.object({ status: z.enum(['ACTIVE','GRADUATED','ALUMNI','DROPOUT','SUSPENDED','INACTIVE']) });
+const studentStatusSchema = z.object({ status: z.enum(['ACTIVE','GRADUATED','GRADUATED_PENDING','ALUMNI','DROPOUT','SUSPENDED','INACTIVE']) });
 const documentIntentSchema = z.object({ kind: z.string().min(2).max(80), originalName: z.string().min(1).max(200), contentType: z.string().max(120).optional() });
 const reviewSchema = z.object({ status: z.enum(['PENDING','APPROVED','NEEDS_FIX','REJECTED']), notes: z.string().max(5000).optional() });
 const scoreSchema = z.object({ category: z.string().min(2).max(80), score: z.number().min(0), maxScore: z.number().positive(), notes: z.string().max(3000).optional() }).refine(v => v.score <= v.maxScore, 'score exceeds maxScore');
@@ -246,22 +246,26 @@ export async function registerAdmissionRoutes(app: FastifyInstance) {
     if(response.kind==='invalid')return reply.code(409).send({error:`invalid transition from ${response.current} to ${target}`});
     return response;
   });
-
   app.patch('/v1/students/:id/status', async (request, reply) => {
     const session=await requireAuth(request,reply,['ADMIN']); if(!session)return;
-    const {id}=request.params as {id:string}; const parsed=studentStatusSchema.safeParse(request.body); if(!parsed.success)return reply.code(400).send({error:'invalid status'}); const target=parsed.data.status;
+    const {id}=request.params as {id:string}; const parsed=studentStatusSchema.safeParse(request.body); if(!parsed.success)return reply.code(400).send({error:'invalid status'}); const requested=parsed.data.status;
+    const effectiveTarget = requested === 'GRADUATED' ? 'GRADUATED_PENDING' : requested;
     const result=await withTransaction(async client=>{
       const student=await client.query(`select id,user_id,status from students where id=$1 for update`,[id]); if(!student.rowCount)return null; const s=student.rows[0];
-      await client.query(`update students set status=$1::student_status,graduated_at=case when $1::text='GRADUATED' then now() else graduated_at end,ended_at=case when $1::text in ('DROPOUT','INACTIVE') then now() else ended_at end where id=$2`,[target,id]);
-      const disableLogin=['DROPOUT','INACTIVE'].includes(target); await client.query(`update users set is_active=$1,updated_at=now() where id=$2`,[!disableLogin,s.user_id]);
-      if(['GRADUATED','ALUMNI','DROPOUT','INACTIVE'].includes(target)){
+      await client.query(`update students set status=$1::student_status,graduated_at=case when $1::text='GRADUATED_PENDING' then now() else graduated_at end,ended_at=case when $1::text in ('DROPOUT','INACTIVE') then now() else ended_at end where id=$2`,[effectiveTarget,id]);
+      const disableLogin=['DROPOUT','INACTIVE'].includes(effectiveTarget); await client.query(`update users set is_active=$1,updated_at=now() where id=$2`,[!disableLogin,s.user_id]);
+      if(['GRADUATED_PENDING','ALUMNI','DROPOUT','INACTIVE'].includes(effectiveTarget)){
         const wallet=await client.query(`select balance from ai_credit_wallets where user_id=$1 for update`,[s.user_id]); const balance=Number(wallet.rows[0]?.balance??0);
-        if(balance>0){await client.query(`update ai_credit_wallets set balance=0,updated_at=now() where user_id=$1`,[s.user_id]);await client.query(`insert into ai_credit_ledger(user_id,delta,balance_after,reason,reference_type,reference_id,idempotency_key,actor_user_id) values($1,$2,0,'lifecycle.resource_shutdown','student',$3,$4,$5) on conflict(idempotency_key) do nothing`,[s.user_id,-balance,id,`lifecycle:${id}:${target}:credits`,session.sub]);}
+        if(balance>0){await client.query(`update ai_credit_wallets set balance=0,updated_at=now() where user_id=$1`,[s.user_id]);await client.query(`insert into ai_credit_ledger(user_id,delta,balance_after,reason,reference_type,reference_id,idempotency_key,actor_user_id) values($1,$2,0,'lifecycle.resource_shutdown','student',$3,$4,$5) on conflict(idempotency_key) do nothing`,[s.user_id,-balance,id,`lifecycle:${id}:${effectiveTarget}:credits`,session.sub]);}
         await client.query(`update resource_entitlements set ai_credit_balance=0,hermes_agent_slots=0,updated_at=now() where user_id=$1`,[s.user_id]);
-        await enqueueOutbox(client,'hermes.user.archive','student',id,{studentId:id,userId:s.user_id,status:target},`hermes-archive:${id}:${target}`);
+        await enqueueOutbox(client,'hermes.user.archive','student',id,{studentId:id,userId:s.user_id,status:effectiveTarget},`hermes-archive:${id}:${effectiveTarget}`);
       }
-      await writeAudit(client,session.sub,'student.status_changed','student',id,{from:s.status,to:target});
-      return {id,status:target};
+      if(effectiveTarget==='GRADUATED_PENDING'){
+        const fourteenDays=new Date(Date.now()+14*24*60*60*1000);
+        await enqueueOutbox(client,'student.lifecycle.graduated_pending_expired','student',id,{studentId:id,userId:s.user_id},`graduated-pending:${id}`,fourteenDays);
+      }
+      await writeAudit(client,session.sub,'student.status_changed','student',id,{from:s.status,to:effectiveTarget,requested});
+      return {id,status:effectiveTarget};
     });
     if(!result)return reply.code(404).send({error:'student not found'}); return result;
   });

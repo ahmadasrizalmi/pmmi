@@ -27,7 +27,7 @@ const AdmissionsPage:React.FC=()=> (
       </AnimatedSection>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mt-16">
-        {steps.map(([number,title,body],index)=><AnimatedSection key={number} delay={index*0.05}><div className="h-full p-6 rounded-2xl border border-zinc-800 bg-zinc-950/70"><div className="w-10 h-10 rounded-full bg-fuchsia-600/20 border border-fuchsia-500/40 flex items-center justify-center text-fuchsia-300 font-bold">{number}</div><h2 className="text-xl font-bold mt-5">{title}</h2><p className="text-zinc-400 mt-3 leading-relaxed">{body}</p></div></AnimatedSection>)}
+        {steps.map(([number,title,body])=><AnimatedSection key={number}><div className="h-full p-6 rounded-2xl border border-zinc-800 bg-zinc-950/70"><div className="w-10 h-10 rounded-full bg-fuchsia-600/20 border border-fuchsia-500/40 flex items-center justify-center text-fuchsia-300 font-bold">{number}</div><h2 className="text-xl font-bold mt-5">{title}</h2><p className="text-zinc-400 mt-3 leading-relaxed">{body}</p></div></AnimatedSection>)}
       </div>
 
       <AnimatedSection>
