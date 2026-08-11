@@ -32,8 +32,8 @@ async function telegram(to:string,title:string,body:string){
 async function whatsapp(to:string,title:string,body:string){
   if(workerConfig.WHATSAPP_PROVIDER==='disabled')throw new ProviderUnavailable('WhatsApp provider is disabled');
   if(workerConfig.WHATSAPP_PROVIDER==='baileys'){
-    if(!workerConfig.BAILEYS_GATEWAY_URL)throw new ProviderUnavailable('Baileys gateway is not configured');
-    const data=await jsonFetch(`${workerConfig.BAILEYS_GATEWAY_URL.replace(/\/$/,'')}/send`,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({to,text:`${title}\n\n${body}`})});
+    if(!workerConfig.BAILEYS_GATEWAY_URL||!workerConfig.BAILEYS_SERVICE_TOKEN)throw new ProviderUnavailable('Baileys gateway is not configured');
+    const data=await jsonFetch(`${workerConfig.BAILEYS_GATEWAY_URL.replace(/\/$/,'')}/send`,{method:'POST',headers:{authorization:`Bearer ${workerConfig.BAILEYS_SERVICE_TOKEN}`,'content-type':'application/json'},body:JSON.stringify({to,text:`${title}\n\n${body}`})});
     return String(data?.id??data?.messageId??randomUUID());
   }
   if(!workerConfig.META_WHATSAPP_URL||!workerConfig.META_WHATSAPP_TOKEN)throw new ProviderUnavailable('Meta WhatsApp adapter is not configured');
