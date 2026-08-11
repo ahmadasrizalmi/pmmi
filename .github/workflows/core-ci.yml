@@ -1,0 +1,65 @@
+name: PMMI Core CI
+
+on:
+  pull_request:
+  push:
+    branches: [main, 'agent/**']
+
+jobs:
+  core:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: pmmi
+          POSTGRES_USER: pmmi
+          POSTGRES_PASSWORD: pmmi_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U pmmi -d pmmi"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql://pmmi:pmmi_test@127.0.0.1:5432/pmmi
+      JWT_SECRET: ci-only-jwt-secret-at-least-thirty-two-characters
+      BOOTSTRAP_ADMIN_TOKEN: ci-bootstrap-token-1234567890
+      MINIO_ENDPOINT: http://127.0.0.1:9000
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin123
+      MINIO_BUCKET: pmmi-test
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Start MinIO
+        run: |
+          docker run -d --name pmmi-minio -p 9000:9000 \
+            -e MINIO_ROOT_USER=minioadmin \
+            -e MINIO_ROOT_PASSWORD=minioadmin123 \
+            minio/minio:latest server /data
+          for i in {1..30}; do
+            curl -fsS http://127.0.0.1:9000/minio/health/live && break
+            sleep 2
+          done
+          curl -fsS http://127.0.0.1:9000/minio/health/live
+
+      - name: Run migrations
+        run: npm run db:migrate
+
+      - name: API integration tests
+        run: npm test --workspace @pmmi/api
+
+      - name: Build API
+        run: npm run build --workspace @pmmi/api
+
+      - name: Build public web
+        run: npm run build:web

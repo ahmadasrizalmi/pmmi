@@ -1,12 +1,15 @@
-import Fastify from 'fastify';
-import cors from '@fastify/cors';
+import { buildApp } from './app.js';
+import { config } from './config.js';
+import { closeDatabase } from './db.js';
 
-const app = Fastify({ logger: true });
-await app.register(cors, { origin: true });
+const app = await buildApp();
 
-app.get('/health', async () => ({ status: 'ok', service: 'pmmi-api' }));
-app.get('/v1', async () => ({ name: 'PMMI Digital Campus API', phase: 1 }));
+const shutdown = async () => {
+  await app.close();
+  await closeDatabase();
+  process.exit(0);
+};
+process.on('SIGINT', shutdown);
+process.on('SIGTERM', shutdown);
 
-const port = Number(process.env.PORT ?? 3001);
-const host = process.env.HOST ?? '0.0.0.0';
-await app.listen({ port, host });
+await app.listen({ port: config.PORT, host: config.HOST });

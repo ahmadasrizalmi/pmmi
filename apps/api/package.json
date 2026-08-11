@@ -1,9 +1,26 @@
 {
   "name": "@pmmi/api",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
-  "scripts": {"dev":"tsx watch src/index.ts","build":"tsc -p tsconfig.json","start":"node dist/index.js"},
-  "dependencies": {"fastify":"^5.2.1","@fastify/cors":"^10.0.2","pg":"^8.13.3","zod":"^3.24.2"},
-  "devDependencies": {"tsx":"^4.19.3","typescript":"~5.8.2","@types/node":"^22.14.0"}
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "test": "node --import tsx --test src/**/*.test.ts"
+  },
+  "dependencies": {
+    "@fastify/cors": "^10.0.2",
+    "@fastify/jwt": "^9.1.0",
+    "fastify": "^5.2.1",
+    "minio": "^8.0.5",
+    "pg": "^8.13.3",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@types/pg": "^8.11.11",
+    "tsx": "^4.19.3",
+    "typescript": "~5.8.2"
+  }
 }
