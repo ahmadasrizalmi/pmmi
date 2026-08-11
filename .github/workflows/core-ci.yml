@@ -86,7 +86,7 @@ jobs:
         run: npm run build:dashboard
 
       - name: Validate operational scripts
-        run: bash -n infra/scripts/backup.sh infra/scripts/restore.sh infra/scripts/health-check.sh
+        run: bash -n infra/scripts/backup.sh infra/scripts/restore.sh infra/scripts/health-check.sh infra/scripts/ops-monitor.sh
 
       - name: Validate Docker Compose
         run: docker compose --env-file infra/docker/.env.example -f infra/docker/compose.yml config >/dev/null
