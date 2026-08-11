@@ -25,7 +25,7 @@ test('completion surfaces are enforceable at API runtime',async()=>{
     event=await pool.query(`select topic from outbox_events where aggregate_id=$1 and topic='hermes.profile.stop' order by id desc limit 1`,[profile.rows[0].id]);assert.equal(event.rows[0]?.topic,'hermes.profile.stop');
 
     response=await app.inject({method:'OPTIONS',url:'/v1',headers:{origin:'https://app.pondokmultimedia.id','access-control-request-method':'GET'}});assert.equal(response.statusCode,204,response.body);assert.equal(response.headers['access-control-allow-origin'],'https://app.pondokmultimedia.id');
-    response=await app.inject({method:'OPTIONS',url:'/v1',headers:{origin:'https://evil.example','access-control-request-method':'GET'}});assert.equal(response.statusCode,204,response.body);assert.equal(response.headers['access-control-allow-origin'],undefined);
+    response=await app.inject({method:'OPTIONS',url:'/v1',headers:{origin:'https://evil.example','access-control-request-method':'GET'}});assert.equal(response.statusCode,404,response.body);assert.equal(response.headers['access-control-allow-origin'],undefined);
 
     response=await app.inject({method:'GET',url:'/v1/admin/users',headers:admin});assert.equal(response.statusCode,200,response.body);
   }finally{await app.close();await closeDatabase();}
