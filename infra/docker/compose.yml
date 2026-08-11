@@ -23,6 +23,10 @@ x-api-env: &api-env
 
 x-worker-env: &worker-env
   DATABASE_URL: ${DATABASE_URL}
+  MINIO_ENDPOINT: ${MINIO_ENDPOINT:-http://host.docker.internal:9000}
+  MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+  MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
+  MINIO_BUCKET: ${MINIO_BUCKET:-pmmi}
   WORKER_INTERVAL_MS: ${WORKER_INTERVAL_MS:-3000}
   WORKER_BATCH_SIZE: ${WORKER_BATCH_SIZE:-20}
   NOTIFICATION_TRANSPORT: ${NOTIFICATION_TRANSPORT:-live}
@@ -120,5 +124,5 @@ services:
 
 # PostgreSQL, MinIO, Immich, Tailscale, 9Router and the single shared Hermes runtime
 # are external home-server services. This compose intentionally does not duplicate them.
-# If Hermes is enabled, run the PMMI worker in an environment where the official Hermes CLI
-# is already installed and HERMES_WORKSPACE_ROOT is mounted/writable. Never install Hermes per user.
+# When Hermes is enabled, disable this Docker worker and use the hardened host/custom worker
+# that has access to the shared Hermes runtime; never install Hermes per user.
