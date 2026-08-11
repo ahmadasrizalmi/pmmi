@@ -5,6 +5,9 @@ on:
   push:
     branches: [main, 'agent/**']
 
+permissions:
+  contents: write
+
 jobs:
   blueprint:
     runs-on: ubuntu-latest
@@ -52,13 +55,16 @@ jobs:
       - name: Install dependencies and regenerate lock
         run: npm install --no-audit --no-fund
 
-      - name: Export regenerated dependency lock
-        uses: actions/upload-artifact@v4
-        with:
-          name: pmmi-package-lock
-          path: package-lock.json
-          if-no-files-found: error
-          retention-days: 1
+      - name: Pin regenerated dependency lock
+        if: github.event_name == 'push' && github.ref == 'refs/heads/agent/blueprint-completion'
+        run: |
+          if ! git diff --quiet -- package-lock.json; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add package-lock.json
+            git commit -m "pin monorepo dependency lock"
+            git push origin HEAD:${GITHUB_REF_NAME}
+          fi
 
       - name: Start MinIO
         run: |
