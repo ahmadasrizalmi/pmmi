@@ -5,10 +5,14 @@
   "type": "module",
   "workspaces": ["apps/*", "packages/*"],
   "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "dev:web": "vite",
     "build:web": "vite build",
     "dev:api": "npm run dev --workspace @pmmi/api",
     "dev:worker": "npm run dev --workspace @pmmi/worker",
+    "dev:jobs": "npm run dev --workspace @pmmi/jobs",
     "db:migrate": "npm run migrate --workspace @pmmi/db"
   },
   "dependencies": {
