@@ -6,7 +6,7 @@ on:
     branches: [main, 'agent/**']
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   blueprint:
@@ -52,19 +52,8 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install dependencies and regenerate lock
-        run: npm install --no-audit --no-fund
-
-      - name: Pin regenerated dependency lock
-        if: github.event_name == 'push' && github.ref == 'refs/heads/agent/blueprint-completion'
-        run: |
-          if ! git diff --quiet -- package-lock.json; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add package-lock.json
-            git commit -m "pin monorepo dependency lock"
-            git push origin HEAD:${GITHUB_REF_NAME}
-          fi
+      - name: Install pinned dependencies
+        run: npm ci --no-audit --no-fund
 
       - name: Start MinIO
         run: |
