@@ -15,6 +15,7 @@ const schema = z.object({
   HOST: z.string().default('0.0.0.0'),
   PUBLIC_WEB_URL: z.string().url().default('https://pondokmultimedia.id'),
   DASHBOARD_URL: z.string().url().default('https://app.pondokmultimedia.id'),
+  CORS_ORIGINS: z.string().default(''),
   INITIAL_AI_CREDITS: z.coerce.number().int().min(0).default(100),
   INITIAL_HERMES_SLOTS: z.coerce.number().int().min(0).default(1),
   INITIAL_STORAGE_QUOTA_BYTES: z.coerce.number().int().min(0).default(1073741824),
