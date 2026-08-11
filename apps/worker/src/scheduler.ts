@@ -7,8 +7,16 @@ async function emit(topic:string,aggregateType:string,aggregateId:string,payload
 
 export async function runSchedulers(now=new Date()){
   const nowIso=now.toISOString();
+
+  // Send a deadline reminder only near its configured threshold. A 10-minute window allows
+  // short worker downtime without firing all larger thresholds at once when it returns.
   for(const hours of workerConfig.ASSIGNMENT_REMINDER_HOURS){
-    const rows=await workerPool.query(`select a.id,a.title,a.due_at,a.class_id from assignments a where a.due_at is not null and a.due_at>=$1::timestamptz and a.due_at<=$1::timestamptz+($2||' hours')::interval`,[nowIso,String(hours)]);
+    const rows=await workerPool.query(`
+      select a.id,a.title,a.due_at,a.class_id
+      from assignments a
+      where a.due_at is not null
+        and a.due_at >= $1::timestamptz + ($2 || ' hours')::interval - interval '5 minutes'
+        and a.due_at <  $1::timestamptz + ($2 || ' hours')::interval + interval '5 minutes'`,[nowIso,String(hours)]);
     for(const a of rows.rows)await emit('assignment.reminder','assignment',a.id,{assignmentId:a.id,classId:a.class_id,title:a.title,dueAt:a.due_at,hoursBefore:hours},`assignment-reminder:${a.id}:${hours}`);
   }
 
@@ -18,10 +26,15 @@ export async function runSchedulers(now=new Date()){
   const sessions=await workerPool.query(`select id,class_id,title,starts_at from class_sessions where status='SCHEDULED' and starts_at>=$1::timestamptz and starts_at<=$1::timestamptz+($2||' minutes')::interval`,[nowIso,String(workerConfig.CLASS_REMINDER_MINUTES)]);
   for(const s of sessions.rows)await emit('class.session_reminder','class_session',s.id,{sessionId:s.id,classId:s.class_id,title:s.title,startsAt:s.starts_at,minutesBefore:workerConfig.CLASS_REMINDER_MINUTES},`class-reminder:${s.id}:${workerConfig.CLASS_REMINDER_MINUTES}`);
 
-  for(const threshold of workerConfig.AI_CREDIT_THRESHOLDS){
-    const wallets=await workerPool.query(`select user_id,balance from ai_credit_wallets where balance<=$1`,[threshold]);
-    const month=nowIso.slice(0,7);
-    for(const w of wallets.rows)await emit('ai.credit_threshold','ai_wallet',w.user_id,{userId:w.user_id,balance:Number(w.balance),threshold},`ai-threshold:${w.user_id}:${threshold}:${month}`);
+  // Pick one closest crossed credit threshold per wallet to avoid 50/20/5/0 fan-out.
+  const thresholds=[...workerConfig.AI_CREDIT_THRESHOLDS].sort((a,b)=>a-b);
+  const wallets=await workerPool.query(`select user_id,balance from ai_credit_wallets`);
+  const month=nowIso.slice(0,7);
+  for(const w of wallets.rows){
+    const balance=Number(w.balance);
+    const threshold=thresholds.find(t=>balance<=t);
+    if(threshold===undefined)continue;
+    await emit('ai.credit_threshold','ai_wallet',w.user_id,{userId:w.user_id,balance,threshold},`ai-threshold:${w.user_id}:${threshold}:${month}`);
   }
 
   const teachers=await workerPool.query(`select c.teacher_user_id user_id,count(*)::int pending from submissions s join assignments a on a.id=s.assignment_id join classes c on c.id=a.class_id left join grades g on g.submission_id=s.id where c.teacher_user_id is not null and (g.id is null or s.status in ('submitted','resubmitted')) group by c.teacher_user_id having count(*)>0`);
