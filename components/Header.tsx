@@ -30,10 +30,9 @@ const Header: React.FC = () => {
         path: `/materials/${category.id}`
       }))
     },
-    { name: 'Admisi', path: '/admissions' },
-    { name: 'Daftar', path: '/daftar' },
     { name: 'Portfolio', path: '/portfolio' },
     { name: 'Galeri', path: '/gallery' },
+    { name: 'Daftar', path: '/daftar' },
     { name: 'Kontak', path: '/contact' },
     { name: 'Dashboard', path: (import.meta as unknown as { env?: Record<string, string> }).env?.VITE_DASHBOARD_URL || 'https://app.pondokmultimedia.id' },
   ];
