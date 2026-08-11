@@ -20,7 +20,7 @@ const [main,appV14,appV2,styles,panels,publicApp,apiApp,authz,apiKeysRoute,herme
 
 requireText(main,"import AppV14 from './AppV14'",'v1.4 shell mounted');
 for(const [needle,label] of [
-  ['pmmi-theme','light/dark preference'],['pmmi-sidebar-collapsed','collapsible sidebar preference'],['mobile-nav-open','mobile navigation drawer'],['API untuk Proyek','Developer API workspace'],['DeveloperApiPanel','Developer Key UI'],['AdminApiKeyPanel','Admin API key UI'],['Agent Key dibuat','Agent/Developer key separation copy'],
+  ['pmmi-theme','light/dark preference'],['pmmi-sidebar-collapsed','collapsible sidebar preference'],['mobile-nav-open','mobile navigation drawer'],['API untuk Proyek','Developer API workspace'],['DeveloperApiPanel','Developer Key UI'],['AdminApiKeyPanel','Admin API key UI'],['Hermes Agent memakai Agent Key terpisah','Agent/Developer key separation copy'],
 ])requireText(appV14,needle,label);
 if(appV14.includes('Chat AI')||appV14.includes('Mulai Chat'))throw new Error('UX v1.4 contract: dashboard must not expose Chat AI as a core surface');
 if(/[✅❌🚀🎉🔥]/u.test(appV14))throw new Error('UX v1.4 contract: new shell must use icons, not emoji');
