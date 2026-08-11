@@ -111,6 +111,11 @@ export async function registerApiKeyRoutes(app: FastifyInstance) {
     if (!parsed.success) return reply.code(400).send({ error: 'invalid API key request', issues: parsed.error.flatten() });
     const target = await pool.query(`select id from users where id=$1 and is_active=true`, [parsed.data.userId]);
     if (!target.rowCount) return reply.code(404).send({ error: 'user not found' });
+    const activeCount = await pool.query(
+      `select count(*)::int count from ai_api_keys where user_id=$1 and kind=$2 and revoked_at is null and (expires_at is null or expires_at>now())`,
+      [parsed.data.userId, parsed.data.kind],
+    );
+    if (Number(activeCount.rows[0].count) >= 5) return reply.code(409).send({ error: `maximum 5 active ${parsed.data.kind} keys for this user` });
     const created = await withTransaction(async client => {
       const key = await createAiKey(client, {
         userId: parsed.data.userId,

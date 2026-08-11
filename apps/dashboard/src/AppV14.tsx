@@ -24,7 +24,7 @@ type ApiKeyItem = {
   user_id?: string;
 };
 
-const AI_BASE_URL = (import.meta as any).env?.VITE_AI_BASE_URL ?? 'https://ai.pondokmultimedia.id/v1';
+const AI_BASE_URL = import.meta.env.VITE_AI_BASE_URL ?? 'https://ai.pondokmultimedia.id/v1';
 
 const roleNames: Record<Role, string> = {
   ADMIN: 'Admin PMMI',
@@ -265,6 +265,16 @@ function AdminApiKeyPanel() {
 }
 
 function AdminWorkspace({ page }: { page: string }) {
+  // v1.4 wireframe W04 (Agen & Koneksi — external API integrations)
+  // and W05 (Keamanan & Cadangan — backup/audit restore/logs) are
+  // deferred until the backing services (Hermes gateway, backup drill,
+  // restore tooling) pass operational verification on the home server.
+  // When they are ready, add new nav items and workspace cases here.
+  // See docs/ux/v1.4/20_SYSTEM_ADMIN.md and UX_ACCEPTANCE DoD #3.
+  // W03 Model AI tab is the existing AI & Agents legacy pane;
+  // a standalone usage/pemakaian tab is deferred until the billing
+  // dashboard is wired to the ai_usage_logs aggregate.
+
   if (page === 'home') return <LegacyPane target="Overview" />;
   if (page === 'admissions') return <WorkspaceTabs tabs={[
     { id: 'applicants', label: 'Pendaftar', view: <LegacyPane target="Admissions" /> },
