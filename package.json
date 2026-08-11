@@ -15,7 +15,7 @@
     "build:api":"npm run build --workspace @pmmi/api",
     "build:worker":"npm run build --workspace @pmmi/worker",
     "build:whatsapp":"npm run build --workspace @pmmi/whatsapp",
-    "test:api":"node --import tsx --test apps/api/src/blueprint.test.ts && node --import tsx --test apps/api/src/completion.test.ts && node --import tsx --test apps/api/src/services/ai-keys.test.ts",
+    "test:api":"node --import tsx --test apps/api/src/blueprint.test.ts && node --import tsx --test apps/api/src/completion.test.ts && node --import tsx --test apps/api/src/services/ai-keys.test.ts && node --import tsx --test apps/api/src/api-keys.integration.test.ts",
     "test:worker":"npm test --workspace @pmmi/worker",
     "validate:ui":"node scripts/validate-ui-contract.mjs",
     "db:migrate":"npm run migrate --workspace @pmmi/db"
