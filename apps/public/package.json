@@ -1,0 +1,6 @@
+{
+  "name":"@pmmi/public","private":true,"version":"0.1.0","type":"module",
+  "scripts":{"dev":"vite --host 0.0.0.0 --port 3003","build":"vite build","preview":"vite preview --host 0.0.0.0 --port 3003"},
+  "dependencies":{"@vitejs/plugin-react":"^5.0.0","vite":"^6.2.0","typescript":"~5.8.2","react":"^19.1.1","react-dom":"^19.1.1","react-router-dom":"^7.9.2"},
+  "devDependencies":{"@types/react":"^19.0.0","@types/react-dom":"^19.0.0"}
+}
