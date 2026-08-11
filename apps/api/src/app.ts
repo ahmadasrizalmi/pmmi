@@ -5,6 +5,7 @@ import { config } from './config.js';
 import { registerAuthRoutes } from './routes/auth.js';
 import { registerUserRoutes } from './routes/users.js';
 import { registerApplicantRoutes } from './routes/applicant.js';
+import { registerApplicantAdminRoutes } from './routes/applicant-admin.js';
 import { registerAdmissionRoutes } from './routes/admissions.js';
 import { registerAcademicRoutes } from './routes/academic.js';
 import { registerAcademicExtraRoutes } from './routes/academic-extra.js';
@@ -27,6 +28,7 @@ export async function buildApp() {
   await registerAuthRoutes(app);
   await registerUserRoutes(app);
   await registerAdminExtraRoutes(app);
+  await registerApplicantAdminRoutes(app);
   await registerCatalogRoutes(app);
   await registerApplicantRoutes(app);
   await registerAdmissionRoutes(app);
