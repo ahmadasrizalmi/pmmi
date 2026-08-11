@@ -85,11 +85,19 @@ jobs:
       - name: Build role dashboard
         run: npm run build:dashboard
 
+      - name: Build WhatsApp Baileys sidecar
+        run: npm run build:whatsapp
+
+      - name: Validate mounted frontend and operator surfaces
+        run: npm run validate:ui
+
       - name: Validate operational scripts
         run: bash -n infra/scripts/backup.sh infra/scripts/restore.sh infra/scripts/health-check.sh infra/scripts/ops-monitor.sh
 
       - name: Validate Docker Compose
-        run: docker compose --env-file infra/docker/.env.example -f infra/docker/compose.yml config >/dev/null
+        run: |
+          docker compose --env-file infra/docker/.env.example -f infra/docker/compose.yml config >/dev/null
+          docker compose --profile baileys --env-file infra/docker/.env.example -f infra/docker/compose.yml config >/dev/null
 
       - name: Build production images
         run: |
@@ -97,3 +105,4 @@ jobs:
           docker build -f infra/docker/Dockerfile.worker -t pmmi-worker:ci .
           docker build --build-arg VITE_API_URL=http://localhost:3001 -f infra/docker/Dockerfile.web -t pmmi-web:ci .
           docker build --build-arg VITE_API_URL=http://localhost:3001 -f infra/docker/Dockerfile.dashboard -t pmmi-dashboard:ci .
+          docker build -f infra/docker/Dockerfile.whatsapp -t pmmi-whatsapp:ci .
