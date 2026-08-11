@@ -1,40 +1,89 @@
 # PMMI Digital Campus UX
 
-> **Canonical review target: UX v1.2.**
+> **Canonical review target: Simplified UX v1.3.**
 >
-> The original v1 files in this PR are **superseded**. They are retained only as historical drafts and must not be used to implement the frontend.
+> v1.0, v1.1 and v1.2 are retained only as historical design/architecture drafts. **Do not implement their user-facing surfaces directly.** v1.3 keeps the required backend capabilities but deliberately simplifies what pondok users see.
 
-UX v1.2 was rewritten after studying:
+## Why v1.3
 
-- the actual PMMI calon-santri biodata form;
-- the PMMI two-track academic structure;
-- the real pondok staffing model (Pimpinan, Staff, Ustadz, Santri, technical Admin Web);
-- the official Hermes Agent profile/SOUL/messaging/configuration model.
+The earlier specs were still too technical for daily pondok use. v1.3 locks these corrections:
 
-## Canonical v1.2 documents
+- no AI Chat / AI Playground as a core Santri feature;
+- **Agent Key** belongs to Hermes Agent and is generated/installed automatically by PMMI;
+- **Developer Key** is a separate credential for project/coding and may be copied by its owner;
+- System Admin remains powerful but uses human-language pages rather than an IT-console-shaped sidebar;
+- each panel has only 4-6 main menus; detail screens are opened from lists/cards instead of appearing as sidebar items;
+- Staff Pondok only sees modules matching their assigned duties;
+- Ustadz only sees subjects/classes they teach;
+- Pimpinan sees pondok summaries and approvals, never platform secrets.
 
-1. [Core, PMMI sources, actor model, public foundation](./v1.2/00_CORE_AND_ACTORS.md)
-2. [Public, Applicant & Shared surfaces](./v1.2/05_PUBLIC_APPLICANT_SHARED.md)
-3. [System Admin & Pimpinan](./v1.2/10_SYSTEM_ADMIN_AND_LEADERSHIP.md)
-4. [Staff Pondok by capability](./v1.2/20_STAFF_PONDOK.md)
-5. [Ustadz & Santri](./v1.2/30_USTADZ_AND_SANTRI.md)
-6. [LLM API Access & 7-step Hermes Agent pipeline](./v1.2/40_AI_API_AND_HERMES.md)
-7. [Backend impact & CRUD rules](./v1.2/50_BACKEND_IMPACT_AND_CRUD_RULES.md)
+## Canonical v1.3 documents
 
-## Locked actor separation
+1. [v1.3 overview, panel counts and design rules](./v1.3/README.md)
+2. [Public & Applicant](./v1.3/10_PUBLIC_APPLICANT.md)
+3. [System Admin](./v1.3/20_SYSTEM_ADMIN.md)
+4. [Pimpinan](./v1.3/30_PIMPINAN.md)
+5. [Staff Pondok](./v1.3/40_STAFF_PONDOK.md)
+6. [Ustadz](./v1.3/50_USTADZ.md)
+7. [Santri](./v1.3/60_SANTRI.md)
+8. [CRUD, Agent Key, Developer Key and frontend definition of done](./v1.3/70_CRUD_AGENT_KEYS.md)
 
-- `/system/*` — **SYSTEM_ADMIN / Admin Web**: platform IAM, AI Gateway, LLM API keys, Hermes runtime, integrations, security, audit, backup/ops.
-- `/leadership/*` — **PIMPINAN**: cross-unit reports and sensitive approvals; never platform/provider secrets.
-- `/office/*` — **STAFF Pondok**: menus assembled from capabilities such as admissions, finance, kesantrian, sarpras/peminjaman, general administration.
-- `/ustadz/*` — **USTADZ Pengampu**: teaching-assignment scoped; examples supplied by pondok include Fotografi, Videografi, Programmer, Tahsin, and UK.
-- `/santri/*` — **SANTRI**: learning, submission, portfolio/certificates, AI Playground, LLM API access, Hermes Agent.
-- `/daftar/*` — Applicant admission flow.
+## Panel size
 
-One user may hold more than one role/capability. The current single enum `ADMIN/USTADZ/SANTRI` is therefore an implementation gap, not the target UX authorization model.
+| Panel | Main menus | Page-level surfaces |
+|---|---:|---:|
+| Public / Applicant | 4 | 7 |
+| System Admin | 6 | 9 |
+| Pimpinan | 6 | 6 |
+| Staff Pondok | max 6 | 16 |
+| Ustadz | 5 | 8 |
+| Santri | 5 | 10 |
 
-## Admission correction
+**Total: 56 page-level surfaces.** The page count is intentionally larger than the menu count because detail/edit/review pages are contextual screens, not sidebar clutter.
 
-The initial `/daftar` flow follows the actual biodata form groups:
+## Actor separation
+
+- `/system/*` — **System Admin / Admin Web**: users/access, AI & API, agent support, connections, security/activity, backup/system health.
+- `/pimpinan/*` — **Pimpinan**: pondok summary, admissions, santri, finance, academic and reports/approvals.
+- `/staff/*` — **Staff Pondok**: task-based modules for admissions, finance, kesantrian, equipment lending and general administration. A staff member only sees assigned modules.
+- `/ustadz/*` — **Ustadz Pengampu**: dashboard, assigned classes, tasks/grades, materials and own agents.
+- `/santri/*` — **Santri**: today, learning, works, agents and account. Developer API is a contextual page for eligible users, not a main menu.
+- `/daftar/*` — Applicant admission flow based on the real PMMI biodata form.
+
+## AI credential model
+
+### Agent Key
+
+- generated automatically when the agent setup reaches **Pilih AI**;
+- dedicated to that Hermes Agent;
+- installed by PMMI into the agent profile/configuration;
+- not copied manually by Santri/Ustadz;
+- can be rotated/revoked by the platform according to policy.
+
+### Developer Key
+
+- created from **API untuk Proyek**;
+- used by a user's own coding/application project;
+- Base URL: `https://ai.pondokmultimedia.id/v1`;
+- secret is shown only when created/rotated;
+- never reused as the Hermes Agent credential.
+
+## Simplified Hermes setup
+
+The user-facing wizard is six steps:
+
+1. **Nama & Tujuan**
+2. **Kepribadian** — produces `SOUL.md` behind the scenes
+3. **Hubungkan Chat** — Telegram or WhatsApp
+4. **Pilih AI** — PMMI creates and installs the Agent Key automatically
+5. **Tempat Kerja** — workspace and home-channel setup
+6. **Cek & Aktifkan** — PMMI runs connection, AI, workspace and safety checks
+
+The backend may still use detailed provisioning states, secrets, jobs and runtime checks. Those implementation details do not belong in the normal Santri/Ustadz interface.
+
+## Admission correction retained
+
+The initial `/daftar` wizard follows the actual PMMI form groups:
 
 1. Identitas
 2. Keluarga
@@ -45,44 +94,17 @@ The initial `/daftar` flow follows the actual biodata form groups:
 7. Motivasi
 8. Dokumen
 
-The supplied form does **not** contain a Jalur selection. UX v1.2 therefore does not force Konten Kreator/Programmer choice during initial biodata; placement is a separate controlled process until pondok policy defines the exact moment.
+The supplied source form does **not** ask the applicant to choose Jalur, so v1.3 does not invent a Jalur selector in the initial biodata flow.
 
-## LLM access correction
+## Frontend implementation gate
 
-Eligible Santri/Ustadz receive:
+The production frontend is not UX-complete until:
 
-- Base URL `https://ai.pondokmultimedia.id/v1`;
-- personal API-key create/rotate/revoke flow;
-- allowed models, rate policy, expiry, last-used and credit information;
-- copyable cURL, Python/OpenAI SDK and JavaScript examples.
-
-System Admin has a separate LLM key management page for USER, AGENT and SERVICE keys. Full secrets are shown once only; existing keys are never revealable.
-
-## Hermes correction
-
-`Create Agent` is a seven-step pipeline:
-
-1. Agent/profile name and template
-2. `SOUL.md` role/personality
-3. Telegram or WhatsApp connection
-4. PMMI LLM model + dedicated AGENT API key
-5. workspace / `terminal.cwd` + `/sethome` verification
-6. tools & safety policy
-7. review, provision, activate
-
-An agent cannot become READY until every required step validates. Start/Stop/Restart/Archive operate through runtime jobs after setup.
-
-## CRUD rule
-
-Every v1.2 page documents entities and create/read/update/delete semantics. Important records use archive/cancel/reversal/state-transition rather than silent hard delete. Examples: posted finance records, AI ledger, audit events, lifecycle decisions, agent history and assets with loan history.
-
-## UX implementation gate
-
-Frontend implementation is not complete until:
-
-- technical Admin and pondok operational portals are separated;
-- capability and teaching-assignment authorization is enforced by backend;
-- no normal user enters UUID or sees raw JSON;
-- LLM API-key and Hermes setup flows are real, not placeholder buttons;
-- browser E2E includes both allowed CRUD and forbidden-role paths;
-- Santri mobile and Ustadz tablet flows are tested.
+- the v1.3 panel/menu hierarchy is implemented;
+- System Admin and pondok operational roles are separated;
+- Staff menus are capability-based and Ustadz access is teaching-assignment scoped;
+- there is no core Santri AI-chat page;
+- Agent Key and Developer Key are separate in both UX and backend;
+- agent setup uses the simplified six-step wizard while still enforcing all backend checks;
+- no normal user enters UUID or sees raw JSON/internal job data;
+- browser E2E covers both permitted workflows and forbidden-role paths.
