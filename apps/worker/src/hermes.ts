@@ -39,6 +39,7 @@ export async function handleHermesEvent(event:OutboxEvent){
     if(!profile||profile.status==='ARCHIVED')return;
     if(!workerConfig.HERMES_ENABLED)throw new Error('Hermes runtime is disabled');
     try{
+      if(action==='start')await runCommand([workerConfig.HERMES_BIN,'-p',profile.profile_name,'gateway','install']); // idempotent: ensures the user systemd unit exists before start
       await runCommand(action==='start'?hermesStartCommand(profile.profile_name):hermesStopCommand(profile.profile_name));
       await workerTx(async client=>{await client.query(`update hermes_profiles set status=$1,last_error=null,updated_at=now() where id=$2`,[action==='start'?'RUNNING':'STOPPED',profile.id]);});
     }catch(error:any){const message=String(error?.stderr||error?.message||error).slice(0,2000);await workerTx(async client=>{await client.query(`update hermes_profiles set last_error=$1,updated_at=now() where id=$2`,[message,profile.id]);await client.query(`insert into ops_events(kind,severity,source,message,data) values($1,'ERROR','worker',$2,$3::jsonb)`,[`hermes.${action}_failed`,message,JSON.stringify({profileId:profile.id})]);});throw error;}
