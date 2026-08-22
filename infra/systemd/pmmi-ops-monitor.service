@@ -7,12 +7,13 @@ Wants=network-online.target
 Type=oneshot
 User=pmmi
 Group=pmmi
-EnvironmentFile=/srv/pmmi/.env
+EnvironmentFile=/home/pmmiserver/pmmi/.env
 Environment=API_URL=http://127.0.0.1:3001
-Environment=DISK_PATH=/srv/pmmi
-ExecStart=/srv/pmmi/current/infra/scripts/ops-monitor.sh
+Environment=DISK_PATH=/
+Environment=NINE_ROUTER_URL=http://127.0.0.1:20128
+ExecStart=/home/pmmiserver/pmmi/current/infra/scripts/ops-monitor.sh
 NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
 ProtectHome=true
-ReadOnlyPaths=/srv/pmmi/current
+ReadOnlyPaths=/home/pmmiserver/pmmi/current

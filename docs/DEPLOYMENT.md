@@ -26,8 +26,9 @@ Deploy produksi aktual (home server):
   current/        # repository checkout (git pull --ff-only di sini)
   .env            # production secrets; never commit
   nginx/          # mounted ke nginx-proxy container (/etc/nginx/conf.d)
-  backups/        # output backup (lihat infra/scripts/backup.sh)
 ```
+
+Output backup: `/data/pmmi-backups/` (disk HDD terpisah 465G di `/data`, tempat postgres/minio data juga berada).
 
 Hermes workspace root (`HERMES_WORKSPACE_ROOT`, blueprint default `/srv/pmmi/workspaces`) dan state Hermes dibuat saat fase G4 (Hermes). PostgreSQL (compose `/opt/ai-server/docker-compose.yml`, container `postgres`), Redis, MinIO (`docker run`, volume `/data/minio`) dan Immich adalah service host terpisah di luar compose PMMI.
 
@@ -162,13 +163,17 @@ Install contoh systemd `pmmi-backup.service` + `.timer`. Script melakukan Postgr
 Backup baru dianggap operationally verified setelah restore drill sukses ke database/bucket non-production:
 
 ```bash
+# Restore drill Wajib diarahkan ke DB/bucket NON-PRODUCTION (jangan ke DATABASE_URL produksi).
+# Contoh: DB scratch `pmmi_restore_drill` di postgres yang sama + MinIO throwaway.
 CONFIRM_RESTORE=YES \
-DATABASE_URL='postgresql://...' \
-MINIO_ENDPOINT='http://...' \
+DATABASE_URL='postgresql://...@100.127.181.108:5432/pmmi_restore_drill' \
+MINIO_ENDPOINT='http://127.0.0.1:9100' \   # MinIO throwaway, BUKAN 100.127.181.108:9000
 MINIO_ACCESS_KEY='...' \
 MINIO_SECRET_KEY='...' \
-infra/scripts/restore.sh /srv/pmmi/backups/<timestamp>
+infra/scripts/restore.sh /data/pmmi-backups/<timestamp>
 ```
+
+Bukti drill tercatat di `docs/evidence/` (G5).
 
 Backup Baileys auth volume juga perlu dilindungi sebagai secret; jangan commit atau menaruhnya di storage publik.
 

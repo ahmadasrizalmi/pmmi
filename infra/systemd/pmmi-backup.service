@@ -7,9 +7,9 @@ Wants=network-online.target
 Type=oneshot
 User=pmmi
 Group=pmmi
-EnvironmentFile=/srv/pmmi/.env
-Environment=BACKUP_ROOT=/srv/pmmi/backups
-ExecStart=/srv/pmmi/current/infra/scripts/backup.sh
+EnvironmentFile=/home/pmmiserver/pmmi/.env
+Environment=BACKUP_ROOT=/data/pmmi-backups
+ExecStart=/home/pmmiserver/pmmi/current/infra/scripts/backup.sh
 Nice=10
 IOSchedulingClass=best-effort
 IOSchedulingPriority=7

@@ -3,7 +3,7 @@ set -Eeuo pipefail
 
 : "${API_URL:=http://127.0.0.1:3001}"
 : "${OPS_TOKEN:?OPS_TOKEN is required}"
-: "${DISK_PATH:=/srv/pmmi}"
+: "${DISK_PATH:=/}"
 : "${DISK_WARN_PERCENT:=85}"
 : "${DISK_CRITICAL_PERCENT:=95}"
 : "${NINE_ROUTER_URL:=http://127.0.0.1:20128}"

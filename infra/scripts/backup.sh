@@ -2,7 +2,7 @@
 set -Eeuo pipefail
 
 : "${DATABASE_URL:?DATABASE_URL is required}"
-: "${BACKUP_ROOT:=/srv/pmmi/backups}"
+: "${BACKUP_ROOT:=/data/pmmi-backups}"
 : "${MINIO_ENDPOINT:?MINIO_ENDPOINT is required}"
 : "${MINIO_ACCESS_KEY:?MINIO_ACCESS_KEY is required}"
 : "${MINIO_SECRET_KEY:?MINIO_SECRET_KEY is required}"
