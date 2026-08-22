@@ -279,7 +279,7 @@ Before those deployment checks, the exact status is **repository implementation 
 - **EMAIL (Resend) LIVE + delivery nyata terverifikasi**: key user + domain `pondokmultimedia.id` terhubung; `NOTIFICATION_TRANSPORT=live`. Direct send ke inbox nyata sukses (id `ab61ad4f-…`); jalur worker → `EMAIL\|SENT` dengan `provider_message_id` Resend nyata (`5cd1e22b-…`) untuk notifikasi ops.
 - **Webhook Resend SELESAI**: dibuat user di dashboard + `whsec_…` diset; uji Svix-signed (`email.delivered` → `DELIVERED` + delivered_at teramati; `email.bounced` → `FAILED`) dan **event nyata Resend diproses** (`e9bed5da… FAILED|email.bounced`). Route live + guarded (401 unsigned/415 non-JSON).
 - **TELEGRAM**: bot `@pmmimunzalan_bot` dikonfigurasi (token + username + `TELEGRAM_WEBHOOK_SECRET`; webhook bot set ke `https://ai.pondokmultimedia.id/v1/integrations/telegram/webhook`); link-token flow siap — menunggu linking chat user + uji delivery nyata.
-- **TELEGRAM/WHATSAPP blocked**: tanpa token bot / nomor WA — dibutuhkan user.
+- **TELEGRAM LIVE**: bot `@pmmimunzalan_bot` (webhook set), chat `964290305` ter-link (admin), delivery nyata `TELEGRAM\|SENT` (message_id 3) via ops event. **WHATSAPP blocked**: tanpa nomor WA — dibutuhkan user.
 - In-App tetap LIVE (source of truth); TELEGRAM tercatat `SKIPPED` (channel not linked) — truthful.
 - Temuan awal `NOTIFICATION_TRANSPORT=mock` → sudah diganti `live` (sebelumnya delivery EMAIL SENT tanpa kiriman nyata).
 
