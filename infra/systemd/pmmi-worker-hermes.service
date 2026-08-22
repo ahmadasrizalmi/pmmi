@@ -7,11 +7,14 @@ Wants=network-online.target
 Type=simple
 User=pmmi
 Group=pmmi
-WorkingDirectory=/srv/pmmi/current
-EnvironmentFile=/srv/pmmi/.env
+WorkingDirectory=/home/pmmiserver/pmmi/current
+EnvironmentFile=/home/pmmiserver/pmmi/.env
 Environment=HERMES_ENABLED=true
 Environment=HOME=/srv/pmmi/hermes-home
-ExecStart=/usr/bin/node /srv/pmmi/current/apps/worker/dist/index.js
+Environment=PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin
+# Node 22 dibundel oleh instalasi Hermes (venv uv). Worker dist wajib di-build
+# di host sebelum unit ini di-enable: npm ci && npm run build:worker
+ExecStart=/srv/pmmi/hermes-home/.hermes/node/bin/node /home/pmmiserver/pmmi/current/apps/worker/dist/index.js
 Restart=on-failure
 RestartSec=5s
 
@@ -20,9 +23,9 @@ RestartSec=5s
 NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
-ProtectHome=true
+# ProtectHome=true TIDAK dipakai — worker dir berada di bawah /home/pmmiserver
 ReadWritePaths=/srv/pmmi/workspaces /srv/pmmi/hermes-home
-ReadOnlyPaths=/srv/pmmi/current
+ReadOnlyPaths=/home/pmmiserver/pmmi/current
 RestrictSUIDSGID=true
 LockPersonality=true
 RestrictRealtime=true

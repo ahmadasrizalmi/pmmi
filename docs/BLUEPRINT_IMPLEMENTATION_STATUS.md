@@ -256,6 +256,14 @@ Before those deployment checks, the exact status is **repository implementation 
 - Perbaikan bug di `ops-monitor.sh` (JSON printf + auth 9Router) dan `backup.sh` (run_id `tail`→`head`); unit systemd pakai path aktual (tanpa `ProtectHome`, yang menyebabkan 203/EXEC di bawah `/home`).
 - `NINE_ROUTER_URL` dipisah konteks: container → `http://pmmi-9router:20128` (hardcode compose), host scripts → `http://127.0.0.1:20128` (env).
 
+## 2026-08-22 — G4 Hermes: instalasi + template + worker SELESAI; **isolation test GAGAL** (bukti: `docs/evidence/G4.md`)
+
+- Hermes Agent v0.20.5 diinstal untuk service account `pmmi` (`/srv/pmmi/hermes-home/.hermes/hermes-agent`, via installer resmi; `hermes --version` OK). Instalasi lama milik user (`~/.hermes`, v0.20.0) tidak disentuh.
+- `/srv/pmmi/workspaces` + `/srv/pmmi/hermes-home` (owner pmmi) + `loginctl enable-linger pmmi`; stub `hermes` → `/usr/local/bin/hermes`.
+- Template profile `pmmi-template` dibuat (provider custom → 9Router `127.0.0.1:20128/v1`, model `ds/deepseek-v4-pro`); worker unit `pmmi-worker-hermes.service` diperbarui ke path aktual (di-install, disabled).
+- **Adversarial isolation test GAGAL pada isolasi workspace antar-santri**: agent (sebagai pmmi) berhasil membaca marker workspace "santri lain" verbatim (`SECRET-SANTRI-A-DATA-9f3k`); `/etc/shadow`, `.env` produksi, home user, docker socket = DENIED (OS perms).
+- Sesuai aturan keras: `HERMES_ENABLED` tetap `false`; eksekusi agent belum diizinkan. Blocker: sandbox per-agent (DynamicUser/container per gateway) harus dirancang + lolos test ulang sebelum enable.
+
 ## G1 — TLS/domain: BLOCKED (dependensi user)
 
 DNS 3 domain mengarah ke Cloudflare (172.67.148.107 / 104.21.87.234, proxied) dan Cloudflare mengembalikan **HTTP 530** (origin tidak terjangkau). IP publik server `182.8.226.154` tidak merespons port 80/443 dari luar (timeout) — port forwarding router belum aktif atau ISP CGNAT. Diperlukan dari user: A record DNS ke `182.8.226.154` (atau Cloudflare Tunnel), dan port 80/443 diteruskan; setelah itu nginx TLS + certbot/Cloudflare origin cert dapat dikerjakan (vhost sudah siap di `nginx/default.conf` arah `pondokmultimedia.id→8080, app→8081, ai→3001`).
