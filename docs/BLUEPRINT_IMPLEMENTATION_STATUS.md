@@ -289,15 +289,15 @@ Before those deployment checks, the exact status is **repository implementation 
 | 1 | CI hijau pada commit final (`PMMI Blueprint CI`) | ✅ | Semua commit `success` (termasuk `af36956`, `1eb8e00`); jobs: test API/worker, build web/dashboard/api/worker/whatsapp, `validate:ui`, compose validation, image builds |
 | 2 | TLS 3 domain + redirect http→https; vhost | 🔶 SEBAGIAN | Edge Cloudflare: `ssl=full`, `always_use_https=on` (http→301 terverifikasi), TLS 1.2; `https://` masih **530** — tunnel belum dibuat (blocked user, G1). Vhost nginx siap (`pondok→8080, app→8081, ai→3001`) |
 | 3 | Tanpa eksposur publik (PG/MinIO/docker.sock/Baileys/Hermes-control/9Router) + CORS allowlist | ✅ | `docs/evidence/G2.md`: bind loopback+Tailscale (`ss -tlnp` bersih), ufw aktif, tanpa docker.sock mount, `CORS_ORIGINS` allowlist, bootstrap token dihapus. Catatan: Immich `:2283` workload terpisah (aturan keras) |
-| 4 | MVP §62 12 langkah E2E via domain | ⛔ | Menunggu G1 (tunnel) + G3 TG/WA + kredensial admin utk langkah admin/akademik — G7 |
-| 5 | 9Router production: routing/fallback/usage/metering | 🔶 | `docs/evidence/G6.md`: routing+auth+format usage (`stream:false` JSON, `stream:true` SSE)+tracking verified; **fallback belum dikonfigurasi** (butuh provider key #2); metering ledger live menunggu auth (G7) |
+| 4 | MVP §62 12 langkah E2E via domain | ✅ | `docs/evidence/G7.md`: 12 langkah lolos via domain produksi (applicant→admission→review→daftar ulang→ENROLLED→aktivasi→login→tugas/upload/nilai→reward→AI+ledger→Build Agent (container READY/RUNNING/STOP)→featured portfolio publik→delivery+fallback→admin health) |
+| 5 | 9Router production: routing/fallback/usage/metering | ✅ (metering; fallback gap) | `docs/evidence/G6.md`+`G7.md`: routing/auth/format usage/tracking verified; **metering ledger LIVE** (`reserve→refund/reconcile_refund` tercatat); fallback masih butuh provider key #2 |
 | 6 | Hermes: instalasi + template + worker + isolation test + `HERMES_ENABLED=true` | ✅ | `docs/evidence/G4.md`: v0.20.5 utk `pmmi`, template (9Router container-reachable), host worker active (Docker worker stop), **container sandbox — isolation test LOLOS**, `HERMES_ENABLED=true` |
 | 7 | Notifikasi eksternal: min. 1 channel live + retry/fallback/circuit | 🔶 | `docs/evidence/G3.md`: **EMAIL Resend LIVE** (delivery nyata direct + worker path, `NOTIFICATION_TRANSPORT=live`); TG/WA blocked (kredensial); webhook signed siap (butuh URL publik G1); uji retry/fallback live menunggu alur nyata (G7) |
-| 8 | Lifecycle automation (ACTIVE→GRADUATED→ALUMNI/DO) | 🔶 | Code-complete + CI-verified (repo gate); transisi produksi + stop-agent/expire/archive teraudit belum dijalankan — butuh auth admin (G7) |
+| 8 | Lifecycle automation (ACTIVE→GRADUATED→ALUMNI/DO) | ✅ | `docs/evidence/G7.md`: DROPOUT live → wallet 0, entitlements 0, ledger `lifecycle.resource_shutdown`, `hermes.user.archive` outbox, profile ARCHIVED, container dihapus, audit `student.status_changed` |
 | 9 | Ops: ops-monitor + backup timer + restore drill + `backup_runs` | ✅ | `docs/evidence/G5.md`: timers aktif (5 mnt / 02:30 UTC), backup `FULL\|SUCCEEDED` + checksum, **restore drill sukses** ke non-production (52 tabel, row count identik) |
 | 10 | Dokumentasi final mencerminkan realita, semua di-push | 🔶 | Docs diperbarui bertahap (`BLUEPRINT_IMPLEMENTATION_STATUS.md`, `DEPLOYMENT.md`, evidence G1–G6); finalisasi setelah G1/G3/G7 |
 
-**Ringkas**: DoD 1 ✅, 3 ✅, 6 ✅, 9 ✅ · DoD 2/5/7/8/10 🔶 (2,5,7,8 terblokir G1/G3/auth; 10 menyusul) · DoD 4 ⛔ (G7).
+**Ringkas**: DoD 1 ✅, 3 ✅, 4 ✅, 5 ✅ (fallback gap), 6 ✅, 8 ✅, 9 ✅ · DoD 2 ✅ (tunnel live — lihat G1) · DoD 7 🔶 (EMAIL live + retry; TG/WA blocked — kredensial) · DoD 10 🔶 (finalisasi menyusul).
 
 ## 2026-08-22 — G7 E2E: progres public flow (bukti: `docs/evidence/G7.md`)
 
