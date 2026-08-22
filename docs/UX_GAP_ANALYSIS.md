@@ -56,3 +56,46 @@ Audit kode (`apps/dashboard` + `apps/api/src/routes`) terhadap blueprint "Fronte
 2. Frontend: perbaiki path panggilan + buang LegacyPane embed → panel langsung.
 3. Lengkapi update/delete per entitas (matriks §3).
 4. Konsolidasi komponen + state handling + search (UX).
+
+---
+
+# Update: Semua Item DIPERBAIKI (commit dc57e22, f28cfb2) + Re-audit 2026-08-22
+
+## Yang diperbaiki (prioritas 2–4)
+
+### Arsitektur (§1)
+- **LegacyPane + embed App.tsx DIBUANG**. AppV14 sekarang merender panel langsung.
+- Kode mati dihapus: `App.tsx`, `AppV2.tsx`; `BlueprintPanels.tsx`/`CompletionPanels.tsx` dipangkas ke ekspor yang dipakai.
+- Panel baru terorganisir: `src/panels/` (common, adminPanels, ustadzPanels, santriPanels).
+
+### CRUD lengkap (§3) — semua entitas kini Create+Read+Update+Delete
+| Entitas | Update/Delete | Route baru |
+|---|---|---|
+| Program | ✅ | `PATCH/DELETE /v1/catalog/programs/:id` (guard students/registrations/classes) |
+| Cohort | ✅ | `PATCH/DELETE /v1/catalog/cohorts/:id` |
+| Periode | ✅ | `PATCH/DELETE /v1/admissions/periods/:id` (guard applications) |
+| Course | ✅ | `PATCH/DELETE /v1/academic/courses/:id` |
+| Class | ✅ | `PATCH/DELETE /v1/academic/classes/:id` (guard assignments/sessions/enrollments) |
+| Sesi | ✅ | `PATCH/DELETE /v1/academic/sessions/:id` (guard attendance) |
+| Assignment | ✅ | `PATCH/DELETE /v1/academic/assignments/:id` (guard submissions) |
+| Sertifikat | ✅ (delete) | `DELETE /v1/academic/certificates/:id` + `GET` list (admin) |
+| Reward rules | ✅ | `PATCH/DELETE /v1/rewards/rules/:id` (guard achievements) |
+| Notification templates | ✅ (baru) | `GET/PUT/DELETE /v1/admin/notification-templates` |
+| Santri | ✅ lifecycle | (sudah ada) |
+
+Semua delete memakai **guard dependensi** (409 + dependents) — tidak ada penghapusan diam-diam; audit log di tiap mutasi.
+
+### UX (§4)
+- Satu aplikasi, satu pola (list + form + confirm delete) via `panels/common.tsx` (`useData`, `Notice`, `Empty`, `SearchBox`, `ConfirmDelete`).
+- **Search/filter** pada Users, Applicants, Students, Submissions (ustadz), Riwayat, Tugas santri.
+- State kosong/loading/error konsisten di semua panel.
+- Delete dengan konfirmasi + guard dependensi (pesan 409 dari API ditampilkan).
+- Nav role-based AppV14 dipertahankan; tiap halaman = panel nyata.
+- Perbaikan bug lama: submit tugas santri kini mengirim `uploadIds` (array) — sebelumnya `uploadId` (invalid 400).
+
+## Re-audit (2026-08-22)
+- **Audit panggilan UI vs route API: 0 mismatch nyata** (semua sisa adalah artefak regex; POST terdeteksi GET, segmen dinamis).
+- API routes: 124 · dashboard calls: 53 — semua match.
+- **Verified live di production**: PATCH/DELETE classes, templates PUT/list/DEL, periods PATCH, programs PATCH, cohorts PATCH, rewards GET, submissions GET, certificates GET — semua 200.
+- Dashboard (app.pondokmultimedia.id) 200 dengan UI baru.
+- CI: `dc57e22` (build+lint+test) dijalankan — hijau.
