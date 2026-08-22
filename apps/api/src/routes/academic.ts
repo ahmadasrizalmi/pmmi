@@ -169,7 +169,7 @@ export async function registerAcademicRoutes(app: FastifyInstance) {
     const {id}=request.params as {id:string};
     const parsed=classSchema.partial().safeParse(request.body);if(!parsed.success)return reply.code(400).send({error:'invalid payload',issues:parsed.error.flatten()});
     const d=parsed.data;
-    const result=await pool.query(`update classes set name=coalesce($1,name),teacher_user_id=coalesce($2,teacher_user_id),starts_at=coalesce($3,starts_at),ends_at=coalesce($4,ends_at),updated_at=now() where id=$5 returning *`,[d.name??null,d.teacherUserId??null,d.startsAt??null,d.endsAt??null,id]);
+    const result=await pool.query(`update classes set name=coalesce($1,name),teacher_user_id=coalesce($2,teacher_user_id),starts_at=coalesce($3,starts_at),ends_at=coalesce($4,ends_at) where id=$5 returning *`,[d.name??null,d.teacherUserId??null,d.startsAt??null,d.endsAt??null,id]);
     if(!result.rowCount)return reply.code(404).send({error:'class not found'});
     return result.rows[0];
   });

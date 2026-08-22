@@ -18,10 +18,13 @@ export async function registerUserRoutes(app:FastifyInstance){
 
   app.delete('/v1/admin/users/:id',async(request,reply)=>{const admin=await requireAuth(request,reply,['ADMIN']);if(!admin)return;const {id}=request.params as {id:string};
     if(id===admin.sub)return reply.code(400).send({error:'cannot delete own account'});
-    const refs=await pool.query(`select (select count(*) from notifications where user_id=$1) notifications,(select count(*) from submissions where student_user_id=$1) submissions,(select count(*) from enrollments where student_user_id=$1) enrollments,(select count(*) from ai_credit_wallets where user_id=$1) wallets,(select count(*) from students where user_id=$1) students,(select count(*) from hermes_profiles where user_id=$1) agents`,[id]);
+    const refs=await pool.query(`select (select count(*) from notifications where user_id=$1) notifications,(select count(*) from submissions where student_user_id=$1) submissions,(select count(*) from enrollments where student_user_id=$1) enrollments,(select count(*) from students where user_id=$1) students,(select count(*) from hermes_profiles where user_id=$1) agents`,[id]);
     const r=refs.rows[0] as Record<string,string>;
     if(Object.values(r).some(v=>Number(v)>0))return reply.code(409).send({error:'user has dependent records — deactivate instead (PATCH /active {isActive:false})',dependents:{...r}});
     const result=await withTransaction(async client=>{
+      await client.query(`delete from ai_credit_wallets where user_id=$1`,[id]);
+      await client.query(`delete from resource_entitlements where user_id=$1`,[id]);
+      await client.query(`delete from account_activation_tokens where user_id=$1`,[id]);
       const del=await client.query(`delete from users where id=$1 returning id`,[id]);
       if(!del.rowCount)return null;
       await writeAudit(client,admin.sub,'user.deleted','user',id);
