@@ -13,7 +13,7 @@ for cmd in pg_dump psql mc sha256sum; do command -v "$cmd" >/dev/null || { echo 
 ts="$(date -u +%Y%m%dT%H%M%SZ)"
 dir="${BACKUP_ROOT}/${ts}"
 mkdir -p "$dir/minio"
-run_id="$(psql "$DATABASE_URL" -Atc "insert into backup_runs(kind,status) values('FULL','RUNNING') returning id" | tail -n1)"
+run_id="$(psql "$DATABASE_URL" -Atc "insert into backup_runs(kind,status) values('FULL','RUNNING') returning id" | head -n1)"
 
 fail() {
   local code=$?
