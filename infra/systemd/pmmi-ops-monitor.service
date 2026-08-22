@@ -15,5 +15,5 @@ ExecStart=/home/pmmiserver/pmmi/current/infra/scripts/ops-monitor.sh
 NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
-ProtectHome=true
+# NOTE: ProtectHome=true TIDAK dipakai — script berada di bawah /home/pmmiserver
 ReadOnlyPaths=/home/pmmiserver/pmmi/current
