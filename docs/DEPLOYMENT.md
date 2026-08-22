@@ -19,27 +19,30 @@ Immich tetap service terpisah dan bukan PMMI primary object storage.
 
 ## Filesystem layout
 
+Deploy produksi aktual (home server):
+
 ```text
-/srv/pmmi/
-  current/        # repository checkout
+/home/pmmiserver/pmmi/
+  current/        # repository checkout (git pull --ff-only di sini)
   .env            # production secrets; never commit
-  workspaces/     # Hermes workspaces
-  hermes-home/    # PMMI-only Hermes state when host worker is enabled
-  backups/        # backup output; preferably HDD/off-host copy
+  nginx/          # mounted ke nginx-proxy container (/etc/nginx/conf.d)
+  backups/        # output backup (lihat infra/scripts/backup.sh)
 ```
+
+Hermes workspace root (`HERMES_WORKSPACE_ROOT`, blueprint default `/srv/pmmi/workspaces`) dan state Hermes dibuat saat fase G4 (Hermes). PostgreSQL (compose `/opt/ai-server/docker-compose.yml`, container `postgres`), Redis, MinIO (`docker run`, volume `/data/minio`) dan Immich adalah service host terpisah di luar compose PMMI.
 
 Gunakan SSD untuk app/runtime/DB hot data bila memungkinkan dan HDD untuk bulk/archive/backups. Jangan menganggap backup pada disk fisik yang sama sebagai satu-satunya salinan aman.
 
 ## Initial deployment
 
 ```bash
-cd /srv/pmmi/current
-cp infra/docker/.env.example /srv/pmmi/.env
-# edit /srv/pmmi/.env with real secrets/endpoints
+cd /home/pmmiserver/pmmi/current
+# .env berada di /home/pmmiserver/pmmi/.env (parent dir; compose TIDAK auto-load dari sana,
+# wajib --env-file). cp infra/docker/.env.example /home/pmmiserver/pmmi/.env lalu isi secrets.
 
-docker compose --env-file /srv/pmmi/.env -f infra/docker/compose.yml build
-docker compose --env-file /srv/pmmi/.env -f infra/docker/compose.yml up -d migrate
-docker compose --env-file /srv/pmmi/.env -f infra/docker/compose.yml up -d api web dashboard worker
+docker compose --env-file /home/pmmiserver/pmmi/.env -f infra/docker/compose.yml -p docker build
+docker compose --env-file /home/pmmiserver/pmmi/.env -f infra/docker/compose.yml -p docker up -d migrate
+docker compose --env-file /home/pmmiserver/pmmi/.env -f infra/docker/compose.yml -p docker up -d api web dashboard worker
 
 API_URL=http://127.0.0.1:3001 \
 WEB_URL=http://127.0.0.1:8080 \
@@ -55,7 +58,20 @@ Reverse proxy mapping:
 
 Public website memakai BrowserRouter dan SPA fallback sudah disediakan. Jangan expose PostgreSQL, MinIO admin, Docker socket, Baileys service port, atau host-management ports ke public internet.
 
-Set `CORS_ORIGINS=https://pondokmultimedia.id,https://app.pondokmultimedia.id` (tambahkan origin lain hanya bila memang dibutuhkan). Konfigurasikan MinIO bucket CORS secara terpisah agar presigned upload hanya dapat dipakai dari origin PMMI yang diperlukan.
+## Private service exposure (verifikasi G2, 2026-08-22)
+
+PostgreSQL/Redis (compose `/opt/ai-server`), MinIO (API `:9000` + console `:9001`) dan 9Router di-publish hanya ke `127.0.0.1` + IP Tailscale `100.127.181.108`. Container PMMI menjangkau service host lewat IP Tailscale:
+
+| Endpoint | Nilai produksi | Alasan |
+|---|---|---|
+| `DATABASE_URL` | `postgresql://…@100.127.181.108:5432/pmmi` | container → host: DNAT Docker hanya match dst spesifik; `host.docker.internal` (172.17.0.1) tidak ter-DNAT untuk bind loopback-only |
+| `MINIO_ENDPOINT` | `http://100.127.181.108:9000` | sama |
+| `NINE_ROUTER_URL` | `http://pmmi-9router:20128` | 9Router satu network docker dengan API; `host.docker.internal:20128` tak terjangkau dari container (DNAT 127.0.0.1-only) — bug lama yang sudah diperbaiki |
+| `BOOTSTRAP_ADMIN_TOKEN` | kosong (dihapus setelah admin dibuat) | bootstrap sekali pakai |
+
+Firewall `ufw` aktif: `default deny incoming`; allow `22/tcp`, `80/tcp`, `443/tcp`, dan `in on tailscale0`; `DEFAULT_FORWARD_POLICY="ACCEPT"` agar networking Docker tetap berfungsi. `ss -tlnp` tidak menunjukkan `5432/6379/9000/9001/3010` publik (loopback/Tailscale only).
+
+Set `CORS_ORIGINS=https://pondokmultimedia.id,https://app.pondokmultimedia.id` (tambahkan origin lain hanya bila memang dibutuhkan). Konfigurasikan MinIO bucket CORS secara terpisah agar presigned upload hanya dapat dipakai dari origin PMMI yang diperlukan. Setelah G1 (TLS/domain) selesai, arahkan `MINIO_ENDPOINT`/presigned URL ke domain publik (mis. `minio.pondokmultimedia.id` via nginx) agar upload/download browser publik berfungsi.
 
 ## Bootstrap admin
 
@@ -159,19 +175,19 @@ Backup Baileys auth volume juga perlu dilindungi sebagai secret; jangan commit a
 ## Upgrade
 
 ```bash
-cd /srv/pmmi/current
+cd /home/pmmiserver/pmmi/current
 git pull --ff-only
 
-docker compose --env-file /srv/pmmi/.env -f infra/docker/compose.yml build
-docker compose --env-file /srv/pmmi/.env -f infra/docker/compose.yml up -d migrate
-docker compose --env-file /srv/pmmi/.env -f infra/docker/compose.yml up -d api web dashboard
+docker compose --env-file /home/pmmiserver/pmmi/.env -f infra/docker/compose.yml -p docker build
+docker compose --env-file /home/pmmiserver/pmmi/.env -f infra/docker/compose.yml -p docker up -d migrate
+docker compose --env-file /home/pmmiserver/pmmi/.env -f infra/docker/compose.yml -p docker up -d api web dashboard worker
 
 # Start exactly one worker strategy:
 # A) Docker worker while Hermes is disabled, OR
 # B) hardened host/custom worker with shared Hermes runtime.
 
 # If Baileys is used:
-docker compose --profile baileys --env-file /srv/pmmi/.env -f infra/docker/compose.yml up -d whatsapp
+docker compose --profile baileys --env-file /home/pmmiserver/pmmi/.env -f infra/docker/compose.yml -p docker up -d whatsapp
 
 infra/scripts/health-check.sh
 ```

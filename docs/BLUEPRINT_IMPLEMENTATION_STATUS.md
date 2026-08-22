@@ -226,3 +226,25 @@ These require the physical server / real credentials:
 - end-to-end smoke test through production domains
 
 Before those deployment checks, the exact status is **repository implementation 100% + CI-verified, production deployment not yet verified**.
+
+---
+
+# Production deployment status (log per loop iterasi, lihat `docs/evidence/`)
+
+> Snapshot awal 2026-08-22 di `GOAL.md` §3. Status ini dicatat saat perubahan selesai diverifikasi; bukan klaim.
+
+## 2026-08-22 — G2 Exposure restriction SELESAI (bukti: `docs/evidence/G2.md`)
+
+- PostgreSQL/Redis (`/opt/ai-server/docker-compose.yml`) dan MinIO (`docker run`) hanya bind `127.0.0.1` + Tailscale `100.127.181.108`; `ss -tlnp` tidak menunjukkan `5432/6379/9000/9001/3010` publik.
+- Kredensial MinIO dirotasi (sebelumnya default `minioadmin`); nilai baru hanya di env server.
+- Env produksi: `DATABASE_URL`/`MINIO_ENDPOINT` → IP Tailscale; `NINE_ROUTER_URL=http://pmmi-9router:20128` (DNS docker) — memperbaiki bug latent: API tidak bisa menjangkau 9Router (`host.docker.internal:20128` refused dari container).
+- `BOOTSTRAP_ADMIN_TOKEN` dihapus dari env setelah admin `admin@pmmi.local` dibuat; `POST /v1/auth/bootstrap-admin` → 403.
+- ufw aktif: deny incoming; allow 22/80/443 + tailscale0; `DEFAULT_FORWARD_POLICY=ACCEPT` (kompat Docker). Tidak ada container mounting `/var/run/docker.sock`.
+- Worker (`docker-worker-1`) dihidupkan kembali (mati ~10 hari, error koneksi PostgreSQL saat startup); log `PMMI worker started`, outbox backlog 0.
+- `CORS_ORIGINS=https://pondokmultimedia.id,https://app.pondokmultimedia.id` (allowlist produksi).
+- Verifikasi: `health/ready` = `{postgres:true,minio:true}`; api→9Router `200` + `ds/deepseek-v4-pro`; api healthy; web :80 `200`.
+- Catatan: `0.0.0.0:2283` (Immich) tetap bind publik — workload terpisah, dibiarkan sesuai aturan keras; ufw memblokir akses non-tailscale.
+
+## G1 — TLS/domain: BLOCKED (dependensi user)
+
+DNS 3 domain mengarah ke Cloudflare (172.67.148.107 / 104.21.87.234, proxied) dan Cloudflare mengembalikan **HTTP 530** (origin tidak terjangkau). IP publik server `182.8.226.154` tidak merespons port 80/443 dari luar (timeout) — port forwarding router belum aktif atau ISP CGNAT. Diperlukan dari user: A record DNS ke `182.8.226.154` (atau Cloudflare Tunnel), dan port 80/443 diteruskan; setelah itu nginx TLS + certbot/Cloudflare origin cert dapat dikerjakan (vhost sudah siap di `nginx/default.conf` arah `pondokmultimedia.id→8080, app→8081, ai→3001`).
