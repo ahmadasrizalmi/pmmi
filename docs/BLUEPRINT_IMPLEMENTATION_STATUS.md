@@ -242,7 +242,8 @@ Before those deployment checks, the exact status is **repository implementation 
 - ufw aktif: deny incoming; allow 22/80/443 + tailscale0; `DEFAULT_FORWARD_POLICY=ACCEPT` (kompat Docker). Tidak ada container mounting `/var/run/docker.sock`.
 - Worker (`docker-worker-1`) dihidupkan kembali (mati ~10 hari, error koneksi PostgreSQL saat startup); log `PMMI worker started`, outbox backlog 0.
 - `CORS_ORIGINS=https://pondokmultimedia.id,https://app.pondokmultimedia.id` (allowlist produksi).
-- Verifikasi: `health/ready` = `{postgres:true,minio:true}`; api→9Router `200` + `ds/deepseek-v4-pro`; api healthy; web :80 `200`.
+- Verifikasi: `health/ready` = `{postgres:true,minio:true}`; api→9Router `200` + `ds/deepseek-v4-pro`; api healthy; web :80 `200`; `infra/scripts/health-check.sh` → `PMMI health checks passed`.
+- **Repo server diperbaiki**: `/home/pmmiserver/pmmi/current` adalah dump tanpa commit (CRLF, origin lama kedaluwarsa) — diganti clone resmi `ahmadasrizalmi/pmmi` (commit `e36d00f`) + `.gitattributes` `*.sh text eol=lf` (bug runtime `pipefail\r`); konten identik modulo CR; backup di `current.bak-20260822`.
 - Catatan: `0.0.0.0:2283` (Immich) tetap bind publik — workload terpisah, dibiarkan sesuai aturan keras; ufw memblokir akses non-tailscale.
 
 ## G1 — TLS/domain: BLOCKED (dependensi user)
