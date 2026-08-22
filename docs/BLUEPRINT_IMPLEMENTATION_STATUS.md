@@ -305,6 +305,12 @@ Before those deployment checks, the exact status is **repository implementation 
 - **Retry/backoff terminal teramati live**: WHATSAPP `FAILED` setelah 5 attempt (provider disabled) — mekanisme retry/backoff DoD #7 bekerja.
 - Test application `4abb3cae-ce6c-4132-99c6-bf5663f79272` siap untuk lanjutan E2E. Langkah admin + domain publik: blocked (auth admin + G1).
 
+## 2026-08-22 — Addendum verifikasi live (DoD 2/3/9)
+
+- **Redirect http→https**: `http://pondokmultimedia.id` → `301 Location: https://pondokmultimedia.id/` (edge Cloudflare `always_use_https`).
+- **CORS allowlist ditegakkan live**: `Origin: https://evil.example.com` → tanpa header `access-control-allow-origin` (browser diblokir); `Origin: https://app.pondokmultimedia.id` → `access-control-allow-origin: https://app.pondokmultimedia.id` + credentials.
+- **Ops loop otonom**: `pmmi-ops-monitor.timer` jalan tiap 5 menit (last 33s lalu), `pmmi-backup.timer` terjadwal 02:34 UTC; `ops_events` merekam event (termasuk `backup.failed CRITICAL` dari run pra-fix dan `9router.unreachable` pra-fix — mekanisme alert bekerja).
+
 ## G1 — TLS/domain: SEBAGIAN, menunggu pembuatan tunnel (bukti: `docs/evidence/G1.md`)
 
 - Diagnosis: DNS proxied Cloudflare, origin 530; IP publik `182.8.226.154` timeout port 80/443 (port-forward tidak aktif / kemungkinan CGNAT) → jalur A-record+port-forward tidak bisa; **keputusan: Cloudflare Tunnel**.
