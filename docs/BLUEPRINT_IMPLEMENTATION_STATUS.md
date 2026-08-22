@@ -264,6 +264,13 @@ Before those deployment checks, the exact status is **repository implementation 
 - **Adversarial isolation test GAGAL pada isolasi workspace antar-santri**: agent (sebagai pmmi) berhasil membaca marker workspace "santri lain" verbatim (`SECRET-SANTRI-A-DATA-9f3k`); `/etc/shadow`, `.env` produksi, home user, docker socket = DENIED (OS perms).
 - Sesuai aturan keras: `HERMES_ENABLED` tetap `false`; eksekusi agent belum diizinkan. Blocker: sandbox per-agent (DynamicUser/container per gateway) harus dirancang + lolos test ulang sebelum enable.
 
+## 2026-08-22 — G6 9Router: sebagian SELESAI (bukti: `docs/evidence/G6.md`)
+
+- Routing + auth verified: `ds/deepseek-v4-pro` → deepseek (apikey, priority 1, aktif); tanpa key → 401; hanya loopback.
+- Format usage verified: `stream:false` → JSON bersih + `usage{total_tokens,...}` (format yang diparse gateway; konfirmasi fix commit 768cf7c); `stream:true` → SSE chunk. Usage tracking 9Router aktif (`usageHistory`/`usageDaily`).
+- **Gap: fallback TIDAK dikonfigurasi** (providerNodes/proxyPools/combos = 0) — butuh provider key kedua (user) untuk fallback + uji failover.
+- Metering ledger produksi (reserve→settle/reconcile/refund) menunggu user terautentikasi — dituntaskan G7 (E2E); logika sudah CI-verified.
+
 ## G1 — TLS/domain: BLOCKED (dependensi user)
 
 DNS 3 domain mengarah ke Cloudflare (172.67.148.107 / 104.21.87.234, proxied) dan Cloudflare mengembalikan **HTTP 530** (origin tidak terjangkau). IP publik server `182.8.226.154` tidak merespons port 80/443 dari luar (timeout) — port forwarding router belum aktif atau ISP CGNAT. Diperlukan dari user: A record DNS ke `182.8.226.154` (atau Cloudflare Tunnel), dan port 80/443 diteruskan; setelah itu nginx TLS + certbot/Cloudflare origin cert dapat dikerjakan (vhost sudah siap di `nginx/default.conf` arah `pondokmultimedia.id→8080, app→8081, ai→3001`).
