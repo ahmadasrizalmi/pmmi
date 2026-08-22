@@ -271,6 +271,13 @@ Before those deployment checks, the exact status is **repository implementation 
 - **Gap: fallback TIDAK dikonfigurasi** (providerNodes/proxyPools/combos = 0) — butuh provider key kedua (user) untuk fallback + uji failover.
 - Metering ledger produksi (reserve→settle/reconcile/refund) menunggu user terautentikasi — dituntaskan G7 (E2E); logika sudah CI-verified.
 
+## 2026-08-22 — G3 channel eksternal: BLOCKED (kredensial), in-app terverifikasi live (bukti: `docs/evidence/G3.md`)
+
+- Tidak ada kredensial channel di env (`RESEND_API_KEY`, `TELEGRAM_*`, `META_*`, `BAILEYS_*`, `WHATSAPP_PROVIDER=disabled`) → EMAIL/TELEGRAM/WHATSAPP blocked.
+- **In-App channel LIVE terverifikasi**: notifikasi ops hari ini (ops-monitor events) → `IN_APP|SENT` nyata (3 baris 2026-08-22); alur outbox→materialize→delivery bekerja.
+- Temuan: `NOTIFICATION_TRANSPORT=mock` → delivery EMAIL tercatat SENT tapi tidak ada pengiriman nyata (sesuai DEPLOYMENT.md sementara; flip ke `live` setelah channel dikonfigurasi).
+- Dibutuhkan user: Resend API key + DNS verify; token bot Telegram; nomor WA khusus PMMI.
+
 ## G1 — TLS/domain: SEBAGIAN, menunggu pembuatan tunnel (bukti: `docs/evidence/G1.md`)
 
 - Diagnosis: DNS proxied Cloudflare, origin 530; IP publik `182.8.226.154` timeout port 80/443 (port-forward tidak aktif / kemungkinan CGNAT) → jalur A-record+port-forward tidak bisa; **keputusan: Cloudflare Tunnel**.
