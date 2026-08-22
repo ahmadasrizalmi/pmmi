@@ -224,6 +224,7 @@ function AdminApiKeyPanel() {
       {error && <div className="notice error">{error}</div>}
       {secret && <div className="notice secret-notice"><strong>Secret baru</strong><div className="copy-row"><code className="secret-code">{secret}</code><CopyButton value={secret} /></div></div>}
       <div className="card compact-card"><h3>Buat key untuk pengguna</h3>
+        <p className="muted">Hermes Agent memakai Agent Key terpisah — key di sini untuk Developer Key pengguna (auth PMMI Gateway).</p>
         <div className="formRow"><select value={userId} onChange={e => setUserId(e.target.value)}><option value="">Pilih pengguna…</option>{users.map(u => <option key={String(u.id)} value={String(u.id)}>{String(u.full_name ?? u.email)}</option>)}</select><input value={name} onChange={e => setName(e.target.value)} placeholder="Nama key" /><button type="button" className="btn" disabled={!userId || name.trim().length < 2} onClick={() => void create()}>Buat</button></div>
       </div>
       <div className="card compact-card"><h3>Key terdaftar</h3>{keys.map(item => <div className="key-row" key={item.id}><div><strong>{item.full_name ?? item.email ?? item.name}</strong><div className="muted">{item.kind} · {item.key_prefix} · {item.revoked_at ? 'Nonaktif' : 'Aktif'}</div></div><button type="button" className="btn danger" disabled={Boolean(item.revoked_at)} onClick={() => void revoke(item.id)}>Cabut</button></div>)}{keys.length === 0 && <p className="muted">Belum ada key.</p>}</div>
