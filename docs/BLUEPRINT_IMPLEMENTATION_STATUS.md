@@ -271,6 +271,9 @@ Before those deployment checks, the exact status is **repository implementation 
 - **Gap: fallback TIDAK dikonfigurasi** (providerNodes/proxyPools/combos = 0) — butuh provider key kedua (user) untuk fallback + uji failover.
 - Metering ledger produksi (reserve→settle/reconcile/refund) menunggu user terautentikasi — dituntaskan G7 (E2E); logika sudah CI-verified.
 
-## G1 — TLS/domain: BLOCKED (dependensi user)
+## G1 — TLS/domain: SEBAGIAN, menunggu pembuatan tunnel (bukti: `docs/evidence/G1.md`)
 
-DNS 3 domain mengarah ke Cloudflare (172.67.148.107 / 104.21.87.234, proxied) dan Cloudflare mengembalikan **HTTP 530** (origin tidak terjangkau). IP publik server `182.8.226.154` tidak merespons port 80/443 dari luar (timeout) — port forwarding router belum aktif atau ISP CGNAT. Diperlukan dari user: A record DNS ke `182.8.226.154` (atau Cloudflare Tunnel), dan port 80/443 diteruskan; setelah itu nginx TLS + certbot/Cloudflare origin cert dapat dikerjakan (vhost sudah siap di `nginx/default.conf` arah `pondokmultimedia.id→8080, app→8081, ai→3001`).
+- Diagnosis: DNS proxied Cloudflare, origin 530; IP publik `182.8.226.154` timeout port 80/443 (port-forward tidak aktif / kemungkinan CGNAT) → jalur A-record+port-forward tidak bisa; **keputusan: Cloudflare Tunnel**.
+- Selesai via token Cloudflare user: `ssl=full`, `always_use_https=on` (redirect http→https di edge), `min_tls_version=1.2`; `cloudflared 2026.8.2` terinstal di server + `/etc/cloudflared/config.yml` siap (ingress semua hostname → nginx `localhost:80`).
+- Token user tidak punya scope Tunnel:Create/DNS:Edit (hanya Zone settings + Tunnel read) → **tunnel harus dibuat user** (dashboard Zero Trust, nama `pmmi-prod`, 3 public hostname → `http://localhost:80`) lalu `cloudflared service install <TUNNEL_TOKEN>` di server; atau user berikan token dengan scope Tunnel:Edit + DNS:Edit.
+- Kondisi sukses G1: `curl -I https://` ketiga domain OK + redirect http→https (edge sudah disiapkan).
