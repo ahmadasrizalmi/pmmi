@@ -271,12 +271,13 @@ Before those deployment checks, the exact status is **repository implementation 
 - **Gap: fallback TIDAK dikonfigurasi** (providerNodes/proxyPools/combos = 0) — butuh provider key kedua (user) untuk fallback + uji failover.
 - Metering ledger produksi (reserve→settle/reconcile/refund) menunggu user terautentikasi — dituntaskan G7 (E2E); logika sudah CI-verified.
 
-## 2026-08-22 — G3 channel eksternal: BLOCKED (kredensial), in-app terverifikasi live (bukti: `docs/evidence/G3.md`)
+## 2026-08-22 — G3 channel eksternal: EMAIL **LIVE**, TELEGRAM/WHATSAPP blocked (bukti: `docs/evidence/G3.md`)
 
-- Tidak ada kredensial channel di env (`RESEND_API_KEY`, `TELEGRAM_*`, `META_*`, `BAILEYS_*`, `WHATSAPP_PROVIDER=disabled`) → EMAIL/TELEGRAM/WHATSAPP blocked.
-- **In-App channel LIVE terverifikasi**: notifikasi ops hari ini (ops-monitor events) → `IN_APP|SENT` nyata (3 baris 2026-08-22); alur outbox→materialize→delivery bekerja.
-- Temuan: `NOTIFICATION_TRANSPORT=mock` → delivery EMAIL tercatat SENT tapi tidak ada pengiriman nyata (sesuai DEPLOYMENT.md sementara; flip ke `live` setelah channel dikonfigurasi).
-- Dibutuhkan user: Resend API key + DNS verify; token bot Telegram; nomor WA khusus PMMI.
+- **EMAIL (Resend) LIVE + delivery nyata terverifikasi**: key user + domain `pondokmultimedia.id` terhubung; `NOTIFICATION_TRANSPORT=live`. Direct send ke inbox nyata sukses (id `ab61ad4f-…`); jalur worker → `EMAIL\|SENT` dengan `provider_message_id` Resend nyata (`5cd1e22b-…`) untuk notifikasi ops.
+- `RESEND_WEBHOOK_SECRET` diset (placeholder; ganti `whsec_…` dari dashboard saat webhook endpoint dibuat setelah G1). Route `POST /v1/integrations/resend/webhook` (Svix-signed) siap di API.
+- **TELEGRAM/WHATSAPP blocked**: tanpa token bot / nomor WA — dibutuhkan user.
+- In-App tetap LIVE (source of truth); TELEGRAM tercatat `SKIPPED` (channel not linked) — truthful.
+- Temuan awal `NOTIFICATION_TRANSPORT=mock` → sudah diganti `live` (sebelumnya delivery EMAIL SENT tanpa kiriman nyata).
 
 ## G1 — TLS/domain: SEBAGIAN, menunggu pembuatan tunnel (bukti: `docs/evidence/G1.md`)
 
