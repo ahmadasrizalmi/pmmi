@@ -13,7 +13,7 @@ post_event() {
   curl -fsS -X POST "$API_URL/v1/ops/events" \
     -H "x-ops-token: $OPS_TOKEN" \
     -H 'content-type: application/json' \
-    --data "$(printf '{\"kind\":%s,\"severity\":%s,\"source\":%s,\"message\":%s,\"data\":%s}' "$(printf '%s' "$kind" | jq -Rs .)" "$(printf '%s' "$severity" | jq -Rs .)" "$(printf '%s' "$source" | jq -Rs .)" "$(printf '%s' "$message" | jq -Rs .)" "$data")" >/dev/null
+    --data "$(printf '{"kind":%s,"severity":%s,"source":%s,"message":%s,"data":%s}' "$(printf '%s' "$kind" | jq -Rs .)" "$(printf '%s' "$severity" | jq -Rs .)" "$(printf '%s' "$source" | jq -Rs .)" "$(printf '%s' "$message" | jq -Rs .)" "$data")" >/dev/null
 }
 
 for cmd in curl jq df; do command -v "$cmd" >/dev/null || { echo "Missing command: $cmd" >&2; exit 1; }; done
@@ -30,7 +30,9 @@ elif [[ "$usage" -ge "$DISK_WARN_PERCENT" ]]; then
   post_event storage.warning WARN ops-monitor "PMMI disk usage is ${usage}%" "{\"path\":$(printf '%s' "$DISK_PATH" | jq -Rs .),\"usagePercent\":${usage}}"
 fi
 
-if ! curl -fsS --max-time 5 "$NINE_ROUTER_URL/v1/models" >/dev/null; then
+router_auth=()
+[[ -n "${NINE_ROUTER_API_KEY:-}" ]] && router_auth=(-H "Authorization: Bearer ${NINE_ROUTER_API_KEY}")
+if ! curl -fsS --max-time 5 "${router_auth[@]}" "$NINE_ROUTER_URL/v1/models" >/dev/null 2>&1; then
   post_event 9router.unreachable ERROR ops-monitor "9Router is unreachable" "{\"url\":$(printf '%s' "$NINE_ROUTER_URL" | jq -Rs .)}"
 fi
 
