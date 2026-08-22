@@ -246,6 +246,16 @@ Before those deployment checks, the exact status is **repository implementation 
 - **Repo server diperbaiki**: `/home/pmmiserver/pmmi/current` adalah dump tanpa commit (CRLF, origin lama kedaluwarsa) — diganti clone resmi `ahmadasrizalmi/pmmi` (commit `e36d00f`) + `.gitattributes` `*.sh text eol=lf` (bug runtime `pipefail\r`); konten identik modulo CR; backup di `current.bak-20260822`.
 - Catatan: `0.0.0.0:2283` (Immich) tetap bind publik — workload terpisah, dibiarkan sesuai aturan keras; ufw memblokir akses non-tailscale.
 
+## 2026-08-22 — G5 Ops SELESAI (bukti: `docs/evidence/G5.md`)
+
+- HDD 465.8G ditemukan di `/data` (sdb1) — audit `lsblk` selesai; backup → `/data/pmmi-backups`.
+- User system `pmmi` dibuat (juga untuk G4 Hermes); `/srv/pmmi` dibuat (workspace root).
+- Tools host: `postgresql-client` (pg_dump/psql 18.6), `mc`. Env file → group `pmmi` 640.
+- Systemd aktif: `pmmi-ops-monitor.timer` (5 menit) + `pmmi-backup.timer` (02:30 UTC); keduanya `oneshot` sukses terverifikasi.
+- Backup `FULL|SUCCEEDED` tercatat di `backup_runs` + checksum + artefak di `/data/pmmi-backups/`; **restore drill sukses** ke DB scratch `pmmi_restore_drill` + MinIO throwaway (checksum OK, 52 tabel, row count identik: users 4/4, outbox_events 32/32) — produksi tidak tersentuh.
+- Perbaikan bug di `ops-monitor.sh` (JSON printf + auth 9Router) dan `backup.sh` (run_id `tail`→`head`); unit systemd pakai path aktual (tanpa `ProtectHome`, yang menyebabkan 203/EXEC di bawah `/home`).
+- `NINE_ROUTER_URL` dipisah konteks: container → `http://pmmi-9router:20128` (hardcode compose), host scripts → `http://127.0.0.1:20128` (env).
+
 ## G1 — TLS/domain: BLOCKED (dependensi user)
 
 DNS 3 domain mengarah ke Cloudflare (172.67.148.107 / 104.21.87.234, proxied) dan Cloudflare mengembalikan **HTTP 530** (origin tidak terjangkau). IP publik server `182.8.226.154` tidak merespons port 80/443 dari luar (timeout) — port forwarding router belum aktif atau ISP CGNAT. Diperlukan dari user: A record DNS ke `182.8.226.154` (atau Cloudflare Tunnel), dan port 80/443 diteruskan; setelah itu nginx TLS + certbot/Cloudflare origin cert dapat dikerjakan (vhost sudah siap di `nginx/default.conf` arah `pondokmultimedia.id→8080, app→8081, ai→3001`).
