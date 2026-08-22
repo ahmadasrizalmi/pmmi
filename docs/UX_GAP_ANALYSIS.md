@@ -9,17 +9,17 @@ Audit kode (`apps/dashboard` + `apps/api/src/routes`) terhadap blueprint "Fronte
 - Kode mati/duplikat: `App.tsx`, `AppV2.tsx`, `BlueprintPanels.tsx`, `CompletionPanels.tsx` (sebagian), panel-panel tersebar (AdminEnrollmentPanel, AdminPortfolioPanel, dst).
 - **Rekomendasi**: satukan jadi satu aplikasi; hapus layer embed; tiap halaman = komponen langsung.
 
-## 2. CRUD yang RUSAK (panggilan dashboard ≠ route API → 404 di UI)
+## 2. CRUD yang RUSAK — **DIPERBAIKI (commit bc620f8, 5972278)**
 
-| Aksi UI | Dipanggil | Route API sebenarnya | Efek |
-|---|---|---|---|
-| Hapus user | `DELETE /v1/admin/users/:id` | **tidak ada** | 404 |
-| Toggle aktif user | `PATCH .../users/:id/toggle-active` | `PATCH .../users/:id/active` | 404 |
-| Hapus kelas | `DELETE /v1/academic/classes/:id` | **tidak ada** | 404 |
-| Edit kelas | `PATCH /v1/academic/classes/:id` | **tidak ada** | 404 |
-| List submission | `GET /v1/academic/submissions` | **tidak ada** | 404 |
-| List rewards | `GET /v1/rewards` | `/v1/rewards/rules`, `/v1/rewards/my` | 404 |
-| Grant kredit AI | `POST /v1/ai/grant` | `POST /v1/ai/credits/grant` | 404 |
+| Aksi UI | Perbaikan | Status live |
+|---|---|---|
+| Hapus user | route baru `DELETE /v1/admin/users/:id` (guard dependensi, hapus wallet/entitlements/tokens) | ✅ 200 / 409-guard |
+| Toggle aktif user | frontend → `PATCH .../users/:id/active` `{isActive}` | ✅ |
+| Hapus kelas | route baru `DELETE /v1/academic/classes/:id` (guard assignments/sessions/enrollments) | ✅ 200 / 409-guard |
+| Edit kelas | route baru `PATCH /v1/academic/classes/:id` (name/teacher/times) | ✅ |
+| List submission | route baru `GET /v1/academic/submissions` (ustadz-scoped / admin) | ✅ 1 item |
+| List rewards | route baru `GET /v1/rewards` `{rules, grants}` | ✅ |
+| Grant kredit AI | frontend → `POST /v1/ai/credits/grant` | ✅ |
 
 ## 3. CRUD yang ADA tapi tidak lengkap (per entitas)
 
