@@ -299,6 +299,12 @@ Before those deployment checks, the exact status is **repository implementation 
 
 **Ringkas**: DoD 1 ✅, 3 ✅, 6 ✅, 9 ✅ · DoD 2/5/7/8/10 🔶 (2,5,7,8 terblokir G1/G3/auth; 10 menyusul) · DoD 4 ⛔ (G7).
 
+## 2026-08-22 — G7 E2E: progres public flow (bukti: `docs/evidence/G7.md`)
+
+- Langkah 1–2 MVP (applicant → submission → notifikasi admission) **terverifikasi live tanpa auth**: `POST /v1/admissions/applications` → `SUBMITTED` + applicant token; outbox `admission.submitted` processed; notifikasi "Pendaftaran PMMI diterima" → **EMAIL Resend SENT nyata** (`e37076a1-…`); portal `/daftar/:id` + `self` 200; halaman publik 200.
+- **Retry/backoff terminal teramati live**: WHATSAPP `FAILED` setelah 5 attempt (provider disabled) — mekanisme retry/backoff DoD #7 bekerja.
+- Test application `4abb3cae-ce6c-4132-99c6-bf5663f79272` siap untuk lanjutan E2E. Langkah admin + domain publik: blocked (auth admin + G1).
+
 ## G1 — TLS/domain: SEBAGIAN, menunggu pembuatan tunnel (bukti: `docs/evidence/G1.md`)
 
 - Diagnosis: DNS proxied Cloudflare, origin 530; IP publik `182.8.226.154` timeout port 80/443 (port-forward tidak aktif / kemungkinan CGNAT) → jalur A-record+port-forward tidak bisa; **keputusan: Cloudflare Tunnel**.
