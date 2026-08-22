@@ -204,12 +204,6 @@ export async function registerAcademicRoutes(app: FastifyInstance) {
     return {items:result.rows};
   });
 
-  app.get('/v1/academic/my/certificates', async (request, reply) => {
-    const session=await requireAuth(request,reply,['SANTRI']); if(!session)return;
-    const result=await pool.query(`select c.id,c.title,c.certificate_no,c.issued_at,c.metadata from certificates c where c.student_user_id=$1 order by c.issued_at desc`,[session.sub]);
-    return {items:result.rows};
-  });
-
   app.post('/v1/academic/certificates', async (request, reply)=>{
     const session=await requireAuth(request,reply,['ADMIN']); if(!session)return;
     const parsed=certificateSchema.safeParse(request.body); if(!parsed.success)return reply.code(400).send({error:'invalid payload',issues:parsed.error.flatten()});
