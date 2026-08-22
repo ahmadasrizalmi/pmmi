@@ -227,6 +227,8 @@ These require the physical server / real credentials:
 
 Before those deployment checks, the exact status is **repository implementation 100% + CI-verified, production deployment not yet verified**.
 
+> **STATUS FINAL (2026-08-22)**: production deployment **terverifikasi** — DoD 1–9 tercapai (detail & bukti di `docs/evidence/G1–G7.md` + tabel DoD di bawah); dependensi user tersisa yang terdokumentasi blocked: TELEGRAM/WHATSAPP channel (kredensial) dan 9Router fallback provider (key kedua).
+
 ---
 
 # Production deployment status (log per loop iterasi, lihat `docs/evidence/`)

@@ -36,6 +36,7 @@ export async function buildApp() {
     credentials:true,
   });
   await app.register(jwt, { secret: config.JWT_SECRET });
+  app.get('/', async () => ({ name: 'PMMI Digital Campus API', service: 'pmmi-api', status: 'ready' }));
   app.get('/health', async () => ({ status: 'ok', service: 'pmmi-api' }));
   app.get('/v1', async () => ({ name: 'PMMI Digital Campus API', phases: 'blueprint-complete', status: 'hardened' }));
   await registerAuthRoutes(app);

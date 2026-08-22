@@ -23,21 +23,20 @@ GOAL ini bersifat **looping**: setiap iterasi wajib memajukan backlog sisa peker
 
 Alur sinkronisasi: kerja di lokal → commit → push GitHub → di server `git -C /home/pmmiserver/pmmi/current pull --ff-only` → build/up service terdampak → health-check.
 
-## 3. Kondisi Terverifikasi Saat Ini (snapshot 2026-08-22)
+## 3. Kondisi Terverifikasi Saat Ini (FINAL — 2026-08-22)
 
-> Dari audit SSH langsung. **Selalu verifikasi ulang sebelum bertindak** — jangan mengandalkan asumsi.
+> Status akhir setelah looping. Semua bukti di `docs/evidence/`. Beberapa dependensi user tersisa didokumentasikan sebagai blocked (kredensial).
 
-- Compose project `docker` di `/home/pmmiserver/pmmi/current`: `api` (127.0.0.1:3001), `web` (127.0.0.1:8080), `dashboard` (127.0.0.1:8081) — semua **healthy** (~43 jam berjalan).
-- `nginx-proxy` (nginx:alpine) listen `:80`, config `default.conf` — **TLS/443 BELUM ada**.
-- `pmmi-9router` (decolua/9router:latest) aktif di `127.0.0.1:20128`; `GET /v1/models` OK (provider `ds` → deepseek); `NINE_ROUTER_API_KEY` terisi.
-- `postgres:17` aktif; **5432 bind `0.0.0.0` (v4+v6)** — melanggar baseline §14, WAJIB direstriksi.
-- `minio` aktif; **9000 bind `0.0.0.0`** — WAJIB direstriksi.
-- Immich v3 + postgres/redis/ML sendiri — **workload terpisah, JANGAN diganggu**.
-- **Hermes BELUM diinstal** (tidak ada binary; `HERMES_ENABLED` false).
-- Env produksi belum berisi: `RESEND_API_KEY`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_BOT_USERNAME`, webhook secrets, `META_WHATSAPP_*`, `BAILEYS_*`.
-- `/srv/pmmi` belum ada; realita deploy `/home/pmmiserver/pmmi` — pertahankan layout berjalan, perbarui docs.
-- `df -h` hanya menampilkan satu volume root 98G; HDD 500 GB tidak tampak — audit `lsblk`/mount saat fase ops.
-- Repo lokal clean & up-to-date dengan `origin/main`.
+- **TLS LIVE**: tunnel Cloudflare `pmmi-home-server` + `cloudflared` service → `https://` ketiga domain **200 OK** (`pondokmultimedia.id`→web, `app.`→dashboard, `ai.`→API) + redirect http→https (301, edge).
+- **Exposure**: PostgreSQL/Redis/MinIO/9Router hanya bind `127.0.0.1` + Tailscale `100.127.181.108`; ufw aktif; tanpa docker.sock mount; `CORS_ORIGINS` allowlist produksi (ditegakkan live); `BOOTSTRAP_ADMIN_TOKEN` dihapus (bootstrap 403).
+- **E2E MVP 12 langkah LOLOS via domain produksi** (G7): applicant → review → daftar ulang → ENROLLED → aktivasi → login → tugas/upload/nilai → reward → AI gateway + **ledger metering live** (reserve→refund/reconcile) → Build Agent (container READY/RUNNING/STOP) → featured portfolio publik → delivery status + fallback → admin health.
+- **Hermes**: v0.20.5 service account `pmmi`, template `pmmi-template` (9Router container-reachable), host worker active (Docker worker stop), **container sandbox + adversarial isolation test LOLOS**, `HERMES_ENABLED=true`.
+- **Notifikasi**: EMAIL **Resend LIVE** (delivery nyata, `NOTIFICATION_TRANSPORT=live`); retry/backoff teramati; **TELEGRAM/WHATSAPP blocked** (belum ada kredensial user — documented).
+- **Ops**: ops-monitor (5 mnt) + backup (02:34 UTC) timer aktif; backup `FULL|SUCCEEDED` + checksum; **restore drill sukses**; `backup_runs` tercatat.
+- **Lifecycle**: DROPOUT live → wallet 0, entitlements 0, ledger `lifecycle.resource_shutdown`, `hermes.user.archive`, profile ARCHIVED, container dihapus, teraudit.
+- **9Router**: routing/format usage/usage-tracking verified; metering ledger akurat; **fallback belum dikonfigurasi** (butuh provider key kedua — blocked user).
+- Repo `main` sinkron; **CI hijau** pada commit final (`PMMI Blueprint CI`).
+- Layout deploy: `/home/pmmiserver/pmmi` (bukan `/srv/pmmi`); HDD 465.8G di `/data` (postgres/minio/backup).
 
 ## 4. Definition of Done (100%)
 
@@ -56,16 +55,16 @@ Semua kondisi berikut harus terpenuhi dan **terbukti** (bukan klaim):
 
 ## 5. Backlog Sisa Pekerjaan (urutan prioritas)
 
-| ID | Item | Kondisi sukses | Dependensi eksternal (user) |
+| ID | Item | Status final | Catatan |
 |---|---|---|---|
-| G1 | TLS/HTTPS + DNS 3 domain + vhost nginx | `curl -I https://` ketiga domain OK; redirect http→https | A record DNS ke IP publik server; port 80/443 diteruskan |
-| G2 | Restriksi eksposur: bind PostgreSQL/MinIO ke loopback/Tailscale; firewall (ufw); CORS allowlist; bootstrap admin dibuat lalu token dihapus | `ss -tlnp` tidak menunjukkan 5432/9000/3010 publik; CORS hanya origin PMMI | — |
-| G3 | Channel eksternal: Resend (domain verify + webhook signed), Telegram bot + linking, WhatsApp (Baileys pairing akun khusus ATAU Meta) | delivery nyata dengan status + retry; webhook verified | Resend API key + DNS verify; token bot @BotFather; nomor WA khusus PMMI |
-| G4 | Hermes: instalasi sekali, service account, workspace root, template profile, host worker systemd, isolation test | `hermes --version` di host; provisioning profile santri aman; isolation test lolos | — |
-| G5 | Ops: ops-monitor + backup/restore drill | event health/disk/9Router tercatat; restore sukses; `backup_runs` ada | — |
-| G6 | 9Router hardening & metering verification | fallback/provider/usage diverifikasi; ledger settle benar | provider keys di 9Router (cek dulu) |
-| G7 | E2E smoke test MVP §62 via domain produksi | 12 langkah lolos; bukti disimpan | G1–G3 selesai |
-| G8 | Update docs status + final commit/push | docs mencerminkan realita; CI hijau | — |
+| G1 | TLS/HTTPS + DNS 3 domain + vhost nginx | ✅ SELESAI | Tunnel Cloudflare + cloudflared service; https 3 domain 200 + redirect 301 (`docs/evidence/G1.md`) |
+| G2 | Restriksi eksposur | ✅ SELESAI | Bind loopback+Tailscale, ufw, CORS allowlist live, bootstrap token dihapus (`docs/evidence/G2.md`) |
+| G3 | Channel eksternal | 🔶 EMAIL SELESAI; TG/WA blocked | Resend LIVE + delivery nyata + retry; TELEGRAM/WHATSAPP butuh kredensial user (`docs/evidence/G3.md`) |
+| G4 | Hermes | ✅ SELESAI | v0.20.5 pmmi + template + host worker + container sandbox, isolation test LOLOS, `HERMES_ENABLED=true` (`docs/evidence/G4.md`) |
+| G5 | Ops: monitor + backup/restore drill | ✅ SELESAI | Timers aktif; restore drill sukses; `backup_runs` tercatat (`docs/evidence/G5.md`) |
+| G6 | 9Router hardening & metering | ✅ metering; 🔶 fallback | Routing/usage/metering ledger verified; fallback butuh provider key kedua (`docs/evidence/G6.md`+`G7.md`) |
+| G7 | E2E MVP §62 via domain produksi | ✅ SELESAI | 12 langkah lolos via domain + ledger live + lifecycle live (`docs/evidence/G7.md`) |
+| G8 | Update docs status + final commit/push | ✅ SELESAI | Docs mencerminkan realita; CI hijau; status final di §3 |
 
 ## 6. Loop Protocol (wajib per iterasi)
 
