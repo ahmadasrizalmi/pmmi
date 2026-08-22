@@ -280,6 +280,25 @@ Before those deployment checks, the exact status is **repository implementation 
 - In-App tetap LIVE (source of truth); TELEGRAM tercatat `SKIPPED` (channel not linked) — truthful.
 - Temuan awal `NOTIFICATION_TRANSPORT=mock` → sudah diganti `live` (sebelumnya delivery EMAIL SENT tanpa kiriman nyata).
 
+---
+
+# Definisi of Done — peta status per kriteria (snapshot 2026-08-22)
+
+| # | DoD criterion | Status | Bukti |
+|---|---|---|---|
+| 1 | CI hijau pada commit final (`PMMI Blueprint CI`) | ✅ | Semua commit `success` (termasuk `af36956`, `1eb8e00`); jobs: test API/worker, build web/dashboard/api/worker/whatsapp, `validate:ui`, compose validation, image builds |
+| 2 | TLS 3 domain + redirect http→https; vhost | 🔶 SEBAGIAN | Edge Cloudflare: `ssl=full`, `always_use_https=on` (http→301 terverifikasi), TLS 1.2; `https://` masih **530** — tunnel belum dibuat (blocked user, G1). Vhost nginx siap (`pondok→8080, app→8081, ai→3001`) |
+| 3 | Tanpa eksposur publik (PG/MinIO/docker.sock/Baileys/Hermes-control/9Router) + CORS allowlist | ✅ | `docs/evidence/G2.md`: bind loopback+Tailscale (`ss -tlnp` bersih), ufw aktif, tanpa docker.sock mount, `CORS_ORIGINS` allowlist, bootstrap token dihapus. Catatan: Immich `:2283` workload terpisah (aturan keras) |
+| 4 | MVP §62 12 langkah E2E via domain | ⛔ | Menunggu G1 (tunnel) + G3 TG/WA + kredensial admin utk langkah admin/akademik — G7 |
+| 5 | 9Router production: routing/fallback/usage/metering | 🔶 | `docs/evidence/G6.md`: routing+auth+format usage (`stream:false` JSON, `stream:true` SSE)+tracking verified; **fallback belum dikonfigurasi** (butuh provider key #2); metering ledger live menunggu auth (G7) |
+| 6 | Hermes: instalasi + template + worker + isolation test + `HERMES_ENABLED=true` | ✅ | `docs/evidence/G4.md`: v0.20.5 utk `pmmi`, template (9Router container-reachable), host worker active (Docker worker stop), **container sandbox — isolation test LOLOS**, `HERMES_ENABLED=true` |
+| 7 | Notifikasi eksternal: min. 1 channel live + retry/fallback/circuit | 🔶 | `docs/evidence/G3.md`: **EMAIL Resend LIVE** (delivery nyata direct + worker path, `NOTIFICATION_TRANSPORT=live`); TG/WA blocked (kredensial); webhook signed siap (butuh URL publik G1); uji retry/fallback live menunggu alur nyata (G7) |
+| 8 | Lifecycle automation (ACTIVE→GRADUATED→ALUMNI/DO) | 🔶 | Code-complete + CI-verified (repo gate); transisi produksi + stop-agent/expire/archive teraudit belum dijalankan — butuh auth admin (G7) |
+| 9 | Ops: ops-monitor + backup timer + restore drill + `backup_runs` | ✅ | `docs/evidence/G5.md`: timers aktif (5 mnt / 02:30 UTC), backup `FULL\|SUCCEEDED` + checksum, **restore drill sukses** ke non-production (52 tabel, row count identik) |
+| 10 | Dokumentasi final mencerminkan realita, semua di-push | 🔶 | Docs diperbarui bertahap (`BLUEPRINT_IMPLEMENTATION_STATUS.md`, `DEPLOYMENT.md`, evidence G1–G6); finalisasi setelah G1/G3/G7 |
+
+**Ringkas**: DoD 1 ✅, 3 ✅, 6 ✅, 9 ✅ · DoD 2/5/7/8/10 🔶 (2,5,7,8 terblokir G1/G3/auth; 10 menyusul) · DoD 4 ⛔ (G7).
+
 ## G1 — TLS/domain: SEBAGIAN, menunggu pembuatan tunnel (bukti: `docs/evidence/G1.md`)
 
 - Diagnosis: DNS proxied Cloudflare, origin 530; IP publik `182.8.226.154` timeout port 80/443 (port-forward tidak aktif / kemungkinan CGNAT) → jalur A-record+port-forward tidak bisa; **keputusan: Cloudflare Tunnel**.
