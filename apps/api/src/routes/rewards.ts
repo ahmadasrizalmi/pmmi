@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { pool, withTransaction } from '../db.js';
 import { requireAuth } from '../security/authz.js';
 import { enqueueOutbox } from '../events.js';
+import { writeAudit } from '../audit.js';
 
 const ruleSchema=z.object({code:z.string().min(2).max(80).regex(/^[A-Z0-9_]+$/),name:z.string().min(2),description:z.string().max(3000).optional(),triggerType:z.string().min(2).max(100),aiCredits:z.number().int().min(0).default(0),hermesSlots:z.number().int().min(0).max(20).default(0),enabled:z.boolean().default(true),metadata:z.record(z.unknown()).default({})});
 const grantSchema=z.object({userId:z.string().uuid(),rewardRuleId:z.string().uuid(),sourceType:z.string().min(1).max(80).default('manual'),sourceId:z.string().max(200).optional(),metadata:z.record(z.unknown()).default({})});
@@ -22,6 +23,16 @@ export async function grantReward(client:import('pg').PoolClient,userId:string,r
 export async function registerRewardRoutes(app:FastifyInstance){
   app.get('/v1/rewards/rules',async(request,reply)=>{const user=await requireAuth(request,reply);if(!user)return;return {items:(await pool.query(`select * from reward_rules where enabled=true order by name`)).rows};});
   app.post('/v1/rewards/rules',async(request,reply)=>{const admin=await requireAuth(request,reply,['ADMIN']);if(!admin)return;const parsed=ruleSchema.safeParse(request.body);if(!parsed.success)return reply.code(400).send({error:'invalid reward rule',issues:parsed.error.flatten()});const d=parsed.data;const result=await pool.query(`insert into reward_rules(code,name,description,trigger_type,ai_credits,hermes_slots,enabled,metadata) values($1,$2,$3,$4,$5,$6,$7,$8::jsonb) on conflict(code) do update set name=excluded.name,description=excluded.description,trigger_type=excluded.trigger_type,ai_credits=excluded.ai_credits,hermes_slots=excluded.hermes_slots,enabled=excluded.enabled,metadata=excluded.metadata,updated_at=now() returning *`,[d.code,d.name,d.description??null,d.triggerType,d.aiCredits,d.hermesSlots,d.enabled,JSON.stringify(d.metadata)]);return reply.code(201).send(result.rows[0]);});
+  app.patch('/v1/rewards/rules/:id',async(request,reply)=>{const admin=await requireAuth(request,reply,['ADMIN']);if(!admin)return;const {id}=request.params as {id:string};const parsed=ruleSchema.partial().safeParse(request.body);if(!parsed.success)return reply.code(400).send({error:'invalid reward rule',issues:parsed.error.flatten()});const d=parsed.data;const r=await pool.query(`update reward_rules set name=coalesce($1,name),description=coalesce($2,description),trigger_type=coalesce($3,trigger_type),ai_credits=coalesce($4,ai_credits),hermes_slots=coalesce($5,hermes_slots),enabled=coalesce($6,enabled),updated_at=now() where id=$7 returning *`,[d.name??null,d.description??null,d.triggerType??null,d.aiCredits??null,d.hermesSlots??null,d.enabled??null,id]);if(!r.rowCount)return reply.code(404).send({error:'reward rule not found'});return r.rows[0];});
+
+  app.delete('/v1/rewards/rules/:id',async(request,reply)=>{const admin=await requireAuth(request,reply,['ADMIN']);if(!admin)return;const {id}=request.params as {id:string};
+    const refs=await pool.query(`select (select count(*) from achievements where reward_rule_id=$1) achievements`,[id]);
+    if(Number(refs.rows[0].achievements)>0)return reply.code(409).send({error:'rule has granted achievements — disable instead',achievements:Number(refs.rows[0].achievements)});
+    const result=await withTransaction(async client=>{const del=await client.query(`delete from reward_rules where id=$1 returning id`,[id]);if(!del.rowCount)return null;await writeAudit(client,admin.sub,'rewards.rule_deleted','reward_rule',id);return del.rows[0];});
+    if(!result)return reply.code(404).send({error:'reward rule not found'});
+    return {ok:true,id};
+  });
+
   app.post('/v1/rewards/grant',async(request,reply)=>{const admin=await requireAuth(request,reply,['ADMIN']);if(!admin)return;const parsed=grantSchema.safeParse(request.body);if(!parsed.success)return reply.code(400).send({error:'invalid reward grant'});const d=parsed.data;const result=await withTransaction(client=>grantReward(client,d.userId,d.rewardRuleId,d.sourceType,d.sourceId??null,admin.sub,d.metadata));if(result.kind==='rule_missing')return reply.code(404).send({error:'reward rule not found'});if(result.kind==='duplicate')return reply.code(409).send({error:'achievement already granted'});return reply.code(201).send(result);});
   app.get('/v1/rewards/my',async(request,reply)=>{const user=await requireAuth(request,reply);if(!user)return;const result=await pool.query(`select a.id,a.source_type,a.source_id,a.granted_at,a.metadata,r.code,r.name,r.description,r.ai_credits,r.hermes_slots from achievements a join reward_rules r on r.id=a.reward_rule_id where a.user_id=$1 order by a.granted_at desc`,[user.sub]);return {items:result.rows};});
 

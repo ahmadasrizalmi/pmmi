@@ -99,6 +99,26 @@ export async function registerAdmissionRoutes(app: FastifyInstance) {
     return { items:result.rows };
   });
 
+  app.patch('/v1/admissions/periods/:id', async (request, reply) => {
+    const session=await requireAuth(request,reply,['ADMIN']); if(!session)return;
+    const {id}=request.params as {id:string};
+    const parsed=periodSchema.partial().safeParse(request.body); if(!parsed.success)return reply.code(400).send({error:'invalid period',issues:parsed.error.flatten()});
+    const d=parsed.data;
+    const r=await pool.query(`update admission_periods set name=coalesce($1,name),cohort_year=coalesce($2,cohort_year),opens_at=coalesce($3,opens_at),closes_at=coalesce($4,closes_at),capacity=coalesce($5,capacity),is_active=coalesce($6,is_active) where id=$7 returning *`,[d.name??null,d.cohortYear??null,d.opensAt??null,d.closesAt??null,d.capacity??null,d.isActive??null,id]);
+    if(!r.rowCount)return reply.code(404).send({error:'period not found'});
+    return r.rows[0];
+  });
+
+  app.delete('/v1/admissions/periods/:id', async (request, reply) => {
+    const session=await requireAuth(request,reply,['ADMIN']); if(!session)return;
+    const {id}=request.params as {id:string};
+    const refs=await pool.query(`select (select count(*) from applications where admission_period_id=$1) applications`,[id]);
+    if(Number(refs.rows[0].applications)>0)return reply.code(409).send({error:'period has applications — deactivate instead',applications:Number(refs.rows[0].applications)});
+    const result=await withTransaction(async client=>{const del=await client.query(`delete from admission_periods where id=$1 returning id`,[id]);if(!del.rowCount)return null;await writeAudit(client,session.sub,'admission.period_deleted','admission_period',id);return del.rows[0];});
+    if(!result)return reply.code(404).send({error:'period not found'});
+    return {ok:true,id};
+  });
+
   app.post('/v1/admissions/periods', async (request, reply) => {
     const session=await requireAuth(request,reply,['ADMIN']); if(!session)return;
     const parsed=periodSchema.safeParse(request.body); if(!parsed.success)return reply.code(400).send({error:'invalid payload',issues:parsed.error.flatten()});

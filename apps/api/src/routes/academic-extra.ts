@@ -3,8 +3,10 @@ import { z } from 'zod';
 import { pool, withTransaction } from '../db.js';
 import { requireAuth, type SessionUser } from '../security/authz.js';
 import { enqueueOutbox } from '../events.js';
+import { writeAudit } from '../audit.js';
 
 const sessionSchema=z.object({classId:z.string().uuid(),title:z.string().max(200).optional(),startsAt:z.string().datetime(),endsAt:z.string().datetime(),location:z.string().max(300).optional(),meetingUrl:z.string().url().optional()}).refine(d=>new Date(d.endsAt)>new Date(d.startsAt),'endsAt must be after startsAt');
+const sessionPatchSchema=z.object({classId:z.string().uuid().optional(),title:z.string().max(200).optional(),startsAt:z.string().datetime().optional(),endsAt:z.string().datetime().optional(),location:z.string().max(300).optional(),meetingUrl:z.string().url().optional()});
 const attendanceSchema=z.object({records:z.array(z.object({studentUserId:z.string().uuid(),status:z.enum(['PRESENT','LATE','EXCUSED','ABSENT']),notes:z.string().max(1000).optional()})).min(1).max(200)});
 
 async function teacherCanManage(session:SessionUser,classId:string){
@@ -20,6 +22,28 @@ export async function registerAcademicExtraRoutes(app:FastifyInstance){
     if(!(await teacherCanManage(user,d.classId)))return reply.code(403).send({error:'cannot manage class'});
     const result=await pool.query(`insert into class_sessions(class_id,title,starts_at,ends_at,location,meeting_url,created_by) values($1,$2,$3,$4,$5,$6,$7) returning *`,[d.classId,d.title??null,d.startsAt,d.endsAt,d.location??null,d.meetingUrl??null,user.sub]);
     return reply.code(201).send(result.rows[0]);
+  });
+
+  app.patch('/v1/academic/sessions/:id',async(request,reply)=>{
+    const user=await requireAuth(request,reply,['ADMIN','USTADZ']);if(!user)return;
+    const {id}=request.params as {id:string};
+    const parsed=sessionPatchSchema.safeParse(request.body);if(!parsed.success)return reply.code(400).send({error:'invalid session',issues:parsed.error.flatten()});const d=parsed.data;
+    const cur=await pool.query(`select class_id from class_sessions where id=$1`,[id]);if(!cur.rowCount)return reply.code(404).send({error:'session not found'});
+    if(!(await teacherCanManage(user,cur.rows[0].class_id)))return reply.code(403).send({error:'cannot manage class'});
+    const r=await pool.query(`update class_sessions set class_id=coalesce($1,class_id),title=coalesce($2,title),starts_at=coalesce($3,starts_at),ends_at=coalesce($4,ends_at),location=coalesce($5,location),meeting_url=coalesce($6,meeting_url) where id=$7 returning *`,[d.classId??null,d.title??null,d.startsAt??null,d.endsAt??null,d.location??null,d.meetingUrl??null,id]);
+    return r.rows[0];
+  });
+
+  app.delete('/v1/academic/sessions/:id',async(request,reply)=>{
+    const user=await requireAuth(request,reply,['ADMIN','USTADZ']);if(!user)return;
+    const {id}=request.params as {id:string};
+    const cur=await pool.query(`select class_id from class_sessions where id=$1`,[id]);if(!cur.rowCount)return reply.code(404).send({error:'session not found'});
+    if(!(await teacherCanManage(user,cur.rows[0].class_id)))return reply.code(403).send({error:'cannot manage class'});
+    const refs=await pool.query(`select (select count(*) from attendance_records where session_id=$1) attendance`,[id]);
+    if(Number(refs.rows[0].attendance)>0)return reply.code(409).send({error:'session has attendance records — cannot delete',attendance:Number(refs.rows[0].attendance)});
+    const result=await withTransaction(async client=>{const del=await client.query(`delete from class_sessions where id=$1 returning id`,[id]);if(!del.rowCount)return null;await writeAudit(client,user.sub,'academic.session_deleted','class_session',id);return del.rows[0];});
+    if(!result)return reply.code(404).send({error:'session not found'});
+    return {ok:true,id};
   });
 
   app.get('/v1/academic/schedule',async(request,reply)=>{

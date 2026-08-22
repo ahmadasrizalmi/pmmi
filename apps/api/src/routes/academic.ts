@@ -37,6 +37,26 @@ export async function registerAcademicRoutes(app: FastifyInstance) {
     return reply.code(201).send(result.rows[0]);
   });
 
+  app.patch('/v1/academic/courses/:id', async (request, reply) => {
+    const session=await requireAuth(request,reply,['ADMIN']); if(!session)return;
+    const {id}=request.params as {id:string};
+    const parsed=courseSchema.partial().safeParse(request.body); if(!parsed.success)return reply.code(400).send({error:'invalid payload',issues:parsed.error.flatten()});
+    const d=parsed.data;
+    const r=await pool.query(`update courses set code=coalesce($1,code),name=coalesce($2,name),description=coalesce($3,description) where id=$4 returning *`,[d.code?d.code.toUpperCase():null,d.name??null,d.description??null,id]);
+    if(!r.rowCount)return reply.code(404).send({error:'course not found'});
+    return r.rows[0];
+  });
+
+  app.delete('/v1/academic/courses/:id', async (request, reply) => {
+    const session=await requireAuth(request,reply,['ADMIN']); if(!session)return;
+    const {id}=request.params as {id:string};
+    const refs=await pool.query(`select (select count(*) from classes where course_id=$1) classes`,[id]);
+    if(Number(refs.rows[0].classes)>0)return reply.code(409).send({error:'course has classes — deactivate instead',classes:Number(refs.rows[0].classes)});
+    const result=await withTransaction(async client=>{const del=await client.query(`delete from courses where id=$1 returning id`,[id]);if(!del.rowCount)return null;await writeAudit(client,session.sub,'academic.course_deleted','course',id);return del.rows[0];});
+    if(!result)return reply.code(404).send({error:'course not found'});
+    return {ok:true,id};
+  });
+
   app.post('/v1/academic/classes', async (request, reply) => {
     const session=await requireAuth(request,reply,['ADMIN']); if(!session)return;
     const parsed=classSchema.safeParse(request.body); if(!parsed.success)return reply.code(400).send({error:'invalid payload',issues:parsed.error.flatten()});
@@ -158,6 +178,38 @@ export async function registerAcademicRoutes(app: FastifyInstance) {
     const result=await pool.query(`select p.id,p.title,p.slug,p.summary,p.published_at,u.full_name student_name from portfolio_projects p join users u on u.id=p.student_user_id where p.featured=true and p.published_at is not null order by p.published_at desc`); return {items:result.rows};
   });
 
+  app.patch('/v1/academic/assignments/:id', async (request, reply) => {
+    const session=await requireAuth(request,reply,['ADMIN','USTADZ']); if(!session)return;
+    const {id}=request.params as {id:string};
+    const parsed=assignmentSchema.partial().safeParse(request.body); if(!parsed.success)return reply.code(400).send({error:'invalid payload',issues:parsed.error.flatten()});
+    const d=parsed.data;
+    const r=await pool.query(`update assignments set title=coalesce($1,title),description=coalesce($2,description),due_at=coalesce($3,due_at),max_score=coalesce($4,max_score),allow_late=coalesce($5,allow_late) where id=$6 returning *`,[d.title??null,d.description??null,d.dueAt??null,d.maxScore??null,d.allowLate??null,id]);
+    if(!r.rowCount)return reply.code(404).send({error:'assignment not found'});
+    return r.rows[0];
+  });
+
+  app.delete('/v1/academic/assignments/:id', async (request, reply) => {
+    const session=await requireAuth(request,reply,['ADMIN','USTADZ']); if(!session)return;
+    const {id}=request.params as {id:string};
+    const refs=await pool.query(`select (select count(*) from submissions where assignment_id=$1) submissions`,[id]);
+    if(Number(refs.rows[0].submissions)>0)return reply.code(409).send({error:'assignment has submissions — deactivate instead',submissions:Number(refs.rows[0].submissions)});
+    const result=await withTransaction(async client=>{const del=await client.query(`delete from assignments where id=$1 returning id`,[id]);if(!del.rowCount)return null;await writeAudit(client,session.sub,'academic.assignment_deleted','assignment',id);return del.rows[0];});
+    if(!result)return reply.code(404).send({error:'assignment not found'});
+    return {ok:true,id};
+  });
+
+  app.get('/v1/academic/certificates', async (request, reply) => {
+    const session=await requireAuth(request,reply,['ADMIN']); if(!session)return;
+    const result=await pool.query(`select c.id,c.student_user_id,u.full_name student_name,c.title,c.certificate_no,c.issued_at,c.metadata from certificates c join users u on u.id=c.student_user_id order by c.issued_at desc`);
+    return {items:result.rows};
+  });
+
+  app.get('/v1/academic/my/certificates', async (request, reply) => {
+    const session=await requireAuth(request,reply,['SANTRI']); if(!session)return;
+    const result=await pool.query(`select c.id,c.title,c.certificate_no,c.issued_at,c.metadata from certificates c where c.student_user_id=$1 order by c.issued_at desc`,[session.sub]);
+    return {items:result.rows};
+  });
+
   app.post('/v1/academic/certificates', async (request, reply)=>{
     const session=await requireAuth(request,reply,['ADMIN']); if(!session)return;
     const parsed=certificateSchema.safeParse(request.body); if(!parsed.success)return reply.code(400).send({error:'invalid payload',issues:parsed.error.flatten()});
@@ -195,6 +247,14 @@ export async function registerAcademicRoutes(app: FastifyInstance) {
     const teacherOnly=session.role==='USTADZ'?session.sub:null;
     const result=await pool.query(`select s.id,s.student_user_id,u.full_name student_name,a.title assignment_title,a.class_id,g.score,g.feedback,g.graded_at,s.updated_at from submissions s join assignments a on a.id=s.assignment_id join users u on u.id=s.student_user_id left join grades g on g.submission_id=s.id where ($1::uuid is null or a.class_id in (select id from classes where teacher_user_id=$1)) order by s.updated_at desc`,[teacherOnly]);
     return {items:result.rows};
+  });
+
+  app.delete('/v1/academic/certificates/:id', async (request, reply) => {
+    const session=await requireAuth(request,reply,['ADMIN']); if(!session)return;
+    const {id}=request.params as {id:string};
+    const result=await withTransaction(async client=>{const del=await client.query(`delete from certificates where id=$1 returning id`,[id]);if(!del.rowCount)return null;await writeAudit(client,session.sub,'academic.certificate_deleted','certificate',id);return del.rows[0];});
+    if(!result)return reply.code(404).send({error:'certificate not found'});
+    return {ok:true,id};
   });
 
   app.get('/v1/academic/my/grades',async(request,reply)=>{
