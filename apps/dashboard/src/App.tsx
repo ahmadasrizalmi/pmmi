@@ -81,7 +81,7 @@ function UsersTab() {
   }
   async function toggleActive(id: string) {
     try {
-      await api(`/v1/admin/users/${id}/toggle-active`, { method: 'PATCH' });
+      await api(`/v1/admin/users/${id}/active`, { method: 'PATCH', body: JSON.stringify({ isActive: false }) });
       await (r as { reload: () => Promise<void> }).reload();
     } catch (e: unknown) { alert((e as Error).message); }
   }
@@ -583,7 +583,7 @@ function AiAgentsTab({ admin }: { admin?: boolean }) {
   }
   async function grantCredits(e: React.FormEvent) {
     e.preventDefault();
-    try { const out = await api('/v1/ai/grant', { method: 'POST', body: JSON.stringify(grant) }); setMessage(`Credits granted to ${String((out as Record<string, unknown>).userId)}`); } catch (e: unknown) { setMessage((e as Error).message); }
+    try { const out = await api('/v1/ai/credits/grant', { method: 'POST', body: JSON.stringify(grant) }); setMessage(`Credits granted to ${String((out as Record<string, unknown>).userId)}`); } catch (e: unknown) { setMessage((e as Error).message); }
   }
 
   return (

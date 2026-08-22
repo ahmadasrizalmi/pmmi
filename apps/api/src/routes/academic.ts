@@ -164,7 +164,40 @@ export async function registerAcademicRoutes(app: FastifyInstance) {
     const d=parsed.data; const result=await pool.query(`insert into certificates(student_user_id,title,certificate_no,bucket,object_key,metadata) values($1,$2,$3,$4,$5,$6::jsonb) returning *`,[d.studentUserId,d.title,d.certificateNo,d.objectKey?config.MINIO_BUCKET:null,d.objectKey??null,JSON.stringify(d.metadata)]); return reply.code(201).send(result.rows[0]);
   });
 
-  app.get('/v1/academic/my/grades', async (request,reply)=>{
+  app.patch('/v1/academic/classes/:id',async(request,reply)=>{
+    const session=await requireAuth(request,reply,['ADMIN']);if(!session)return;
+    const {id}=request.params as {id:string};
+    const parsed=classSchema.partial().safeParse(request.body);if(!parsed.success)return reply.code(400).send({error:'invalid payload',issues:parsed.error.flatten()});
+    const d=parsed.data;
+    const result=await pool.query(`update classes set name=coalesce($1,name),teacher_user_id=coalesce($2,teacher_user_id),starts_at=coalesce($3,starts_at),ends_at=coalesce($4,ends_at),updated_at=now() where id=$5 returning *`,[d.name??null,d.teacherUserId??null,d.startsAt??null,d.endsAt??null,id]);
+    if(!result.rowCount)return reply.code(404).send({error:'class not found'});
+    return result.rows[0];
+  });
+
+  app.delete('/v1/academic/classes/:id',async(request,reply)=>{
+    const session=await requireAuth(request,reply,['ADMIN']);if(!session)return;
+    const {id}=request.params as {id:string};
+    const refs=await pool.query(`select (select count(*) from assignments where class_id=$1) assignments,(select count(*) from class_sessions where class_id=$1) sessions,(select count(*) from enrollments where class_id=$1) enrollments`,[id]);
+    const r=refs.rows[0];
+    if(Number(r.assignments)>0||Number(r.sessions)>0||Number(r.enrollments)>0)return reply.code(409).send({error:'class has dependent records (assignments/sessions/enrollments) — deactivate instead',dependents:{assignments:Number(r.assignments),sessions:Number(r.sessions),enrollments:Number(r.enrollments)}});
+    const result=await withTransaction(async client=>{
+      const del=await client.query(`delete from classes where id=$1 returning id`,[id]);
+      if(!del.rowCount)return null;
+      await writeAudit(client,session.sub,'academic.class_deleted','class',id);
+      return del.rows[0];
+    });
+    if(!result)return reply.code(404).send({error:'class not found'});
+    return {ok:true,id};
+  });
+
+  app.get('/v1/academic/submissions',async(request,reply)=>{
+    const session=await requireAuth(request,reply,['USTADZ','ADMIN']);if(!session)return;
+    const teacherOnly=session.role==='USTADZ'?session.sub:null;
+    const result=await pool.query(`select s.id,s.student_user_id,u.full_name student_name,a.title assignment_title,a.class_id,g.score,g.feedback,g.graded_at,s.updated_at from submissions s join assignments a on a.id=s.assignment_id join users u on u.id=s.student_user_id left join grades g on g.submission_id=s.id where ($1::uuid is null or a.class_id in (select id from classes where teacher_user_id=$1)) order by s.updated_at desc`,[teacherOnly]);
+    return {items:result.rows};
+  });
+
+  app.get('/v1/academic/my/grades',async(request,reply)=>{
     const session=await requireAuth(request,reply,['SANTRI']); if(!session)return;
     const result=await pool.query(`select a.title assignment_title,g.score,g.feedback,g.revision_required,g.revision_due_at,g.graded_at from submissions s join assignments a on a.id=s.assignment_id left join grades g on g.submission_id=s.id where s.student_user_id=$1 order by s.updated_at desc`,[session.sub]); return {items:result.rows};
   });
