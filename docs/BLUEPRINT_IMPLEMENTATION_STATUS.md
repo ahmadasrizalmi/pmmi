@@ -256,13 +256,14 @@ Before those deployment checks, the exact status is **repository implementation 
 - Perbaikan bug di `ops-monitor.sh` (JSON printf + auth 9Router) dan `backup.sh` (run_id `tail`→`head`); unit systemd pakai path aktual (tanpa `ProtectHome`, yang menyebabkan 203/EXEC di bawah `/home`).
 - `NINE_ROUTER_URL` dipisah konteks: container → `http://pmmi-9router:20128` (hardcode compose), host scripts → `http://127.0.0.1:20128` (env).
 
-## 2026-08-22 — G4 Hermes: instalasi + template + worker SELESAI; **isolation test GAGAL** (bukti: `docs/evidence/G4.md`)
+## 2026-08-22 — G4 Hermes: **SELESAI** — container sandbox + isolation test LOLOS + enable (bukti: `docs/evidence/G4.md`)
 
-- Hermes Agent v0.20.5 diinstal untuk service account `pmmi` (`/srv/pmmi/hermes-home/.hermes/hermes-agent`, via installer resmi; `hermes --version` OK). Instalasi lama milik user (`~/.hermes`, v0.20.0) tidak disentuh.
-- `/srv/pmmi/workspaces` + `/srv/pmmi/hermes-home` (owner pmmi) + `loginctl enable-linger pmmi`; stub `hermes` → `/usr/local/bin/hermes`.
-- Template profile `pmmi-template` dibuat (provider custom → 9Router `127.0.0.1:20128/v1`, model `ds/deepseek-v4-pro`); worker unit `pmmi-worker-hermes.service` diperbarui ke path aktual (di-install, disabled).
-- **Adversarial isolation test GAGAL pada isolasi workspace antar-santri**: agent (sebagai pmmi) berhasil membaca marker workspace "santri lain" verbatim (`SECRET-SANTRI-A-DATA-9f3k`); `/etc/shadow`, `.env` produksi, home user, docker socket = DENIED (OS perms).
-- Sesuai aturan keras: `HERMES_ENABLED` tetap `false`; eksekusi agent belum diizinkan. Blocker: sandbox per-agent (DynamicUser/container per gateway) harus dirancang + lolos test ulang sebelum enable.
+- Iterasi sebelumnya: install v0.20.5 utk `pmmi`, template, worker unit, test host GAGAL (cross-workspace, karena agent berbagi OS user pmmi).
+- **Solusi sandbox (diimplementasikan)**: image `pmmi-hermes:0.20.5` (Dockerfile resmi, build ~9 mnt), network `hermes-net`, wrapper `/usr/local/bin/hermes` — gateway tiap profile dijalankan dalam container (mount hanya profile+workspace milik sendiri, `umask 000`, `--restart unless-stopped`); provisioning tetap hermes host. Kontrak worker tidak berubah → CI hijau. `pmmi` masuk grup docker (orchestrator; agent berjalan UID 10000 di container, bukan pmmi).
+- **Adversarial isolation test LOLOS di container**: marker santri-A, `/etc/shadow`, `.env` produksi, docker.sock → DENIED; workspace sendiri → READ. Diverifikasi: POC one-shot, gateway container (`docker exec`), dan FS langsung. User-unit `InaccessiblePaths` terbukti TIDAK ditegakkan (diuji empiris) → container adalah jalur yang benar.
+- **Enable**: `HERMES_ENABLED=true`; `pmmi-worker-hermes.service` active; Docker worker di-stop (satu worker). Host worker memproses outbox + EMAIL Resend benar (ops event → `EMAIL|SENT` id `0d375723-…`).
+- Template `pmmi-template` → `base_url: http://100.127.181.108:20128/v1` (alamat terjangkau container). Provisioning chain (create/config/gateway start/stop) terverifikasi via wrapper.
+- Sisa: E2E santri (Build→Start→Stop→Archive) di G7 (butuh auth); scoped credential per-user (catatan G6).
 
 ## 2026-08-22 — G6 9Router: sebagian SELESAI (bukti: `docs/evidence/G6.md`)
 
