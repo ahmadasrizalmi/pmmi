@@ -99,3 +99,8 @@ Semua delete memakai **guard dependensi** (409 + dependents) — tidak ada pengh
 - **Verified live di production**: PATCH/DELETE classes, templates PUT/list/DEL, periods PATCH, programs PATCH, cohorts PATCH, rewards GET, submissions GET, certificates GET — semua 200.
 - Dashboard (app.pondokmultimedia.id) 200 dengan UI baru.
 - CI: `dc57e22` (build+lint+test) dijalankan — hijau.
+
+### Verifikasi UI (browser smoke, production `app.pondokmultimedia.id`, 2026-08-22)
+- Login admin → nav role (Beranda/Pendaftaran/Akademik/AI & Agen/Sistem); Beranda → "Ringkasan"; Pengguna → list 9 baris + search; Akademik → 4 form CRUD + 3 tabel; Setup → 3 form CRUD. ✅
+- Login ustadz → nav (Beranda/Kelas Saya/Penilaian/Agen AI); Kelas Saya → selector kelas; Penilaian → search + daftar submission. ✅
+- CI `8370f75` hijau (full suite: test, build, validate:ui, compose).
